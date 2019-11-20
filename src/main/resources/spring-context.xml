@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!--  1引入外部database.properties文件 -->
+	<context:property-placeholder location="classpath:database.properties"/>
+	<!--  2配置c3p0的方式来连接数据库 -->
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${driver}"/>
+		<property name="jdbcUrl" value="${user}"/>
+		<property name="user" value="${user}"/>
+		<property name="password" value="${password}"/>
+		<property name="initialPoolSize" value="${initSize}"/>
+		<property name="minPoolSize" value="${minSize}"/>
+		<property name="maxPoolSize" value="${maxSize}"/>
+	</bean>
+	<!--  3配置sessionFactory工厂
+                        1.引用数据源
+                        2.引用hibernate的属性property标签
+                        3.引用hibernate的映射文件mapping标签
+            -->
+	<bean name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect = org.hibernate.dialect.OracleDialect
+				hibernate.show_sql = true
+				hibernate.format_sql = true
+				hibernate.hbm2ddl.auto = update
+				hibernate.current_session_context_class = org.springframework.orm.hibernate4.SpringSessionContext
+			</value>
+		</property>
+		<property name="packagesToScan" value="com.hrpms.entity"/>
+	</bean>
+
+	<!--  4配置hibernate的事物管理 -->
+	<bean name="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="sessionFactory" ref="sessionFactory"/>
+
+	</bean>
+
+	<!--  5启用事物 -->
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+
+	<!--  6启用注解扫描器 -->
+	<context:component-scan base-package="com.hrpms"/>
+
+
+</beans>
