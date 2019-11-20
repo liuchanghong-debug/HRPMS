@@ -19,7 +19,7 @@
 	<!--  2配置c3p0的方式来连接数据库 -->
 	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${driver}"/>
-		<property name="jdbcUrl" value="${user}"/>
+		<property name="jdbcUrl" value="${url}"/>
 		<property name="user" value="${user}"/>
 		<property name="password" value="${password}"/>
 		<property name="initialPoolSize" value="${initSize}"/>
