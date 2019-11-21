@@ -3,6 +3,8 @@ package com.hrpms.pojo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -24,7 +26,6 @@ public class TbSystemUser {
     private Integer sortnum;//排序
     private String status;//状态 0 正常  1 停用
     private Integer createBy;//创建者
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;//创建时间
     private Integer updateBy;//更新者
     private Timestamp updateTime;//更新时间
@@ -32,6 +33,8 @@ public class TbSystemUser {
 
 
 
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }
@@ -64,6 +67,7 @@ public class TbSystemUser {
         return createBy;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }

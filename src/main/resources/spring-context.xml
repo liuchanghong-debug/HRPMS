@@ -42,7 +42,7 @@
 				hibernate.current_session_context_class = org.springframework.orm.hibernate4.SpringSessionContext
 			</value>
 		</property>
-		<property name="packagesToScan" value="com.hrpms.entity"/>
+		<property name="packagesToScan" value="com.hrpms.pojo"/>
 	</bean>
 
 	<!--  4配置hibernate的事物管理 -->

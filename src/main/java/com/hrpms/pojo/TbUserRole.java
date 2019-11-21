@@ -1,5 +1,9 @@
 package com.hrpms.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * @author GoldFish
  * @package hrpms > com.hrpms.pojo > TbUserRole
@@ -8,10 +12,13 @@ package com.hrpms.pojo;
  * @versiion 1.0
  * @Description:用户角色表
  */
+@Entity
 public class TbUserRole {
     private Integer userId;//用户id  主键
     private Integer roleId;//角色id  主键
 
+    @Id
+    @GeneratedValue
     public Integer getUserId() {
         return userId;
     }

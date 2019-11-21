@@ -20,7 +20,7 @@
 
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/"/>
+		<property name="prefix" value="/WEB-INF/hrpms/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
