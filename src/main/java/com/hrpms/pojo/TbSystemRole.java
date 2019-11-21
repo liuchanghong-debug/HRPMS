@@ -2,7 +2,10 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author GoldFish
@@ -12,6 +15,7 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:系统角色表
  */
+@Entity
 public class TbSystemRole {
     private Integer id;//角色编号  主键
     private String roleName;//角色名称  非空
@@ -25,7 +29,11 @@ public class TbSystemRole {
     private Timestamp updateTime;//更新时间
     private String roleNote;//角色备注
 
+    //一个角色对应多个用户
+    private Set<TbUserRole> tbUserRoles = new HashSet<>();
 
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }
@@ -97,5 +105,14 @@ public class TbSystemRole {
 
     public void setRoleNote(String roleNote) {
         this.roleNote = roleNote;
+    }
+
+    @OneToMany(mappedBy = "tbSystemRole")
+    public Set<TbUserRole> getTbUserRoles() {
+        return tbUserRoles;
+    }
+
+    public void setTbUserRoles(Set<TbUserRole> tbUserRoles) {
+        this.tbUserRoles = tbUserRoles;
     }
 }

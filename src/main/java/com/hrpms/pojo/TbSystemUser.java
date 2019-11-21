@@ -2,10 +2,7 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -31,7 +28,8 @@ public class TbSystemUser {
     private Date updateTime;//更新时间
     private String userNote;//备注
 
-
+    //一个用户对应一个用户角色
+    private TbUserRole tbUserRole;
 
     @Id
     @GeneratedValue
@@ -133,5 +131,16 @@ public class TbSystemUser {
 
     public void setUserNote(String userNote) {
         this.userNote = userNote;
+    }
+
+
+    @OneToOne
+    @JoinColumn(name="userId")
+    public TbUserRole getTbUserRole() {
+        return tbUserRole;
+    }
+
+    public void setTbUserRole(TbUserRole tbUserRole) {
+        this.tbUserRole = tbUserRole;
     }
 }

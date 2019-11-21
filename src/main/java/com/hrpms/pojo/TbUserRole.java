@@ -1,8 +1,8 @@
 package com.hrpms.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author GoldFish
@@ -16,6 +16,12 @@ import javax.persistence.Id;
 public class TbUserRole {
     private Integer userId;//用户id  主键
     private Integer roleId;//角色id  主键
+
+    //一个用户id对应一个用户
+    private TbSystemUser tbSystemUser;
+
+    //多个用户id对应一个系统角色
+    private TbSystemRole tbSystemRole;
 
     @Id
     @GeneratedValue
@@ -34,5 +40,25 @@ public class TbUserRole {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+
+    @OneToOne(mappedBy = "tbUserRole")
+    public TbSystemUser getTbSystemUser() {
+        return tbSystemUser;
+    }
+
+    public void setTbSystemUser(TbSystemUser tbSystemUser) {
+        this.tbSystemUser = tbSystemUser;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="id")
+    public TbSystemRole getTbSystemRole() {
+        return tbSystemRole;
+    }
+
+    public void setTbSystemRole(TbSystemRole tbSystemRole) {
+        this.tbSystemRole = tbSystemRole;
     }
 }
