@@ -1,4 +1,4 @@
-package com.hrpms.service;
+package com.hrpms.service.personal_information_service;
 
 import com.hrpms.pojo.TbSystemUser;
 

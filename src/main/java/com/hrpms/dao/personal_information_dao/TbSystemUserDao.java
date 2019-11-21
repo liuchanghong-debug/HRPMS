@@ -1,4 +1,4 @@
-package com.hrpms.dao;
+package com.hrpms.dao.personal_information_dao;
 
 import com.hrpms.pojo.TbSystemUser;
 

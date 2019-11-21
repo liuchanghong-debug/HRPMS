@@ -1,7 +1,7 @@
-package com.hrpms.controller;
+package com.hrpms.controller.personal_information_controller;
 
 import com.hrpms.pojo.TbSystemUser;
-import com.hrpms.service.TbSystemUserService;
+import com.hrpms.service.personal_information_service.TbSystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

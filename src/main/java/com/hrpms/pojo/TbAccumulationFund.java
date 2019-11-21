@@ -2,6 +2,7 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
 import java.sql.Timestamp;
 
 /**
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:公积金表
  */
+@Entity
 public class TbAccumulationFund {
     private Integer id;//编号  主键
     private String idCard;//身份证号  非空

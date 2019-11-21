@@ -1,6 +1,6 @@
-package com.hrpms.dao.impl;
+package com.hrpms.dao.personal_information_dao.impl;
 
-import com.hrpms.dao.TbSystemUserDao;
+import com.hrpms.dao.personal_information_dao.TbSystemUserDao;
 import com.hrpms.pojo.TbSystemUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
