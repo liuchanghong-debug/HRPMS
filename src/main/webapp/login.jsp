@@ -33,8 +33,8 @@
 <script type="text/javascript">var ctx = './a', ctxStatic='./static';</script>
 <script type="text/javascript">var ctx = '/jeesite-master/a', ctxStatic='/jeesite-master/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
-	
-	
+
+
 	<meta name="decorator" content="blank">
 	<style type="text/css">
       html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
@@ -140,7 +140,7 @@
 				errorLabelContainer: "#messageBox",
 				errorPlacement: function(error, element) {
 					error.appendTo($("#loginError").parent());
-				} 
+				}
 			});
 		});
 		// 如果在框架或在对话框中，则弹出提示并跳转到首页
@@ -152,7 +152,7 @@
 
 </head>
 <body><style type="text/css">.com-zoom-flash{position:absolute;bottom:0;right:0;height:10px;width:10px;}.com-zoom-tips-hack{height:2em;display:none;}.com-zoom-warn{display:none;position:fixed;top:0;left:0;width:100%;line-height:2em;text-align:center;background-color:#ffffcc;font-size:1.2em;color:#8e0000;z-index:9999;}.com-zoom-close{float:right;width:2em;height:1.7em;line-height:1.7em;font-weight:bold;font-family:"Tahoma";color:#8e0000;text-decoration:none;}.com-zoom-close:hover{color:#d8ab57;}.com-zoom-notip{color:#3e3e3e;text-decoration:underline;}.com-zoom-notip:hover{text-decoration:none;}.com-zoom-text{margin:0;}</style><div class="com-zoom-flash"><object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="10" height="10"><param name="movie" value="/jeesite-master/static/flash/zoom.swf"><param name="quality" value="high"><param name="wmode" value="transparent"><embed src="/jeesite-master/static/flash/zoom.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="10" height="10" wmode="transparent"></object></div><div class="com-zoom-tips-hack"><div class="com-zoom-warn" id="com-zoom-warn"><a href="javascript:void(0);" class="com-zoom-close" title="关闭" hidefocus="true" target="_self">x</a><p class="com-zoom-text">您的浏览器目前处于缩放状态，会导致网页显示不正常，您可以键盘按“ctrl+数字0”组合键恢复初始状态。<a href="javascript:void(0);" class="com-zoom-notip" target="_self" hidefocus="true">不再提示</a></p></div></div>
-	
+
 	<!--[if lte IE 6]><br/><div class='alert alert-block' style="text-align:left;padding-bottom:10px;"><a class="close" data-dismiss="alert">x</a><h4>温馨提示：</h4><p>你使用的浏览器版本过低。为了获得更好的浏览体验，我们强烈建议您 <a href="http://browsehappy.com" target="_blank">升级</a> 到最新版本的IE浏览器，或者使用较新版本的 Chrome、Firefox、Safari 等。</p></div><![endif]-->
 	<div class="header">
 		<div id="messageBox" class="alert alert-error hide"><button data-dismiss="alert" class="close">×</button>
@@ -179,7 +179,7 @@
 		</div>
 	</form>
 	<div class="footer">
-		Copyright © 2012-2017 <a href="http://localhost:8080/jeesite-master/f">安思普惠人事代理系统</a> - Powered By <a href="http://www.zhidisoft.com/" target="_blank">zhidisoft</a> V1.2.7 
+		Copyright © 2012-2017 <a href="http://localhost:8080/jeesite-master/f">安思普惠人事代理系统</a> - Powered By <a href="http://www.zhidisoft.com/" target="_blank">zhidisoft</a> V1.2.7
 	</div>
 	<script src="./login_files/zoom.min.js.下载" type="text/javascript"></script>
 
