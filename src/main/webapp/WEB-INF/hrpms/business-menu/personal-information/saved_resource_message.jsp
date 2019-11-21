@@ -58,8 +58,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="userInfo/saved_resource.html">个人信息</a></li>
-	<li><a href="../password/saved_resource.html">修改密码</a></li>
+	<li class="active"><a href="personal-information/userPersonalInformation">个人信息</a></li>
+	<li><a href="personal-information/updateUserPassword">修改密码</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 
@@ -177,13 +177,13 @@
 	<div class="control-group">
 		<label class="control-label">姓名:</label>
 		<div class="controls">
-			<input id="name" name="name" class="required" readonly="readonly" type="text" value="郑州二七领导" maxlength="50">
+			<input id="name" name="name" class="required" readonly="readonly" type="text" value="${tbSystemUser.username}" maxlength="50">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">邮箱:</label>
 		<div class="controls">
-			<input id="email" name="email" class="email" type="text" value="" maxlength="50">
+			<input id="email" name="email" class="email" type="text" value="${tbSystemUser.email}" maxlength="50">
 		</div>
 	</div>
 	<div class="control-group">
@@ -195,7 +195,7 @@
 	<div class="control-group">
 		<label class="control-label">手机:</label>
 		<div class="controls">
-			<input id="mobile" name="mobile" type="text" value="" maxlength="50">
+			<input id="mobile" name="mobile" type="text" value="${tbSystemUser.phone}" maxlength="50">
 		</div>
 	</div>
 	<div class="control-group">

@@ -14,17 +14,22 @@ public class LoginController {
     @Autowired
     private TbSystemUserService tbSystemUserService;
 
+    //登录
     @RequestMapping("/login")
-    public String login(String username, String password,
-                        HttpSession session, Model model){
+    public String login(String username, String password, HttpSession session){
         TbSystemUser tbSystemUser = tbSystemUserService.login(username, password);
         if(tbSystemUser!=null && tbSystemUser.getId()!=0){
             session.setAttribute("tbSystemUser",tbSystemUser);
             return "index";
         }else {
-            String mess="用户名或密码错误，请重试";
-            model.addAttribute("mess",mess);
             return "../../login";
         }
+    }
+
+    //退出登录
+    @RequestMapping("/loginout")
+    public String loginout(HttpSession session){
+        session.invalidate();
+        return "redirect:login.jsp";
     }
 }

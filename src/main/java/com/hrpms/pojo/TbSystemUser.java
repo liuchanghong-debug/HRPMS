@@ -28,7 +28,7 @@ public class TbSystemUser {
     private Integer createBy;//创建者
     private Date createTime;//创建时间
     private Integer updateBy;//更新者
-    private Timestamp updateTime;//更新时间
+    private Date updateTime;//更新时间
     private String userNote;//备注
 
 
@@ -76,7 +76,8 @@ public class TbSystemUser {
         return updateBy;
     }
 
-    public Timestamp getUpdateTime() {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    public Date getUpdateTime() {
         return updateTime;
     }
 
@@ -126,7 +127,7 @@ public class TbSystemUser {
         this.updateBy = updateBy;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

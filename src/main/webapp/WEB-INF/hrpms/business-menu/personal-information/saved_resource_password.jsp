@@ -13,7 +13,6 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta name="author" content="http://jeesite.com/"/>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
-	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet" />
@@ -35,7 +34,24 @@
 
 
 	<meta name="decorator" content="default">
+	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+        var bo = false;
+		$(function () {
+			$("#btnSubmit").click(function () {
+				var password = $(oldPassword).val();
+				if(password==${tbSystemUser.password}){
+				    bo = true;
+                }else {
+                    alert("密码错误,请重新输入！！");
+                }
+            });
+        });
+
+		function tj(){
+		    return bo;
+		}
+
         $(document).ready(function() {
             $("#oldPassword").focus();
             $("#inputForm").validate({
@@ -65,28 +81,13 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../userInfo/saved_resource.html">个人信息</a></li>
-	<li class="active"><a href="saved_resource.html">修改密码</a></li>
+	<li><a href="personal-information/userPersonalInformation">个人信息</a></li>
+	<li class="active"><a href="personal-information/updateUserPassword">修改密码</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="11">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="personal-information/updatePersonalPassword" onsubmit="return tj()" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
+	<input type="hidden" name="id" value="${tbSystemUser.id}">
 	<div class="control-group">
 		<label class="control-label">旧密码:</label>
 		<div class="controls">

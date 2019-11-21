@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<base href="<%=basePath%>">
 <!-- saved from url=(0057)http://localhost:8080/jeesite/a/company/system/systemUser -->
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>用户信息管理 - Powered By JeeSite</title>
@@ -42,10 +51,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="index.html">用户信息列表</a></li>
-	<li><a href="../addUser/saved_resource.html">用户信息添加</a></li>
+	<li class="active"><a href="user-manager/selectSystemUserByDuo">用户信息列表</a></li>
+	<li><a href="user-manager/userAddJsp">用户信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="user-manager/selectSystemUserByDuo" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
@@ -57,28 +66,15 @@
 		</li>
 		<li><label>状态：</label>
 			<select id="status" name="status" class="input-medium">
-				<option value="" selected="selected"></option>
-				<option value="0">正常</option><option value="1">删除</option>
+				<option value="" selected="selected">全部</option>
+				<option value="0">正常</option>
+				<option value="1">删除</option>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -87,7 +83,6 @@
 	<tr>
 		<th>编号</th>
 		<th>用户名称</th>
-		<th>用户密码</th>
 		<th>电子邮件</th>
 		<th>手机号码</th>
 		<th>排序</th>
@@ -97,69 +92,50 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td><a href="../updateUser/saved_resource_unEdit.html">
-			1000
-		</a></td>
-		<td>
-			admin
-		</td>
-		<td>
-			admin
-		</td>
-		<td>
-			admin@zhidisoft.com
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			1
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			<a href="../updateUser/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该用户信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateUser/saved_resource_unEdit.html">
-			1009
-		</a></td>
-		<td>
-			test
-		</td>
-		<td>
-			test
-		</td>
-		<td>
-			test
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			2
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			<a href="../updateUser/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该用户信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+	<c:forEach items="${page.dataList}" var="user">
+		<tr>
+			<td><a href="user-manager/selectSystemUserById?id=${user.id}&flag=1">
+				${user.id}
+			</a></td>
+			<td>
+				${user.username}
+			</td>
+			<td>
+				${user.email}
+			</td>
+			<td>
+				${user.phone}
+			</td>
+			<td>
+				${user.sortnum}
+			</td>
+			<td>
+				<c:if test="${user.status==0}" var="bo">
+					正常
+				</c:if>
+				<c:if test="${!bo}">
+					删除
+				</c:if>
+			</td>
+			<td>
+				<a href="user-manager/selectSystemUserById?id=${user.id}&flag=2">修改</a>
+				<a href="user-manager/deleteSystemUserById?id=${user.id}" onclick="return confirmx(&#39;确认要删除该用户信息吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 2 条</a></li>
+	<li class="disabled"><a href="user-manager/selectSystemUserByDuo?currentPage=${page.currentPage-1}&username=${map.username}&phone=${map.phone}&status=${map.status}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="user-manager/selectSystemUserByDuo?currentPage=${num}&username=${map.username}&phone=${map.phone}&status=${map.status}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="user-manager/selectSystemUserByDuo?currentPage=${page.currentPage+1}&username=${map.username}&phone=${map.phone}&status=${map.status}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 条</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

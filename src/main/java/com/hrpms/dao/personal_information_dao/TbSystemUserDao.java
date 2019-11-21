@@ -6,4 +6,7 @@ public interface TbSystemUserDao {
 
     //登录
     public TbSystemUser login(String username,String password);
+
+    //修改密码
+    public void updatePersonalPassword(int id,String password);
 }

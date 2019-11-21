@@ -2,6 +2,9 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
@@ -12,6 +15,7 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:邮件发件箱表
  */
+@Entity
 public class TbEmailRecord {
     private Integer id;//邮件编号  主键
     private Integer userId;//发送人  非空
@@ -22,6 +26,8 @@ public class TbEmailRecord {
     private Timestamp sendTime;//发送时间  非空
     private String status;//状态  非空  1 已发送  -1 发送失败
 
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }

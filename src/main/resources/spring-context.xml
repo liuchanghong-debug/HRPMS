@@ -35,7 +35,7 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="hibernateProperties">
 			<value>
-				hibernate.dialect = org.hibernate.dialect.OracleDialect
+				hibernate.dialect = org.hibernate.dialect.MySQLDialect
 				hibernate.show_sql = true
 				hibernate.format_sql = true
 				hibernate.hbm2ddl.auto = update

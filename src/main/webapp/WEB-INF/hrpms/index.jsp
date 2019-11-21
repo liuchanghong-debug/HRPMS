@@ -170,14 +170,14 @@
                     <!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
                 </li>
                 <li id="userInfo" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, 郑州二七领导&nbsp;<span id="notifyNum" class="label label-info hide" style="display: none;"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${tbSystemUser.username}&nbsp;<span id="notifyNum" class="label label-info hide" style="display: none;"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="userInfo.html" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
-                        <li><a href="updatePassword.html" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
+                        <li><a href="personal-information/userPersonalInformation" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
+                        <li><a href="personal-information/updateUserPassword" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
                         <li><a href="myAdvice.html" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide" style="display: none;"></span></a></li>
                     </ul>
                 </li>
-                <li><a href="login.html" title="退出登录">退出</a></li>
+                <li><a href="loginout" title="退出登录">退出</a></li>
                 <li>&nbsp;</li>
             </ul>
 
@@ -207,11 +207,11 @@
                         <div id="collapse-28" class="accordion-body collapse in">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li class="active"><a data-href=".menu3-29" href="userInfo/saved_resource.html" target="mainFrame"><i class="icon-user icon-white"></i>&nbsp;个人信息</a>
+                                    <li class="active"><a data-href=".menu3-29" href="personal-information/userPersonalInformation" target="mainFrame"><i class="icon-user icon-white"></i>&nbsp;个人信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-30" href="password/saved_resource.html" target="mainFrame"><i class="icon-lock"></i>&nbsp;修改密码</a>
+                                    <li><a data-href=".menu3-30" href="personal-information/updateUserPassword" target="mainFrame"><i class="icon-lock"></i>&nbsp;修改密码</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -420,7 +420,7 @@
                         <div id="collapse-7c8cd0b6c9e3409aae7e9ad9bd2e74b1" class="accordion-body collapse in">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li class="active"><a data-href=".menu3-bfeacdcd326b476181423fe8ec0cb527" href="index/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right icon-white"></i>&nbsp;用户管理</a>
+                                    <li class="active"><a data-href=".menu3-bfeacdcd326b476181423fe8ec0cb527" href="user-manager/selectSystemUserByDuo" target="mainFrame"><i class="icon-circle-arrow-right icon-white"></i>&nbsp;用户管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

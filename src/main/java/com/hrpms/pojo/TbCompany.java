@@ -2,6 +2,9 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
@@ -12,6 +15,7 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:公司表
  */
+@Entity
 public class TbCompany {
     private Integer id;//公司编号  主键
     private String name;//公司名称  非空
@@ -35,6 +39,8 @@ public class TbCompany {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }

@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <!-- saved from url=(0077)http://localhost:8080/jeesite-master/a/company/system/systemUser/form?id=1000 -->
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<base href="<%=basePath%>">
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>用户信息管理 - Powered By JeeSite</title>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
@@ -51,80 +60,73 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../index/saved_resource.html">用户信息列表</a></li>
-	<li class="active"><a href="saved_resource.html">用户信息修改</a></li>
+	<li><a href="user-manager/selectSystemUserByDuo">用户信息列表</a></li>
+	<li class="active"><a href="user-manager/selectSystemUserById?id=${systemUser.id}&flag=2">用户信息修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1000">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="user-manager/updateSystemUserById" method="post" novalidate="novalidate">
+	<input id="id" name="id" type="hidden" value="${requestScope.systemUser.id}">
+	<input name="updateBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">用户名称：</label>
 		<div class="controls">
-			<input id="username" name="username" class="input-xlarge required" type="text" value="admin" maxlength="50">
+			<input id="username" name="username" class="input-xlarge required" type="text" value="${requestScope.systemUser.username}" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">用户密码：</label>
 		<div class="controls">
-			<input id="password" name="password" class="input-xlarge required" type="text" value="admin" maxlength="50">
+			<input id="password" name="password" class="input-xlarge required" type="text" value="${requestScope.systemUser.password}" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">电子邮件：</label>
 		<div class="controls">
-			<input id="email" name="email" class="input-xlarge " type="text" value="admin@zhidisoft.com" maxlength="50">
+			<input id="email" name="email" class="input-xlarge " type="text" value="${requestScope.systemUser.email}" maxlength="50">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">手机号码：</label>
 		<div class="controls">
-			<input id="phone" name="phone" class="input-xlarge " type="text" value="15800008888" maxlength="13">
+			<input id="phone" name="phone" class="input-xlarge " type="text" value="${requestScope.systemUser.phone}" maxlength="13">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="1" maxlength="11">
+			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="${requestScope.systemUser.sortnum}" maxlength="11">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select id="status" name="status" class="input-xlarge">
-				<option value=""></option>
-				<option value="0" selected="selected">正常</option><option value="1">删除</option>
+				<c:if test="${requestScope.systemUser.status=='0'}" var="bo">
+					<option value="0">正常</option>
+				</c:if>
+				<c:if test="${!bo}">
+					<option value="1">删除</option>
+				</c:if>
+				<option value="0" >正常</option>
+				<option value="1">删除</option>
 			</select>
 		</div>
 	</div>
-	<div class="control-group">
+	<%--<div class="control-group">
 		<label class="control-label">用户角色:</label>
 		<div class="controls">
 			<span><input id="userRoleList1" name="userRoleList" class="required" type="checkbox" value="1"><label for="userRoleList1">系统管理员</label></span><span><input id="userRoleList2" name="userRoleList" class="required" type="checkbox" value="2"><label for="userRoleList2">部门管理员</label></span><span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3"><label for="userRoleList3">test</label></span><input type="hidden" name="_userRoleList" value="on">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
-	</div>
+	</div>--%>
 	<div class="control-group">
 		<label class="control-label">备注信息：</label>
 		<div class="controls">
-			<input id="usernote" name="usernote" class="input-xlarge " type="text" value="" maxlength="255">
+			<input id="usernote" name="usernote" class="input-xlarge " type="text" value="${requestScope.systemUser.userNote}" maxlength="255">
 		</div>
 	</div>
 	<div class="form-actions">

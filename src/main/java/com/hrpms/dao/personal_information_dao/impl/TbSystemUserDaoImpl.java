@@ -22,4 +22,12 @@ public class TbSystemUserDaoImpl implements TbSystemUserDao {
                 .uniqueResult();
         return tbSystemUser;
     }
+
+    @Override
+    public void updatePersonalPassword(int id, String password) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSystemUser tbSystemUser = (TbSystemUser)session.load(TbSystemUser.class, id);
+        tbSystemUser.setPassword(password);
+        session.merge(tbSystemUser);
+    }
 }

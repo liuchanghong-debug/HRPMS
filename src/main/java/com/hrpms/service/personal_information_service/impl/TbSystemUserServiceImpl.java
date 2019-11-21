@@ -18,4 +18,9 @@ public class TbSystemUserServiceImpl implements TbSystemUserService {
     public TbSystemUser login(String username, String password) {
         return tbSystemUserDao.login(username,password);
     }
+
+    @Override
+    public void updatePersonalPassword(int id, String password) {
+        tbSystemUserDao.updatePersonalPassword(id,password);
+    }
 }

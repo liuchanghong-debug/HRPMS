@@ -8,17 +8,17 @@ import java.util.List;
 public class Page<T> {
     private int currentPage;  //当前页码
     private int pageSize ;   // 每页展示的条数
-    private int count;      // 数据的总条数
+    private Long count;      // 数据的总条数
     private int pageCount;  // 总页数
     private int startIndex;  // 查询的开始下标
 
     private List<T>  dataList;   // 分页查询后的数据的集合
 
-    public Page(int currentPage, int pageSize, int count) {
+    public Page(int currentPage, int pageSize, Long count) {
        this.pageSize = pageSize;
        this.count = count;
        // 计算总页数
-        this.pageCount = (this.count%this.pageSize==0)?(this.count/this.pageSize):(this.count/this.pageSize+1);
+        this.pageCount = (int)((this.count%this.pageSize==0)?(this.count/this.pageSize):(this.count/this.pageSize+1));
         // 判断currentPage是否合法
         if(currentPage<=0){
             currentPage=1;
@@ -52,11 +52,11 @@ public class Page<T> {
         this.pageSize = pageSize;
     }
 
-    public int getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 

@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<base href="<%=basePath%>">
 <!-- saved from url=(0062)http://localhost:8080/jeesite/a/company/system/systemUser/form -->
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>用户信息管理 - Powered By JeeSite</title>
@@ -52,26 +61,12 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../index/saved_resource.html">用户信息列表</a></li>
-	<li class="active"><a href="saved_resource.html">用户信息添加</a></li>
+	<li><a href="user-manager/selectSystemUserByDuo">用户信息列表</a></li>
+	<li class="active"><a href="user-manager/userAddJsp">用户信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="user-manager/addSystemUser" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<input type="hidden" name="createBy" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
@@ -112,21 +107,31 @@
 			<div class="select2-container input-xlarge" id="s2id_status">
 				<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
 					<option value="" selected="selected"></option>
-					<option value="0">正常</option><option value="1">删除</option>
+					<option value="0">正常</option>
+					<option value="1">删除</option>
 				</select>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">
-				<span><input id="userRoleList1" name="userRoleList" class="required" type="checkbox" value="1"><label for="userRoleList1">系统管理员</label></span><span><input id="userRoleList2" name="userRoleList" class="required" type="checkbox" value="2"><label for="userRoleList2">部门管理员</label></span><span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3"><label for="userRoleList3">test</label></span><input type="hidden" name="_userRoleList" value="on">
+				<span><input id="userRoleList1" name="userRoleList"  type="checkbox" value="1">
+					<label for="userRoleList1">系统管理员</label>
+				</span>
+				<span><input id="userRoleList2" name="userRoleList" type="checkbox" value="2">
+					<label for="userRoleList2">部门管理员</label>
+				</span>
+				<%--<span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3">
+					<label for="userRoleList3">test</label>
+				</span>
+				<input type="hidden" name="_userRoleList" value="on">--%>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">备注信息：</label>
 			<div class="controls">
-				<input id="usernote" name="usernote" class="input-xlarge " type="text" value="" maxlength="255">
+				<input id="usernote" name="userNote" class="input-xlarge " type="text" value="" maxlength="255">
 			</div>
 		</div>
 		<div class="form-actions">
