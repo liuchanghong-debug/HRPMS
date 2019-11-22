@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -12,6 +15,9 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:数据字典表
  */
+@Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbSystemDict {
     private Integer id;//编号  主键
     private String name;//字典名称  非空
@@ -28,38 +34,42 @@ public class TbSystemDict {
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     private Timestamp updateTime;//更新时间
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11, nullable = false)
     public Integer getId() {
         return id;
     }
-
+    @Column(length = 50, nullable = false)
     public String getName() {
         return name;
     }
-
+    @Column(length = 50, nullable = false)
     public String getValue() {
         return value;
     }
-
+    @Column(length = 100)
     public String getLabel() {
         return label;
     }
-
+    @Column(length = 100)
     public String getDescription() {
         return description;
     }
-
+    @Column(length = 11)
     public Integer getSort() {
         return sort;
     }
-
+    @Column(length = 11)
     public Integer getParentId() {
         return parentId;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -67,7 +77,7 @@ public class TbSystemDict {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
@@ -76,9 +86,28 @@ public class TbSystemDict {
         return updateTime;
     }
 
+
     public void setId(Integer id) {
 
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "TbSystemDict{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                ", label='" + label + '\'' +
+                ", description='" + description + '\'' +
+                ", sort=" + sort +
+                ", parentId=" + parentId +
+                ", status='" + status + '\'' +
+                ", createBy=" + createBy +
+                ", createTime=" + createTime +
+                ", updateBy=" + updateBy +
+                ", updateTime=" + updateTime +
+                '}';
     }
 
     public void setName(String name) {

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -51,20 +52,25 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">数据字典列表</a></li>
-	<li><a href="../addDict/saved_resource.html">数据字典添加</a></li>
+	<li class="active"><a href="datadict/datadictList">数据字典列表</a></li>
+	<li><a href="datadict/datadictAdd">数据字典添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="datadict/datadictList" method="post">
 	<ul class="ul-form">
 		<li><label>字典名称：</label>
-			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="50">
+			<input name="nameQuery" class="input-medium" type="text" value="${dataDictOperation.nameQuery}" maxlength="50">
 		</li>
 		<li><label>状态：</label>
-			<select id="status" name="status" class="input-medium">
-				<option value="" selected="selected"></option>
-				<option value="0">正常</option><option value="1">删除</option>
+			<select name="statusQuery" class="input-medium">
+				<option value="">全部</option>
+				<c:forEach items="${dataStatus}" var="status">
+					<c:if test="${dataDictOperation.statusQuery == status.value}">
+						<option value="${status.value}" selected="selected">${status.label}</option>
+					</c:if>
+					<c:if test="${dataDictOperation.statusQuery != status.value}">
+						<option value="${status.value}">${status.label}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
@@ -72,95 +78,67 @@
 	</ul>
 </form>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">top.$.jBox.closeTip();</script>
+<input type="hidden" id="currentPage" name="currentPage" value="${dataDicts.currentPage}">
 
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-	<thead>
-	<tr>
-		<th>字典名称</th>
-		<th>存储值</th>
-		<th>显示值</th>
-		<th>描述</th>
-		<th>排序</th>
-		<th>状态</th>
-		<th>操作</th>
-	</tr>
-	</thead>
-	<tbody>
+<form action="" method="post" name="paging">
+	<input type="hidden" id="nameQuery" name="nameQuery" value="${dataDictOperation.nameQuery}">
+	<input type="hidden" id="statusQuery" name="statusQuery" value="${dataDictOperation.statusQuery}">
 
-	<tr>
-		<td><a href="../updateDict/saved_resource_unEdit.html">
-			del_flag
-		</a></td>
-		<td>
-			0
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			用于显示状态是否正常
-		</td>
-		<td>
-			1
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			<a href="../updateDict/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>字典名称</th>
+				<th>存储值</th>
+				<th>显示值</th>
+				<th>描述</th>
+				<th>排序</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
 
-	<tr>
-		<td><a href="../updateDict/saved_resource_unEdit.html">
-			del_flag
-		</a></td>
-		<td>
-			1
-		</td>
-		<td>
-			删除
-		</td>
-		<td>
-			用于显示状态是否正常
-		</td>
-		<td>
-			2
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			<a href="../updateDict/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+		<tbody>
+			<c:forEach items="${dataDicts.dataList}" var="tbSystemDict">
+			<tr>
+				<td><a href="datadict/getTbSystemDictById?id=${tbSystemDict.id}">${tbSystemDict.name}</a></td>
+				<td>${tbSystemDict.value}</td>
+				<td>${tbSystemDict.label}</td>
+				<td>${tbSystemDict.description}</td>
+				<td>${tbSystemDict.sort}</td>
+				<td>
+					<c:forEach items="${dataStatus}" var="status">
+						<c:if test="${tbSystemDict.status == status.value}">
+							<span>${status.label}</span>
+						</c:if>
+					</c:forEach>
+				</td>
 
-	</tbody>
-</table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 2 条</a></li>
-</ul>
-	<div style="clear:both;"></div></div>
+					<input type="hidden" name="id" value="${tbSystemDict.id}">
+				<td>
+					<a href="javascript:void(0)" onclick="paging.action='datadict/toUpdate?currentPage=${dataDicts.currentPage}'; paging.submit()">修改</a>
+					<a href="#" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, datadict/dictDelete?id=${tbSystemDict.id}&currentPage=$('#currentPage').val()&nameQuery=$('#nameQuery').val()&statusQuery=$('#statusQuery').val()">删除</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	<div class="pagination">
+		<ul>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='datadict/datadictList?currentPage=${dataDicts.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="active"><a href="javascript:void(0)">${dataDicts.currentPage}</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='datadict/datadictList?currentPage=${dataDicts.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled controls">
+				<a href="javascript:">当前
+					<input type="text" value="${dataDicts.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+					/ <input type="text" value="${dataDicts.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+					页，共 ${dataDicts.count} 条</a>
+			</li>
+		</ul>
+		<div style="clear:both;"></div>
+	</div>
+</form>
+
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){

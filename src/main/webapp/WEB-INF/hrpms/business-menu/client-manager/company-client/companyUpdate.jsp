@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -70,11 +71,15 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../companyList/saved_resource.html">公司客户列表</a></li>
-	<li class="active"><a href="saved_resource.html">公司客户修改</a></li>
+	<li><a href="companyClient/companyClientList">公司客户列表</a></li>
+	<li class="active"><a href="companyClient/companyUpdate?id=${company.id}">公司客户修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1000">
+<form id="inputForm" class="form-horizontal" action="companyClient/companyUpdateToUpdate" method="post" novalidate="novalidate">
+	<input id="id" name="id" type="hidden" value="${company.id}">
+	<input id="nameQuery" name="nameQuery" type="hidden" value="${companyOperation.nameQuery}">
+	<input id="companyNoQuery" name="companyNoQuery" type="hidden" value="${companyOperation.companyNoQuery}">
+	<input id="idCardQuery" name="idCardQuery" type="hidden" value="${companyOperation.idCardQuery}">
+	<input id="currentPage" name="currentPage" type="hidden" value="${currentPage}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -82,74 +87,81 @@
 		<tbody><tr>
 			<td><label class="control-label">公司名称：</label></td>
 			<td>
-				<input id="name" name="name" class="input-xlarge required" type="text" value="智递科技有限公司" maxlength="100">
+				<input id="name" name="name" class="input-xlarge required" type="text" value="${company.name}" maxlength="100">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">统一信用号：</label>
 			</td>
 			<td>
-				<input id="companyno" name="companyno" class="input-xlarge " type="text" value="4101000011118888" maxlength="20">
+				<input id="companyNo" name="companyNo" class="input-xlarge " type="text" value="${company.companyNo}" maxlength="20">
 			</td>
 		</tr>
 		<tr>
-			<td><label class="control-label">电话：</label></td>
-			<td><input id="telphone" name="telphone" class="input-xlarge " type="text" value="0371-66668888" maxlength="13"></td>
+			<td><label class="control-label">公司电话：</label></td>
+			<td><input id="telPhone" name="telPhone" class="input-xlarge " type="text" value="${company.telPhone}" maxlength="13"></td>
 			<td><label class="control-label">邮编：</label></td>
-			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="450000" maxlength="20"></td>
+			<td><input id="zipCode" name="zipCode" class="input-xlarge " type="text" value="${company.zipCode}" maxlength="20"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">法人：</label></td>
-			<td><input id="owner" name="owner" class="input-xlarge " type="text" value="肖俊" maxlength="30"></td>
+			<td><input id="owner" name="owner" class="input-xlarge " type="text" value="${company.owner}" maxlength="30"></td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge " type="text" value="430121198412122818" maxlength="20"></td>
+			<td><input id="idCard" name="idCard" class="input-xlarge " type="text" value="${company.idCard}" maxlength="20"></td>
 		</tr>
 
 		<tr>
-			<td><label class="control-label">手机：</label></td>
-			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="13899998888" maxlength="13"></td>
+			<td><label class="control-label">法人手机：</label></td>
+			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="${company.phone}" maxlength="13"></td>
 			<td><label class="control-label">性别：</label></td>
-			<td><input id="sex" name="sex" class="input-xlarge " type="text" value="男" maxlength="2"></td>
+			<td><input id="sex" name="sex" class="input-xlarge " type="text" value="${company.sex}" maxlength="2"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">电子邮件：</label></td>
-			<td><input id="email" name="email" class="input-xlarge " type="text" value="xiaojun@zhidisoft.com" maxlength="50"></td>
+			<td><input id="email" name="email" class="input-xlarge " type="text" value="${company.email}" maxlength="50"></td>
 			<td><label class="control-label">公司性质：</label></td>
-			<td><input id="ownership" name="ownership" class="input-xlarge " type="text" value="私有股份制公司" maxlength="150"></td>
+			<td><input id="ownerShip" name="ownerShip" class="input-xlarge " type="text" value="${company.ownerShip}" maxlength="150"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">状态：</label></td>
 			<td>
 				<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="">请选择</option>
-					<option value="0" selected="selected">正常</option>
-					<option value="1">删除</option>
+					<c:forEach items="${companyStatus}" var="status">
+						<c:if test="${company.status == status.value}">
+							<option value="${status.value}" selected>${status.label}</option>
+						</c:if>
+						<c:if test="${company.status != status.value}">
+							<option value="${status.value}">${status.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">公司类别：</label></td>
 			<td>
 				<select name="companyType" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="">请选择</option>
-					<option value="0">全业务客户</option>
-					<option value="1">社保客户</option>
-					<option value="2">公积金客户</option>
-					<option value="3">工资代发客户</option>
-					<option value="4">外包合作客户</option>
+					<c:forEach items="${companyTypes}" var="type">
+						<c:if test="${company.companyType == type.value}">
+							<option value="${type.value}" selected>${type.label}</option>
+						</c:if>
+						<c:if test="${company.companyType != type.value}">
+							<option value="${type.value}">${type.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">公司地址：</label></td>
-			<td colspan="3"><textarea id="address" name="address" maxlength="256" class="input-xxlarge " rows="3">硅谷广场A座</textarea></td>
+			<td colspan="3"><textarea id="address" name="address" maxlength="256" class="input-xxlarge " rows="3">${company.id}</textarea></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">备注：</label></td>
-			<td colspan="3"><textarea id="remark" name="remark" maxlength="512" class="input-xxlarge " rows="3">信誉良好公司</textarea></td>
+			<td colspan="3"><textarea id="remark" name="remark" maxlength="512" class="input-xxlarge " rows="3">${company.id}</textarea></td>
 		</tr>
 
 		</tbody></table>

@@ -16,7 +16,8 @@ public class LoginController {
 
     //登录
     @RequestMapping("/login")
-    public String login(String username, String password, HttpSession session){
+    public String login(String username, String password,
+                        HttpSession session, Model model){
         TbSystemUser tbSystemUser = tbSystemUserService.login(username, password);
         if(tbSystemUser!=null && tbSystemUser.getId()!=0){
             session.setAttribute("tbSystemUser",tbSystemUser);

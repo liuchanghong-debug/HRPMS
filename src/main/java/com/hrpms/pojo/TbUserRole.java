@@ -34,7 +34,6 @@ public class TbUserRole {
     }
 
     public void setUserId(Integer userId) {
-
         this.userId = userId;
     }
 

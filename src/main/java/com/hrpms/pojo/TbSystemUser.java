@@ -3,6 +3,7 @@ package com.hrpms.pojo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -125,7 +126,7 @@ public class TbSystemUser {
         this.updateBy = updateBy;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 

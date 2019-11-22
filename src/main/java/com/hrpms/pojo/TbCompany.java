@@ -1,5 +1,7 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
@@ -16,6 +18,8 @@ import java.sql.Timestamp;
  * @Description:公司表
  */
 @Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbCompany {
     private Integer id;//公司编号  主键
     private String name;//公司名称  非空

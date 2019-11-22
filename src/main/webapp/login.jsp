@@ -165,7 +165,7 @@
 		<input type="text" id="username" name="username" class="input-block-level required" >
 		<label class="input-label" for="password">密码</label>
 		<input type="password" id="password" name="password" class="input-block-level required">
-		<div class="btn-box" id="cbox">
+        <div class="btn-box" id="cbox"></div>
 
 		</div><br/>
 		<input class="btn btn-large btn-primary" type="submit" value="登 录">&nbsp;&nbsp;

@@ -189,7 +189,6 @@
                     <li class="menu active">
                         <a class="menu" href="javascript:" data-href="#" data-id="2"><span>系统设置</span></a>
                     </li>
-
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -197,8 +196,6 @@
     <div class="container-fluid">
         <div id="content" class="row-fluid">
             <div id="left" style="width: 160px; height: 510px;">
-
-
                 <div class="accordion" id="menu-c082a1303cf14573916c963071bdddc4" style="display: none;">
                     <div class="accordion-group">
                         <div class="accordion-heading">
@@ -226,7 +223,7 @@
                         <div id="collapse-bc4518efa5d043958b69590f6cca5ec1" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-be189f93d8fe4f77a6fde050f3ddc7b7" href="companyList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公司客户</a>
+                                    <li><a data-href=".menu3-be189f93d8fe4f77a6fde050f3ddc7b7" href="companyClient/companyClientList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公司客户</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
 
@@ -246,7 +243,7 @@
                         <div id="collapse-d44fe7ff911341d5bb7e5c501f1d6d27" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-d01bab3ae2854fcf81b9c5f063f9056d" href="shebaoList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保信息</a>
+                                    <li><a data-href=".menu3-d01bab3ae2854fcf81b9c5f063f9056d" href="shebao/shebaoList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
@@ -367,15 +364,18 @@
                                     <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="shebaoCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li>
+                                        </ul>
+                                    </li>
                                     <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="gongjijinCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li>
+                                        </ul>
+                                    </li>
                                     <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="salaryCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li>
+                                        </ul>
+                                    </li>
                                     <li><a data-href=".menu3-d97120cbc31f424dbd12959da541fbda" href="personCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才外包统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
@@ -383,7 +383,9 @@
                                     <li><a data-href=".menu3-aa3843cca0254bcb807123e8284bb193" href="caiwuCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;财务报表统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li></ul>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -398,15 +400,19 @@
                                     <li><a data-href=".menu3-c96dfbfd2691492f82c8b7de876f7c92" href="newsList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;新闻管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li>
+                                        </ul>
+                                    </li>
                                     <li><a data-href=".menu3-d6d92d0fe5504a79953aaabf7b68497f" href="messageList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;留言管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li>
+                                        </ul>
+                                    </li>
                                     <li><a data-href=".menu3-ac5ab060930f4b479f2f462b437e1631" href="replayList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;回复管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li></ul>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -432,7 +438,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-fd53dc0e386d4230be276ef19a8cf5b4" href="dictList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;数据字典</a>
+                                    <li><a data-href=".menu3-fd53dc0e386d4230be276ef19a8cf5b4" href="datadict/datadictList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;数据字典</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

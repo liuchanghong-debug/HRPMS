@@ -11,7 +11,7 @@
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>数据字典管理 - Powered By JeeSite</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta name="author" content="http://jeesite.com/"/>
-	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
+	<meta name="renderer" content="webkit"><meta http-equi	v="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
 	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
@@ -60,39 +60,22 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../dictList/saved_resource.html">数据字典列表</a></li>
-	<li class="active"><a href="saved_resource_unEdit.html">数据字典修改</a></li>
+	<li><a href="datadict/datadictList">数据字典列表</a></li>
+	<li class="active"><a href="datadict/getTbSystemDictById?id=${dataDict.id}">数据字典修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
 	<div class="control-group">
 		<label class="control-label">字典名称：</label>
 		<div class="controls">
-			<input id="name" name="name" class="input-xlarge required" type="text" value="del_flag" maxlength="50" disabled="disabled">
+			<input id="name" name="name" class="input-xlarge required" type="text" value="${dataDict.name}" maxlength="50" disabled="disabled">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">存储值：</label>
 		<div class="controls">
-			<input id="value" name="value" class="input-xlarge required" type="text" value="0" maxlength="50"
+			<input id="value" name="value" class="input-xlarge required" type="text" value="${dataDict.value}" maxlength="50"
 				   disabled="disabled">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
@@ -100,20 +83,20 @@
 	<div class="control-group">
 		<label class="control-label">显示值：</label>
 		<div class="controls">
-			<input id="label" name="label" class="input-xlarge " type="text" value="正常" maxlength="100"
+			<input id="label" name="label" class="input-xlarge " type="text" value="${dataDict.label}" maxlength="100"
 				   disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">描述：</label>
 		<div class="controls">
-			<input id="description" name="description" class="input-xlarge " type="text" value="用于显示状态是否正常" maxlength="100" disabled="disabled">
+			<input id="description" name="description" class="input-xlarge " type="text" value="${dataDict.description}" maxlength="100" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sort" name="sort" class="input-xlarge " type="text" value="1" maxlength="11" disabled="disabled">
+			<input id="sort" name="sort" class="input-xlarge " type="text" value="${dataDict.sort}" maxlength="11" disabled="disabled">
 		</div>
 	</div>
 	<!-- 		<div class="control-group"> -->
@@ -126,13 +109,11 @@
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select id="status" name="status" class="input-xlarge" disabled="disabled">
-				<option value=""></option>
-				<option value="0" selected="selected">正常</option><option value="1">删除</option>
+				<option>${dataDict.status}</option>
 			</select>
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
