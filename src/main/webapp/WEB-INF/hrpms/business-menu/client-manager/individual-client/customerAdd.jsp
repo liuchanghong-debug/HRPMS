@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -59,8 +60,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../customerList/saved_resource.html">个人客户列表</a></li>
-	<li class="active"><a href="saved_resource.html">个人客户添加</a></li>
+	<li><a href="customerClient/customerList">个人客户列表</a></li>
+	<li class="active"><a href="customerClient/customerAdd">个人客户添加</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
@@ -70,43 +71,44 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="name" name="name" class="input-xlarge required" type="text" value="" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="name" name="name" class="input-xlarge required" type="text" maxlength="20">
+				<span class="help-inline"><span style="color: red; ">*</span> </span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge " type="text" value="" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
+			<td><input id="idCard" name="idCard" class="input-xlarge " type="text" maxlength="20">
+				<span class="help-inline"><span style="color: red; ">*</span> </span>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">客户性别：</label></td>
 			<td>
-				<input id="sex" name="sex" class="input-xlarge " type="text" value="" maxlength="2">
+				<input name="sex" class="input-xlarge " type="radio" value="男" checked>男&nbsp;
+				<input name="sex" class="input-xlarge " type="radio" value="女" >女
 			</td>
 			<td><label class="control-label">出生年月：</label></td>
 			<td>
-				<input name="birthday" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
+				<input name="birthday" type="date" maxlength="20" class="input-medium Wdate ">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">手机号码：</label></td>
-			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13"></td>
+			<td><input id="phone" name="phone" class="input-xlarge " type="text" maxlength="13"></td>
 			<td><label class="control-label">电子邮件：</label></td>
-			<td><input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50"></td>
+			<td><input id="email" name="email" class="input-xlarge " type="text" maxlength="50"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">现在住址：</label></td>
-			<td><input id="address" name="address" class="input-xlarge " type="text" value="" maxlength="100"></td>
+			<td><input id="address" name="address" class="input-xlarge " type="text" maxlength="100"></td>
 			<td><label class="control-label">邮政编码：</label></td>
-			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="" maxlength="20"></td>
+			<td><input id="zipCode" name="zipCode" class="input-xlarge " type="text" maxlength="20"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">毕业学校：</label></td>
-			<td><input id="school" name="school" class="input-xlarge " type="text" value="" maxlength="20"></td>
+			<td><input name="school" class="input-xlarge " type="text" maxlength="20"></td>
 			<td><label class="control-label">所学专业：</label></td>
-			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="" maxlength="20"></td>
+			<td><input name="specialty" class="input-xlarge " type="text" maxlength="20"></td>
 		</tr>
 
 		<tr>
@@ -114,20 +116,14 @@
 			<td><input id="graduation" name="graduation" class="input-xlarge " type="text" value="" maxlength="20"></td>
 			<td><label class="control-label">所属公司：</label></td>
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="" selected="selected">智递科技</option>
+				<select name="companyId" class="input-xlarge  select2-offscreen">
+					<%--<c:forEach items="" var="">--%>
 
+					<%--</c:forEach>--%>
+					<option value="" selected="selected">智递科技</option>
 				</select>
 			</td>
 		</tr>
-
-		<tr>
-			<td><label class="control-label">毕业学校：</label></td>
-			<td><input id="school" name="school" class="input-xlarge " type="text" value="" maxlength="20"></td>
-			<td><label class="control-label">所学专业：</label></td>
-			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="" maxlength="20"></td>
-		</tr>
-
 		<tr>
 			<td><label class="control-label">客户类别：</label></td>
 
@@ -148,17 +144,16 @@
 
 		<tr>
 			<td><label class="control-label">代缴社保：</label></td>
-			<td><input type="checkbox" name="isshebao"></td>
+			<td><input type="checkbox" name="isSheBao"></td>
 
 			<td><label class="control-label">代缴公积金：</label></td>
-			<td><input type="checkbox" name="isgongjijin"></td>
+			<td><input type="checkbox" name="isGongJiJin"></td>
 
 		</tr>
 		<tr>
 			<td><label class="control-label">状态：</label></td>
 			<td>
-
-				<select name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<select name="status" class="input-xlarge  select2-offscreen">
 					<option value="">正常
 					</option><option value="">封存
 				</option></select>
@@ -169,35 +164,8 @@
 
 		</tr>
 
-		</tbody></table>
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="createtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="updatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
+		</tbody>
+	</table>
 	<div class="form-actions">
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">

@@ -22,11 +22,11 @@ public interface DataDictDao {
      **/
     void dataDictAdd(TbSystemDict tbSystemDict);
     /**
-     * 根据数据字典中的name 和  存储值来得到字典id
+     * 根据数据字典中的name 来得到字典集合
      * @param 
      * @return 
      **/
-    List<TbSystemDict> getDataDictByNameAndValue(String name);
+    List<TbSystemDict> getDataDictByName(String name);
     /**
      * 多条件查询
      * @param 

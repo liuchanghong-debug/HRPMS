@@ -46,4 +46,9 @@ public class CompanyClientDaoImpl implements CompanyClientDao {
     public void companyToUpdate(TbCompany company) {
         sessionFactory.getCurrentSession().update(company);
     }
+
+    @Override
+    public List<TbCompany> getCompanyByOperationNoPaging(String hql, TbCompanyOperation companyOperation) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setProperties(companyOperation).list();
+    }
 }

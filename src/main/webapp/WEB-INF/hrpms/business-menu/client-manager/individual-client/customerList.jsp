@@ -51,8 +51,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">个人客户列表</a></li>
-	<li><a href="../addCustomer/saved_resource.html">个人客户添加</a></li>
+	<li class="active"><a href="customerClient/customerList">个人客户列表</a></li>
+	<li><a href="customerClient/customerAdd">个人客户添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="#" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">

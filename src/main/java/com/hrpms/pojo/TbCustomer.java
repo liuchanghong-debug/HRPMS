@@ -1,10 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -17,6 +17,8 @@ import java.util.Date;
  * @Description:客户表
  */
 @Entity
+@DynamicInsert
+@DynamicUpdate
 public class TbCustomer {
     private Integer id;//客户编号  主键
     private String name;//客户名称  非空
@@ -46,19 +48,20 @@ public class TbCustomer {
     private String remark;//备注
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
-
+    @Column(length = 50)
     public String getName() {
         return name;
     }
-
+    @Column(length = 20)
     public String getIdCard() {
         return idCard;
     }
-
+    @Column(length = 2)
     public String getSex() {
         return sex;
     }
@@ -66,59 +69,59 @@ public class TbCustomer {
     public Date getBirthday() {
         return birthday;
     }
-
+    @Column(length = 13)
     public String getPhone() {
         return phone;
     }
-
+    @Column(length = 50)
     public String getEmail() {
         return email;
     }
-
+    @Column(length = 100)
     public String getAddress() {
         return address;
     }
-
+    @Column(length = 20)
     public String getZipCode() {
         return zipCode;
     }
-
+    @Column(length = 20)
     public String getSchool() {
         return school;
     }
-
+    @Column(length = 20)
     public String getSpecialty() {
         return specialty;
     }
-
+    @Column(length = 20)
     public String getGraduation() {
         return graduation;
     }
-
+    @Column(length = 11)
     public Integer getCompanyId() {
         return companyId;
     }
-
+    @Column(length = 2)
     public String getCustomerType() {
         return customerType;
     }
-
+    @Column(length = 2)
     public String getIsSalary() {
         return isSalary;
     }
-
+    @Column(length = 2)
     public String getIsSheBao() {
         return isSheBao;
     }
-
+    @Column(length = 2)
     public String getIsGongJiJin() {
         return isGongJiJin;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
-
+    @Column(length = 2)
     public String getDelFlag() {
         return delFlag;
     }
@@ -126,7 +129,7 @@ public class TbCustomer {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -134,11 +137,11 @@ public class TbCustomer {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }

@@ -6,13 +6,20 @@ import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.pojo.operaton_select.TbCompanyOperation;
 import com.hrpms.service.company_client_service.CompanyClientService;
 import com.hrpms.utils.Page;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -63,12 +70,12 @@ public class CompanyClientController {
      * @return 返回添加前页面
      **/
     @RequestMapping("/companyToAdd")
-    public String companyToAdd(Integer currentPage, TbCompanyOperation companyOperation, TbCompany tbCompany, HttpSession session, Model model){
+    public String companyToAdd(TbCompany tbCompany, HttpSession session, Model model){
         TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
         tbCompany.setCreateBy(tbSystemUser.getId());
-        tbCompany.setCreateTime(new Timestamp(System.currentTimeMillis()    ));
+        tbCompany.setCreateTime(new Timestamp(System.currentTimeMillis()));
         companyClientService.companyToAdd(tbCompany);
-        return companyClientList(currentPage, companyOperation, model);
+        return companyClientList(1, new TbCompanyOperation(), model);
     }
     /**
      * 查看详细信息
@@ -138,5 +145,39 @@ public class CompanyClientController {
         TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
         companyClientService.companyDelete(id, tbSystemUser.getId());
         return companyClientList(currentPage, companyOperation, model);
+    }
+    /**
+     * 模板下载
+     * @param
+     * @return
+     **/
+    @RequestMapping("/templateDownload")
+    public void templateDownload(String name, HttpServletRequest request, HttpServletResponse response){
+        try {
+            companyClientService.templateDownload(name, request, response);
+        } catch (Exception e) {
+            System.out.println("模板下载错误");
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 数据导出
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/getCompanyByOperationNoPagingOutOfExcel")
+    public void getCompanyByOperationNoPagingOutOfExcel(TbCompanyOperation operation, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        companyClientService.getCompanyByOperationNoPaging(operation, request, response);
+    }
+    /**
+     * 上传文件
+     * @param
+     * @return
+     **/
+    @RequestMapping("/fileUpload")
+    public String fileUpload(MultipartFile file, HttpSession session, Model model) throws IOException, InvalidFormatException {
+        TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
+        companyClientService.fileUpload(file.getInputStream(), tbSystemUser.getId());
+        return companyClientList(1, new TbCompanyOperation(), model);
     }
 }

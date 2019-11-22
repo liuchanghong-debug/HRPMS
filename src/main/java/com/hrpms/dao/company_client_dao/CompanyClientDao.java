@@ -45,4 +45,10 @@ public interface CompanyClientDao {
      * @return 
      **/
     void companyToUpdate(TbCompany company);
+    /**
+     * 多条件不分页查询
+     * @param 
+     * @return 
+     **/
+    List<TbCompany> getCompanyByOperationNoPaging(String hql, TbCompanyOperation companyOperation);
 }

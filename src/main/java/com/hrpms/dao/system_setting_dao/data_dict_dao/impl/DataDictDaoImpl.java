@@ -34,11 +34,10 @@ public class DataDictDaoImpl implements DataDictDao {
     }
 
     @Override
-    public List<TbSystemDict> getDataDictByNameAndValue(String name) {
+    public List<TbSystemDict> getDataDictByName(String name) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from TbSystemDict where name = ?")
                 .setParameter(0, name).list();
-
     }
 
 

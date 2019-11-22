@@ -4,7 +4,12 @@ import com.hrpms.pojo.TbCompany;
 import com.hrpms.pojo.TbSystemDict;
 import com.hrpms.pojo.operaton_select.TbCompanyOperation;
 import com.hrpms.utils.Page;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -54,4 +59,22 @@ public interface CompanyClientService {
      * @return 
      **/
     void companyDelete(Integer id, Integer updateById);
+    /**
+     * 模板下载
+     * @param 
+     * @return 
+     **/
+    void templateDownload(String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    /**
+     * 数据条件导出
+     * @param 
+     * @return 
+     **/
+    void getCompanyByOperationNoPaging(TbCompanyOperation companyOperation, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    /**
+     * 上传到数据库
+     * @param 
+     * @return 
+     **/
+    void fileUpload(InputStream file, Integer createBy) throws IOException, InvalidFormatException;
 }

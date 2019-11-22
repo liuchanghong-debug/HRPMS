@@ -65,9 +65,7 @@
 			padding:1px;
 
 		}
-
 	</style>
-
 </head>
 <body>
 
@@ -95,7 +93,7 @@
 			<td><label class="control-label">公司电话：</label></td>
 			<td><input id="telPhone" name="telPhone" class="input-xlarge " type="text" value="${tbCompany.telPhone}" maxlength="13" disabled="disabled"></td>
 			<td><label class="control-label">邮编：</label></td>
-			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="${tbCompany.id}" maxlength="20" disabled="disabled"></td>
+			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="${tbCompany.zipCode}" maxlength="20" disabled="disabled"></td>
 		</tr>
 
 		<tr>

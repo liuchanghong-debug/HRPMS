@@ -49,7 +49,7 @@ public class DataDictServiceImpl implements DataDictService {
      **/
     @Override
     public List<TbSystemDict> getDataDictByName(String name) {
-        return dataDictDao.getDataDictByNameAndValue(name);
+        return dataDictDao.getDataDictByName(name);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class DataDictServiceImpl implements DataDictService {
     @Override
     public void dataDictDelete(Integer id) {
         //根据字典名称， 字典显示值查询存储值
-        String deleteStatus = getDataDictValueByNameAndLabel("字典名称", "删除");
+        String deleteStatus = getDataDictValueByNameAndLabel("字典状态", "删除");
         TbSystemDict dataDictById = getDataDictById(id);
         dataDictById.setStatus(deleteStatus);
         dataDictDao.dataDictDelete(dataDictById);
@@ -101,11 +101,11 @@ public class DataDictServiceImpl implements DataDictService {
 
     @Override
     public String getDataDictValueByNameAndLabel(String name, String label) {
-        StringBuffer stringBuffer = new StringBuffer("from TbSystemDict where name = :name and label = :label ");
+        String hql = "from TbSystemDict where name = :name and label = :label ";
         Map map = new HashMap(3);
         map.put("name", name);
         map.put("label", label);
-        map.put("hql", stringBuffer.toString());
+        map.put("hql", hql);
 
         return dataDictDao.getDataDictValueByNameAndLabel(map);
     }

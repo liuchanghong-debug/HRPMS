@@ -228,7 +228,7 @@
 
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-01eabbf5bc83468f9397c560e0db8a75" href="customerList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;个人客户</a>
+                                    <li><a data-href=".menu3-01eabbf5bc83468f9397c560e0db8a75" href="customerClient/customerList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;个人客户</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>

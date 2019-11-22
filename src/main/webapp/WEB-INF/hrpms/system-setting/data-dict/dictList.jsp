@@ -117,7 +117,7 @@
 					<input type="hidden" name="id" value="${tbSystemDict.id}">
 				<td>
 					<a href="javascript:void(0)" onclick="paging.action='datadict/toUpdate?currentPage=${dataDicts.currentPage}'; paging.submit()">修改</a>
-					<a href="datadict/dictDelete?id=${tbSystemDict.id}&currentPage=${dataDicts.currentPage}&nameQuery=${dataDictOperation.nameQuery}&statusQuery=${dataDictOperation.statusQuery}" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, this.href">删除</a>
+					<a href="datadict/dictDelete?id=${tbSystemDict.id}&currentPage=${dataDicts.currentPage}&nameQuery=${dataDictOperation.nameQuery}&statusQuery=${dataDictOperation.statusQuery}" onclick="return confirmx(&#39;确认要删除该字典数据吗？&#39;, this.href)">删除</a>
 				</td>
 			</tr>
 		</c:forEach>

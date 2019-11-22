@@ -36,15 +36,23 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
-        $(document).ready(function() {
+		$(document).ready(function() {
 
         });
+
         function page(n,s){
             $("#pageNo").val(n);
             $("#pageSize").val(s);
             $("#searchForm").submit();
             return false;
         }
+        function openFile() {
+			$("#file").click();
+        }
+        function upload() {
+			$("#fileSubmit").click();
+        }
+
 	</script>
 
 </head>
@@ -56,24 +64,31 @@
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="companyClient/companyClientList" method="post">
 	<ul class="ul-form">
-		<li><label>公司名称：</label>
-			<input name="nameQuery" class="input-medium" type="text" value="${companyOperation.nameQuery}" maxlength="100">
+
+			<li><label>公司名称：</label>
+				<input name="nameQuery" class="input-medium" type="text" value="${companyOperation.nameQuery}" maxlength="100">
+			</li>
+			<li><label>信用号码：</label>
+				<input name="companyNoQuery" class="input-medium" type="text" value="${companyOperation.companyNoQuery}" maxlength="20">
+			</li>
+			<li><label>身份证号：</label>
+				<input name="idCardQuery" class="input-medium" type="text" value="${companyOperation.idCardQuery}" maxlength="20">
+			</li>
+			<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
+		</form>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='companyClient/templateDownload?name=公司客户模板'" value="模板下载"></li>
+		<li class="btns">
+			<form action="companyClient/fileUpload" method="post" id="fileUpload" enctype="multipart/form-data">
+				<input class="btn btn-primary" type="button" value="导入" onclick="openFile()">
+				<input type="file" name="file" id="file" onchange="upload()" style="display: none" accept="application/Excel,application/vnd.ms-excel">
+				<input type="submit" style="display: none" id="fileSubmit">
+			</form>
 		</li>
-		<li><label>信用号码：</label>
-			<input name="companyNoQuery" class="input-medium" type="text" value="${companyOperation.companyNoQuery}" maxlength="20">
-		</li>
-		<li><label>身份证号：</label>
-			<input name="idCardQuery" class="input-medium" type="text" value="${companyOperation.idCardQuery}" maxlength="20">
-		</li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='companyClient/getCompanyByOperationNoPagingOutOfExcel?nameQuery=' + $('#nameQuery').val() + '&companyNoQuery=' + $('#companyNoQuery').val() + '&idCardQuery=' + $('#idCardQuery').val()" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
-</form>
+
 <script type="text/javascript">top.$.jBox.closeTip();</script>
-<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
 
 <form action="" method="post" name="paging">
 	<input id="nameQuery" type="hidden" name="nameQuery" value="${companyOperation.nameQuery}">
@@ -103,7 +118,7 @@
 				<td>${company.email}</td>
 				<td>
 					<a href="companyClient/companyUpdate?id=${company.id}&currentPage=${page.currentPage}">修改</a>
-					<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, companyClient/companyDelete?id=$('#id').val()&currentPage=$('#currentPage').val()&nameQuery=$('#nameQuery').val()&companyNoQuery=$('#companyNoQuery').val()&idCardQuery=$('#idCardQuery').val())">删除</a>
+					<a href="companyClient/companyDelete?id=${company.id}&currentPage=${page.currentPage }&nameQuery=${companyOperation.nameQuery}&companyNoQuery=${companyOperation.companyNoQuery}&idCardQuery=${companyOperation.idCardQuery}" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -113,7 +128,10 @@
 		<ul>
 			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='companyClient/companyClientList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 			<li><a href="javascript:void(0)"  onclick="paging.action='companyClient/companyClientList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
-			<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 30 条</a></li>
+			<li class="disabled controls"><a href="javascript:">
+				当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+				/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+				条，共 ${page.count} 条</a></li>
 		</ul>
 		<div style="clear:both;"></div>
 	</div>
