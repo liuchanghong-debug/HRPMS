@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -50,321 +51,74 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">公司客户列表</a></li>
-	<li><a href="../addCompany/saved_resource.html">公司客户添加</a></li>
+	<li class="active"><a href="companyClient/companyClientList">公司客户列表</a></li>
+	<li><a href="companyClient/companyAdd">公司客户添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="companyClient/companyClientList" method="post">
 	<ul class="ul-form">
 		<li><label>公司名称：</label>
-			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="100">
+			<input name="nameQuery" class="input-medium" type="text" value="${companyOperation.nameQuery}" maxlength="100">
 		</li>
 		<li><label>信用号码：</label>
-			<input id="companyno" name="companyno" class="input-medium" type="text" value="" maxlength="20">
+			<input name="companyNoQuery" class="input-medium" type="text" value="${companyOperation.companyNoQuery}" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="idCardQuery" class="input-medium" type="text" value="${companyOperation.idCardQuery}" maxlength="20">
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="模板下载"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="导入"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">top.$.jBox.closeTip();</script>
+<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
 
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-	<thead>
-	<tr>
-		<th>公司名称</th>
-		<th>电话</th>
-		<th>统一信用号</th>
-		<th>法人</th>
-		<th>手机</th>
-		<th>电子邮件</th>
-		<th>操作</th>
-	</tr>
-	</thead>
-	<tbody>
+<form action="" method="post" name="paging">
+	<input id="nameQuery" type="hidden" name="nameQuery" value="${companyOperation.nameQuery}">
+	<input id="companyNoQuery" type="hidden" name="companyNoQuery" value="${companyOperation.companyNoQuery}">
+	<input id="idCardQuery" type="hidden" name="idCardQuery" value="${companyOperation.idCardQuery}">
 
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html" >
-			智递科技有限公司
-		</a></td>
-		<td>
-			0371-66668888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			肖俊
-		</td>
-		<td>
-			13899998888
-		</td>
-		<td>
-			xiaojun@zhidisoft.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>公司名称</th>
+			<th>电话</th>
+			<th>统一信用号</th>
+			<th>法人</th>
+			<th>手机</th>
+			<th>电子邮件</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${page.dataList}" var="company">
+			<tr>
+				<td><a href="companyClient/getCompanyById?id=${company.id}" >${company.name}</a></td>
+				<td>${company.telPhone}</td>
+				<td>${company.companyNo}</td>
+				<td>${company.owner}</td>
+				<td>${company.phone}</td>
+				<td>${company.email}</td>
+				<td>
+					<a href="companyClient/companyUpdate?id=${company.id}&currentPage=${page.currentPage}">修改</a>
+					<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, companyClient/companyDelete?id=$('#id').val()&currentPage=$('#currentPage').val()&nameQuery=$('#nameQuery').val()&companyNoQuery=$('#companyNoQuery').val()&idCardQuery=$('#idCardQuery').val())">删除</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	<div class="pagination">
+		<ul>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='companyClient/companyClientList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li><a href="javascript:void(0)"  onclick="paging.action='companyClient/companyClientList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 30 条</a></li>
+		</ul>
+		<div style="clear:both;"></div>
+	</div>
+</form>
 
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			百度贴吧
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李彦宏
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			安思普惠人力资源有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李军
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			猎聘人力资源有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			张朝阳
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			阿里巴巴有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			马云
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			中国移动有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			库克
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			云南城投有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李开复
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource.html">
-			百度网络科技有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李军
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			京东361度科技有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李军
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateCompany/saved_resource_unEdit.html">
-			猎才人力资源有限公司
-		</a></td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			4101000011118888
-		</td>
-		<td>
-			李军
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			liecai@zhidi.com
-		</td>
-		<td>
-			<a href="../updateCompany/saved_resource.html">修改</a>
-			<a href="#2" onclick="return confirmx(&#39;确认要删除该公司客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	</tbody>
-</table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li><a href="javascript:" onclick="page(2,10,&#39;&#39;);">2</a></li>
-	<li><a href="javascript:" onclick="page(3,10,&#39;&#39;);">3</a></li>
-	<li><a href="javascript:" onclick="page(2,10,&#39;&#39;);">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 30 条</a></li>
-</ul>
-	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){

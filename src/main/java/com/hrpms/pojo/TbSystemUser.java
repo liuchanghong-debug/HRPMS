@@ -1,10 +1,6 @@
 package com.hrpms.pojo;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -26,52 +22,52 @@ public class TbSystemUser {
     private Integer sortnum;//排序
     private String status;//状态 0 正常  1 停用
     private Integer createBy;//创建者
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;//创建时间
     private Integer updateBy;//更新者
     private Timestamp updateTime;//更新时间
     private String userNote;//备注
 
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
-
+    @Column(length = 50)
     public String getUsername() {
         return username;
     }
-
+    @Column(length = 50)
     public String getPassword() {
         return password;
     }
-
+    @Column(length = 50)
     public String getEmail() {
         return email;
     }
-
+    @Column(length = 13)
     public String getPhone() {
         return phone;
     }
-
+    @Column(length = 11)
     public Integer getSortnum() {
         return sortnum;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
@@ -79,7 +75,7 @@ public class TbSystemUser {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 255)
     public String getUserNote() {
         return userNote;
     }

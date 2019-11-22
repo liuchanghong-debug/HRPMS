@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -60,58 +61,48 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../dictList/saved_resource.html">数据字典列表</a></li>
-	<li class="active"><a href="saved_resource.html">数据字典修改</a></li>
+	<li><a href="datadict/datadictList">数据字典列表</a></li>
+	<li class="active"><a href="datadict/toUpdate?id=${dataDictById.id}">数据字典修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
+<form id="inputForm" class="form-horizontal" action="datadict/dictUpdate" method="post" novalidate="novalidate">
+	<input type="hidden" name="nameQuery" value="${dataDictOperation.nameQuery}">
+	<input type="hidden" name="statusQuery" value="${dataDictOperation.statusQuery}">
+	<input type="hidden" name="currentPage" value="${currentPage}">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<input id="id" name="id" type="hidden" value="${dataDictById.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">字典名称：</label>
 		<div class="controls">
-			<input id="name" name="name" class="input-xlarge required" type="text" value="del_flag" maxlength="50">
+			<input id="name" name="name" class="input-xlarge required" type="text" value="${dataDictById.name}" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">存储值：</label>
 		<div class="controls">
-			<input id="value" name="value" class="input-xlarge required" type="text" value="0" maxlength="50">
+			<input id="value" name="value" class="input-xlarge required" type="text" value="${dataDictById.value}" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">显示值：</label>
 		<div class="controls">
-			<input id="label" name="label" class="input-xlarge " type="text" value="正常" maxlength="100">
+			<input id="label" name="label" class="input-xlarge " type="text" value="${dataDictById.label}" maxlength="100">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">描述：</label>
 		<div class="controls">
-			<input id="description" name="description" class="input-xlarge " type="text" value="用于显示状态是否正常" maxlength="100">
+			<input id="description" name="description" class="input-xlarge " type="text" value="${dataDictById.description}" maxlength="100">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sort" name="sort" class="input-xlarge " type="text" value="1" maxlength="11">
+			<input id="sort" name="sort" class="input-xlarge " type="text" value="${dataDictById.sort}" maxlength="11">
 		</div>
 	</div>
 	<!-- 		<div class="control-group"> -->
@@ -124,8 +115,14 @@
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select id="status" name="status" class="input-xlarge">
-				<option value=""></option>
-				<option value="0" selected="selected">正常</option><option value="1">删除</option>
+				<c:forEach items="${dataDictStatus}" var="dictStatus">
+					<c:if test="${dataDictById.status == dictStatus.value}">
+						<option value="${dictStatus.value}" selected="selected">${dictStatus.label}</option>
+					</c:if>
+					<c:if test="${dataDictById.status != dictStatus.value}">
+						<option value="${dictStatus.value}">${dictStatus.label}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</div>
 	</div>

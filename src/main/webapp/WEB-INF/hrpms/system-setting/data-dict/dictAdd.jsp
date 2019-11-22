@@ -59,40 +59,31 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../dictList/saved_resource.html">数据字典列表</a></li>
-	<li class="active"><a href="saved_resource.html">数据字典添加</a></li>
+	<li><a href="datadict/datadictList">数据字典列表</a></li>
+	<li class="active"><a href="datadict/datadictAdd">数据字典添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="datadict/datadictAddToDB" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
+	<div class="control-group">
+		<label class="control-label">字典归属：</label>
+		<div class="controls">
+			<select id="parentId" name="parentId" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<%--ajax   字典里面没有值，则为disabled--%>
+			</select>
+		</div>
+	</div>
 	<div class="control-group">
 		<label class="control-label">字典名称：</label>
 		<div class="controls">
 			<input id="name" name="name" class="input-xlarge required" type="text" value="" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline"><span style="color: red; ">*</span> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">存储值：</label>
 		<div class="controls">
 			<input id="value" name="value" class="input-xlarge required" type="text" value="" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline"><span style="color: red; ">*</span> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -122,10 +113,12 @@
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
-			<div class="select2-container input-xlarge" id="s2id_status"><select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
-				<option value="" selected="selected"></option>
-				<option value="0">正常</option><option value="1">删除</option>
-			</select>
+			<div class="select2-container input-xlarge" id="s2id_status">
+				<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
+					<option value="" selected="selected"></option>
+					<option value="0" selected>正常</option>
+					<option value="1">删除</option>
+				</select>
 			</div>
 		</div>
 		<div class="form-actions">

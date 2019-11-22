@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -66,33 +67,15 @@
 			padding:1px;
 		}
 	</style>
-
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../companyList/saved_resource.html">公司客户列表</a></li>
-	<li class="active"><a href="saved_resource.html">公司客户添加</a></li>
+	<li><a href="companyClient/companyClientList">公司客户列表</a></li>
+	<li class="active"><a href="companyClient/companyAdd">公司客户添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="companyClient/companyToAdd" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
 			<td><label class="control-label">公司名称：</label></td>
@@ -104,27 +87,27 @@
 				<label class="control-label">统一信用号：</label>
 			</td>
 			<td>
-				<input id="companyno" name="companyno" class="input-xlarge " type="text" value="" maxlength="20">
+				<input id="companyNo" name="companyNo" class="input-xlarge " type="text" value="" maxlength="20">
 			</td>
 		</tr>
 		<tr>
-			<td><label class="control-label">电话：</label></td>
-			<td><input id="telphone" name="telphone" class="input-xlarge " type="text" value="" maxlength="13"></td>
+			<td><label class="control-label">公司电话：</label></td>
+			<td><input id="telPhone" name="telPhone" class="input-xlarge " type="text" value="" maxlength="13"></td>
 			<td><label class="control-label">邮编：</label></td>
-			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="" maxlength="20"></td>
+			<td><input id="zipCode" name="zipCode" class="input-xlarge " type="text" value="" maxlength="20"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">法人：</label></td>
 			<td><input id="owner" name="owner" class="input-xlarge " type="text" value="" maxlength="30"></td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge " type="text" value="" maxlength="20"></td>
+			<td><input id="idCard" name="idCard" class="input-xlarge " type="text" value="" maxlength="20"></td>
 		</tr>
 
 		<tr>
-			<td><label class="control-label">手机：</label></td>
+			<td><label class="control-label">法人手机：</label></td>
 			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13"></td>
-			<td><label class="control-label">性别：</label></td>
+			<td><label class="control-label">法人性别：</label></td>
 			<td><input id="sex" name="sex" class="input-xlarge " type="text" value="" maxlength="2"></td>
 		</tr>
 
@@ -132,7 +115,7 @@
 			<td><label class="control-label">电子邮件：</label></td>
 			<td><input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50"></td>
 			<td><label class="control-label">公司性质：</label></td>
-			<td><input id="ownership" name="ownership" class="input-xlarge " type="text" value="" maxlength="150"></td>
+			<td><input id="ownerShip" name="ownerShip" class="input-xlarge " type="text" value="" maxlength="150"></td>
 		</tr>
 
 		<tr>
@@ -140,19 +123,18 @@
 			<td>
 				<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
 					<option value="" selected="selected">请选择</option>
-					<option value="0">正常</option>
-					<option value="1">删除</option>
+					<c:forEach items="${companyStatuss}" var="companyStatus">
+						<option value="${companyStatus.value}">${companyStatus.label}</option>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">公司类别：</label></td>
 			<td>
-				<select name="companyType" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<select id="companyType" name="companyType" class="input-xlarge  select2-offscreen" tabindex="-1">
 					<option value="">请选择</option>
-					<option value="0">全业务客户</option>
-					<option value="1">社保客户</option>
-					<option value="2">公积金客户</option>
-					<option value="3">工资代发客户</option>
-					<option value="4">外包合作客户</option>
+					<c:forEach items="${companyTypes}" var="companyType">
+						<option value="${companyType.value}">${companyType.label}</option>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>

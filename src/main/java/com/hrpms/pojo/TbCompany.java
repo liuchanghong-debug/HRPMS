@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -12,6 +15,9 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:公司表
  */
+@Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbCompany {
     private Integer id;//公司编号  主键
     private String name;//公司名称  非空
@@ -35,58 +41,61 @@ public class TbCompany {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
-
+    @Column(length = 100)
     public String getName() {
         return name;
     }
-
+    @Column(length = 256)
     public String getAddress() {
         return address;
     }
-
+    @Column(length = 20)
     public String getZipCode() {
         return zipCode;
     }
-
+    @Column(length = 13)
     public String getTelPhone() {
         return telPhone;
     }
-
+    @Column(length = 20)
     public String getCompanyNo() {
         return companyNo;
     }
-
+    @Column(length = 30)
     public String getOwner() {
         return owner;
     }
-
+    @Column(length = 20)
     public String getIdCard() {
         return idCard;
     }
-
+    @Column(length = 13)
     public String getPhone() {
         return phone;
     }
-
+    @Column(length = 2)
     public String getSex() {
         return sex;
     }
-
+    @Column(length = 50)
     public String getEmail() {
         return email;
     }
-
+    @Column(length = 150)
     public String getOwnerShip() {
         return ownerShip;
     }
-
+    @Column(length = 2)
     public String getCompanyType() {
         return companyType;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -94,7 +103,7 @@ public class TbCompany {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -102,11 +111,11 @@ public class TbCompany {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 512)
     public String getRemark() {
         return remark;
     }
