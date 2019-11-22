@@ -58,6 +58,7 @@ public class SystemUserDaoImpl implements SystemUserDao {
     public void deleteSystemUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
         TbSystemUser tbSystemUser = (TbSystemUser)session.get(TbSystemUser.class, id);
-        session.delete(tbSystemUser);
+        tbSystemUser.setStatus("1");
+        session.merge(tbSystemUser);
     }
 }
