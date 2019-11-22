@@ -82,8 +82,8 @@
 <input type="hidden" id="currentPage" name="currentPage" value="${dataDicts.currentPage}">
 
 <form action="" method="post" name="paging">
-	<input type="hidden" id="nameQuery" name="nameQuery" value="${dataDictOperation.nameQuery}">
-	<input type="hidden" id="statusQuery" name="statusQuery" value="${dataDictOperation.statusQuery}">
+	<input type="hidden"  name="nameQuery" value="${dataDictOperation.nameQuery}">
+	<input type="hidden"  name="statusQuery" value="${dataDictOperation.statusQuery}">
 
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
@@ -117,7 +117,7 @@
 					<input type="hidden" name="id" value="${tbSystemDict.id}">
 				<td>
 					<a href="javascript:void(0)" onclick="paging.action='datadict/toUpdate?currentPage=${dataDicts.currentPage}'; paging.submit()">修改</a>
-					<a href="#" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, datadict/dictDelete?id=${tbSystemDict.id}&currentPage=$('#currentPage').val()&nameQuery=$('#nameQuery').val()&statusQuery=$('#statusQuery').val()">删除</a>
+					<a href="datadict/dictDelete?id=${tbSystemDict.id}&currentPage=${dataDicts.currentPage}&nameQuery=${dataDictOperation.nameQuery}&statusQuery=${dataDictOperation.statusQuery}" onclick="return confirmx(&#39;确认要删除该数据字典吗？&#39;, this.href">删除</a>
 				</td>
 			</tr>
 		</c:forEach>

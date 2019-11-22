@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +66,7 @@ public class SystemUserController {
     //根据id修改系统用户
     @RequestMapping("/updateSystemUserById")
     public String updateSystemUserById(TbSystemUser tbSystemUser){
-        tbSystemUser.setUpdateTime(new Date());
+        tbSystemUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.updateSystemUserById(tbSystemUser);
         return "redirect:selectSystemUserByDuo";
     }
