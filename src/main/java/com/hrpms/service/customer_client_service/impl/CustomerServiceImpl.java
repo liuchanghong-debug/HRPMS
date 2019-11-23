@@ -111,9 +111,6 @@ public class CustomerServiceImpl implements CustomerService {
         customerDao.customerUpdate(customer);
     }
 
-    @Autowired
-    private CustomerDao customerDao;
-
     @Override
     public List<TbSystemDict> getDataDictByName(String name) {
         return dataDictService.getDataDictByName(name);
@@ -264,11 +261,5 @@ public class CustomerServiceImpl implements CustomerService {
     public TbCustomer getCustomerByIdCard(String idCard) {
         String hql = "from TbCustomer where idCard = ?";
         return customerDao.getCustomerByIdCard(hql, idCard);
-    }
-
-
-    @Override
-    public List<TbCustomer> selectAllCustomerName() {
-        return customerDao.selectAllCustomerName();
     }
 }

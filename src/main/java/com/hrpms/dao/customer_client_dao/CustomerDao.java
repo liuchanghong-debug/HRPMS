@@ -1,5 +1,11 @@
 package com.hrpms.dao.customer_client_dao;
 
+import com.hrpms.pojo.TbCustomer;
+import com.hrpms.pojo.operaton_select.TbCustomerOperation;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
 /**
 import com.hrpms.pojo.TbCustomer;
 
@@ -71,6 +77,5 @@ public interface CustomerDao {
      * @return
      **/
     TbCustomer getCustomerByIdCard(String hql, String idCard);
-    //查询所有客户名称
-    public List<TbCustomer> selectAllCustomerName();
+
 }
