@@ -51,4 +51,11 @@ public interface CompanyClientDao {
      * @return 
      **/
     List<TbCompany> getCompanyByOperationNoPaging(String hql, TbCompanyOperation companyOperation);
+    /**
+     * 查询所有 id 和 name
+     * @param 
+     * @return 
+     **/
+    List<Object[]> getAllCompanyOfIdAndName();
+
 }

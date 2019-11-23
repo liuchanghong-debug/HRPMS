@@ -51,8 +51,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">社保缴费列表</a></li>
-	<li><a href="../addShebaoRecord/saved_resource.html">社保缴费添加</a></li>
+	<li class="active"><a href="shebao/shebaoRecord">社保缴费列表</a></li>
+	<li><a href="shebao/shebaoRecordAdd">社保缴费添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="#" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">

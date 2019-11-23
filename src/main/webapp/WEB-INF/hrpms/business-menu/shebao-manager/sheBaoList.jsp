@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -54,128 +56,101 @@
 	<li class="active"><a href="shebao/shebaoList">社保信息列表</a></li>
 	<li><a href="shebao/shebaoToAdd">社保信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="shebao/shebaoList" method="post">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input type="text" name="customername" maxlength="20" class="input-medium">
+			<input type="text" name="nameQuery" maxlength="20" value="${socialInsuranceOperation.nameQuery}" class="input-medium">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="idCardQuery" class="input-medium" type="text" value="${socialInsuranceOperation.idCardQuery}" maxlength="20">
 		</li>
 		<li><label>社保卡号：</label>
-			<input id="sbcard" name="sbcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="sbCatdQuery" class="input-medium" type="text" value="${socialInsuranceOperation.sbCardQuery}" maxlength="20">
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="模板下载"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
+</form>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="模板下载"></li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
-</form>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
+<form action="" method="post" name="paging">
+	<input type="hidden" name="nameQuery" value="${socialInsuranceOperation.nameQuery}">
+	<input type="hidden" name="idCardQuery" value="${socialInsuranceOperation.idCardQuery}">
+	<input type="hidden" name="sbCardQuery" value="${socialInsuranceOperation.sbCardQuery}">
 
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-	<thead>
-	<tr>
-		<th>客户名称</th>
-		<th>身份证号</th>
-		<th>社保卡号</th>
-		<th>缴费基数</th>
-		<th>应缴金额</th>
-		<th>个人比率</th>
-		<th>单位比率</th>
-		<th>养老保险</th>
-		<th>医疗保险</th>
-		<th>工伤保险</th>
-		<th>失业保险</th>
-		<th>生育保险</th>
-		<th>预交款日</th>
-		<th>代理费用</th>
-		<th>状态</th>
-		<th>操作</th>
-	</tr>
-	</thead>
-	<tbody>
 
-	<tr>
-		<td><a href="../updateShebao/saved_resource_unEdit.html">
-			智递哥
-		</a></td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			5000
-		</td>
-		<td>
-			870
-		</td>
-		<td>
-			20%
-		</td>
-		<td>
-			80%
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			100
-		</td>
-		<td>
-			70
-		</td>
-		<td>
-			2017-10-26
-		</td>
-		<td>
-			75
-		</td>
-		<td>
-			正常
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>客户名称</th>
+			<th>身份证号</th>
+			<th>社保卡号</th>
+			<th>缴费基数</th>
+			<th>应缴金额</th>
+			<th>个人比率</th>
+			<th>单位比率</th>
+			<th>养老保险</th>
+			<th>医疗保险</th>
+			<th>工伤保险</th>
+			<th>失业保险</th>
+			<th>生育保险</th>
+			<th>预交款日</th>
+			<th>代理费用</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${page.dataList}" var="socialInsurance">
+			<tr>
+				<td><a href="shebao/shebaoShow?id=${socialInsurance.id}">${socialInsurance.name}</a></td>
+				<td>${socialInsurance.idCard}</td>
+				<td>${socialInsurance.sbCard}</td>
+				<td>${socialInsurance.basePay}</td>
+				<td>${socialInsurance.mustPay}</td>
+				<td>${socialInsurance.personRatio}</td>
+				<td>${socialInsurance.companyRatio}</td>
+				<td>${socialInsurance.yangLao}</td>
+				<td>${socialInsurance.yiLiao}</td>
+				<td>${socialInsurance.gongShang}</td>
+				<td>${socialInsurance.shiYe}</td>
+				<td>${socialInsurance.shengYu}</td>
+				<td>
+					<f:formatDate value="${socialInsurance.payDate}" var="time" pattern="yyyy-MM-dd"/>
+						${time}
+				</td>
+				<td>${socialInsurance.proxyFee}</td>
+				<td>
+					<c:forEach items="${status}" var="statu">
+						<c:if test="${statu.value == socialInsurance.status}">
+							<span>${statu.label}</span>
+						</c:if>
+					</c:forEach>
+				</td>
+				<td>
+					<a href="">缴费</a>
+					<a href="">修改</a>
+					<a href="#" onclick="return confirmx(&#39;确认要删除该社保信息吗？&#39;, this.href)">删除</a>
+				</td>
+			</tr>
+		</c:forEach>
 
-		</td>
-		<td>
-			<a href="../addShebao/saved_resource.html">缴费</a>
-			<a href="../updateShebao/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该社保信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	</tbody>
-</table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-</ul>
+		</tbody>
+	</table>
+	<div class="pagination"><ul>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='shebao/shebaoList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+		<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='shebao/shebaoList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+		<li class="disabled controls"><a href="javascript:">当前
+			<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+			/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+			条，共 ${page.count} 条</a></li>
+	</ul>
+</form>
 	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。

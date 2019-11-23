@@ -51,4 +51,9 @@ public class CompanyClientDaoImpl implements CompanyClientDao {
     public List<TbCompany> getCompanyByOperationNoPaging(String hql, TbCompanyOperation companyOperation) {
         return sessionFactory.getCurrentSession().createQuery(hql).setProperties(companyOperation).list();
     }
+
+    @Override
+    public List<Object[]> getAllCompanyOfIdAndName() {
+        return sessionFactory.getCurrentSession().createQuery("select id, name from TbCompany").list();
+    }
 }

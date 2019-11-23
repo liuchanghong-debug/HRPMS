@@ -38,8 +38,8 @@ public class ExcelUpload {
                     headDate.add(format);
                     continue;
                 }
-                cell.setCellType(Cell.CELL_TYPE_STRING);
             }
+            cell.setCellType(Cell.CELL_TYPE_STRING);
             headDate.add(cell.getStringCellValue());
         }
 

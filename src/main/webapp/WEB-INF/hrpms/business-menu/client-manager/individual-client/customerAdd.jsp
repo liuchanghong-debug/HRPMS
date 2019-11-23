@@ -63,7 +63,7 @@
 	<li><a href="customerClient/customerList">个人客户列表</a></li>
 	<li class="active"><a href="customerClient/customerAdd">个人客户添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="customerClient/customerToAdd" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -76,7 +76,7 @@
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td><input id="idCard" name="idCard" class="input-xlarge " type="text" maxlength="20">
-				<span class="help-inline"><span style="color: red; ">*</span> </span>
+				<span class="help-inline"><spzan style="color: red; ">*</spzan> </span>
 			</td>
 		</tr>
 
@@ -117,10 +117,9 @@
 			<td><label class="control-label">所属公司：</label></td>
 			<td>
 				<select name="companyId" class="input-xlarge  select2-offscreen">
-					<%--<c:forEach items="" var="">--%>
-
-					<%--</c:forEach>--%>
-					<option value="" selected="selected">智递科技</option>
+					<c:forEach items="${requestScope.companys}" var="company">
+						<option value="${company.id}">${company.name}</option>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>
@@ -130,38 +129,34 @@
 			<td>
 				<select id="companyid" name="companyid" class="input-xlarge  select2-offscreen" tabindex="-1">
 					<option value="" selected="selected">请选择客户类别</option>
-					<option value="" >本公司员工</option>
-					<option value="" >公司客户员工</option>
-					<option value="" >个人客户</option>
-					<option value="" >派遣人才客户</option>
-
+					<c:forEach items="${customerTypes}" var="type">
+						<option value="${type.value}">${type.label}</option>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">代发工资：</label></td>
 
-			<td><input type="checkbox" name="isSalary"></td>
+			<td><input type="checkbox" name="isSalary" value="0"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">代缴社保：</label></td>
-			<td><input type="checkbox" name="isSheBao"></td>
+			<td><input type="checkbox" name="isSheBao" value="0"></td>
 
 			<td><label class="control-label">代缴公积金：</label></td>
-			<td><input type="checkbox" name="isGongJiJin"></td>
-
+			<td><input type="checkbox" name="isGongJiJin" value="0"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">状态：</label></td>
 			<td>
 				<select name="status" class="input-xlarge  select2-offscreen">
-					<option value="">正常
-					</option><option value="">封存
-				</option></select>
+					<c:forEach items="${customerStatuss}" var="status">
+						<option value="${status.value}">${status.label}</option>
+					</c:forEach>
+				</select>
 			</td>
 			<td><label class="control-label">备注：</label></td>
 			<td><input id="remark" name="remark" class="input-xlarge " type="text" value="" maxlength="256"></td>
-			<!-- 				<td><label class="control-label">删除标志：</label></td> -->
-
 		</tr>
 
 		</tbody>

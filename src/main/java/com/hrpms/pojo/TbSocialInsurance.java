@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,8 +16,22 @@ import java.util.Date;
  * @versiion 1.0
  * @Description:社保基础表
  */
+@Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbSocialInsurance {
     private Integer id;//社保编号  主键
+    private String name;//姓名
+
+    @Column(length = 50)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String idCard;//身份证号  非空
     private String sbCard;//社保卡号
     private Double basePay;//缴费基数
@@ -26,6 +43,7 @@ public class TbSocialInsurance {
     private Double shiYe;//失业保险
     private Double gongShang;//工商保险
     private Double shengYu;//生育保险
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date payDate;//预交款日期
     private Double proxyFee;//代理费用
     private String status;//状态  0 正常  1 删除
@@ -37,14 +55,18 @@ public class TbSocialInsurance {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
 
+    @Column(length = 20)
     public String getIdCard() {
         return idCard;
     }
-
+    @Column(length = 20)
     public String getSbCard() {
         return sbCard;
     }
@@ -56,11 +78,11 @@ public class TbSocialInsurance {
     public Double getMustPay() {
         return mustPay;
     }
-
+    @Column(length = 5)
     public String getPersonRatio() {
         return personRatio;
     }
-
+    @Column(length = 5)
     public String getCompanyRatio() {
         return companyRatio;
     }
@@ -92,7 +114,7 @@ public class TbSocialInsurance {
     public Double getProxyFee() {
         return proxyFee;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -100,7 +122,7 @@ public class TbSocialInsurance {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -108,11 +130,11 @@ public class TbSocialInsurance {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }

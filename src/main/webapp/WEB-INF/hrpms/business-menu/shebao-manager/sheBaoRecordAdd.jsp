@@ -60,8 +60,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../shebaoList/saved_resource.html">社保缴费列表</a></li>
-	<li class="active"><a href="saved_resource.html">社保缴费添加</a></li>
+	<li><a href="shebao/shebaoRecord">社保缴费列表</a></li>
+	<li class="active"><a href="shebao/shebaoRecordAdd">社保缴费添加</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">

@@ -77,4 +77,11 @@ public interface CompanyClientService {
      * @return 
      **/
     void fileUpload(InputStream file, Integer createBy) throws IOException, InvalidFormatException;
+    
+    /**
+     * 获取所有的公司id 和name
+     * @param 
+     * @return 
+     **/
+    List<Object[]> getAllCompanyOfIdAndName();
 }

@@ -24,6 +24,7 @@ public class TbCustomer {
     private String name;//客户名称  非空
     private String idCard;//身份证号
     private String sex;//性别
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;//出生年月日
     private String phone;//电话
     private String email;//电子邮件

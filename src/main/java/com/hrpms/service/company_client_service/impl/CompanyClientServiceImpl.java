@@ -181,4 +181,9 @@ public class CompanyClientServiceImpl implements CompanyClientService {
             companyToAdd(company);
         }
     }
+
+    @Override
+    public List<Object[]> getAllCompanyOfIdAndName() {
+        return companyClientDao.getAllCompanyOfIdAndName();
+    }
 }

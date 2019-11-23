@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -60,24 +61,10 @@
 
 <ul class="nav nav-tabs">
 	<li><a href="../customerList/saved_resource.html">个人客户列表</a></li>
-	<li class="active"><a href="saved_resource_unEdit.html">个人客户修改</a></li>
+	<li class="active"><a href="saved_resource_unEdit.html">个人客户查看</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="1000">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -85,132 +72,114 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="name" name="name" class="input-xlarge required" type="text" value="智递哥" maxlength="20" disabled="disabled">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="name" name="name" class="input-xlarge required" type="text" value="${customer.name}" maxlength="20" disabled="disabled">
+				<span class="help-inline"><span style="color: red; ">*</span> </span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge " type="text" value="412724180000001511" maxlength="20" disabled="disabled">
-				<span class="help-inline"><font color="red">*</font> </span>
+			<td><input id="idcard" name="idcard" class="input-xlarge " type="text" value="${customer.idCard}" maxlength="20" disabled="disabled">
+				<span class="help-inline"><span style="color: red; ">*</span> </span>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">客户性别：</label></td>
 			<td>
-				<input id="sex" name="sex" class="input-xlarge " type="text" value="男" maxlength="2" disabled="disabled">
+				<input id="sex" name="sex" class="input-xlarge " type="text" value="${customer.sex}" maxlength="2" disabled="disabled">
 			</td>
 			<td><label class="control-label">出生年月：</label></td>
 			<td>
-				<input name="birthday" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="2017-10-20 00:00:00" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" disabled="disabled">
+				<input name="birthday" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${customer.birthday}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" disabled="disabled">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">手机号码：</label></td>
-			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="15890130136" maxlength="13" disabled="disabled"></td>
+			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="${customer.phone}" maxlength="13" disabled="disabled"></td>
 			<td><label class="control-label">电子邮件：</label></td>
-			<td><input id="email" name="email" class="input-xlarge " type="text" value="welun@zhidio.com" maxlength="50" disabled="disabled"></td>
+			<td><input id="email" name="email" class="input-xlarge " type="text" value="${customer.email}" maxlength="50" disabled="disabled"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">现在住址：</label></td>
-			<td><input id="address" name="address" class="input-xlarge " type="text" value="郑州市硅谷广场" maxlength="100" disabled="disabled"></td>
+			<td><input id="address" name="address" class="input-xlarge " type="text" value="${customer.address}" maxlength="100" disabled="disabled"></td>
 			<td><label class="control-label">邮政编码：</label></td>
-			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="450000" maxlength="20" disabled="disabled"></td>
+			<td><input id="zipcode" name="zipcode" class="input-xlarge " type="text" value="${customer.zipCode}" maxlength="20" disabled="disabled"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">毕业学校：</label></td>
-			<td><input id="school" name="school" class="input-xlarge " type="text" value="郑州大学" maxlength="20" disabled="disabled"></td>
+			<td><input id="school" name="school" class="input-xlarge " type="text" value="${customer.school}" maxlength="20" disabled="disabled"></td>
 			<td><label class="control-label">所学专业：</label></td>
-			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="软件开发" maxlength="20" disabled="disabled"></td>
+			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="${customer.specialty}" maxlength="20" disabled="disabled"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">毕业时间：</label></td>
-			<td><input id="graduation" name="graduation" class="input-xlarge " type="text" value="2012-10-01" maxlength="20" disabled="disabled"></td>
+			<td><input id="graduation" name="graduation" class="input-xlarge " type="text" value="${customer.graduation}" maxlength="20" disabled="disabled"></td>
 			<td><label class="control-label">所属公司：</label></td>
 			<td>
 				<select id="companyid" name="companyid" class="input-xlarge " disabled="disabled">
-					<option value=""></option>
-
+					<c:forEach items="${companys}" var="company">
+						<c:if test="${company.id == customer.companyId}">
+							<option>${company.name}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
-		</tr>
-
-		<tr>
-			<td><label class="control-label">毕业学校：</label></td>
-			<td><input id="school" name="school" class="input-xlarge " type="text" value="郑州大学" maxlength="20" disabled="disabled"></td>
-			<td><label class="control-label">所学专业：</label></td>
-			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="软件开发" maxlength="20" disabled="disabled"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">客户类别：</label></td>
-
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge " disabled="disabled">
-					<option value=""></option>
-
+				<select name="companyid" class="input-xlarge " disabled="disabled">
+					<option value="">${customer.customerType}</option>
 				</select>
 			</td>
 			<td><label class="control-label">代发工资：</label></td>
-
-			<td><input type="checkbox" name="isSalary" disabled="disabled"></td>
+			<td>
+				<c:if test="${customer.isSalary == 0}">
+					<input type="checkbox" name="isSalary" checked disabled="disabled">
+				</c:if>
+				<c:if test="${customer.isSalary == 1}">
+					<input type="checkbox" name="isSalary" disabled="disabled">
+				</c:if>
+			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">代缴社保：</label></td>
-			<td><input type="checkbox" name="isshebao" disabled="disabled"></td>
+			<td>
+				<c:if test="${customer.isSheBao == 0}">
+					<input type="checkbox" name="isshebao" checked disabled="disabled">
+				</c:if>
+				<c:if test="${customer.isSheBao == 1}">
+					<input type="checkbox" name="isshebao" disabled="disabled">
+				</c:if>
+			</td>
 
 			<td><label class="control-label">代缴公积金：</label></td>
-			<td><input type="checkbox" name="isgongjijin" disabled="disabled"></td>
+			<td>
+				<c:if test="${customer.isGongJiJin == 0}">
+					<input type="checkbox" name="isgongjijin" checked disabled="disabled">
+				</c:if>
+				<c:if test="${customer.isGongJiJin == 1}">
+					<input type="checkbox" name="isgongjijin" disabled="disabled">
+				</c:if>
+			</td>
 
 		</tr>
 		<tr>
 			<td><label class="control-label">状态：</label></td>
 			<td>
-
 				<select name="status" class="input-xlarge " disabled="disabled">
-					<option value=""/>正常
-					<option value=""/>封存
+					<option>${customer.status}</option>
 				</select>
 			</td>
 			<td><label class="control-label">备注：</label></td>
-			<td><input id="remark" name="remark" class="input-xlarge " type="text" value="test" maxlength="256" disabled="disabled"></td>
-			<!-- 				<td><label class="control-label">删除标志：</label></td> -->
+			<td><input id="remark" name="remark" class="input-xlarge " type="text" value="${customer.name}" maxlength="256" disabled="disabled"></td>
 
 		</tr>
 
 		</tbody></table>
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="createtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="updatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -45,6 +46,12 @@
             $("#searchForm").submit();
             return false;
         }
+        function openSelectFile() {
+			$("#file").click();
+        }
+        function subFile() {
+			$("#sub").click();
+        }
 	</script>
 
 </head>
@@ -54,131 +61,105 @@
 	<li class="active"><a href="customerClient/customerList">个人客户列表</a></li>
 	<li><a href="customerClient/customerAdd">个人客户添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="customerClient/customerList" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="50">
+			<input name="nameQuery" class="input-medium" type="text" value="${customerOperation.nameQuery}" maxlength="50">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="idCardQuery" class="input-medium" type="text" value="${customerOperation.idCardQuery}" maxlength="20">
 		</li>
 		<li><label>所属公司：</label>
-			<select id="companyid" name="companyid" class="input-medium select2-offscreen" tabindex="-1">
-				<option value="" selected="selected">智递科技</option>
-
+			<select name="companyIdQuery" class="input-medium select2-offscreen" tabindex="-1">
+				<option value="">全部</option>
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${customerOperation.companyIdQuery == company.id}">
+						<option value="${company.id}" selected="selected">${company.name}</option>
+					</c:if>
+					<c:if test="${customerOperation.companyIdQuery != company.id}">
+						<option value="${company.id}">${company.name}</option>
+					</c:if>
+				</c:forEach>
 			</select>
+</form>
+
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='customerClient/customerTemplateDownload?name=个人客户模板'" value="模板下载"></li>
+<form action="customerClient/customerUploadOfExcel" method="post" enctype="multipart/form-data">
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="openSelectFile()" value="导入"></li>
+		<input type="file" id="file" name="file" style="display: none" onchange="subFile()" accept="application/Excel,application/vnd.ms-excel">
+		<input type="submit" id="sub" style="display: none">
+
+		<li class="btns"><input class="btn btn-primary" type="button" value="导出" onclick="location.href='customerClient/customerDataOutOfExcel?nameQuery=' + $('#nameQuery').val() + '&idCardQuery=' + $('#idCardQuery').val() + '&companyIdQuery=' + $('#companyIdQuery').val()"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">top.$.jBox.closeTip();</script>
-
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
-	<thead>
-	<tr>
-		<th>客户名称</th>
-		<th>身份证号</th>
-		<th>客户性别</th>
-		<th>出生年月</th>
-		<th>手机号码</th>
-		<th>电子邮件</th>
-		<th>毕业学校</th>
-		<th>所学专业</th>
-		<th>毕业时间</th>
-		<th>工资薪酬</th>
-		<th>社保信息</th>
-		<th>公积金</th>
-		<!-- 				<th>客户类别</th> -->
-		<th>操作</th>
-	</tr>
-	</thead>
-	<tbody>
-
-	<tr>
-		<td><a href="../updateCustomer/saved_resource_unEdit.html">
-			智递哥
-		</a></td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			男
-		</td>
-		<td>
-			2017-10-20 00:00:00
-		</td>
-		<td>
-			15890130136
-		</td>
-		<td>
-			welun@zhidio.com
-		</td>
-		<td>
-			郑州大学
-		</td>
-		<td>
-			软件开发
-		</td>
-		<td>
-			2012-10-01
-		</td>
-		<td>
-
-			<a href="#">薪酬工资</a>
+<form action="" method="post" name="paging">
+	<input type="hidden" id="nameQuery" name="nameQuery" value="${customerOperation.nameQuery}">
+	<input type="hidden" id="idCardQuery" name="idCardQuery" value="${customerOperation.idCardQuery}">
+	<input type="hidden" id="companyIdQuery" name="companyIdQuery" value="${customerOperation.companyIdQuery}">
 
 
-		</td>
-		<td>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+		<tr>
+			<th>客户名称</th>
+			<th>身份证号</th>
+			<th>客户性别</th>
+			<th>出生年月</th>
+			<th>手机号码</th>
+			<th>电子邮件</th>
+			<th>毕业学校</th>
+			<th>所学专业</th>
+			<th>毕业时间</th>
+			<th>工资薪酬</th>
+			<th>社保信息</th>
+			<th>公积金</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${page.dataList}" var="customer">
+			<tr>
+				<td><a href="customerClient/customerMess?id=${customer.id}">${customer.name}</a></td>
+				<td>${customer.idCard}</td>
+				<td>${customer.sex}</td>
+				<td>${customer.birthday}</td>
+				<td>${customer.phone}</td>
+				<td>${customer.email}</td>
+				<td>${customer.school}</td>
+				<td>${customer.specialty}</td>
+				<td>${customer.graduation}</td>
+				<td><a href="#">薪酬工资</a></td>
+				<td><a href="#">社保信息</a></td>
+				<td>公积金</td>
+				<td>
+					<a href="javascript:void(0)" onclick="paging.action='customerClient/customerUpdate?currentPage=${page.currentPage}&id=${customer.id}'; paging.submit()">修改</a>
+					<a href="customerClient/customerDelete?currentPage=${page.currentPage}&id=${customer.id}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该个人客户吗？&#39;, this.href)">删除</a>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
 
-			<a href="#">社保信息</a>
-
-
-		</td>
-		<td>
-
-
-			无
-
-		</td>
-		<!-- 				<td> -->
-
-		<!-- 				</td> -->
-		<td>
-			<a href="../updateCustomer/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该个人客户吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	</tbody>
-</table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-</ul>
+	<div class="pagination">
+		<ul>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='customerClient/customerList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='customerClient/customerList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled controls"><a href="javascript:">当前
+				<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+				/ <input type="text" value="${page.pageSize}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+				页，共 ${page.count} 条</a></li>
+		</ul>
 	<div style="clear:both;"></div></div>
+</form>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){
