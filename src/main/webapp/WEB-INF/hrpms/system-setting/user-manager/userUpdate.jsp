@@ -36,6 +36,22 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+        $(function () {
+            $.post(
+                "datadict/selectByName",
+                {"name":"用户状态"},
+                function (json) {
+                    var str="";
+                    for(var i=0;i<json.length;i++){
+                        str +="<option value='"+json[i].value+"'>"+json[i].label+"</option>"
+                    }
+                    $("#status").html(str);
+                },
+                "json"
+            );
+        });
+
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -105,24 +121,87 @@
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select id="status" name="status" class="input-xlarge">
-				<c:if test="${requestScope.systemUser.status=='0'}" var="bo">
-					<option value="0">正常</option>
+				<c:if test="${requestScope.systemUser.status==0}" var="bo">
+					<option value="0" selected>正常</option>
 				</c:if>
 				<c:if test="${!bo}">
-					<option value="1">删除</option>
+					<option value="1" selected>删除</option>
 				</c:if>
-				<option value="0" >正常</option>
-				<option value="1">删除</option>
 			</select>
 		</div>
 	</div>
-	<%--<div class="control-group">
+	<div class="control-group">
 		<label class="control-label">用户角色:</label>
-		<div class="controls">
-			<span><input id="userRoleList1" name="userRoleList" class="required" type="checkbox" value="1"><label for="userRoleList1">系统管理员</label></span><span><input id="userRoleList2" name="userRoleList" class="required" type="checkbox" value="2"><label for="userRoleList2">部门管理员</label></span><span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3"><label for="userRoleList3">test</label></span><input type="hidden" name="_userRoleList" value="on">
-			<span class="help-inline"><font color="red">*</font> </span>
-		</div>
-	</div>--%>
+			<div class="controls">
+				<c:if test="${requestScope.systemUser.tbUserRole.roleId==1}" var="bo">
+					<span><input id="userRoleList1" name="userRoleId"  class="required" checked  type="radio" value="1">
+					<label for="userRoleList1">系统管理员</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="2">
+					<label for="userRoleList1">高管</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="3">
+					<label for="userRoleList1">业务经理</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="4">
+					<label for="userRoleList1">业务人员</label>
+					</span>
+					<span class="help-inline"><font color="red">*</font> </span>
+				</c:if>
+
+				<c:if test="${requestScope.systemUser.tbUserRole.roleId==2}" var="bo2">
+					<span><input id="userRoleList2" name="userRoleId"  class="required" checked type="radio" value="2">
+					<label for="userRoleList2">高管</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="1">
+					<label for="userRoleList1">系统管理员</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="3">
+					<label for="userRoleList1">业务经理</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="4">
+					<label for="userRoleList1">业务人员</label>
+					</span>
+					<span class="help-inline"><font color="red">*</font> </span>
+				</c:if>
+
+				<c:if test="${requestScope.systemUser.tbUserRole.roleId==3}" var="bo3">
+					<span><input id="userRoleList3" name="userRoleId" class="required" checked type="radio" value="3">
+					<label for="userRoleList3">业务经理</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="1">
+					<label for="userRoleList1">系统管理员</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="2">
+					<label for="userRoleList1">高管</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="4">
+					<label for="userRoleList1">业务人员</label>
+					</span>
+					<span class="help-inline"><font color="red">*</font> </span>
+				</c:if>
+
+				<c:if test="${requestScope.systemUser.tbUserRole.roleId==4}" var="bo4">
+					<span><input id="userRoleList4" name="userRoleId" class="required" checked type="radio" value="4">
+					<label for="userRoleList4">业务人员</label>
+				</span>
+					<input type="hidden" name="_userRoleList" value="on">
+					<span class="help-inline"><font color="red">*</font> </span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="1">
+					<label for="userRoleList1">系统管理员</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="2">
+					<label for="userRoleList1">高管</label>
+					</span>
+					<span><input  name="userRoleId"  class="required" type="radio" value="3">
+					<label for="userRoleList1">业务经理</label>
+					</span>
+					<span class="help-inline"><font color="red">*</font> </span>
+				</c:if>
+
+
+			</div>
+	</div>
 	<div class="control-group">
 		<label class="control-label">备注信息：</label>
 		<div class="controls">

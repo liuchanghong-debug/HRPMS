@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -45,32 +46,46 @@
             $("#searchForm").submit();
             return false;
         }
+
+        function openFile() {
+            $("#file").click();
+        }
+        function upload() {
+            $("#fileSubmit").click();
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">工资列表</a></li>
-	<li><a href="../addSalary/saved_resource.html">代发工资</a></li>
+	<li class="active"><a href="salary-manager/selectSalaryByDuo?flag=1">工资列表</a></li>
+	<li><a href="salary-manager/addSalaryJsp">代发工资</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
+<form id="searchForm" class="breadcrumb form-search" action="salary-manager/selectSalaryByDuo?flag=1" method="post">
+<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-medium" type="text" value="" maxlength="20">
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="查询"></li>
+		</form>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='salary-manager/salaryModleDownload?name=客户工资模板'" value="模板下载"></li>
+		<li class="btns">
+			<form action="salary-manager/salaryUpload" method="post" id="fileUpload" enctype="multipart/form-data">
+				<input class="btn btn-primary" type="button" value="导入" onclick="openFile()">
+				<input type="file" name="file" id="file" onchange="upload()" style="display: none" accept="application/Excel,application/vnd.ms-excel">
+				<input type="submit" style="display: none" id="fileSubmit">
+			</form>
+		</li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='salary-manager/salaryDownload'" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
-</form>
+
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -96,62 +111,70 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td><a href="../updateSalary/saved_resource_unEdit.html">
-			1000
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			62258837171508232
-		</td>
-		<td>
-			2017-10-01
-		</td>
-		<td>
-			8000
-		</td>
-		<td>
-			1000
-		</td>
-		<td>
-			1000
-		</td>
-		<td>
-			870
-		</td>
-		<td>
-			500
-		</td>
-		<td>
-			130
-		</td>
-		<td>
-			10000
-		</td>
-		<td>
-			8500
-		</td>
-		<td>
-			75
-		</td>
-		<td>
-			<a href="../updateSalary/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该工资吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+	<c:forEach items="${page.dataList}" var="salary">
+		<tr>
+			<td><a href="salary-manager/selectSalaryById?id=${salary.id}&flag=1">
+				${salary.id}
+			</a></td>
+			<td>
+				${salary.name}
+			</td>
+			<td>
+				${salary.idCard}
+			</td>
+			<td>
+				${salary.payCard}
+			</td>
+			<td>
+				${salary.payDate}
+			</td>
+			<td>
+				${salary.baseSalary}
+			</td>
+			<td>
+				${salary.bonusPay}
+			</td>
+			<td>
+				${salary.overTimePay}
+			</td>
+			<td>
+				${salary.sheBaoPay}
+			</td>
+			<td>
+				${salary.gongJiJinPay}
+			</td>
+			<td>
+				${salary.taxPay}
+			</td>
+			<td>
+				${salary.totalPay}
+			</td>
+			<td>
+				${salary.mustPay}
+			</td>
+			<td>
+				${salary.proxyFee}
+			</td>
+			<td>
+				<a href="salary-manager/selectSalaryById?id=${salary.id}&flag=2">修改</a>
+				<a href="/salary-manager/deleteSalaryById?id=${salary.id}" onclick="return confirmx(&#39;确认要删除该工资吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+
+	</c:forEach>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
+	<li class="disabled"><a href="salary-manager/selectSalaryByDuo?currentPage=${page.currentPage-1}&name=${map.name}&idCard=${map.idCard}&flag=1">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="salary-manager/selectSalaryByDuo?currentPage=${num}&name=${map.name}&idCard=${map.idCard}&flag=1">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="salary-manager/selectSalaryByDuo?currentPage=${page.currentPage+1}&name=${map.name}&idCard=${map.idCard}&flag=1">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

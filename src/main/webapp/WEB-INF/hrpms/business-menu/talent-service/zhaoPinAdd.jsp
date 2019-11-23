@@ -60,10 +60,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../zhaopinList/saved_resource.html">招聘信息列表</a></li>
-	<li class="active"><a href="saved_resource.html">招聘信息添加</a></li>
+	<li><a href="talent-service/selectNeedJobByDuo">招聘信息列表</a></li>
+	<li class="active"><a href="talent-service/addNeedJobJsp">招聘信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="talent-service/addNeedJob" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
@@ -112,8 +112,9 @@
 			<td><label class="control-label">结算方式：</label></td>
 			<td>
 				<select path="paytype" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
-					<option value="">日结</option>
-					<option value="">月结</option>
+					<option value="0">日结</option>
+					<option value="1">月结</option>
+					<option value="2">其他</option>
 				</select>
 			</td>
 		</tr>
@@ -126,10 +127,10 @@
 		<tr>
 			<td><label class="control-label">开始日期：</label></td>
 			<td>
-				<input name="starttime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
+				<input name="starttime" type="date" readonly="readonly" maxlength="20" class="input-medium Wdate " value="">
 			</td>
 			<td><label class="control-label">结束日期：</label></td>
-			<td><input name="endtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});"></td>
+			<td><input name="endtime" type="date" readonly="readonly" maxlength="20" class="input-medium Wdate " value=""></td>
 		</tr>
 
 		<tr>

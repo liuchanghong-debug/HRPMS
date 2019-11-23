@@ -13,7 +13,7 @@
 	<title>用户信息管理 - Powered By JeeSite</title>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
-	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+
 	<link href="js/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet" />
@@ -35,7 +35,24 @@
 
 
 	<meta name="decorator" content="default">
+	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+
+        $(function () {
+            $.post(
+                "datadict/selectByName",
+                {"name":"用户状态"},
+                function (json) {
+                    var str="<option value='' selected>全部</option>";
+                    for(var i=0;i<json.length;i++){
+                        str +="<option value='"+json[i].value+"'>"+json[i].label+"</option>"
+                    }
+                    $("#status").html(str);
+                },
+                "json"
+            );
+        });
+
         $(document).ready(function() {
 
         });
@@ -66,9 +83,6 @@
 		</li>
 		<li><label>状态：</label>
 			<select id="status" name="status" class="input-medium">
-				<option value="" selected="selected">全部</option>
-				<option value="0">正常</option>
-				<option value="1">删除</option>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
@@ -135,7 +149,7 @@
 	<li class="disabled"><a href="user-manager/selectSystemUserByDuo?currentPage=${page.currentPage+1}&username=${map.username}&phone=${map.phone}&status=${map.status}">下一页</a></li>
 	<li class="disabled controls"><a href="javascript:">当前
 		<input type="text" value="${page.currentPage}" readonly> /
-		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 条</a></li>
+		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

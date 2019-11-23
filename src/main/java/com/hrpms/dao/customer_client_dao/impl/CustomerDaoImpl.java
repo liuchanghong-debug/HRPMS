@@ -5,6 +5,10 @@ import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.operaton_select.TbCustomerOperation;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.hrpms.pojo.TbCustomer;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -65,5 +69,14 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public TbCustomer getCustomerByIdCard(String hql, String idCard) {
         return (TbCustomer) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Override
+    public List<TbCustomer> selectAllCustomerName() {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbCustomer> list = session.createQuery("from TbCustomer where isSalary = 0 ").list();
+        return list;
     }
 }

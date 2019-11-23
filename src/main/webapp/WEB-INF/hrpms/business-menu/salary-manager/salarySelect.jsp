@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -63,108 +64,91 @@
 	<li><a href="../salaryList/saved_resource.html">工资列表</a></li>
 	<li class="active"><a href="saved_resource_unEdit.html">代发工资修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1000">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
+			<<input type="hidden" name="id" value="${tbSalary.id}">
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="412724180000001511" maxlength="20" disabled="disabled">
+				<input id="name" name="name" class="input-xlarge "  type="text" value="${tbSalary.name}" readonly maxlength="20">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge required" type="text" value="412724180000001511" maxlength="20"  disabled="disabled">
-				<span class="help-inline"><font color="red">*</font> </span>
+			<td><input id="idcard" name="idCard" class="input-xlarge required" type="text" value="${tbSalary.idCard}" readonly maxlength="20">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">银行卡号：</label></td>
 			<td>
-				<input id="paycard" name="paycard" class="input-xlarge " type="text" value="62258837171508232" maxlength="20"  disabled="disabled">
+				<input id="paycard" name="payCard" class="input-xlarge " readonly type="text" value="${tbSalary.payCard}" maxlength="20">
 			</td>
 			<td><label class="control-label">基本工资：</label></td>
 			<td>
-				<input id="basesalary" name="basesalary" class="input-xlarge " type="text" value="8000"  disabled="disabled">
+				<input id="basesalary" name="baseSalary" class="input-xlarge " readonly type="text" value="${tbSalary.baseSalary}">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">奖金：</label></td>
-			<td><input id="bonuspay" name="bonuspay" class="input-xlarge " type="text" value="1000"  disabled="disabled"></td>
+			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " readonly type="text" value="${tbSalary.bonusPay}"></td>
 			<td><label class="control-label">加班费：</label></td>
-			<td><input id="overtimepay" name="overtimepay" class="input-xlarge " type="text" value="1000"  disabled="disabled"></td>
+			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " readonly type="text" value="${tbSalary.overTimePay}"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">社保扣费：</label></td>
-			<td><input id="shebaopay" name="shebaopay" class="input-xlarge " type="text" value="870"  disabled="disabled"></td>
+			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " readonly type="text" value="${tbSalary.sheBaoPay}"></td>
 			<td><label class="control-label">公积金扣费：</label></td>
-			<td><input id="gongjijinpay" name="gongjijinpay" class="input-xlarge " type="text" value="500"  disabled="disabled"></td>
+			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " readonly type="text" value="${tbSalary.gongJiJinPay}"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">应交税款：</label></td>
-			<td><input id="taxpay" name="taxpay" class="input-xlarge " type="text" value="130"  disabled="disabled"></td>
+			<td><input id="taxpay" name="taxPay" class="input-xlarge " type="text" readonly value="${tbSalary.taxPay}"></td>
 			<td><label class="control-label">应发工资：</label></td>
 			<td>
-				<input id="totalpay" name="totalpay" class="input-xlarge required" type="text" value="10000"  disabled="disabled">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="totalpay" name="totalPay" class="input-xlarge required" readonly type="text" value="${tbSalary.totalPay}">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">实发工资：</label></td>
 			<td>
-				<input id="mustpay" name="mustpay" class="input-xlarge required" type="text" value="8500"  disabled="disabled">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="mustpay" name="mustPay" class="input-xlarge required" readonly type="text" value="${tbSalary.mustPay}">
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td>
-				<input id="proxyfee" name="proxyfee" class="input-xlarge " type="text" value="75"  disabled="disabled">
+				<input id="proxyfee" name="proxyFee" class="input-xlarge " readonly type="text" value="${tbSalary.proxyFee}">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">状态：</label></td>
 			<td>
-				<select name="status" class="input-xlarge"  disabled="disabled">
-					<option value="">已发
-					</option><option value="">未发
-				</option></select>
+				<c:if test="${tbSalary.status=='0'}" var="bo">
+					<input id="status" name="status" class="input-xlarge " type="text" readonly value="已发">
+				</c:if>
+				<c:if test="${!bo}">
+					<input id="status" name="status" class="input-xlarge " type="text" readonly value="未发">
+				</c:if>
+
 			</td>
 
 			<td><label class="control-label">支付日期：</label></td>
 			<td>
-				<input name="paydate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="2017-10-01" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;,isShowClear:false});" disabled="disabled">
+				<input id="paydate" name="payDate" class="input-xlarge " type="text" readonly value="${tbSalary.payDate}">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">备注：</label></td>
-			<td colspan="3"><input id="remark" name="remark" class="input-xlarge " type="text" value="test" maxlength="256"  disabled="disabled"></td>
+			<td colspan="3"><input id="remark" name="remark" class="input-xlarge " readonly type="text" value="${tbSalary.remark}" maxlength="256"></td>
 		</tr>
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"  disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
-</form>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){

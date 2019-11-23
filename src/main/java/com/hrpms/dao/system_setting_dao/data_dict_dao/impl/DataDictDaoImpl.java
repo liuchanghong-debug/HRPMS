@@ -3,6 +3,7 @@ package com.hrpms.dao.system_setting_dao.data_dict_dao.impl;
 import com.hrpms.dao.system_setting_dao.data_dict_dao.DataDictDao;
 import com.hrpms.pojo.TbSystemDict;
 import com.hrpms.pojo.operaton_select.TbSystemDictOperation;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -70,5 +71,14 @@ public class DataDictDaoImpl implements DataDictDao {
     public String getDataDictValueByNameAndLabel(Map map) {
         TbSystemDict tbSystemDict = (TbSystemDict) sessionFactory.getCurrentSession().createQuery((String) map.get("hql")).setProperties(map).uniqueResult();
         return tbSystemDict.getValue();
+    }
+
+    @Override
+    public List<TbSystemDict>  selectByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbSystemDict> list = session.createQuery("from TbSystemDict where name=?")
+                            .setParameter(0, name)
+                            .list();
+        return list;
     }
 }

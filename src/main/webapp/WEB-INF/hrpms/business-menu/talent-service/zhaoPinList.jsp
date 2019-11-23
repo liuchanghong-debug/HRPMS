@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -50,10 +51,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">招聘信息列表</a></li>
-	<li><a href="../addZhaopin/saved_resource.html">招聘信息添加</a></li>
+	<li class="active"><a href="talent-service/selectNeedJobByDuo">招聘信息列表</a></li>
+	<li><a href="talent-service/addNeedJobJsp">招聘信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="talent-service/selectNeedJobByDuo" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
@@ -61,7 +62,7 @@
 			<input id="jobname" name="jobname" class="input-medium" type="text" value="" maxlength="100">
 		</li>
 		<li><label>需求职位：</label>
-			<input id="jobtype" name="jobtype" class="input-medium" type="text" value="" maxlength="2">
+			<input id="jobtype" name="jobType" class="input-medium" type="text" value="" maxlength="2">
 		</li>
 		<li><label>所属行业：</label>
 			<select name="industry" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
@@ -77,7 +78,7 @@
 			</select>
 		</li>
 		<li><label>发布公司：</label>
-			<select name="companyid" style="width:180px;" tabindex="-1" class="select2-offscreen">
+			<select name="companyId" style="width:180px;" tabindex="-1" class="select2-offscreen">
 				<option value="">智递科技</option>
 			</select>
 		</li>
@@ -109,56 +110,101 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td><a href="../updateZhaoPin/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			JAVA开发工程师
-		</td>
-		<td>
-			JAVA开发工程师
-		</td>
-		<td>
+	<c:forEach items="${page.dataList}" var="needjob">
+		<tr>
+			<td><a href="../updateZhaoPin/saved_resource_unEdit.html">
+				${needjob.id}
+			</a></td>
+			<td>
+				${needjob.jobName}
+			</td>
+			<td>
+				${needjob.jobType}
+			</td>
+			<td>
+				<c:if test="${needjob.industry=='0'}">
+					软件互联网
+				</c:if>
+				<c:if test="${needjob.industry=='1'}">
+					建筑房地产
+				</c:if>
+				<c:if test="${needjob.industry=='2'}">
+					商业服务业
+				</c:if>
+				<c:if test="${needjob.industry=='3'}">
+					金融业
+				</c:if>
+				<c:if test="${needjob.industry=='4'}">
+					贸易批发零售
+				</c:if>
+				<c:if test="${needjob.industry=='5'}">
+					文体教育传媒
+				</c:if>
+				<c:if test="${needjob.industry=='6'}">
+					加工制造
+				</c:if>
+				<c:if test="${needjob.industry=='7'}">
+					农林牧副渔
+				</c:if>
+				<c:if test="${needjob.industry=='8'}">
+					其他
+				</c:if>
 
-			软件互联网
-		</td>
-		<td>
-			5
-		</td>
-		<td>
+			</td>
+			<td>
+				${needjob.needPerson}
+			</td>
+			<td>
+				<c:if test="${needjob.payType=='0'}">
+					月结
+				</c:if>
+				<c:if test="${needjob.payType=='1'}">
+					日结
+				</c:if>
+				<c:if test="${needjob.payType=='1'}">
+					其他
+				</c:if>
+			</td>
+			<td>
+				${needjob.price}
+			</td>
+			<td>
+				上海瑞星软件科技有限公司
+			</td>
+			<td>
+					${needjob.startTime}
+			</td>
+			<td>
+					${needjob.endTime}
+			</td>
+			<td>
+				${needjob.address}
+			</td>
+			<td>
+				<c:if test="${needjob.status=='0'}">
+					有效
+				</c:if>
+				<c:if test="${needjob.status=='1'}">
+					无效
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${needjob.infoType=='0'}">
+					本公司招聘
+				</c:if>
+				<c:if test="${needjob.infoType=='1'}">
+					合作公司招聘信息
+				</c:if>
 
-			月结
-		</td>
-		<td>
-			5000
-		</td>
-		<td>
+			</td>
+			<td>
+				<a href="../updateZhaoPin/saved_resource.html">修改</a>
+				<a href="#">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
-			上海瑞星软件科技有限公司
-		</td>
-		<td>
-			2017-11-08
-		</td>
-		<td>
-			2017-11-08
-		</td>
-		<td>
 
-		</td>
-		<td>
-
-			有效
-		</td>
-		<td>
-
-			合作公司招聘信息
-		</td>
-		<td>
-			<a href="../updateZhaoPin/saved_resource.html">修改</a>
-			<a href="#">删除</a>
-		</td>
-	</tr>
 
 	</tbody>
 </table>

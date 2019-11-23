@@ -42,7 +42,8 @@ public class TbUserRole {
     }
 
 
-    @OneToOne(mappedBy = "tbUserRole")
+    @OneToOne
+    @JoinColumn(name="userId",insertable = false,updatable = false)
     public TbSystemUser getTbSystemUser() {
         return tbSystemUser;
     }
@@ -52,7 +53,7 @@ public class TbUserRole {
     }
 
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="roleId",insertable = false,updatable = false)
     public TbSystemRole getTbSystemRole() {
         return tbSystemRole;
     }

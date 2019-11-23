@@ -292,15 +292,15 @@
                         <div id="collapse-b4fc47cd82fd4fe09121453bd38a66bd" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-2c765c9e8732493b871991c61e6b9f79" href="salaryList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资查询</a>
+                                    <li><a data-href=".menu3-2c765c9e8732493b871991c61e6b9f79" href="salary-manager/selectSalaryByDuo?flag=1" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资查询</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-d4b19671327649c9bb365ad8ca91ae5b" href="addSalary/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;代发工资</a>
+                                    <li><a data-href=".menu3-d4b19671327649c9bb365ad8ca91ae5b" href="salary-manager/addSalaryJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;代发工资</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-669903bb7774467993f46bd981e5f72d" href="salaryPer/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资条</a>
+                                    <li><a data-href=".menu3-669903bb7774467993f46bd981e5f72d" href="salary-manager/selectSalaryByDuo?flag=2" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资条</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -315,7 +315,7 @@
                         <div id="collapse-2d661bc23f10434ab743ea292c22edcc" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-92cef87c45734b0592953b544d55818b" href="zhaopinList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;招聘信息</a>
+                                    <li><a data-href=".menu3-92cef87c45734b0592953b544d55818b" href="talent-service/selectNeedJobByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;招聘信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

@@ -1,12 +1,10 @@
 package com.hrpms.dao.customer_client_dao;
 
+/**
 import com.hrpms.pojo.TbCustomer;
-import com.hrpms.pojo.operaton_select.TbCustomerOperation;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
  * @author GoldFish
  * @package HRPMS > com.hrpms.dao.customer_client_dao > CustomerDao
  * @description TODO
@@ -48,23 +46,23 @@ public interface CustomerDao {
     void customerUpdate(TbCustomer customer);
     /**
      * 根据条件查询所有数据用于导出
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     List<TbCustomer> costomerByOperationOutOfExcel(String hql, TbCustomerOperation customerOperation);
-    
-    
-    
+
+
+
     /**
      * 不在集合中的数据对象
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     List<Object[]> getDataOfNotInList(String hql, List list);
     /**
      * 所有数据  无条件
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     List<Object[]> getData(String hql);
     /**
@@ -73,4 +71,6 @@ public interface CustomerDao {
      * @return
      **/
     TbCustomer getCustomerByIdCard(String hql, String idCard);
+    //查询所有客户名称
+    public List<TbCustomer> selectAllCustomerName();
 }

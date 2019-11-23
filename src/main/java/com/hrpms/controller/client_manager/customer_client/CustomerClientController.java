@@ -1,6 +1,7 @@
 package com.hrpms.controller.client_manager.customer_client;
 
 import com.hrpms.pojo.TbCustomer;
+import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbSystemDict;
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.pojo.operaton_select.TbCustomerOperation;
@@ -10,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Objects;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,8 +55,8 @@ public class CustomerClientController {
     }
     /**
      * 查看详细信息
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     @RequestMapping("/customerMess")
     public String customerMess(Integer id, Model model){
@@ -76,8 +81,8 @@ public class CustomerClientController {
     }
     /**
      * 修改页面
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     @RequestMapping("/customerUpdate")
     public String customerUpdate(Integer id, Integer currentPage, TbCustomerOperation customerOperation, Model model){
@@ -122,6 +127,13 @@ public class CustomerClientController {
 
         return "business-menu/client-manager/individual-client/customerAdd";
     }
+
+    @RequestMapping("/selectAllCustomerName")
+    @ResponseBody
+    public List<TbCustomer> selectAllCustomerName(){
+        List<TbCustomer> list = customerService.selectAllCustomerName();
+        return list;
+    }
     /**
      * 添加数据
      * @param
@@ -148,8 +160,8 @@ public class CustomerClientController {
     }
     /**
      * 模板下载
-     * @param 
-     * @return 
+     * @param
+     * @return
      **/
     @RequestMapping("/customerTemplateDownload")
     public void customerTemplateDownload(String name, HttpServletRequest request, HttpServletResponse response) throws Exception {

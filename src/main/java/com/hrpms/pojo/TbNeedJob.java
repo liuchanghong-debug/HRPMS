@@ -2,6 +2,9 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,6 +16,7 @@ import java.util.Date;
  * @versiion 1.0
  * @Description:劳务需求信息表
  */
+@Entity
 public class TbNeedJob {
     private Integer id;//编号  主键
     private String jobName;//需求名称  非空
@@ -37,6 +41,8 @@ public class TbNeedJob {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }

@@ -2,6 +2,8 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,8 +15,10 @@ import java.util.Date;
  * @versiion 1.0
  * @Description:工资表
  */
-public class TbSalary {
+@Entity
+public class TbSalary implements Serializable{
     private Integer id;//工资编号  主键
+    private String name;//客户名称 非空
     private String idCard;//身份证号  非空
     private String payCard;//银行卡号
     private Date payDate;//发放月份
@@ -28,14 +32,16 @@ public class TbSalary {
     private Double mustPay;//实发金额
     private Double proxyFee;//代理费用
     private String status;//状态  0 已发  1 未发
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
+
     private Timestamp createTime;//创建时间
     private Integer createBy;//创建者
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     private Timestamp updateTime;//更新时间
     private Integer updateBy;//更新者
     private String remark;//备注
 
+
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }
@@ -48,6 +54,7 @@ public class TbSalary {
         return payCard;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getPayDate() {
         return payDate;
     }
@@ -88,6 +95,7 @@ public class TbSalary {
         return proxyFee;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     public String getStatus() {
         return status;
     }
@@ -100,6 +108,7 @@ public class TbSalary {
         return createBy;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     public Timestamp getUpdateTime() {
         return updateTime;
     }
@@ -186,5 +195,13 @@ public class TbSalary {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

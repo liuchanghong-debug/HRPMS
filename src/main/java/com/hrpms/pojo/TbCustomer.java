@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ import java.util.Date;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-public class TbCustomer {
+public class TbCustomer implements Serializable{
     private Integer id;//客户编号  主键
     private String name;//客户名称  非空
     private String idCard;//身份证号
@@ -47,6 +48,8 @@ public class TbCustomer {
     private Timestamp updateTime;//更新时间
     private Integer updateBy;//更新者
     private String remark;//备注
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -243,4 +246,6 @@ public class TbCustomer {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+
 }

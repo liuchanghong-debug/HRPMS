@@ -45,9 +45,9 @@ public class SystemUserController {
 
     //添加系统用户
     @RequestMapping("/addSystemUser")
-    public String addSystemUser(TbSystemUser tbSystemUser){
-        tbSystemUser.setCreateTime(new Date());
-        systemUserService.addSystemUser(tbSystemUser);
+    public String addSystemUser(TbSystemUser tbSystemUser,Integer userRoleId){
+        tbSystemUser.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        systemUserService.addSystemUser(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
     }
 
@@ -65,9 +65,9 @@ public class SystemUserController {
 
     //根据id修改系统用户
     @RequestMapping("/updateSystemUserById")
-    public String updateSystemUserById(TbSystemUser tbSystemUser){
+    public String updateSystemUserById(TbSystemUser tbSystemUser,Integer userRoleId){
         tbSystemUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        systemUserService.updateSystemUserById(tbSystemUser);
+        systemUserService.updateSystemUserById(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
     }
 
