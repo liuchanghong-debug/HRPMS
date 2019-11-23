@@ -1,5 +1,7 @@
 package com.hrpms.service.customer_client_service.impl;
 
+import com.hrpms.dao.customer_client_dao.CustomerDao;
+import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbSystemDict;
 import com.hrpms.service.customer_client_service.CustomerService;
 import com.hrpms.service.system_setting_service.data_dict_service.DataDictService;
@@ -23,8 +25,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private DataDictService dataDictService;
 
+    @Autowired
+    private CustomerDao customerDao;
+
     @Override
     public List<TbSystemDict> getDataDictByName(String name) {
         return dataDictService.getDataDictByName(name);
+    }
+
+    @Override
+    public List<TbCustomer> selectAllCustomerName() {
+        return customerDao.selectAllCustomerName();
     }
 }

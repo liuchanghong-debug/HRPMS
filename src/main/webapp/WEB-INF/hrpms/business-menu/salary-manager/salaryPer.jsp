@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -51,35 +52,23 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#">工资条</a></li>
+	<li class="active"><a href="salary-manager/selectSalaryByDuo?flag=2">工资条</a></li>
 
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="salary-manager/selectSalaryByDuo?flag=2" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-medium" type="text" value="" maxlength="20">
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -109,67 +98,75 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			62258837171508232
-		</td>
-		<td>
-			2017-10-01
-		</td>
-		<td>
-			8000
-		</td>
-		<td>
-			1000
-		</td>
-		<td>
-			1000
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			100
-		</td>
-		<td>
-			70
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			570
-		</td>
-		<td>
-			130
-		</td>
-		<td>
-			10000
-		</td>
-		<td>
-			8500
-		</td>
-	</tr>
+	<c:forEach items="${page.dataList}" var="salary">
+		<tr>
+			<td>
+					${salary.name}
+			</td>
+			<td>
+					${salary.idCard}
+			</td>
+			<td>
+					${salary.payCard}
+			</td>
+			<td>
+					${salary.payDate}
+			</td>
+			<td>
+					${salary.baseSalary}
+			</td>
+			<td>
+				1000
+			</td>
+			<td>
+				1000
+			</td>
+			<td>
+				200
+			</td>
+			<td>
+				200
+			</td>
+			<td>
+				200
+			</td>
+			<td>
+				100
+			</td>
+			<td>
+				70
+			</td>
+			<td>
+					${salary.taxPay}
+			</td>
+			<td>
+				570
+			</td>
+			<td>
+				1000
+			</td>
+			<td>
+					${salary.totalPay}
+			</td>
+			<td>
+					${salary.mustPay}
+			</td>
+		</tr>
+	</c:forEach>
+
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
+	<li class="disabled"><a href="salary-manager/selectSalaryByDuo?currentPage=${page.currentPage-1}&name=${map.name}&idCard=${map.idCard}&flag=2">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="salary-manager/selectSalaryByDuo?currentPage=${num}&name=${map.name}&idCard=${map.idCard}&flag=2">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="salary-manager/selectSalaryByDuo?currentPage=${page.currentPage+1}&name=${map.name}&idCard=${map.idCard}&flag=2">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

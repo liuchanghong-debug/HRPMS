@@ -1,5 +1,6 @@
 package com.hrpms.service.customer_client_service;
 
+import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbSystemDict;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface CustomerService {
      * @return
      **/
     List<TbSystemDict> getDataDictByName(String name);
+
+
+    //查询所有客户名称
+    public List<TbCustomer> selectAllCustomerName();
 }

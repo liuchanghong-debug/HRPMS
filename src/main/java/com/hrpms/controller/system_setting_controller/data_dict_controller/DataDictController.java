@@ -10,10 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author GoldFish
@@ -124,5 +126,14 @@ public class DataDictController {
     public String dictDelete(Integer id, Integer currentPage, TbSystemDictOperation dataDictOperation, Model model){
         dataDictService.dataDictDelete(id);
         return datadictList(currentPage, dataDictOperation, model);
+    }
+
+
+    //根据字典名查询状态
+    @RequestMapping("/selectByName")
+    @ResponseBody
+    public List<TbSystemDict> selectByName(String name){
+        List<TbSystemDict> tbSystemDicts = dataDictService.selectByName(name);
+        return tbSystemDicts;
     }
 }

@@ -1,5 +1,9 @@
 package com.hrpms.dao.customer_client_dao;
 
+import com.hrpms.pojo.TbCustomer;
+
+import java.util.List;
+
 /**
  * @author GoldFish
  * @package HRPMS > com.hrpms.dao.customer_client_dao > CustomerDao
@@ -9,4 +13,6 @@ package com.hrpms.dao.customer_client_dao;
  * @Description:
  */
 public interface CustomerDao {
+    //查询所有客户名称
+    public List<TbCustomer> selectAllCustomerName();
 }

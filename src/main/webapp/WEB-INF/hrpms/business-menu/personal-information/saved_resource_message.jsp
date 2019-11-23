@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -61,46 +62,13 @@
 	<li class="active"><a href="personal-information/userPersonalInformation">个人信息</a></li>
 	<li><a href="personal-information/updateUserPassword">修改密码</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
-		<label class="control-label">头像:</label>
+		<%--<label class="control-label">头像:</label>
 		<div class="controls">
 			<input id="nameImage" name="photo" maxlength="255" class="input-xlarge" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			<ol id="nameImagePreview"><li style="list-style:none;padding-top:5px;">无</li></ol><a href="javascript:" onclick="nameImageFinderOpen();" class="btn">选择</a>&nbsp;<a href="javascript:" onclick="nameImageDelAll();" class="btn">清除</a>
@@ -173,59 +141,60 @@
 		<div class="controls">
 			<label class="lbl">公司领导</label>
 		</div>
-	</div>
+	</div>--%>
 	<div class="control-group">
 		<label class="control-label">姓名:</label>
-		<div class="controls">
-			<input id="name" name="name" class="required" readonly="readonly" type="text" value="${tbSystemUser.username}" maxlength="50">
-		</div>
+		${tbSystemUser.username}
 	</div>
 	<div class="control-group">
 		<label class="control-label">邮箱:</label>
-		<div class="controls">
-			<input id="email" name="email" class="email" type="text" value="${tbSystemUser.email}" maxlength="50">
-		</div>
+		${tbSystemUser.email}
 	</div>
-	<div class="control-group">
+	<%--<div class="control-group">
 		<label class="control-label">电话:</label>
 		<div class="controls">
 			<input id="phone" name="phone" type="text" value="" maxlength="50">
 		</div>
-	</div>
+	</div>--%>
 	<div class="control-group">
 		<label class="control-label">手机:</label>
-		<div class="controls">
-			<input id="mobile" name="mobile" type="text" value="${tbSystemUser.phone}" maxlength="50">
-		</div>
+		${tbSystemUser.phone}
 	</div>
 	<div class="control-group">
 		<label class="control-label">备注:</label>
-		<div class="controls">
-			<textarea id="remarks" name="remarks" maxlength="200" class="input-xlarge" rows="3"></textarea>
-		</div>
+		${tbSystemUser.userNote}
 	</div>
-	<div class="control-group">
+	<%--<div class="control-group">
 		<label class="control-label">用户类型:</label>
 		<div class="controls">
 			<label class="lbl">无</label>
 		</div>
-	</div>
+	</div>--%>
 	<div class="control-group">
 		<label class="control-label">用户角色:</label>
-		<div class="controls">
-			<label class="lbl">部门管理员</label>
-		</div>
+		<c:if test="${tbSystemUser.tbUserRole.roleId==1}">
+			系统管理员
+		</c:if >
+		<c:if test="${tbSystemUser.tbUserRole.roleId==2}">
+			高管
+		</c:if>
+		<c:if test="${tbSystemUser.tbUserRole.roleId==3}">
+			业务经理
+		</c:if>
+		<c:if test="${tbSystemUser.tbUserRole.roleId==4}">
+			业务人员
+		</c:if>
 	</div>
-	<div class="control-group">
+	<%--<div class="control-group">
 		<label class="control-label">上次登录:</label>
 		<div class="controls">
 			<label class="lbl">IP: 0:0:0:0:0:0:0:1&nbsp;&nbsp;&nbsp;&nbsp;时间：2017年11月17日 星期五 16:51:18</label>
 		</div>
-	</div>
-	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
-	</div>
-</form>
+	</div>--%>
+	<%--<div class="form-actions">
+		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
+	</div>--%>
+
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){

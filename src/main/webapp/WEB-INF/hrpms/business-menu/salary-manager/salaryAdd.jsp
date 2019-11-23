@@ -36,6 +36,76 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+		var customer =null;
+		$(function () {
+			$.post(
+			    "customerClient/selectAllCustomerName",
+				function (json) {
+			        customer=json;
+                    var str="<option value='' selected></option>";
+                    for(var i=0;i<json.length;i++){
+                        str +="<option value='"+json[i].name+"'>"+json[i].name+"</option>"
+                    }
+                    $("#name").html(str);
+                },
+				"json"
+			);
+
+			$("#name").change(function () {
+				var name = $(this).val();
+				for(var i=0;i<customer.length;i++){
+				    if(customer[i].name==name){
+				        $("#idcard").val(customer[i].idCard)
+					}
+				}
+            });
+
+
+            var baseSalary =0;
+            var bonus = 0;
+            var shebao = 0;
+            var overtimepay = 0;
+            var gongjijin = 0;
+            var taxpay = 0;
+            var proxy =0;
+			$("#basesalary").blur(function () {
+                baseSalary= parseFloat($(this).val());
+                shebao=baseSalary*0.102;
+				$("#shebaopay").val(shebao);
+                gongjijin=baseSalary*0.08;
+				$("#gongjijinpay").val(gongjijin);
+				var salary=baseSalary-baseSalary*0.102-5000.0;
+				if(salary>0){
+                    taxpay=salary*0.03;
+                    $("#taxpay").val(taxpay)
+				}else {
+                    taxpay=0;
+                    $("#taxpay").val(taxpay);
+				}
+
+            });
+
+			$("#bonuspay").blur(function () {
+                bonus= parseFloat($(this).val());
+                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+            });
+
+			$("#overtimepay").blur(function () {
+                overtimepay= parseFloat($(this).val());
+                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+            });
+
+			$("#proxyfee").blur(function () {
+                proxy= parseFloat($(this).val());
+				$("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+				$("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+            })
+        });
+
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -60,11 +130,12 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../salaryList/saved_resource.html">工资列表</a></li>
-	<li class="active"><a href="saved_resource.html">代发工资</a></li>
+	<li><a href="salary-manager/selectSalaryByDuo?flag=1">工资列表</a></li>
+	<li class="active"><a href="salary-manager/addSalaryJsp">代发工资</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="salary-manager/addSalary" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
+	<input name="createBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -73,43 +144,44 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
+				<select id="name" name="name" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+				</select>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
+			<td><input id="idcard" name="idCard" class="input-xlarge " readonly type="text" value="" maxlength="20">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">银行卡号：</label></td>
 			<td>
-				<input id="paycard" name="paycard" class="input-xlarge " type="text" value="" maxlength="20">
+				<input id="paycard" name="payCard" class="input-xlarge " type="text" value="" maxlength="20">
 			</td>
 			<td><label class="control-label">基本工资：</label></td>
 			<td>
-				<input id="basesalary" name="basesalary" class="input-xlarge " type="text" value="">
+				<input id="basesalary" name="baseSalary" class="input-xlarge " type="text" value="">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">奖金：</label></td>
-			<td><input id="bonuspay" name="bonuspay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " type="text" value=""></td>
 			<td><label class="control-label">加班费：</label></td>
-			<td><input id="overtimepay" name="overtimepay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " type="text" value=""></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">社保扣费：</label></td>
-			<td><input id="shebaopay" name="shebaopay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " type="text" value=""></td>
 			<td><label class="control-label">公积金扣费：</label></td>
-			<td><input id="gongjijinpay" name="gongjijinpay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " type="text" value=""></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">应交税款：</label></td>
-			<td><input id="taxpay" name="taxpay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="taxpay" name="taxPay" class="input-xlarge " type="text" value=""></td>
 			<td><label class="control-label">应发工资：</label></td>
 			<td>
-				<input id="totalpay" name="totalpay" class="input-xlarge required" type="text" value="">
+				<input id="totalpay" name="totalPay" class="input-xlarge required" type="text" value="">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -117,12 +189,12 @@
 		<tr>
 			<td><label class="control-label">实发工资：</label></td>
 			<td>
-				<input id="mustpay" name="mustpay" class="input-xlarge required" type="text" value="">
+				<input id="mustpay" name="mustPay" class="input-xlarge required" type="text" value="">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td>
-				<input id="proxyfee" name="proxyfee" class="input-xlarge " type="text" value="">
+				<input id="proxyfee" name="proxyFee" class="input-xlarge " type="text" value="">
 			</td>
 		</tr>
 
@@ -130,14 +202,14 @@
 			<td><label class="control-label">状态：</label></td>
 			<td>
 				<select name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="">已发
-					</option><option value="">未发
+					<option value="0">已发
+					</option><option value="1">未发
 				</option></select>
 			</td>
 
 			<td><label class="control-label">支付日期：</label></td>
 			<td>
-				<input name="paydate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd&#39;,isShowClear:false});">
+				<input name="payDate" type="date"  maxlength="20" class="input-medium Wdate " value="">
 			</td>
 		</tr>
 		<tr>

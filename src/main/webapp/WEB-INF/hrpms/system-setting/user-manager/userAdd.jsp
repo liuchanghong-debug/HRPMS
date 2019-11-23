@@ -14,7 +14,6 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta name="author" content="http://jeesite.com/"/>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
-	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet" />
@@ -33,11 +32,28 @@
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
-
-
 	<meta name="decorator" content="default">
+	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-        $(document).ready(function() {
+		$(function () {
+			$.post(
+			    "datadict/selectByName",
+				{"name":"用户状态"},
+				function (json) {
+                    var str="";
+                    for(var i=0;i<json.length;i++){
+                        str +="<option value='"+json[i].value+"'>"+json[i].label+"</option>"
+                    }
+                    $("#status").html(str);
+                },
+                "json"
+			);
+        });
+
+
+
+
+       $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function(form){
@@ -69,62 +85,64 @@
 	<input type="hidden" name="createBy" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
-	<div class="control-group">
-		<label class="control-label">用户名称：</label>
-		<div class="controls">
-			<input id="username" name="username" class="input-xlarge required" type="text" value="" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+		<div class="control-group">
+			<label class="control-label">用户名称：</label>
+			<div class="controls">
+				<input id="username" name="username" class="input-xlarge required" type="text" value="" maxlength="50">
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">用户密码：</label>
-		<div class="controls">
-			<input id="password" name="password" class="input-xlarge required" type="text" value="" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+		<div class="control-group">
+			<label class="control-label">用户密码：</label>
+			<div class="controls">
+				<input id="password" name="password" class="input-xlarge required" type="text" value="" maxlength="50">
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">电子邮件：</label>
-		<div class="controls">
-			<input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50">
+		<div class="control-group">
+			<label class="control-label">电子邮件：</label>
+			<div class="controls">
+				<input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50">
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">手机号码：</label>
-		<div class="controls">
-			<input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13">
+		<div class="control-group">
+			<label class="control-label">手机号码：</label>
+			<div class="controls">
+				<input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13">
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">排序：</label>
-		<div class="controls">
-			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="" maxlength="11">
+		<div class="control-group">
+			<label class="control-label">排序：</label>
+			<div class="controls">
+				<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="" maxlength="11">
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">状态：</label>
-		<div class="controls">
-			<div class="select2-container input-xlarge" id="s2id_status">
-				<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="" selected="selected"></option>
-					<option value="0">正常</option>
-					<option value="1">删除</option>
-				</select>
+		<div class="control-group">
+			<label class="control-label">状态：</label>
+			<div class="controls">
+				<div class="select2-container input-xlarge" id="s2id_status">
+					<select id="status" name="status"  tabindex="-1">
+
+					</select>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">
-				<span><input id="userRoleList1" name="userRoleList"  type="checkbox" value="1">
+				<span><input id="userRoleList1" name="userRoleId"  class="required"   type="radio" value="1">
 					<label for="userRoleList1">系统管理员</label>
 				</span>
-				<span><input id="userRoleList2" name="userRoleList" type="checkbox" value="2">
-					<label for="userRoleList2">部门管理员</label>
+				<span><input id="userRoleList2" name="userRoleId"  class="required" type="radio" value="2">
+					<label for="userRoleList2">高管</label>
 				</span>
-				<%--<span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3">
-					<label for="userRoleList3">test</label>
+				<span><input id="userRoleList3" name="userRoleId" class="required" type="radio" value="3">
+					<label for="userRoleList3">业务经理</label>
 				</span>
-				<input type="hidden" name="_userRoleList" value="on">--%>
+				<span><input id="userRoleList4" name="userRoleId" class="required" type="radio" value="4">
+					<label for="userRoleList4">业务人员</label>
+				</span>
+				<input type="hidden" name="_userRoleList" value="on">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

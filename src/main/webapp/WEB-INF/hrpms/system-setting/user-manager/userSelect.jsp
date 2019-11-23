@@ -62,7 +62,7 @@
 </div>
 <div class="control-group">
 	<label class="control-label">状态：
-		<c:if test="${systemUser.status}==0" var="bo">
+		<c:if test="${systemUser.status}=='0'" var="bo">
 			正常
 		</c:if>
 		<c:if test="${!bo}">
@@ -70,13 +70,22 @@
 		</c:if>
 	</label>
 </div>
-<%--<div class="control-group">
+<div class="control-group">
     <label class="control-label">用户角色:</label>
-    <div class="controls">
-        <span><input id="userRoleList1" name="userRoleList" class="required" type="checkbox" value="1"><label for="userRoleList1">系统管理员</label></span><span><input id="userRoleList2" name="userRoleList" class="required" type="checkbox" value="2"><label for="userRoleList2">部门管理员</label></span><span><input id="userRoleList3" name="userRoleList" class="required" type="checkbox" value="3"><label for="userRoleList3">test</label></span><input type="hidden" name="_userRoleList" value="on">
-        <span class="help-inline"><font color="red">*</font> </span>
-    </div>
-</div>--%>
+	<c:if test="${requestScope.systemUser.tbUserRole.roleId==1}">
+		系统管理员
+	</c:if >
+	<c:if test="${requestScope.systemUser.tbUserRole.roleId==2}">
+		高管
+	</c:if>
+	<c:if test="${requestScope.systemUser.tbUserRole.roleId==3}">
+		业务经理
+	</c:if>
+	<c:if test="${requestScope.systemUser.tbUserRole.roleId==4}">
+		业务人员
+	</c:if>
+
+</div>
 <div class="control-group">
 	<label class="control-label">备注信息：${systemUser.userNote}</label>
 </div>

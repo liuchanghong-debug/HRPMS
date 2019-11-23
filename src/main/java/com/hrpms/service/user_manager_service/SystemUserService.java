@@ -10,13 +10,13 @@ public interface SystemUserService {
     public Page<TbSystemUser> selectSystemUserByDuo(Integer currentPage, Map map);
 
     //添加系统用户
-    public void addSystemUser(TbSystemUser tbSystemUser);
+    public void addSystemUser(TbSystemUser tbSystemUser,int roleId);
 
     //根据id查询系统用户
     public TbSystemUser selectSystemUserById(int id);
 
     //根据id修改系统用户
-    public void updateSystemUserById(TbSystemUser tbSystemUser);
+    public void updateSystemUserById(TbSystemUser tbSystemUser,int roleId);
 
     //根据id删除系统用户
     public void deleteSystemUserById(int id);

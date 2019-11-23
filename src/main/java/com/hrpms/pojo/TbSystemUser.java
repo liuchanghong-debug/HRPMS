@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author GoldFish
@@ -24,9 +23,9 @@ public class TbSystemUser {
     private Integer sortnum;//排序
     private String status;//状态 0 正常  1 停用
     private Integer createBy;//创建者
-    private Date createTime;//创建时间
+    private Timestamp createTime;//创建时间
     private Integer updateBy;//更新者
-    private Date updateTime;//更新时间
+    private Timestamp updateTime;//更新时间
     private String userNote;//备注
 
     //一个用户对应一个用户角色
@@ -67,7 +66,7 @@ public class TbSystemUser {
     }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
@@ -76,7 +75,7 @@ public class TbSystemUser {
     }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
@@ -118,7 +117,7 @@ public class TbSystemUser {
         this.createBy = createBy;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -135,8 +134,7 @@ public class TbSystemUser {
     }
 
 
-    @OneToOne
-    @JoinColumn(name="userId")
+    @OneToOne(mappedBy = "tbSystemUser")
     public TbUserRole getTbUserRole() {
         return tbUserRole;
     }
