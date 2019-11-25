@@ -93,6 +93,8 @@
                         $("#graduation").val(json.graduation);
                         $("#companyId").val(json.companyId);
                         $("#companyName").val(json.companyName);
+                        $("#basePay").val(json.salary);
+                        getPayData(json.salary);
 					},
                     "json"
                 );
@@ -111,6 +113,7 @@
 				$("#graduation").val(null);
 				$("#companyId").val(null);
 				$("#companyName").val(null);
+                $("#basePay").val(null);
 			}
         }
         function getPayData(payData) {
@@ -192,7 +195,7 @@
 			<td><label class="control-label">社保卡号：</label></td>
 			<td><input id="sbCard" name="sbCard" class="input-xlarge " type="text"  maxlength="20"></td>
 			<td><label class="control-label">缴费基数：</label></td>
-			<td><input id="basePay" name="basePay" class="input-xlarge " onblur="getPayData(this.value)" type="text" ></td>
+			<td><input id="basePay" name="basePay" class="input-xlarge " readonly type="text" ></td>
 		</tr>
 
 		<tr>

@@ -240,7 +240,18 @@ public class SheBaoController {
 
         return shebaoRecordList(currentPage, socialInsuranceOperation, model);
     }
-
+    /**
+     * 社保缴费删除
+     * @param
+     * @return
+     **/
+    @RequestMapping("/shebaoRecordDelete")
+    public String shebaoRecordDelete(Integer id, Integer currentPage, HttpSession session, TbSocialInsuranceOperation socialInsuranceOperation, Model model){
+        //修改者
+        TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
+        sheBaoService.shebaoRecordDelete(id, tbSystemUser.getId());
+        return shebaoRecordList(currentPage, socialInsuranceOperation, model);
+    }
 
     /**
      * 社保催缴

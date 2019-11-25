@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -158,5 +157,11 @@ public class TbSalaryServiceImpl implements TbSalaryService {
         map1.put("fileName","客户工资模板");
         map1.put("dataList",resultList);
         DataOutOfExcel.dataOut(map1,request,response);
+    }
+
+    @Override
+    public Double getSalaryByIdCard(String idCard) {
+        String hql = "select totalPay from TbSalary where idCard = " + idCard;
+        return tbSalaryDao.getSalaryByIdCard(hql);
     }
 }

@@ -69,4 +69,9 @@ public class TbSalaryDaoImpl implements TbSalaryDao {
                 .list();
         return list;
     }
+
+    @Override
+    public Double getSalaryByIdCard(String hql) {
+        return (Double) sessionFactory.getCurrentSession().createQuery(hql).uniqueResult();
+    }
 }

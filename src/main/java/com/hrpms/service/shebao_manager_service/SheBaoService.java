@@ -154,7 +154,12 @@ public interface SheBaoService {
      * @return 
      **/
     Page<TbSocialInsuranceRecord> socialInsuranceRecordQueryByOperation(Integer currentPage, TbSocialInsuranceOperation socialInsuranceOperation);
-    
+    /**
+     * 社保缴费删除
+     * @param 
+     * @return 
+     **/
+    void shebaoRecordDelete(Integer id, Integer updateBy);
     /**
      * 模板下载
      * @param 

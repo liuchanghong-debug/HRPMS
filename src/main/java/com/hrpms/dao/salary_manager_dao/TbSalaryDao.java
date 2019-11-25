@@ -28,4 +28,10 @@ public interface TbSalaryDao {
     //动态模糊不分页查询
     public List<TbSalary> selectSalaryByNoFen(String hql,Map map);
 
+    /**
+     * 根据idCard查询工资信息
+     * @param
+     * @return
+     **/
+    Double getSalaryByIdCard(String hql);
 }

@@ -5,6 +5,7 @@ import com.hrpms.pojo.*;
 import com.hrpms.pojo.operaton_select.TbSocialInsuranceOperation;
 import com.hrpms.service.company_client_service.CompanyClientService;
 import com.hrpms.service.customer_client_service.CustomerService;
+import com.hrpms.service.salary_manager_service.TbSalaryService;
 import com.hrpms.service.shebao_manager_service.SheBaoService;
 import com.hrpms.service.system_setting_service.data_dict_service.DataDictService;
 import com.hrpms.utils.DataOutOfExcel;
@@ -47,6 +48,8 @@ public class SheBaoServiceImpl implements SheBaoService {
     private CustomerService customerService;
     @Autowired
     private CompanyClientService companyClientService;
+    @Autowired
+    private TbSalaryService salaryService;
 
 
     @Override
@@ -193,6 +196,7 @@ public class SheBaoServiceImpl implements SheBaoService {
         //通过公司id 查询公司信息
         TbCompany companyById = companyClientService.getCompanyById(customer.getCompanyId());
         map.put("companyName", companyById.getName());
+        map.put("salary", salaryService.getSalaryByIdCard(customer.getIdCard()));
 
         return map;
     }
@@ -283,8 +287,8 @@ public class SheBaoServiceImpl implements SheBaoService {
     @Override
     public Page<TbSocialInsuranceRecord> socialInsuranceRecordQueryByOperation(Integer currentPage, TbSocialInsuranceOperation socialInsuranceOperation) {
         //查询社保缴费状态已交的状态值
-        String alreadyPay = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "已交");
-        StringBuffer hql = new StringBuffer("from TbSocialInsuranceRecord where status = " + alreadyPay);
+        String alreadyPay = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "删除");
+        StringBuffer hql = new StringBuffer("from TbSocialInsuranceRecord where status != " + alreadyPay);
         String oldNameQuery = "";
         String oldIdCardQuery = "";
         String oldSbCardQuery = "";
@@ -318,6 +322,17 @@ public class SheBaoServiceImpl implements SheBaoService {
         socialInsuranceOperation.setSbCardQuery(oldSbCardQuery);
 
         return page;
+    }
+
+    @Override
+    public void shebaoRecordDelete(Integer id, Integer updateBy) {
+        //获取社保缴费状态  删除的状态值
+        String deleteStatus = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "删除");
+        TbSocialInsuranceRecord sheBaoRecordById = sheBaoDao.getSheBaoRecordById(id);
+        sheBaoRecordById.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        sheBaoRecordById.setUpdateBy(updateBy);
+        sheBaoRecordById.setStatus(deleteStatus);
+        sheBaoDao.shebaoRecordUpdate(sheBaoRecordById);
     }
 
     @Override

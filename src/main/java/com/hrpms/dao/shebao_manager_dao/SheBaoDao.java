@@ -95,7 +95,7 @@ public interface SheBaoDao {
      **/
     TbSocialInsuranceRecord getSheBaoRecordById(Integer id);
     /**
-     * 社保缴费信息修改
+     * 社保缴费信息修改  删除
      * @param
      * @return
      **/

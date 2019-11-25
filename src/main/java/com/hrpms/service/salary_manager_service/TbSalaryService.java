@@ -1,7 +1,6 @@
 package com.hrpms.service.salary_manager_service;
 
 import com.hrpms.pojo.TbSalary;
-import com.hrpms.pojo.operaton_select.TbCompanyOperation;
 import com.hrpms.utils.Page;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -37,4 +36,11 @@ public interface TbSalaryService {
 
     //客户工资数据导出
     public void salaryDownload(Map map,HttpServletResponse response,HttpServletRequest request) throws Exception;
+    
+    /**
+     * 根据idCard查询工资信息
+     * @param 
+     * @return 
+     **/
+    Double getSalaryByIdCard(String idCard);
 }
