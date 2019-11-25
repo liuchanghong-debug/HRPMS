@@ -6,7 +6,7 @@ package com.hrpms.pojo.operaton_select;
  * @description TODO
  * @create 2019/11/23  22:24
  * @versiion 1.0
- * @Description:
+ * @Description:  社保信息列表查询字段  与  社保缴费信息查询字段相同
  */
 public class TbSocialInsuranceOperation {
     private String nameQuery;

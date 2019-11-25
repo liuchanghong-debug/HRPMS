@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -12,15 +15,20 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:社保记录表
  */
+@Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbSocialInsuranceRecord {
     private Integer id;//记录编号  主键
-    private String sdCard;//社保卡号  非空
+    private String name;//客户名称
+    private String idCard;//身份证号  非空
+    private String sbCard;//社保卡号  非空
     private String payMonth;//缴费日期
     private Double payMoney;//缴费金额
     private Double yangLao;//养老保险
     private Double yiLiao;//医疗保险
     private Double shiYe;//失业保险
-    private Double gonsShang;//工商保险
+    private Double gongShang;//工商保险
     private Double shengYu;//生育保险
     private String status;//状态  0 已交  1 未交
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
@@ -31,14 +39,25 @@ public class TbSocialInsuranceRecord {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
-
-    public String getSdCard() {
-        return sdCard;
+    @Column(length = 25)
+    public String getName() {
+        return name;
     }
-
+    @Column(length = 20)
+    public String getIdCard() {
+        return idCard;
+    }
+    @Column(length = 20)
+    public String getSbCard() {
+        return sbCard;
+    }
+    @Column(length = 20)
     public String getPayMonth() {
         return payMonth;
     }
@@ -59,14 +78,14 @@ public class TbSocialInsuranceRecord {
         return shiYe;
     }
 
-    public Double getGonsShang() {
-        return gonsShang;
+    public Double getGongShang() {
+        return gongShang;
     }
 
     public Double getShengYu() {
         return shengYu;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -74,7 +93,7 @@ public class TbSocialInsuranceRecord {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -82,11 +101,11 @@ public class TbSocialInsuranceRecord {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }
@@ -96,8 +115,16 @@ public class TbSocialInsuranceRecord {
         this.id = id;
     }
 
-    public void setSdCard(String sdCard) {
-        this.sdCard = sdCard;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public void setSbCard(String sbCard) {
+        this.sbCard = sbCard;
     }
 
     public void setPayMonth(String payMonth) {
@@ -120,8 +147,8 @@ public class TbSocialInsuranceRecord {
         this.shiYe = shiYe;
     }
 
-    public void setGonsShang(Double gonsShang) {
-        this.gonsShang = gonsShang;
+    public void setGongShang(Double gongShang) {
+        this.gongShang = gongShang;
     }
 
     public void setShengYu(Double shengYu) {
