@@ -46,14 +46,14 @@
             $("#searchForm").submit();
             return false;
         }
+        function openFile() {
+            $("#file").click();
+        }
+        function upload() {
+            $("#fileSubmit").click();
+        }
 
-
-	</script>  function openFile() {
-	$("#file").click();
-	}
-	function upload() {
-	$("#fileSubmit").click();
-	}
+	</script>
 
 </head>
 <body>
