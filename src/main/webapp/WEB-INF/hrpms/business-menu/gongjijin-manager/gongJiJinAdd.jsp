@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +37,32 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        var customer =null;
+        $(function () {
+            $.post(
+                "customerClient/selectAllCustomerName",
+                function (json) {
+                    customer = json;
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].name + "'>" + json[i].name + "</option>"
+                    }
+                    $("#name").html(str);
+                },
+                "json"
+            );
+
+            $("#name").change(function () {
+                var name = $(this).val();
+                for (var i = 0; i < customer.length; i++) {
+                    if (customer[i].name == name) {
+                        $("#idcard").val(customer[i].idCard)
+                    }
+                }
+            });
+        });
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -60,61 +87,61 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../gongjijinList/saved_resource.html">公积金列表</a></li>
-	<li class="active"><a href="saved_resource.html">公积金缴费</a></li>
+	<li><a href="gongjijin-manager/selectAccumulationByDuo">公积金列表</a></li>
+	<li class="active"><a href="gongjijin-manager/gongJiJinAddJsp">公积金缴费</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="gongjijin-manager/addAccumulation" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
-
+	<input name="createBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">客户名称：</label>
-		<div class="controls">
-			<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
-		</div>
+		<select id="name" name="name" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+		</select>
 	</div>
 	<div class="control-group">
 		<label class="control-label">身份证号：</label>
 		<div class="controls">
-			<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-xlarge " readonly type="text" value="" maxlength="20">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">公积金号：</label>
 		<div class="controls">
-			<input id="accountno" name="accountno" class="input-xlarge required" type="text" value="" maxlength="20">
+			<input id="accountno" name="accountNo" class="input-xlarge required" type="text" value="" maxlength="20">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">缴费期间：</label>
 		<div class="controls">
-			<input id="paydate" name="paydate" class="input-xlarge required" type="text" value="" maxlength="20">
+			<input id="paydate" name="payDate" class="input-xlarge required" type="text" value="" maxlength="20">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">缴费金额：</label>
 		<div class="controls">
-			<input id="paymoney" name="paymoney" class="input-xlarge required" type="text" value="">
+			<input id="paymoney" name="payMoney" class="input-xlarge required" type="text" value="">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">代理费：</label>
 		<div class="controls">
-			<input id="proxyfee" name="proxyfee" class="input-xlarge " type="text" value="">
+			<input id="proxyfee" name="proxyFee" class="input-xlarge " type="text" value="">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select name="status" class="input-xlarge  select2-offscreen" tabindex="-1">
-				<option value="0">已交
-				</option><option value="1">未交
-			</option></select>
+				<option value="0">未交</option>
+				<option value="1">已交</option>
+			</select>
 		</div>
 	</div>
 	<div class="control-group">

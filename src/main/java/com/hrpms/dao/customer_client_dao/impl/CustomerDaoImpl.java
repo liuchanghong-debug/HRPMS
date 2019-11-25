@@ -66,4 +66,9 @@ public class CustomerDaoImpl implements CustomerDao {
     public TbCustomer getCustomerByIdCard(String hql, String idCard) {
         return (TbCustomer) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
     }
+
+    @Override
+    public List<TbCustomer> selectAllCustomerName() {
+        return null;
+    }
 }

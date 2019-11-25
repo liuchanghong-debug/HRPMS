@@ -78,4 +78,7 @@ public interface CustomerDao {
      **/
     TbCustomer getCustomerByIdCard(String hql, String idCard);
 
+    //查询所有的客户名称
+    public List<TbCustomer> selectAllCustomerName();
+
 }

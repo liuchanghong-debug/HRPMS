@@ -262,4 +262,9 @@ public class CustomerServiceImpl implements CustomerService {
         String hql = "from TbCustomer where idCard = ?";
         return customerDao.getCustomerByIdCard(hql, idCard);
     }
+
+    @Override
+    public List<TbCustomer> selectAllCustomerName() {
+        return customerDao.selectAllCustomerName();
+    }
 }

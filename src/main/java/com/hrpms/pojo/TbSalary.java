@@ -95,7 +95,7 @@ public class TbSalary implements Serializable{
         return proxyFee;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     public String getStatus() {
         return status;
     }
@@ -108,7 +108,7 @@ public class TbSalary implements Serializable{
         return createBy;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     public Timestamp getUpdateTime() {
         return updateTime;
     }
