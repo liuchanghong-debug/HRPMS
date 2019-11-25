@@ -18,16 +18,17 @@ import java.sql.Timestamp;
 @Entity
 public class TbAccumulationFund {
     private Integer id;//编号  主键
+    private String name;//客户名称
     private String idCard;//身份证号  非空
     private String accountNo;//公积金账户 非空
     private String payDate;//缴费期间
     private Double payMoney;//缴费金额
     private Double proxyFee;//代理费用
     private String status;//状态  是否缴款
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
+
     private Timestamp createTime;//创建时间
     private Integer createBy;//创建者
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
+
     private Timestamp updateTime;//更新时间
     private Integer updateBy;//更新者
     private String remark;//备注
@@ -62,6 +63,7 @@ public class TbAccumulationFund {
         return status;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -70,6 +72,7 @@ public class TbAccumulationFund {
         return createBy;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     public Timestamp getUpdateTime() {
         return updateTime;
     }
@@ -85,6 +88,14 @@ public class TbAccumulationFund {
     public void setId(Integer id) {
 
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdCard(String idCard) {
