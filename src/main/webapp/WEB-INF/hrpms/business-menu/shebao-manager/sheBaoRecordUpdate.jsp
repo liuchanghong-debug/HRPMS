@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -60,25 +61,16 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../shebaoRecordList/saved_resource.html">社保缴费列表</a></li>
-	<li class="active"><a href="saved_resource.html">社保缴费修改</a></li>
+	<li><a href="shebao/shebaoRecordList">社保缴费列表</a></li>
+	<li class="active"><a href="shebao/shebaoPayToUpdate?id=${map.shebaoRecord.id}&nameQuery=${socialIncuranctOperation.nameQuery}&idCardQuery=${socialIncuranctOperation.idCardQuery}&sbCardQuery=${socialIncuranctOperation.sbCardQuery}&currentPage=${currentPage}">社保缴费修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="2">
+<form id="inputForm" class="form-horizontal" action="shebao/shebaoRecordUpdate" method="post" novalidate="novalidate">
+	<input type="hidden" name="nameQuery" value="${socialIncuranctOperation.nameQuery}">
+	<input type="hidden" name="idCardQuery" value="${socialIncuranctOperation.idCardQuery}">
+	<input type="hidden" name="sbCardQuery" value="${socialIncuranctOperation.sbCardQuery}">
+	<input type="hidden" name="currentPage" value="${currentPage}">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<input type="hidden" name="id" value="${map.shebaoRecord.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -86,10 +78,10 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" id="customer_name" name="customerName" value="" onblur="getCustomerByName();" style="width:270px;">
+				<input type="text" id="customer_name" name="customerName" value="${map.shebaoRecord.name}" disabled onblur="getCustomerByName();" style="width:270px;">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input type="text" name="idcard" htmlescape="false" maxlength="20" class="input-xlarge " style="width:270px;">
+			<td><input type="text" name="idcard" htmlescape="false" value="${map.shebaoRecord.idCard}" disabled maxlength="20" class="input-xlarge " style="width:270px;">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -97,59 +89,60 @@
 		<tr>
 			<td><label class="control-label">社保号码：</label></td>
 			<td>
-				<input id="sdcard" name="sdcard" class="input-xlarge required" type="text" value="1000047" maxlength="20">
+				<input id="sdcard" name="sdcard" class="input-xlarge required" disabled type="text" value="${map.shebaoRecord.sbCard}" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">所属公司：</label>
-			</td><td>
-			<select path="companyid" class="input-xlarge ">
-				<option value="" label="">
-
-				</option></select>
-		</td>
-
+			</td>
+			<td><input type="text" value="${map.company.name}" class="input-xlarge required" disabled style="width:270px;"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">手机号码：</label></td>
-			<td><input type="text" name="phone" htmlescape="true" maxlength="13" style="width:270px;"></td>
+			<td><input type="text" name="phone" htmlescape="true" value="${map.customer.phone}" disabled maxlength="13" style="width:270px;"></td>
 			<td><label class="control-label">现在住址：</label></td>
-			<td><input type="text" name="address" htmlescape="true" maxlength="100" style="width:270px;"></td>
+			<td><input type="text" name="address" htmlescape="true" value="${map.customer.address}" disabled maxlength="100" style="width:270px;"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">养老保险：</label></td>
-			<td><input id="yanglao" name="yanglao" class="input-xlarge " type="text" value="200"></td>
+			<td><input id="yanglao" name="yanglao" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.yangLao}"></td>
 			<td><label class="control-label">医疗保险：</label></td>
-			<td><input id="yiliao" name="yiliao" class="input-xlarge " type="text" value="200"></td>
+			<td><input id="yiliao" name="yiliao" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.yiLiao}"></td>
 		</tr>
 		<tr>
 
 			<td><label class="control-label">工伤保险：</label></td>
-			<td><input id="gongshang" name="gongshang" class="input-xlarge " type="text" value="200"></td>
+			<td><input id="gongshang" name="gongshang" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.gongShang}"></td>
 			<td><label class="control-label">失业保险：</label></td>
-			<td><input id="shiye" name="shiye" class="input-xlarge " type="text" value="100"></td>
+			<td><input id="shiye" name="shiye" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.shiYe}"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">生育保险：</label></td>
-			<td><input id="shengyu" name="shengyu" class="input-xlarge " type="text" value="70"></td>
+			<td><input id="shengyu" name="shengyu" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.shengYu}"></td>
 			<td><label class="control-label">缴费金额：</label></td>
 			<td>
-				<input id="paymoney" name="paymoney" class="input-xlarge " type="text" value="870">
+				<input id="paymoney" name="paymoney" class="input-xlarge " type="text" disabled value="${map.shebaoRecord.payMoney}">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">缴费期间：</label></td>
 			<td>
-				<input id="paymonth" name="paymonth" class="input-xlarge " type="text" value="2017年09月" maxlength="20">
+				<input id="payMonth" name="payMonth" class="input-xlarge " type="text" value="${map.shebaoRecord.payMonth}" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">缴费状态：</label></td>
 			<td>
 				<select name="status"  class="select2-offscreen">
-					<option value="1">未交</option>
-					<option value="0">已交</option>
+					<c:forEach items="${payStatuss}" var="status">
+						<c:if test="${map.shebaoRecord.status == status.value}">
+							<option value="${status.value}" selected>${status.label}</option>
+						</c:if>
+						<c:if test="${map.shebaoRecord.status != status.value}">
+							<option value="${status.value}">${status.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>

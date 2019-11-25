@@ -69,9 +69,15 @@
 		</li>
 		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
 </form>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='shebao/shebaoTemplateDownload?name=社保信息模板'" value="模板下载"></li>
+		<li class="btns">
+			<form action="shebao/shebaoInOfExcel" method="post" enctype="multipart/form-data">
+				<input id="btnSubmit" class="btn btn-primary" type="button" onclick="$('#file').click()" value="导入">
+				<input type="file" style="display: none" id="file" name="file" onchange="$('#sub').click()" accept="application/Excel,application/vnd.ms-excel">
+				<input type="submit" style="display: none" id="sub">
+			</form>
+		</li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='shebao/dataOutOfExcel?nameQuery=${socialInsuranceOperation.nameQuery}&idCardQuery=${socialInsuranceOperation.idCardQuery}&sbCardQuery=${socialInsuranceOperation.sbCardQuery}'" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 
@@ -132,9 +138,12 @@
 					</c:forEach>
 				</td>
 				<td>
-					<a href="">缴费</a>
-					<a href="">修改</a>
-					<a href="#" onclick="return confirmx(&#39;确认要删除该社保信息吗？&#39;, this.href)">删除</a>
+					<c:if test="${socialInsurance.createBy == 0}">
+						<a href="shebao/shebaoRecordToAdd?id=${socialInsurance.id}">缴费</a>
+					</c:if>
+
+					<a href="shebao/shebaoToUpdate?id=${socialInsurance.id}&currentPage=${page.currentPage}&nameQuery=${socialInsuranceOperation.nameQuery}&idCardQuery=${socialInsuranceOperation.idCardQuery}&sbCardQuery=${socialInsuranceOperation.sbCardQuery}">修改</a>
+					<a href="shebao/shebaoDelete?id=${socialInsurance.id}&currentPage=${page.currentPage}&nameQuery=${socialInsuranceOperation.nameQuery}&idCardQuery=${socialInsuranceOperation.idCardQuery}&sbCardQuery=${socialInsuranceOperation.sbCardQuery}" onclick="return confirmx(&#39;确认要删除该社保信息吗？&#39;, this.href)">删除</a>
 				</td>
 			</tr>
 		</c:forEach>

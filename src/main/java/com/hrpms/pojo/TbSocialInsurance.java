@@ -22,16 +22,6 @@ import java.util.Date;
 public class TbSocialInsurance {
     private Integer id;//社保编号  主键
     private String name;//姓名
-
-    @Column(length = 50)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     private String idCard;//身份证号  非空
     private String sbCard;//社保卡号
     private Double basePay;//缴费基数
@@ -60,6 +50,11 @@ public class TbSocialInsurance {
     @Column(length = 11)
     public Integer getId() {
         return id;
+    }
+
+    @Column(length = 50)
+    public String getName() {
+        return name;
     }
 
     @Column(length = 20)
@@ -142,6 +137,10 @@ public class TbSocialInsurance {
     public void setId(Integer id) {
 
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdCard(String idCard) {

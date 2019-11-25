@@ -247,10 +247,10 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-786133f2fdf547be8bd8c4e213c20ff3" href="shebao/shebaoRecord" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保记录</a>
+                                    <li><a data-href=".menu3-786133f2fdf547be8bd8c4e213c20ff3" href="shebao/shebaoRecordList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保记录</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
                                         </ul></li>
-                                    <li><a data-href=".menu3-8d338395c6d2477ab1028e9789dd3dab" href="shebao/shebaoRecordAdd" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保缴费</a>
+                                    <li><a data-href=".menu3-8d338395c6d2477ab1028e9789dd3dab" href="shebao/shebaoRecordToAdd" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保缴费</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

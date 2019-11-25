@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -54,27 +55,77 @@
                 }
             });
         });
+        function getDetailMess(id) {
+			if(id.value !== "" && id.value != null){
+			    $("#name").val(id.text);
+				$.get(
+				    "shebao/getDetailMessBySocialInsuranceId",
+					{"id":id.value},
+					function (json) {
+				        var company = json.company;
+				        var customer = json.customer;
+				        var socialInsurance = json.socialInsurance;
+				        $("#name").val(socialInsurance.name);
+                        $("#idCard").val(socialInsurance.idCard);
+                        $("#sbCard").val(socialInsurance.sbCard);
+                        $("#companyName").val(company.name);
+                        $("#phone").val(customer.phone);
+                        $("#address").val(customer.address);
+                        $("#yangLao").val(socialInsurance.yangLao);
+                        $("#yiLiao").val(socialInsurance.yiLiao);
+                        $("#gongShang").val(socialInsurance.gongShang);
+                        $("#shiYe").val(socialInsurance.shiYe);
+                        $("#shengYu").val(socialInsurance.shengYu);
+                        $("#payMoney").val(socialInsurance.mustPay);
+                    },
+					"json"
+				);
+			}else {
+			    $("#name").val(null);
+				$("#idCard").val(null);
+				$("#sbCard").val(null);
+                $("#companyName").val(null);
+                $("#phone").val(null);
+                $("#address").val(null);
+                $("#yangLao").val(null);
+                $("#yiLiao").val(null);
+                $("#gongShang").val(null);
+                $("#shiYe").val(null);
+                $("#shengYu").val(null);
+                $("#payMoney").val(null);
+			}
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="shebao/shebaoRecord">社保缴费列表</a></li>
-	<li class="active"><a href="shebao/shebaoRecordAdd">社保缴费添加</a></li>
+	<li><a href="shebao/shebaoRecordList">社保缴费列表</a></li>
+	<li class="active"><a href="shebao/shebaoRecordToAdd">社保缴费添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
+<form id="inputForm" class="form-horizontal" action="shebao/shebaoRecordAdd" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" id="customer_name" name="customerName" value="" onblur="getCustomerByName();" style="width:270px;">
+				<select name="customerId" class="input-xlarge  select2-offscreen" onchange="getDetailMess(this)" tabindex="-1">
+					<option value="">请选择</option>
+					<c:forEach items="${socialInsuranceRecord}" var="socialInsurance">
+						<c:if test="${id == socialInsurance.id}">
+							<option value="${socialInsurance.id}" selected>${socialInsurance.name}</option>
+						</c:if>
+						<c:if test="${id != socialInsurance.id}">
+							<option value="${socialInsurance.id}">${socialInsurance.name}</option>
+						</c:if>
+					</c:forEach>
+				</select>
+				<input id="name" type="hidden" name="name">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
-			<td><input type="text" name="idcard" htmlescape="false" maxlength="20" class="input-xlarge " style="width:270px;">
+			<td><input type="text" id="idCard" name="idCard" htmlescape="false" maxlength="20" readonly class="input-xlarge " style="width:270px;">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -82,59 +133,54 @@
 		<tr>
 			<td><label class="control-label">社保号码：</label></td>
 			<td>
-				<input id="sdcard" name="sdcard" class="input-xlarge required" type="text" value="" maxlength="20">
+				<input id="sbCard" name="sbCard" class="input-xlarge required" readonly type="text" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">所属公司：</label>
-			</td><td>
-			<select path="companyid" class="input-xlarge  select2-offscreen" tabindex="-1">
-				<option value="" label="">
-					智递科技
-				</option></select>
-		</td>
-
+			</td><td><input id="companyName" type="text" name="companyName" htmlescape="true" readonly maxlength="13" style="width:270px;"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">手机号码：</label></td>
-			<td><input type="text" name="phone" htmlescape="true" maxlength="13" style="width:270px;"></td>
+			<td><input id="phone" type="text" name="phone" htmlescape="true" disabled maxlength="13" style="width:270px;"></td>
 			<td><label class="control-label">现在住址：</label></td>
-			<td><input type="text" name="address" htmlescape="true" maxlength="100" style="width:270px;"></td>
+			<td><input id="address" type="text" name="address" htmlescape="true" disabled maxlength="100" style="width:270px;"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">养老保险：</label></td>
-			<td><input id="yanglao" name="yanglao" class="input-xlarge " type="text" value=""></td>
+			<td><input id="yangLao" name="yangLao" class="input-xlarge " readonly type="text"></td>
 			<td><label class="control-label">医疗保险：</label></td>
-			<td><input id="yiliao" name="yiliao" class="input-xlarge " type="text" value=""></td>
+			<td><input id="yiLiao" name="yiLiao" class="input-xlarge " readonly type="text"></td>
 		</tr>
 		<tr>
 
 			<td><label class="control-label">工伤保险：</label></td>
-			<td><input id="gongshang" name="gongshang" class="input-xlarge " type="text" value=""></td>
+			<td><input id="gongShang" name="gongShang" class="input-xlarge " readonly type="text" value=""></td>
 			<td><label class="control-label">失业保险：</label></td>
-			<td><input id="shiye" name="shiye" class="input-xlarge " type="text" value=""></td>
+			<td><input id="shiYe" name="shiYe" class="input-xlarge " readonly type="text" value=""></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">生育保险：</label></td>
-			<td><input id="shengyu" name="shengyu" class="input-xlarge " type="text" value=""></td>
+			<td><input id="shengYu" name="shengYu" class="input-xlarge " readonly type="text" value=""></td>
 			<td><label class="control-label">缴费金额：</label></td>
 			<td>
-				<input id="paymoney" name="paymoney" class="input-xlarge " type="text" value="">
+				<input id="payMoney" name="payMoney" class="input-xlarge " readonly type="text" value="">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">缴费期间：</label></td>
 			<td>
-				<input id="paymonth" name="paymonth" class="input-xlarge " type="text" value="" maxlength="20">
+				<input id="payMonth" name="payMonth" class="input-xlarge " type="text" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">缴费状态：</label></td>
 			<td>
 				<select name="status" tabindex="-1" class="select2-offscreen">
-					<option value="1">未交</option>
-					<option value="0">已交</option>
+					<c:forEach items="${socialInsuranceStatuss}" var="status">
+						<option value="${status.value}">${status.label}</option>
+					</c:forEach>
 				</select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>

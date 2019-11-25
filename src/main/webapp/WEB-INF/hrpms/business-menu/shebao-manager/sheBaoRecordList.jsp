@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -51,27 +52,22 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="shebao/shebaoRecord">社保缴费列表</a></li>
-	<li><a href="shebao/shebaoRecordAdd">社保缴费添加</a></li>
+	<li class="active"><a href="shebao/shebaoRecordList">社保缴费列表</a></li>
+	<li><a href="shebao/shebaoRecordToAdd">社保缴费添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="shebao/shebaoRecordList" method="post">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input name="customerName" maxlength="20" class="input-medium">
+			<input name="nameQuery" maxlength="20" value="${socialInsuranceOperation.nameQuery}" class="input-medium">
 		</li>
 
 		<li><label>身份证号：</label>
-			<input name="idcard" maxlength="20" class="input-medium">
+			<input name="idCardQuery" maxlength="20" value="${socialInsuranceOperation.idCardQuery}" class="input-medium">
 		</li>
 
 		<li><label>社保号码：</label>
-			<input id="sdcard" name="sdcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="sbCardQuery" class="input-medium" type="text" value="${socialInsuranceOperation.sbCardQuery}" maxlength="20">
 		</li>
-		<!-- 			<li><label>缴费期间：</label> -->
-
-		<!-- 			</li> -->
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
@@ -89,7 +85,7 @@
 		<th>养老保险</th>
 		<th>医疗保险</th>
 		<th>工伤保险</th>
-		<th>事业保险</th>
+		<th>失业保险</th>
 		<th>生育保险</th>
 		<th>缴费金额</th>
 		<th>缴费期间</th>
@@ -98,153 +94,32 @@
 	</tr>
 	</thead>
 	<tbody>
-
+<c:forEach items="${page.dataList}" var="socialIncuranceRecord">
 	<tr>
-		<td><a href="../updateShebaoRecrd/saved_resource_unEdit.html">
-			1
-		</a></td>
+		<td><a href="shebao/shebaoRecordDetailMess?id=${socialIncuranceRecord.id}">${socialIncuranceRecord.id}</a></td>
+		<td>${socialIncuranceRecord.name}</td>
+		<td>${socialIncuranceRecord.idCard}</td>
+		<td>${socialIncuranceRecord.sbCard}</td>
+		<td>${socialIncuranceRecord.yangLao}</td>
+		<td>${socialIncuranceRecord.yiLiao}</td>
+		<td>${socialIncuranceRecord.gongShang}</td>
+		<td>${socialIncuranceRecord.shiYe}</td>
+		<td>${socialIncuranceRecord.shengYu}</td>
+		<td>${socialIncuranceRecord.payMoney}</td>
+		<td>${socialIncuranceRecord.payMonth}</td>
 		<td>
-			智递哥
+			<c:forEach items="${payStatus}" var="status">
+				<c:if test="${socialIncuranceRecord.status == status.value}">
+					<span>${status.label}</span>
+				</c:if>
+			</c:forEach>
 		</td>
 		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			100
-		</td>
-		<td>
-			70
-		</td>
-		<td>
-			870
-		</td>
-		<td>
-			2017年10月
-		</td>
-		<td>
-
-			已交
-
-
-		</td>
-		<!-- 				<td> -->
-
-		<!-- 				</td> -->
-		<td>
-			<a href="../updateShebaoRecrd/saved_resource.html">修改</a>
+			<a href="shebao/shebaoPayToUpdate?id=${socialIncuranceRecord.id}&currentPage=${page.currentPage}&nameQuery=${socialInsuranceOperation.nameQuery}&idCardQuery=${socialInsuranceOperation.idCardQuery}&sbCardQuery=${socialInsuranceOperation.sbCardQuery}">修改</a>
 			<a href="#" onclick="return confirmx(&#39;确认要删除该社保缴费吗？&#39;, this.href)">删除</a>
 		</td>
 	</tr>
-
-	<tr>
-		<td><a href="../updateShebaoRecrd/saved_resource_unEdit.html">
-			2
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			100
-		</td>
-		<td>
-			70
-		</td>
-		<td>
-			870
-		</td>
-		<td>
-			2017年09月
-		</td>
-		<td>
-
-			已交
-
-
-		</td>
-		<!-- 				<td> -->
-
-		<!-- 				</td> -->
-		<td>
-			<a href="../updateShebaoRecrd/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该社保缴费吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateShebaoRecrd/saved_resource_unEdit.html">
-			3
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			200
-		</td>
-		<td>
-			100
-		</td>
-		<td>
-			70
-		</td>
-		<td>
-			870
-		</td>
-		<td>
-			2017年08月
-		</td>
-		<td>
-
-			已交
-
-
-		</td>
-		<!-- 				<td> -->
-
-		<!-- 				</td> -->
-		<td>
-			<a href="../updateShebaoRecrd/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该社保缴费吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+</c:forEach>
 
 	</tbody>
 </table>
