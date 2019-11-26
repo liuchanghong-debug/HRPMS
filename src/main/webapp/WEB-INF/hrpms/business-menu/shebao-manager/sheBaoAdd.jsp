@@ -117,12 +117,12 @@
 			}
         }
         function getPayData(payData) {
-			$("#mustPay").val((payData * 0.44).toFixed(2));
-			$("#yangLao").val((payData * 0.28).toFixed(2));
-            $("#yiLiao").val((payData * 0.1).toFixed(2));
-            $("#gongShang").val((payData * 0.02).toFixed(2));
-            $("#shiYe").val((payData * 0.03).toFixed(2));
-            $("#shengYu").val((payData * 0.01).toFixed(2));
+			$("#mustPay").val((payData * 0.413).toFixed(2));
+			$("#yangLao").val((payData * 0.27).toFixed(2));
+            $("#yiLiao").val((payData * 0.12).toFixed(2));
+            $("#gongShang").val((payData * 0.005).toFixed(2));
+            $("#shiYe").val((payData * 0.01).toFixed(2));
+            $("#shengYu").val((payData * 0.008).toFixed(2));
         }
 	</script>
 

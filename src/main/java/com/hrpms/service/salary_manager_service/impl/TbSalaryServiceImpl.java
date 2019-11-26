@@ -161,7 +161,12 @@ public class TbSalaryServiceImpl implements TbSalaryService {
 
     @Override
     public Double getSalaryByIdCard(String idCard) {
-        String hql = "select totalPay from TbSalary where idCard = " + idCard;
+        String hql = "select baseSalary from TbSalary where idCard = " + idCard;
         return tbSalaryDao.getSalaryByIdCard(hql);
+    }
+
+    @Override
+    public List<TbSalary> selectAllGongjijin() {
+        return tbSalaryDao.selectAllGongjijin();
     }
 }

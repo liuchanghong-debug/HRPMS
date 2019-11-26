@@ -60,24 +60,11 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../emailTemplateList/saved_resource.html">邮件模板列表</a></li>
-	<li class="active"><a href="saved_resource_unEdit.html">邮件模板修改</a></li>
+	<li><a href="email-template/selectEmailTemplateByDuo">邮件模板列表</a></li>
+	<li class="active"><a href="/email-template/selectEmailTemplateById?id=${tbEmailTemplate.id}&flag=1">邮件模板详情</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
@@ -85,27 +72,24 @@
 	<div class="control-group">
 		<label class="control-label">标题：</label>
 		<div class="controls">
-			<input id="subject" name="subject" class="input-xlarge required" type="text" value="生日祝福" maxlength="256" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="subject" name="subject" class="input-xlarge " type="text" value="${tbEmailTemplate.subject}" maxlength="256" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">内容：</label>
 		<div class="controls">
-				<textarea id="content" name="content" maxlength="512" class="input-xxlarge required" rows="4"
-						  disabled="disabled">您好，今天是您的生日，在这个特殊的日子里祝您生日快乐，工作顺利！</textarea>
+				<textarea id="content" name="content" maxlength="512" class="input-xxlarge " rows="4"
+						  disabled="disabled">${tbEmailTemplate.content}</textarea>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="orderId" name="orderId" class="input-xlarge required" type="text" value="1" maxlength="11" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="orderId" name="orderId" class="input-xlarge " type="text" value="${tbEmailTemplate.order_id}" maxlength="11" disabled="disabled">
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

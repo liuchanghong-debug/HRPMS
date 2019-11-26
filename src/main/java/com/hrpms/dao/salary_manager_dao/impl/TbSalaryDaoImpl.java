@@ -74,4 +74,11 @@ public class TbSalaryDaoImpl implements TbSalaryDao {
     public Double getSalaryByIdCard(String hql) {
         return (Double) sessionFactory.getCurrentSession().createQuery(hql).uniqueResult();
     }
+
+    @Override
+    public List<TbSalary> selectAllGongjijin() {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbSalary> tbSalaries = session.createQuery("from TbSalary").list();
+        return tbSalaries;
+    }
 }

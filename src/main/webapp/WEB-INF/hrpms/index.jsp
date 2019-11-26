@@ -446,7 +446,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-aad070d5b282458996dcf847542926b8" href="emailTemplateList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件模板</a>
+                                    <li><a data-href=".menu3-aad070d5b282458996dcf847542926b8" href="email-template/selectEmailTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件模板</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>

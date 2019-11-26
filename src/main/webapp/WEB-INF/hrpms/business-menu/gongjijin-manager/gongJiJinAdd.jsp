@@ -38,29 +38,31 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
 
-        var customer =null;
+        var salary = null;
         $(function () {
             $.post(
-                "customerClient/selectAllCustomerName",
-                function (json) {
-                    customer = json;
+                "salary-manager/selectAllGongjijinByIdCard",
+				function (json) {
+                    salary=json;
                     var str = "<option value='' selected></option>";
                     for (var i = 0; i < json.length; i++) {
                         str += "<option value='" + json[i].name + "'>" + json[i].name + "</option>"
                     }
                     $("#name").html(str);
                 },
-                "json"
-            );
-
+				"json"
+			);
             $("#name").change(function () {
                 var name = $(this).val();
-                for (var i = 0; i < customer.length; i++) {
-                    if (customer[i].name == name) {
-                        $("#idcard").val(customer[i].idCard)
-                    }
-                }
+                for(var j=0;j<salary.length;j++){
+                    if(salary[j].name==name){
+                        $("#idcard").val(salary[j].idCard);
+                        $("#paymoney").val(salary[j].gongJiJinPay);
+					}
+				}
             });
+
+
         });
 
         $(document).ready(function() {
@@ -125,7 +127,7 @@
 	<div class="control-group">
 		<label class="control-label">缴费金额：</label>
 		<div class="controls">
-			<input id="paymoney" name="payMoney" class="input-xlarge required" type="text" value="">
+			<input id="paymoney" name="payMoney" class="input-xlarge" type="text" readonly value="">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>

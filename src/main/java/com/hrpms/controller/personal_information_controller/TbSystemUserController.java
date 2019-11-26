@@ -1,6 +1,7 @@
 package com.hrpms.controller.personal_information_controller;
 
 import com.hrpms.service.personal_information_service.TbSystemUserService;
+import com.hrpms.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,11 @@ public class TbSystemUserController {
     //修改密码
     @RequestMapping("/updatePersonalPassword")
     public String updatePersonalPassword(int id,String confirmNewPassword){
-        System.out.println(id+" "+confirmNewPassword);
+        try {
+            confirmNewPassword=Md5Util.encodeByMd5(confirmNewPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tbSystemUserService.updatePersonalPassword(id,confirmNewPassword);
         return "redirect:userPersonalInformation";
     }

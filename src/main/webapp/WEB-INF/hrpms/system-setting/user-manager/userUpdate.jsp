@@ -95,7 +95,7 @@
 	<div class="control-group">
 		<label class="control-label">用户密码：</label>
 		<div class="controls">
-			<input id="password" name="password" class="input-xlarge required" type="text" value="${requestScope.systemUser.password}" maxlength="50">
+			<input id="password" name="password" class="input-xlarge required" type="password" value="${requestScope.systemUser.password}" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
