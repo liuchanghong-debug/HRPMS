@@ -2,6 +2,7 @@ package com.hrpms.controller.user_manager;
 
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.service.user_manager_service.SystemUserService;
+import com.hrpms.utils.Md5Util;
 import com.hrpms.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,11 @@ public class SystemUserController {
     //添加系统用户
     @RequestMapping("/addSystemUser")
     public String addSystemUser(TbSystemUser tbSystemUser,Integer userRoleId){
+        try {
+            tbSystemUser.setPassword(Md5Util.encodeByMd5(tbSystemUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tbSystemUser.setCreateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.addSystemUser(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
@@ -66,6 +72,11 @@ public class SystemUserController {
     //根据id修改系统用户
     @RequestMapping("/updateSystemUserById")
     public String updateSystemUserById(TbSystemUser tbSystemUser,Integer userRoleId){
+        try {
+            tbSystemUser.setPassword(Md5Util.encodeByMd5(tbSystemUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tbSystemUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.updateSystemUserById(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
