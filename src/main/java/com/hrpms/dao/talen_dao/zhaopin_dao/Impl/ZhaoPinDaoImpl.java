@@ -2,10 +2,13 @@ package com.hrpms.dao.talen_dao.zhaopin_dao.Impl;
 
 import com.hrpms.dao.talen_dao.zhaopin_dao.ZhaoPinDao;
 import com.hrpms.pojo.TbNeedJob;
+import com.hrpms.pojo.operaton_select.TbNeedJobOperation;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GoldFish
@@ -17,23 +20,42 @@ import java.util.Map;
  */
 @Repository
 public class ZhaoPinDaoImpl implements ZhaoPinDao {
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
-    public List<TbNeedJob> selectNeedJobByDuo(String hql, Map map) {
-        return null;
+    public List<TbNeedJob> zhaopinList(String hql, TbNeedJobOperation needJobOperation) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql).setProperties(needJobOperation)
+                .setFirstResult(needJobOperation.getStartIndex())
+                .setMaxResults(needJobOperation.getPageSize()).list();
     }
 
     @Override
-    public Long selectNeedJobCount(String hql, Map map) {
-        return null;
+    public Long zhaopinCount(String hql, TbNeedJobOperation needJobOperation) {
+        return (Long)sessionFactory.getCurrentSession().createQuery(hql).setProperties(needJobOperation).uniqueResult();
     }
 
     @Override
-    public void addNeedJob(TbNeedJob tbNeedJob) {
-
+    public void zhaopinAdd(TbNeedJob tbNeedJob) {
+        sessionFactory.getCurrentSession().save(tbNeedJob);
     }
 
     @Override
     public TbNeedJob selectNeedJobById(int id) {
-        return null;
+        return (TbNeedJob)sessionFactory.getCurrentSession().get(TbNeedJob.class, id);
+    }
+
+    @Override
+    public void updateNeedJob(TbNeedJob tbNeedJob) {
+        sessionFactory.getCurrentSession().merge(tbNeedJob);
+    }
+
+    @Override
+    public void deleteNeedJob(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        TbNeedJob tbNeedJob = (TbNeedJob)session.get(TbNeedJob.class, id);
+        tbNeedJob.setStatus("1");
+        session.merge(tbNeedJob);
     }
 }

@@ -58,7 +58,4 @@ public interface DataDictService {
      * @return 
      **/
     String getDataDictValueByNameAndLabel(String name, String label);
-
-    //根据字典名查询状态
-    public List<TbSystemDict> selectByName(String name);
 }

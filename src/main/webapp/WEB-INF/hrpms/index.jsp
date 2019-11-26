@@ -315,7 +315,7 @@
                         <div id="collapse-2d661bc23f10434ab743ea292c22edcc" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-92cef87c45734b0592953b544d55818b" href="talent-service/selectNeedJobByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;招聘信息</a>
+                                    <li><a data-href=".menu3-92cef87c45734b0592953b544d55818b" href="zhaopin/zhaopinList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;招聘信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

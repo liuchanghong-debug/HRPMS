@@ -109,10 +109,4 @@ public class DataDictServiceImpl implements DataDictService {
 
         return dataDictDao.getDataDictValueByNameAndLabel(map);
     }
-
-    //根据字典名查询状态
-    @Override
-    public List<TbSystemDict> selectByName(String name) {
-        return dataDictDao.selectByName(name);
-    }
 }

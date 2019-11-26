@@ -1,10 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -17,6 +17,8 @@ import java.util.Date;
  * @Description:劳务需求信息表
  */
 @Entity
+@DynamicInsert
+@DynamicUpdate
 public class TbNeedJob {
     private Integer id;//编号  主键
     private String jobName;//需求名称  非空
@@ -29,7 +31,9 @@ public class TbNeedJob {
     private Double price;//单价
     private Integer companyId;//发布公司  关联公司表
     private String address;//工作地点
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;//开始日期
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;//截至日期
     private String infoType;//信息类型  0 本公司招聘  1 合作公司招聘
     private String status;//状态  0 有效  1 无效
@@ -42,31 +46,32 @@ public class TbNeedJob {
     private String remark;//备注
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
-
+    @Column(length = 100)
     public String getJobName() {
         return jobName;
     }
-
+    @Column(length = 256)
     public String getJobContent() {
         return jobContent;
     }
-
+    @Column(length = 50)
     public String getJobType() {
         return jobType;
     }
-
+    @Column(length = 2)
     public String getIndustry() {
         return industry;
     }
-
+    @Column(length = 11)
     public Integer getNeedPerson() {
         return needPerson;
     }
-
+    @Column(length = 2)
     public String getPayType() {
         return payType;
     }
@@ -74,11 +79,11 @@ public class TbNeedJob {
     public Double getPrice() {
         return price;
     }
-
+    @Column(length = 11)
     public Integer getCompanyId() {
         return companyId;
     }
-
+    @Column(length = 50)
     public String getAddress() {
         return address;
     }
@@ -90,11 +95,11 @@ public class TbNeedJob {
     public Date getEndTime() {
         return endTime;
     }
-
+    @Column(length = 2)
     public String getInfoType() {
         return infoType;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -102,7 +107,7 @@ public class TbNeedJob {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -110,14 +115,17 @@ public class TbNeedJob {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }
+
+
+
 
     public void setId(Integer id) {
 
