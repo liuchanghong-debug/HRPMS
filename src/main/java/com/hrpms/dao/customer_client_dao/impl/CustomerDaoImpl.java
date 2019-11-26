@@ -3,6 +3,7 @@ package com.hrpms.dao.customer_client_dao.impl;
 import com.hrpms.dao.customer_client_dao.CustomerDao;
 import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.operaton_select.TbCustomerOperation;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -65,5 +66,12 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public TbCustomer getCustomerByIdCard(String hql, String idCard) {
         return (TbCustomer) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public List<TbCustomer> selectAllCustomerName() {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbCustomer> list = session.createQuery("from TbCustomer").list();
+        return list;
     }
 }

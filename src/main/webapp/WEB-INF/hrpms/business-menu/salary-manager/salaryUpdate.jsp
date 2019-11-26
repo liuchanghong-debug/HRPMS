@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -65,19 +66,19 @@
 
             $("#bonuspay").blur(function () {
                 bonus= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#totalpay").val(baseSalary+bonus+overtimepay);
                 $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             });
 
             $("#overtimepay").blur(function () {
                 overtimepay= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#totalpay").val(baseSalary+bonus+overtimepay);
                 $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             });
 
             $("#proxyfee").blur(function () {
                 proxy= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#totalpay").val(baseSalary+bonus+overtimepay);
                 $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             });
         });
@@ -119,6 +120,8 @@
 		<tbody><tr>
 			<input id="id" name="id" type="hidden" value="${tbSalary.id}">
 			<input name="updateBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
+			<input type="hidden" name="createBy" value="${tbSalary.createBy}">
+			<input type="hidden" name="createTime" value="<fmt:formatDate value="${tbSalary.createTime}" pattern="yyyy-MM-dd HH:mm:ss.SSS"/> ">
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
 				<input id="name" name="name" class="input-xlarge required" type="text" value="${tbSalary.name}" readonly maxlength="20">

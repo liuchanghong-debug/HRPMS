@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -45,32 +46,46 @@
             $("#searchForm").submit();
             return false;
         }
+
+        function openFile() {
+            $("#file").click();
+        }
+        function upload() {
+            $("#fileSubmit").click();
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">公积金列表</a></li>
-	<li><a href="../addGongjijin/saved_resource.html">公积金缴费</a></li>
+	<li class="active"><a href="gongjijin-manager/selectAccumulationByDuo">公积金列表</a></li>
+	<li><a href="gongjijin-manager/gongJiJinAddJsp">公积金缴费</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="gongjijin-manager/selectAccumulationByDuo" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-medium" type="text" value="" maxlength="20">
 		</li>
 		<li><label>公积金号：</label>
-			<input id="accountno" name="accountno" class="input-medium" type="text" value="" maxlength="20">
+			<input id="accountno" name="accountNo" class="input-medium" type="text" value="" maxlength="20">
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="模板下载"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导入"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="查询"></li>
+</form>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='gongjijin-manager/accumulationModleDownload?name=客户公积金模板'" value="模板下载"></li>
+		<li class="btns">
+			<form action="gongjijin-manager/accumulationUpload" method="post" id="fileUpload" enctype="multipart/form-data">
+				<input class="btn btn-primary" type="button" value="导入" onclick="openFile()">
+				<input type="file" name="file" id="file" onchange="upload()" style="display: none" accept="application/Excel,application/vnd.ms-excel">
+				<input type="submit" style="display: none" id="fileSubmit">
+			</form>
+		</li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='gongjijin-manager/accumulationDownload'" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
-</form>
+
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -89,48 +104,60 @@
 	</tr>
 	</thead>
 	<tbody>
+	<c:forEach items="${page.dataList}" var="account">
+		<tr>
+			<td><a href="gongjijin-manager/selectAccumulationById?id=${account.id}&flag=1">
+				${account.id}
+			</a></td>
+			<td>
+				${account.name}
+			</td>
+			<td>
+				${account.idCard}
+			</td>
+			<td>
+				${account.accountNo}
+			</td>
+			<td>
+				${account.payDate}
+			</td>
+			<td>
+				${account.payMoney}
+			</td>
+			<td>
+				${account.proxyFee}
+			</td>
+			<td>
 
-	<tr>
-		<td><a href="../updateGongjijin/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			62258837171508232
-		</td>
-		<td>
-			2017年08月
-		</td>
-		<td>
-			500
-		</td>
-		<td>
-			75
-		</td>
-		<td>
+				<c:if test="${account.status=='0'}" var="bo">
+					未缴
+				</c:if>
+				<c:if test="${!bo}">
+					已缴
+				</c:if>
 
-			已交
+			</td>
+			<td>
+				<a href="gongjijin-manager/selectAccumulationById?id=${account.id}&flag=2">修改</a>
+				<a href="gongjijin-manager/deleteAccumulationById?id=${account.id}" onclick="return confirmx(&#39;确认要删除该公积金吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
 
+	</c:forEach>
 
-		</td>
-		<td>
-			<a href="../updateGongjijin/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该公积金吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
+	<li class="disabled"><a href="gongjijin-manager/selectAccumulationByDuo?currentPage=${page.currentPage-1}&idCard=${map.idCard}&accountNo=${map.accountNo}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="gongjijin-manager/selectAccumulationByDuo?currentPage=${num}&idCard=${map.idCard}&accountNo=${map.accountNo}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="gongjijin-manager/selectAccumulationByDuo?currentPage=${page.currentPage+1}&idCard=${map.idCard}&accountNo=${map.accountNo}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

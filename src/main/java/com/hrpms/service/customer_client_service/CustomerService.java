@@ -101,4 +101,7 @@ public interface CustomerService {
      * @return
      **/
     TbCustomer getCustomerByIdCard(String idCard);
+
+    //查询所有的客户名称
+    public List<TbCustomer> selectAllCustomerName();
 }

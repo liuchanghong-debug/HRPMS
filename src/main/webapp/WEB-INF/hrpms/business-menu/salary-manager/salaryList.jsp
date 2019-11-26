@@ -46,13 +46,13 @@
             $("#searchForm").submit();
             return false;
         }
-
         function openFile() {
             $("#file").click();
         }
         function upload() {
             $("#fileSubmit").click();
         }
+
 	</script>
 
 </head>
@@ -174,7 +174,7 @@
 	<li class="disabled"><a href="salary-manager/selectSalaryByDuo?currentPage=${page.currentPage+1}&name=${map.name}&idCard=${map.idCard}&flag=1">下一页</a></li>
 	<li class="disabled controls"><a href="javascript:">当前
 		<input type="text" value="${page.currentPage}" readonly> /
-		<input type="text" value="${page.pageCount}" readonly> 条，共 ${page.pageCount} 页</a></li>
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

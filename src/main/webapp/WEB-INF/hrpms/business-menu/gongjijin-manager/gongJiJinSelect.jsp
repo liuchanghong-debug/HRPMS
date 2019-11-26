@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -60,86 +61,74 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../gongjijinList/saved_resource.html">公积金列表</a></li>
-	<li class="active"><a href="saved_resource_unEdit.html">公积金修改</a></li>
+	<li><a href="gongjijin-manager/selectAccumulationByDuo">公积金列表</a></li>
+	<li class="active"><a href="gongjijin-manager/selectAccumulationById?id=${tbAccumulationFund.id}&flag=1">公积金详情</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
+		<label class="control-label">编号：</label>
+		<div class="controls">
+			<input id="id" name="id" class="input-xlarge" type="text" readonly value="${tbAccumulationFund.id}" maxlength="20" disabled="disabled">
+		</div>
+	</div>
+	<div class="control-group">
 		<label class="control-label">客户名称：</label>
 		<div class="controls">
-			<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="412724180000001511" maxlength="20" disabled="disabled">
+			<input id="name" name="name" class="input-xlarge" readonly type="text" value="${tbAccumulationFund.name}" maxlength="20" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">身份证号：</label>
 		<div class="controls">
-			<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="412724180000001511" maxlength="20" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="idcard" name="idcard" class="input-xlarge" readonly type="text" value="${tbAccumulationFund.idCard}" maxlength="20" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">公积金号：</label>
 		<div class="controls">
-			<input id="accountno" name="accountno" class="input-xlarge required" type="text" value="62258837171508232" maxlength="20" disabled="disabled">
+			<input id="accountno" name="accountno" class="input-xlarge" readonly type="text" value="${tbAccumulationFund.accountNo}" maxlength="20" disabled="disabled">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">缴费期间：</label>
 		<div class="controls">
-			<input id="paydate" name="paydate" class="input-xlarge required" type="text" value="2017年08月" maxlength="20" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="paydate" name="paydate" class="input-xlarge " readonly type="text" value="${tbAccumulationFund.payDate}" maxlength="20" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">缴费金额：</label>
 		<div class="controls">
-			<input id="paymoney" name="paymoney" class="input-xlarge required" type="text" value="500" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="paymoney" name="paymoney" class="input-xlarge" type="text" readonly value="${tbAccumulationFund.payMoney}" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">代理费：</label>
 		<div class="controls">
-			<input id="proxyfee" name="proxyfee" class="input-xlarge " type="text" value="75" disabled="disabled">
+			<input id="proxyfee" name="proxyfee" class="input-xlarge " readonly type="text" value="${tbAccumulationFund.proxyFee}" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
-
 			<select name="status" class="input-xlarge" disabled="disabled">
-				<option value="0">已交
-				</option><option value="1">未交
-			</option></select>
+				<c:if test="${tbAccumulationFund.status=='0'}" var="bo">
+					<option value="0">未交</option>
+				</c:if>
+				<c:if test="${!bo}">
+					<option value="1">已交</option>
+				</c:if>
+			</select>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">备注：</label>
 		<div class="controls">
-			<input id="remark" name="remark" class="input-xlarge " type="text" value="test" maxlength="256" disabled="disabled">
+			<input id="remark" name="remark" class="input-xlarge " type="text" readonly value="${tbAccumulationFund.remark}" maxlength="256" disabled="disabled">
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

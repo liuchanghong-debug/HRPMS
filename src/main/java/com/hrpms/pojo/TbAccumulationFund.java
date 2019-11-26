@@ -28,7 +28,6 @@ public class TbAccumulationFund {
 
     private Timestamp createTime;//创建时间
     private Integer createBy;//创建者
-
     private Timestamp updateTime;//更新时间
     private Integer updateBy;//更新者
     private String remark;//备注
@@ -63,7 +62,7 @@ public class TbAccumulationFund {
         return status;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -72,7 +71,7 @@ public class TbAccumulationFund {
         return createBy;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     public Timestamp getUpdateTime() {
         return updateTime;
     }

@@ -269,11 +269,11 @@
                         <div id="collapse-4e35e5ef243f48b5a4d81cb2920214a6" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-059199c2d9804ef8883822dd1adb7935" href="gongjijinList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金查询</a>
+                                    <li><a data-href=".menu3-059199c2d9804ef8883822dd1adb7935" href="gongjijin-manager/selectAccumulationByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金查询</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-b9fd18369098410aa7ce9f76710df4a9" href="addGongjijin/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金缴费</a>
+                                    <li><a data-href=".menu3-b9fd18369098410aa7ce9f76710df4a9" href="gongjijin-manager/gongJiJinAddJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金缴费</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

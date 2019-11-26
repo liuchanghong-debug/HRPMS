@@ -36,7 +36,6 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
-
 		var customer =null;
 		$(function () {
 			$.post(
@@ -88,19 +87,19 @@
 
 			$("#bonuspay").blur(function () {
                 bonus= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#totalpay").val(baseSalary+bonus+overtimepay);
                 $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             });
 
 			$("#overtimepay").blur(function () {
                 overtimepay= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                $("#totalpay").val(baseSalary+bonus+overtimepay);
                 $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             });
 
 			$("#proxyfee").blur(function () {
                 proxy= parseFloat($(this).val());
-				$("#totalpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+				$("#totalpay").val(baseSalary+bonus+overtimepay);
 				$("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
             })
         });
