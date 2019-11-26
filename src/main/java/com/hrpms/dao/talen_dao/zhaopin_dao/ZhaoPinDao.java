@@ -1,9 +1,9 @@
 package com.hrpms.dao.talen_dao.zhaopin_dao;
 
 import com.hrpms.pojo.TbNeedJob;
+import com.hrpms.pojo.operaton_select.TbNeedJobOperation;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GoldFish
@@ -19,23 +19,35 @@ public interface ZhaoPinDao {
      * @param 
      * @return 
      **/
-    List<TbNeedJob> selectNeedJobByDuo(String hql, Map map);
+    List<TbNeedJob> zhaopinList(String hql, TbNeedJobOperation needJobOperation);
     /**
      * 模糊分页查询总条数
      * @param 
      * @return 
      **/
-    Long selectNeedJobCount(String hql, Map map);
+    Long zhaopinCount(String hql, TbNeedJobOperation needJobOperation);
     /**
      * 添加招聘信息
      * @param 
      * @return 
      **/
-    void addNeedJob(TbNeedJob tbNeedJob);
+    void zhaopinAdd(TbNeedJob tbNeedJob);
     /**
      * 根据id查看详细招聘信息
      * @param 
      * @return 
      **/
     TbNeedJob selectNeedJobById(int id);
+    /**
+     * 根据id修改招聘信息
+     * @param
+     * @return
+     **/
+    void updateNeedJob(TbNeedJob tbNeedJob);
+    /**
+     * 根据id删除招聘信息  置状态
+     * @param 
+     * @return 
+     **/
+    void deleteNeedJob(int id);
 }

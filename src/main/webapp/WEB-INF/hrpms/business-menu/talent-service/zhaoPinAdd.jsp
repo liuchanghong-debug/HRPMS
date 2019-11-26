@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -60,24 +61,20 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="talent-service/selectNeedJobByDuo">招聘信息列表</a></li>
-	<li class="active"><a href="talent-service/addNeedJobJsp">招聘信息添加</a></li>
+	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
+	<li class="active"><a href="zhaopin/zhaopinToAdd">招聘信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="talent-service/addNeedJob" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
+<form id="inputForm" class="form-horizontal" action="zhaopin/zhaopinAdd" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
-
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
 			<td><label class="control-label">需求名称：</label></td>
 			<td>
-				<input id="jobname" name="jobname" class="input-xlarge required" type="text" value="" maxlength="100">
+				<input id="jobName" name="jobName" class="input-xlarge required" type="text" value="" maxlength="100">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">需求职位：</label></td>
-			<td><input id="jobtype" name="jobtype" class="input-xlarge " type="text" value="" maxlength="100">
+			<td><input id="jobType" name="jobType" class="input-xlarge " type="text" value="" maxlength="100">
 			</td>
 		</tr>
 
@@ -85,36 +82,33 @@
 			<td><label class="control-label">所属行业：</label></td>
 			<td>
 				<select name="industry" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
-					<option value="0">软件互联网</option>
-					<option value="1">建筑房地产</option>
-					<option value="2">商业服务业</option>
-					<option value="3">金融业</option>
-					<option value="4">贸易批发零售</option>
-					<option value="5">文体教育传媒</option>
-					<option value="6">加工制造</option>
-					<option value="7">农林牧副渔</option>
-					<option value="8">其他</option>
+					<c:forEach items="${industrys}" var="industry">
+                        <option value="${industry.value}">${industry.label}</option>
+                    </c:forEach>
 				</select>
 			</td>
 			<td>
 				<label class="control-label">发布公司：</label>
 			</td><td>
-			<select path="companyid" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
-				<option value="" label="">
-					智递科技
-				</option></select>
+			<select path="companyId" name="companyId" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
+                <c:forEach items="${companys}" var="company">
+                    <option value="${company[0]}">
+                        ${company[1]}
+                    </option>
+                </c:forEach>
+            </select>
 		</td>
 
 		</tr>
 		<tr>
 			<td><label class="control-label">需求人数：</label></td>
-			<td><input id="needperson" name="needperson" class="input-xlarge " type="text" value="" maxlength="11"></td>
+			<td><input id="needPerson" name="needPerson" class="input-xlarge " type="text" value="" maxlength="11"></td>
 			<td><label class="control-label">结算方式：</label></td>
 			<td>
-				<select path="paytype" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
-					<option value="0">日结</option>
-					<option value="1">月结</option>
-					<option value="2">其他</option>
+				<select path="payType" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
+					<c:forEach items="${payTypes}" var="payType">
+                        <option value="${paytype.value}">${payType.label}</option>
+                    </c:forEach>
 				</select>
 			</td>
 		</tr>
@@ -127,25 +121,27 @@
 		<tr>
 			<td><label class="control-label">开始日期：</label></td>
 			<td>
-				<input name="starttime" type="date" readonly="readonly" maxlength="20" class="input-medium Wdate " value="">
+				<input name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="">
 			</td>
 			<td><label class="control-label">结束日期：</label></td>
-			<td><input name="endtime" type="date" readonly="readonly" maxlength="20" class="input-medium Wdate " value=""></td>
+			<td><input name="endTime" type="date" maxlength="20" class="input-medium Wdate " value=""></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">信息类型：</label></td>
 			<td>
-				<select name="infotype" style="width:270px;" tabindex="-1" class="select2-offscreen">
-					<option value="1">合作公司招聘</option>
-					<option value="0">本公司招聘</option>
+				<select name="infoType" style="width:270px;" tabindex="-1" class="select2-offscreen">
+					<c:forEach items="${infoTypes}" var="infoType">
+                        <option value="${infoType.value}">${infoType.label}</option>
+                    </c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">需求状态：</label></td>
 			<td>
 				<select name="status" style="width:270px;" tabindex="-1" class="select2-offscreen">
-					<option value="0">有效</option>
-					<option value="1">无效</option>
+					<c:forEach items="${statuss}" var="status">
+                        <option value="${status.value}">${status.label}</option>
+                    </c:forEach>
 				</select>
 			</td>
 		</tr>
@@ -154,7 +150,7 @@
 			<td><label class="control-label">需求详细：</label></td>
 			<td>
 
-				<textarea id="jobcontent" name="jobcontent" class="input-xlarge " rows="4" cols="30"></textarea>
+				<textarea id="jobContent" name="jobContent" class="input-xlarge " rows="4" cols="30"></textarea>
 			</td>
 			<td><label class="control-label">备注信息：</label></td>
 			<td>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -51,35 +52,41 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="talent-service/selectNeedJobByDuo">招聘信息列表</a></li>
-	<li><a href="talent-service/addNeedJobJsp">招聘信息添加</a></li>
+	<li class="active"><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
+	<li><a href="zhaopin/zhaopinToAdd">招聘信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="talent-service/selectNeedJobByDuo" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="zhaopin/zhaopinList" method="post">
 	<ul class="ul-form">
 		<li><label>需求名称：</label>
-			<input id="jobname" name="jobname" class="input-medium" type="text" value="" maxlength="100">
+			<input name="jobNameQuery" class="input-medium" type="text" value="${needJobOperation.jobNameQuery}" maxlength="100">
 		</li>
 		<li><label>需求职位：</label>
-			<input id="jobtype" name="jobType" class="input-medium" type="text" value="" maxlength="2">
+			<input name="jobTypeQuery" class="input-medium" type="text" value="${needJobOperation.jobTypeQuery}" maxlength="2">
 		</li>
 		<li><label>所属行业：</label>
-			<select name="industry" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
-				<option value="0">软件互联网</option>
-				<option value="1">建筑房地产</option>
-				<option value="2">商业服务业</option>
-				<option value="3">金融业</option>
-				<option value="4">贸易批发零售</option>
-				<option value="5">文体教育传媒</option>
-				<option value="6">加工制造</option>
-				<option value="7">农林牧副渔</option>
-				<option value="8">其他</option>
+			<select name="industryQuery" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<option value="">全部</option>
+				<c:forEach items="${industrys}" var="industry">
+					<c:if test="${needJobOperation.industryQuery == industry.value}">
+						<option value="${industry.value}" selected>${industry.label}</option>
+					</c:if>
+					<c:if test="${needJobOperation.industryQuery != industry.value}">
+						<option value="${industry.value}">${industry.label}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</li>
 		<li><label>发布公司：</label>
-			<select name="companyId" style="width:180px;" tabindex="-1" class="select2-offscreen">
-				<option value="">智递科技</option>
+			<select name="companyIdQuery" style="width:180px;" tabindex="-1" class="select2-offscreen">
+				<option value="">全部</option>
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${needJobOperation.companyIdQuery == company[0]}">
+						<option value="${company[0]}" selected>${company[1]}</option>
+					</c:if>
+					<c:if test="${needJobOperation.companyIdQuery != company[0]}">
+						<option value="${company[0]}">${company[1]}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
@@ -110,95 +117,59 @@
 	</thead>
 	<tbody>
 
-	<c:forEach items="${page.dataList}" var="needjob">
+	<c:forEach items="${page.dataList}" var="needJob">
 		<tr>
-			<td><a href="../updateZhaoPin/saved_resource_unEdit.html">
-				${needjob.id}
-			</a></td>
+			<td><a href="zhaopin/zhaopinDetailById?id=${needJob.id}">${needJob.id}</a></td>
+			<td>${needJob.jobName}</td>
+			<td>${needJob.jobType}</td>
 			<td>
-				${needjob.jobName}
+				<c:forEach items="${industrys}" var="industry">
+					<c:if test="${industry.value == needJob.industry}">
+						<span>${industry.label}</span>
+					</c:if>
+				</c:forEach>
+			</td>
+			<td>${needJob.needPerson}</td>
+			<td>
+				<c:forEach items="${payTypes}" var="payType">
+					<c:if test="${payType.value == needJob.payType}">
+						<span>${payType.label}</span>
+					</c:if>
+				</c:forEach>
+			</td>
+			<td>${needJob.price}</td>
+			<td>
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${company[0] == needJob.companyId}">
+						<span>${company[1]}</span>
+					</c:if>
+				</c:forEach>
 			</td>
 			<td>
-				${needjob.jobType}
+				<f:formatDate value="${needJob.startTime}" pattern="yyyy年MM月dd日" var="startTime"/>
+					${startTime}
 			</td>
 			<td>
-				<c:if test="${needjob.industry=='0'}">
-					软件互联网
-				</c:if>
-				<c:if test="${needjob.industry=='1'}">
-					建筑房地产
-				</c:if>
-				<c:if test="${needjob.industry=='2'}">
-					商业服务业
-				</c:if>
-				<c:if test="${needjob.industry=='3'}">
-					金融业
-				</c:if>
-				<c:if test="${needjob.industry=='4'}">
-					贸易批发零售
-				</c:if>
-				<c:if test="${needjob.industry=='5'}">
-					文体教育传媒
-				</c:if>
-				<c:if test="${needjob.industry=='6'}">
-					加工制造
-				</c:if>
-				<c:if test="${needjob.industry=='7'}">
-					农林牧副渔
-				</c:if>
-				<c:if test="${needjob.industry=='8'}">
-					其他
-				</c:if>
-
+				<f:formatDate value="${needJob.endTime}" pattern="yyyy年MM月dd日" var="endTime"/>
+					${endTime}
+			</td>
+			<td>${needJob.address}</td>
+			<td>
+				<c:forEach items="${statuss}" var="status">
+					<c:if test="${status.value == needJob.status}">
+						<span>${status.label}</span>
+					</c:if>
+				</c:forEach>
 			</td>
 			<td>
-				${needjob.needPerson}
+				<c:forEach items="${infoTypes}" var="infoType">
+					<c:if test="${infoType.value == needJob.infoType}">
+						<span>${infoType.label}</span>
+					</c:if>
+				</c:forEach>
 			</td>
 			<td>
-				<c:if test="${needjob.payType=='0'}">
-					月结
-				</c:if>
-				<c:if test="${needjob.payType=='1'}">
-					日结
-				</c:if>
-				<c:if test="${needjob.payType=='1'}">
-					其他
-				</c:if>
-			</td>
-			<td>
-				${needjob.price}
-			</td>
-			<td>
-				上海瑞星软件科技有限公司
-			</td>
-			<td>
-					${needjob.startTime}
-			</td>
-			<td>
-					${needjob.endTime}
-			</td>
-			<td>
-				${needjob.address}
-			</td>
-			<td>
-				<c:if test="${needjob.status=='0'}">
-					有效
-				</c:if>
-				<c:if test="${needjob.status=='1'}">
-					无效
-				</c:if>
-			</td>
-			<td>
-				<c:if test="${needjob.infoType=='0'}">
-					本公司招聘
-				</c:if>
-				<c:if test="${needjob.infoType=='1'}">
-					合作公司招聘信息
-				</c:if>
-
-			</td>
-			<td>
-				<a href="../updateZhaoPin/saved_resource.html">修改</a>
+				<a href="">修改</a>
 				<a href="#">删除</a>
 			</td>
 		</tr>
