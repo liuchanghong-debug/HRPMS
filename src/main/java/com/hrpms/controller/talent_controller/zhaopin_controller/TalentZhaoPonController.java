@@ -108,18 +108,28 @@ public class TalentZhaoPonController {
 
         return "business-menu/talent-service/zhaoPinUpdate";
     }
+    /**
+     * 根据id修改招聘信息
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/zhaopinUpdate")
+    public String updateNeedJob(TbNeedJob tbNeedJob, HttpSession session, Integer currentPage, TbNeedJobOperation needJobOperation, Model model){
+        TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
+        zhaoPinService.zhaopinUpdate(tbNeedJob, tbSystemUser.getId());
 
-    //根据id修改招聘信息
-    @RequestMapping("/updateNeedJob")
-    public String updateNeedJob(TbNeedJob tbNeedJob){
-        zhaoPinService.updateNeedJob(tbNeedJob);
-        return "redirect:talent-service/selectNeedJobByDuo";
+        return zhaopinList(currentPage, needJobOperation, model);
     }
 
-    //根据id删除招聘信息(实则修改招聘状态)
-    @RequestMapping("/deleteNeedJob")
-    public String deleteNeedJob(int id){
-        zhaoPinService.deleteNeedJob(id);
-        return "redirect:talent-service/selectNeedJobByDuo";
+    /**
+     * id删除招聘信息(实则修改招聘状态)
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/zhaopinDelete")
+    public String zhaopinDelete(Integer id, HttpSession session, Integer currentPage, TbNeedJobOperation needJobOperation, Model model){
+        TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
+        zhaoPinService.zhaopinDelete(id, tbSystemUser.getId());
+        return zhaopinList(currentPage, needJobOperation, model);
     }
 }

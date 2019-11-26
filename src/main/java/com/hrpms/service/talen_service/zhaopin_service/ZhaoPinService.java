@@ -39,13 +39,13 @@ public interface ZhaoPinService {
      * @param
      * @return
      **/
-    void updateNeedJob(TbNeedJob tbNeedJob);
+    void zhaopinUpdate(TbNeedJob tbNeedJob, Integer updateBy);
     /**
      *根据id删除招聘信息(实则修改招聘状态)
      * @param
      * @return
      **/
-    void deleteNeedJob(int id);
+    void zhaopinDelete(Integer id, Integer updateBy);
     
     
     

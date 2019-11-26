@@ -319,7 +319,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-3556301c31ac4747965b53ca3c940191" href="personList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才信息</a>
+                                    <li><a data-href=".menu3-3556301c31ac4747965b53ca3c940191" href="person/personList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

@@ -1,5 +1,15 @@
 package com.hrpms.service.talen_service.person_service;
 
+import com.hrpms.pojo.TbPerson;
+import com.hrpms.pojo.TbSystemDict;
+import com.hrpms.pojo.operaton_select.TbPersonOperation;
+import com.hrpms.utils.Page;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * @author GoldFish
  * @package HRPMS > com.hrpms.service.talen_service.person > PersonService
@@ -9,4 +19,24 @@ package com.hrpms.service.talen_service.person_service;
  * @Description:
  */
 public interface PersonService {
+
+    /**
+     * 多条件分页查询人才信息
+     * @param 
+     * @return 
+     **/
+    Page<TbPerson> personList(Integer currentPage, TbPersonOperation personOperation);
+
+
+
+    /**
+     * 添加人才信息
+     * @param
+     * @return
+     **/
+    void personAdd(MultipartFile resumeFile, TbPerson person, Integer createBy, HttpServletRequest request) throws IOException;
+
+
+
+    List<TbSystemDict> getDictsByName(String name);
 }

@@ -39,15 +39,9 @@ public interface ZhaoPinDao {
      **/
     TbNeedJob selectNeedJobById(int id);
     /**
-     * 根据id修改招聘信息
+     * 根据id修改招聘信息  删除共用
      * @param
      * @return
      **/
-    void updateNeedJob(TbNeedJob tbNeedJob);
-    /**
-     * 根据id删除招聘信息  置状态
-     * @param 
-     * @return 
-     **/
-    void deleteNeedJob(int id);
+    void zhaopinUpdate(TbNeedJob tbNeedJob);
 }

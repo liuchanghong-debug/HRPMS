@@ -81,13 +81,38 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
     }
 
     @Override
-    public void updateNeedJob(TbNeedJob tbNeedJob) {
-        zhaoPinDao.updateNeedJob(tbNeedJob);
+    public void zhaopinUpdate(TbNeedJob tbNeedJob, Integer updateBy) {
+        //先查询再修改
+        TbNeedJob needJob = selectNeedJobById(tbNeedJob.getId());
+        needJob.setUpdateBy(updateBy);
+        needJob.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        //赋值  以免修改时值置空
+        needJob.setJobName(tbNeedJob.getJobName());
+        needJob.setJobType(tbNeedJob.getJobType());
+        needJob.setIndustry(tbNeedJob.getIndustry());
+        needJob.setCompanyId(tbNeedJob.getCompanyId());
+        needJob.setNeedPerson(tbNeedJob.getNeedPerson());
+        needJob.setPayType(tbNeedJob.getPayType());
+        needJob.setPrice(tbNeedJob.getPrice());
+        needJob.setAddress(tbNeedJob.getAddress());
+        needJob.setStartTime(tbNeedJob.getStartTime());
+        needJob.setEndTime(tbNeedJob.getEndTime());
+        needJob.setInfoType(tbNeedJob.getInfoType());
+        needJob.setStatus(tbNeedJob.getStatus());
+        needJob.setJobContent(tbNeedJob.getJobContent());
+        needJob.setRemark(tbNeedJob.getRemark());
+
+        zhaoPinDao.zhaopinUpdate(needJob);
     }
 
     @Override
-    public void deleteNeedJob(int id) {
-        zhaoPinDao.deleteNeedJob(id);
+    public void zhaopinDelete(Integer id, Integer updateBy) {
+        String dictByNameAndLabel = getDictByNameAndLabel("招聘信息状态", "删除");
+        TbNeedJob tbNeedJob = selectNeedJobById(id);
+        tbNeedJob.setStatus(dictByNameAndLabel);
+        tbNeedJob.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        tbNeedJob.setUpdateBy(updateBy);
+        zhaoPinDao.zhaopinUpdate(tbNeedJob);
     }
 
     @Override

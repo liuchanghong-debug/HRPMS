@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -51,24 +52,24 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">人才信息列表</a></li>
-	<li><a href="../addPerson/saved_resource.html">人才信息添加</a></li>
+	<li class="active"><a href="person/personList">人才信息列表</a></li>
+	<li><a href="person/personToAdd">人才信息添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="#" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="nameQuery" class="input-medium" type="text" value="${personOperation.nameQuery}" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="idCardQuery" class="input-medium" type="text" value="${personOperation.idCardQuery}" maxlength="20">
 		</li>
 		<li><label>求职意向：</label>
-			<input id="jobintension" name="jobintension" class="input-medium" type="text" value="" maxlength="2">
+			<input name="jobInterentsionQuery" class="input-medium" type="text" value="${personOperation.jobInterentsionQuery}" maxlength="2">
 		</li>
 		<li><label>期望工作地：</label>
-			<input id="foraddress" name="foraddress" class="input-medium" type="text" value="" maxlength="20">
+			<input name="forAddressQuery" class="input-medium" type="text" value="${personOperation.forAddressQuery}" maxlength="20">
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
@@ -91,43 +92,24 @@
 	</tr>
 	</thead>
 	<tbody>
-
-	<tr>
-		<td><a href="../updatePerson/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-
-			全职
-
-		</td>
-		<td>
-			12000
-		</td>
-		<td>
-			郑州
-		</td>
-		<td>
-
-			<a href="#">E://hrpms/upload/智递哥_个人简历.doc</a>
-		</td>
-		<td>
-
-			有效
-
-		</td>
-		<td>
-			<a href="../updatePerson/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
+	<c:forEach items="${page.dataList}" var="person">
+		<tr>
+			<td><a href="../updatePerson/saved_resource_unEdit.html">${person.id}</a></td>
+			<td>${person.name}</td>
+			<td>${person.idCard}</td>
+			<td>${person.jobType}</td>
+			<td>${person.forPrice}</td>
+			<td>${person.forAddress}</td>
+			<td>
+				<a href="#">E://hrpms/upload/智递哥_个人简历.doc</a>
+			</td>
+			<td>${person.status}</td>
+			<td>
+				<a href="">修改</a>
+				<a href="#" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 	</tbody>
 </table>
 <div class="pagination"><ul>
