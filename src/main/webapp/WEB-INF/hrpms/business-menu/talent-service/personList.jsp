@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -94,30 +95,62 @@
 	<tbody>
 	<c:forEach items="${page.dataList}" var="person">
 		<tr>
-			<td><a href="../updatePerson/saved_resource_unEdit.html">${person.id}</a></td>
+			<td><a href="person/personDetailById?id=${person.id}">${person.id}</a></td>
 			<td>${person.name}</td>
 			<td>${person.idCard}</td>
-			<td>${person.jobType}</td>
+			<td>
+				<c:forEach items="${jobTypes}" var="jobType">
+					<c:if test="${jobType.value == person.jobType}">
+						<span>${jobType.label}</span>
+					</c:if>
+				</c:forEach>
+			</td>
 			<td>${person.forPrice}</td>
 			<td>${person.forAddress}</td>
 			<td>
-				<a href="#">E://hrpms/upload/智递哥_个人简历.doc</a>
+				<a href="javascript:void(0)" onclick="openWindow('person/resumeUrlPreview?personResumeUrl=${person.resumeUrl}')">${fn:substring(person.resumeUrl, fn:indexOf(person.resumeUrl, '_') + 1, fn:length(person.resumeUrl))}</a>
+				<script>
+					function openWindow(url) {
+						window.open(url);
+                    }
+				</script>
 			</td>
-			<td>${person.status}</td>
 			<td>
-				<a href="">修改</a>
-				<a href="#" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
+				<c:forEach items="${statuss}" var="status">
+					<c:if test="${status.value == person.status}">
+						<span>${status.label}</span>
+					</c:if>
+				</c:forEach>
+			</td>
+			<td>
+				<a href="person/personToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}">修改</a>
+                <c:forEach items="${statuss}" var="status">
+                    <c:if test="${status.label == '删除' && status.value != person.status}">
+                        <a href="person/personDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
+                    </c:if>
+                </c:forEach>
 			</td>
 		</tr>
 	</c:forEach>
 	</tbody>
 </table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-</ul>
+<form action="" name="paging" method="post">
+	<input type="hidden" name="nameQuery" value="${personOperation.nameQuery}">
+	<input type="hidden" name="idCardQuery" value="${personOperation.idCardQuery}">
+	<input type="hidden" name="jobInterentsionQuery" value="${personOperation.jobInterentsionQuery}">
+	<input type="hidden" name="forAddressQuery" value="${personOperation.forAddressQuery}">
+
+	<div class="pagination"><ul>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+		<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage - 1}'; paging.submit()">下一页 »</a></li>
+		<li class="disabled controls"><a href="javascript:">当前
+			<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+			/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+			条，共 ${page.count} 条</a></li>
+	</ul>
+</form>
+
 	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。

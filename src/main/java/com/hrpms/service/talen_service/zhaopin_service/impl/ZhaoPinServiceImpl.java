@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -128,5 +129,26 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
     @Override
     public List<Object[]> getAllCompanyOfIdAndName() {
         return companyService.getAllCompanyOfIdAndName();
+    }
+
+    @Override
+    public List<Integer> getNormalZhaoPinCompanyId() {
+        List list = new ArrayList();
+        list.add(getDictByNameAndLabel("招聘信息状态", "有效"));
+        return zhaoPinDao.getNormalZhaoPinCompanyId(list);
+    }
+
+    @Override
+    public List<Integer> getNeedJobsByJobType(Double price) {
+        List list = new ArrayList();
+        list.add(getDictByNameAndLabel("招聘信息状态", "有效"));
+        Double maxPrice = price + 1000;
+        Double minPrice = price - 1000;
+        return zhaoPinDao.getNeedJobsByJobType(maxPrice, minPrice, list);
+    }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
+        return zhaoPinDao.getAllJobByCompanyId(id);
     }
 }

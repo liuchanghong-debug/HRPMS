@@ -170,7 +170,11 @@
 			</td>
 			<td>
 				<a href="zhaopin/zhaopinToUpdate?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">修改</a>
-				<a href="zhaopin/zhaopinDelete?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">删除</a>
+				<c:forEach items="${statuss}" var="status">
+					<c:if test="${status.label == '删除' && status.value != needJob.status}">
+						<a href="zhaopin/zhaopinDelete?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">删除</a>
+					</c:if>
+				</c:forEach>
 			</td>
 		</tr>
 	</c:forEach>

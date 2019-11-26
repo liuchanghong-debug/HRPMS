@@ -108,7 +108,15 @@
 		</tr>
 		<tr>
 			<td><label class="control-label">工作经历：</label></td>
-			<td colspan="3"><textarea id="worked" name="worked" maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
+			<td><textarea id="worked" name="worked" maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
+			<td><label class="control-label">状态：</label></td>
+			<td>
+				<select name="status" tabindex="-1" class="select2-offscreen">
+					<c:forEach items="${statuss}" var="status">
+						<option value="${status.value}">${status.label}</option>
+					</c:forEach>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">自我介绍：</label></td>
@@ -123,18 +131,15 @@
 				<ol id="resumeurlPreview">
 					<li style="list-style:none;padding-top:5px;"><span id="fileName"></span></li>
 				</ol>
-				<a href="javascript:" onclick="openDir()" class="btn">添加</a>&nbsp;
+				<a href="javascript:" onclick="$('#resumeFile').click()" class="btn">添加</a>&nbsp;
 				<a href="javascript:" onclick="fileEmpty();" class="btn">清除</a>
 				<input type="file" id="resumeFile" name="resumeFile" onchange="fileChange(this.value)" style="display: none;">
 				<script>
-					function openDir() {
-                        $("#resumeFile").click();
-                    }
                     function fileChange(name) {
 						$("#fileName").text(name.slice(name.lastIndexOf("\\") + 1, name.length));
                     }
                     function fileEmpty() {
-						$("#resumeFile").val(null);
+						$("#resumeFile").empty();
                         $("#fileName").text("");
                     }
 				</script>

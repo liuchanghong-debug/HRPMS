@@ -26,4 +26,17 @@ public class Download {
         ServletOutputStream outputStream = response.getOutputStream();
         IOUtils.copy(bufferedInputStream, outputStream);
     }
+
+    /**
+     * 预览
+     * @param
+     * @return
+     **/
+    public static void preview(String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        File file = new File(request.getRealPath("resume\\" + name));
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+        response.setHeader("Content-Disposition", "filename=" + DownLoadMessyCode.setDownloadFileName(name.substring(name.indexOf("_") + 1), request));
+        ServletOutputStream outputStream = response.getOutputStream();
+        IOUtils.copy(bufferedInputStream, outputStream);
+    }
 }

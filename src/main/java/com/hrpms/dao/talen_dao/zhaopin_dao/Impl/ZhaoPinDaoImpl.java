@@ -49,4 +49,26 @@ public class ZhaoPinDaoImpl implements ZhaoPinDao {
     public void zhaopinUpdate(TbNeedJob tbNeedJob) {
         sessionFactory.getCurrentSession().merge(tbNeedJob);
     }
+
+    @Override
+    public List<Integer> getNormalZhaoPinCompanyId(List normalStatus) {
+        return sessionFactory.getCurrentSession().createQuery("select companyId from TbNeedJob where status in :status").setParameterList("status", normalStatus).list();
+    }
+
+    @Override
+    public List<Integer> getNeedJobsByJobType(Double maxPrice, Double minPrice, List normalStatus) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("select id from TbNeedJob where price >= ? and price <= ? and status in :status")
+                .setParameter(0, minPrice)
+                .setParameter(1, maxPrice)
+                .setParameterList("status", normalStatus)
+                .list();
+    }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
+        return sessionFactory.getCurrentSession().createQuery("from TbNeedJob where companyId = ?")
+                .setParameter(0, id)
+                .list();
+    }
 }

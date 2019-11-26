@@ -36,4 +36,19 @@ public class PersonDaoImpl implements PersonDao {
     public void personAdd(TbPerson person) {
         sessionFactory.getCurrentSession().save(person);
     }
+
+    @Override
+    public TbPerson personDetailById(Integer id) {
+        return (TbPerson) sessionFactory.getCurrentSession().get(TbPerson.class, id);
+    }
+
+    @Override
+    public void personUpdate(TbPerson person) {
+        sessionFactory.getCurrentSession().update(person);
+    }
+
+    @Override
+    public List<Object[]> getAllIdAndName(List normalStatus) {
+        return sessionFactory.getCurrentSession().createQuery("select id, name from TbPerson where status in :status").setParameterList("status", normalStatus).list();
+    }
 }

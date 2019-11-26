@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/zhaopin")
-public class TalentZhaoPonController {
+public class TalentZhaoPinController {
     @Autowired
     private ZhaoPinService zhaoPinService;
 

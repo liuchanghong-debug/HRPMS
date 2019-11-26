@@ -67,4 +67,22 @@ public interface ZhaoPinService {
      * @return 
      **/
     List<Object[]> getAllCompanyOfIdAndName();
+    /**
+     * 获取所有有效的招聘公司的信息
+     * @param
+     * @return
+     **/
+    List<Integer> getNormalZhaoPinCompanyId();
+    /**
+     * 根据工作单价查询公司
+     * @param
+     * @return
+     **/
+    List<Integer> getNeedJobsByJobType(Double price);
+    /**
+     * 根据公司得到所有职位信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getAllJobByCompanyId(Integer id);
 }

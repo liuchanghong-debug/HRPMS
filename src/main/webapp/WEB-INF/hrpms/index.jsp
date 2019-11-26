@@ -323,7 +323,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-5cbbb1056ebf471b8922e69f157455c5" href="laowuList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;劳务派遣</a>
+                                    <li><a data-href=".menu3-5cbbb1056ebf471b8922e69f157455c5" href="laowu/laowuList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;劳务派遣</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>

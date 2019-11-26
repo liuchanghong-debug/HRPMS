@@ -33,4 +33,22 @@ public interface PersonDao {
      * @return 
      **/
     void personAdd(TbPerson person);
+    /**
+     * 根据id查询
+     * @param
+     * @return
+     **/
+    TbPerson personDetailById(Integer id);
+    /**
+     * 修改
+     * @param
+     * @return
+     **/
+    void personUpdate(TbPerson person);
+    /**
+     * 获取所有客户名称和id
+     * @param
+     * @return
+     **/
+    List<Object[]> getAllIdAndName(List normalStatus);
 }
