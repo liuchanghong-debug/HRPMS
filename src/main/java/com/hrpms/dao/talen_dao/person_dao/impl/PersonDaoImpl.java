@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -50,5 +51,15 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public List<Object[]> getAllIdAndName(List normalStatus) {
         return sessionFactory.getCurrentSession().createQuery("select id, name from TbPerson where status in :status").setParameterList("status", normalStatus).list();
+    }
+
+    @Override
+    public List<TbPerson> getPersonsByPrice(String hql, Map map) {
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .setProperties(map)
+                .setParameterList("statu", (List) map.get("status"))
+                .list();
     }
 }
