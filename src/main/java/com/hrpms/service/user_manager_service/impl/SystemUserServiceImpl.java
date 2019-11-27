@@ -76,4 +76,9 @@ public class SystemUserServiceImpl implements SystemUserService {
     public void deleteSystemUserById(int id) {
         systemUserDao.deleteSystemUserById(id);
     }
+
+    @Override
+    public TbSystemUser isOneUsername(String username) {
+        return systemUserDao.isOneUsername(username);
+    }
 }

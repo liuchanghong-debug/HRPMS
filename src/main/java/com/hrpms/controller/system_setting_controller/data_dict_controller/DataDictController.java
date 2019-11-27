@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
@@ -124,5 +125,12 @@ public class DataDictController {
     public String dictDelete(Integer id, Integer currentPage, TbSystemDictOperation dataDictOperation, Model model){
         dataDictService.dataDictDelete(id);
         return datadictList(currentPage, dataDictOperation, model);
+    }
+
+    @RequestMapping("/selectByName")
+    @ResponseBody
+    public List<TbSystemDict> selectByName(String name){
+        List<TbSystemDict> list = dataDictService.getDataDictByName(name);
+        return list;
     }
 }

@@ -66,7 +66,7 @@
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="email-template/addEmailTemplate" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
-	<input name="createBy" type="hidden" value="${requestScope.tbSystemUser.id}">
+	<input name="createBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">

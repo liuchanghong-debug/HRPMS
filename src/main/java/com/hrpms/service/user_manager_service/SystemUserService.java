@@ -20,4 +20,7 @@ public interface SystemUserService {
 
     //根据id删除系统用户
     public void deleteSystemUserById(int id);
+
+    public TbSystemUser isOneUsername(String username);
+
 }

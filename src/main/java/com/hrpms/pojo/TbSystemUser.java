@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author GoldFish
@@ -30,6 +32,7 @@ public class TbSystemUser {
 
     //一个用户对应一个用户角色
     private TbUserRole tbUserRole;
+
 
     @Id
     @GeneratedValue
@@ -142,4 +145,5 @@ public class TbSystemUser {
     public void setTbUserRole(TbUserRole tbUserRole) {
         this.tbUserRole = tbUserRole;
     }
+
 }

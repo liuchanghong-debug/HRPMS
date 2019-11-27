@@ -59,53 +59,41 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../smsTemplateList/saved_resource.html">短信模板列表</a></li>
-	<li class="active"><a href="saved_resource.html">短信模板修改</a></li>
+	<li><a href="sms-template/selectSmsTemplateByDuo">短信模板列表</a></li>
+	<li class="active"><a href="sms-template/selectSmsTemplateById?id=${tbSmsTemplate.id}&flag=2">短信模板修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="/sms-template/updateSmsTemplate" method="post" novalidate="novalidate">
+	<input name="id" type="hidden" value="${tbSmsTemplate.id}">
+	<input name="createBy" type="hidden" value="${tbSmsTemplate.createBy}">
+	<input name="updateBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">模板编码：</label>
 		<div class="controls">
-			<input id="templateCode" name="templateCode" class="input-xlarge required" type="text" value="1000" maxlength="10">
+			<input id="templateCode" name="template_code" class="input-xlarge required" type="text" value="${tbSmsTemplate.template_code}" maxlength="10">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">主题：</label>
 		<div class="controls">
-			<input id="subject" name="subject" class="input-xlarge required" type="text" value="生日祝福" maxlength="256">
+			<input id="subject" name="subject" class="input-xlarge required" type="text" value="${tbSmsTemplate.subject}" maxlength="256">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">内容：</label>
 		<div class="controls">
-			<textarea id="content" name="content" maxlength="512" class="input-xxlarge required" rows="4">您好，今天是您的生日，在这个特殊的日子里，祝您生日快乐工作顺利！</textarea>
+			<textarea id="content" name="content" maxlength="512" class="input-xxlarge required" rows="4">${tbSmsTemplate.content}</textarea>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">顺序号：</label>
 		<div class="controls">
-			<input id="orderId" name="orderId" class="input-xlarge required" type="text" value="1" maxlength="11">
+			<input id="orderId" name="order_id" class="input-xlarge required" type="text" value="${tbSmsTemplate.order_id}" maxlength="11">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
