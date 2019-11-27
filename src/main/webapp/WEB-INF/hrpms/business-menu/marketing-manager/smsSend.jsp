@@ -31,12 +31,27 @@
 	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
-	<script src="../layer-v3.1.0/layer/layer.js" type="text/javascript"></script>
+	<script src="js/layer-v3.1.0/layer/layer.js" type="text/javascript"></script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        $(function () {
+            $.post(
+                "customerClient/selectAllCustomerName",
+                function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].phone + "'>" + json[i].name + "</option>"
+                    }
+                    $("#telephone").html(str);
+                },
+                "json"
+            );
+        });
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -62,35 +77,33 @@
 
 <ul class="nav nav-tabs">
 
-	<li class="active"><a href="#">短信发送</a></li>
+	<li class="active"><a href="/marketing-manager/addSmsRecoredJsp">短信发送</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
+<form id="inputForm" class="form-horizontal" action="/marketing-manager/addSmsRecored" method="post" novalidate="novalidate">
+	<input name="user_id" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">发送人：</label>
 		<div class="controls">
-			<input id="userId" name="userId" class="input-xlarge required" type="text" value="" maxlength="512">
+			<input id="userId" name="username" class="input-xlarge" type="text" value="${sessionScope.tbSystemUser.username}" maxlength="512">
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label">接收人电话：</label>
+		<label class="control-label">接收人：</label>
 		<div class="controls">
-			<input id="telephone" name="telephone" class="input-xlarge required" type="text" value="" maxlength="512">
+			<select id="telephone" name="telephone" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+			</select>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">短信模板：</label>
 		<div class="controls">
-			<input type="text" name="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required">
-
-
+			<input type="text" name="templateId" id="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required">
 
 			<input type="button" name="chooseSms" value="选择" id="parentIframe">
-
 
 		</div>
 	</div>
@@ -101,15 +114,6 @@
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">发送时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="sendtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required" -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 				<span class="help-inline"><font color="red">*</font> </span> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
 	<div class="form-actions">
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="发送">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
@@ -132,7 +136,23 @@ $('#parentIframe').on('click', function(){
         maxmin: true,
         shadeClose: true, //点击遮罩关闭层
         area : ['800px' , '400px'],
-        content: '../smsTemplateSelect/saved_resource.html'
+        content: 'marketing-manager/selectSmsModleJsp',
+        btn: ['确定','返回'],
+        yes: function(data){
+            //当点击‘确定’按钮的时候，获取弹出层返回的值
+            var list = window["layui-layer-iframe" + data].callbackdatasms();
+            //打印返回的值，看是否有我们想返回的值。
+            var id=parseInt(list[0]);
+            $("#templateId").val(id);
+            var content = list[1].replace(/\s+/g,"");
+            $("#content").val(content);
+
+            //最后关闭弹出层
+            layer.close(data);
+        },
+        cancel: function(){
+            //右上角关闭回调
+        }
     });
 });
 </script>

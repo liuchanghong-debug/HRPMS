@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user-manager")
@@ -101,5 +98,20 @@ public class SystemUserController {
             bo = false;     //用户名不唯一
         }
         return bo;
+    }
+
+    //查询所有用户名称
+    @RequestMapping("/selectAllUserName")
+    @ResponseBody
+    public List selectAllUserName(){
+        List<TbSystemUser> tbSystemUsers = systemUserService.selectAllUserName();
+        List list = new ArrayList();
+        for(TbSystemUser tb:tbSystemUsers){
+            Map map = new HashMap();
+            map.put("id",tb.getId());
+            map.put("username",tb.getUsername());
+            list.add(map);
+        }
+        return list;
     }
 }

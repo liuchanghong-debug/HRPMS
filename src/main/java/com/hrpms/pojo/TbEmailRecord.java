@@ -18,8 +18,8 @@ import java.sql.Timestamp;
 @Entity
 public class TbEmailRecord {
     private Integer id;//邮件编号  主键
-    private Integer userId;//发送人  非空
-    private String toAddr;//接收人邮箱  非空
+    private Integer user_id;//发送人  非空
+    private String to_addr;//接收人邮箱  非空
     private String subject;//主题  非空
     private String content;//内容  非空
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
@@ -32,12 +32,20 @@ public class TbEmailRecord {
         return id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public String getToAddr() {
-        return toAddr;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getTo_addr() {
+        return to_addr;
+    }
+
+    public void setTo_addr(String to_addr) {
+        this.to_addr = to_addr;
     }
 
     public String getSubject() {
@@ -61,13 +69,6 @@ public class TbEmailRecord {
         this.id = id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public void setToAddr(String toAddr) {
-        this.toAddr = toAddr;
-    }
 
     public void setSubject(String subject) {
         this.subject = subject;

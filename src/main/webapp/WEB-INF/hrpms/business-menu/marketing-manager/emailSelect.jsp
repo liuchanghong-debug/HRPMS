@@ -30,7 +30,6 @@
 	<script src="js/static/common/mustache.min.js" type="text/javascript"></script>
 	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
-	<script src="../layer-v3.1.0/layer/layer.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
@@ -61,66 +60,38 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">邮件修改</a></li>
+
+	<li class="active"><a href="saved_resource_unEdit.html">邮件详情</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1000">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">发信人：</label>
 		<div class="controls">
-			<input id="userId" name="userId" class="input-xlarge required digits" type="text" value="1000" maxlength="11">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="userId" name="userId" class="input-xlarge required digits" type="text" value="${user.username}" maxlength="11" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">收信人：</label>
 		<div class="controls">
-			<input id="toAddr" name="toAddr" class="input-xlarge required" type="text" value="zhidi@soft.com" maxlength="256">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="toAddr" name="toAddr" class="input-xlarge required" type="text" value="${customer.name}" maxlength="256" disabled="disabled">
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label">邮件模板：</label>
-		<div class="controls">
-			<input type="text" name="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required">
 
-			<input type="button" name="chooseSms" value="选择" id="parentIframe">
-
-		</div>
-	</div>
 	<div class="control-group">
 		<label class="control-label">标题：</label>
 		<div class="controls">
-			<input id="subject" name="subject" class="input-xlarge required" type="text" value="公积金催交" maxlength="128">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="subject" name="subject" class="input-xlarge required" type="text" value="${tbEmailRecord.subject}" maxlength="128" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">内容：</label>
 		<div class="controls">
-			<textarea id="content" name="content" maxlength="256" class="input-xxlarge required" rows="4">您好，您的公积金预交款日到了，请及时缴款。</textarea>
-			<span class="help-inline"><font color="red">*</font> </span>
+			<textarea id="content" name="content" maxlength="256" class="input-xxlarge required" rows="4" disabled="disabled">${tbEmailRecord.content}</textarea>
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
@@ -133,17 +104,6 @@ if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){
         //if ($("#menuContent").html()==""){$.get("/jeesite-master/a/sys/menu/treeselect", function(data){$("#menuContent").html(data);});}else{$("#menuContent").toggle(100);}
     });
 }//-->
-
-$('#parentIframe').on('click', function(){
-    layer.open({
-        type: 2,
-        title: '',
-        maxmin: true,
-        shadeClose: true, //点击遮罩关闭层
-        area : ['800px' , '400px'],
-        content: '../emailTemplateSelect/saved_resource.html'
-    });
-});
 </script>
 
 </body></html>

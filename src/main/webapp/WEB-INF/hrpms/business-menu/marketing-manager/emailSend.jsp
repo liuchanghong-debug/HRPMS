@@ -30,13 +30,28 @@
 	<script src="js/static/common/mustache.min.js" type="text/javascript"></script>
 	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
-	<script src="../layer-v3.1.0/layer/layer.js" type="text/javascript"></script>
+	<script src="js/layer-v3.1.0/layer/layer.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        $(function () {
+            $.post(
+                "customerClient/selectAllCustomerName",
+                function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].email + "'>" + json[i].name + "</option>"
+                    }
+                    $("#toAddr").html(str);
+                },
+                "json"
+            );
+        });
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -62,45 +77,32 @@
 
 <ul class="nav nav-tabs">
 
-	<li class="active"><a href="#">邮件发送</a></li>
+	<li class="active"><a href="/marketing-manager/addEmailRecoredJsp">邮件发送</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="/marketing-manager/addEmailRecored" method="post" novalidate="novalidate">
+	<input name="status" type="hidden" value="1">
+	<input name="user_id" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">发信人：</label>
 		<div class="controls">
-			<input id="userId" name="userId" class="input-xlarge required digits" type="text" value="" maxlength="11">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="userId" name="username" class="input-xlarge" readonly type="text" value="${sessionScope.tbSystemUser.username}" maxlength="11">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">收信人：</label>
 		<div class="controls">
-			<input id="toAddr" name="toAddr" class="input-xlarge required" type="text" value="" maxlength="256">
+			<select id="toAddr" name="to_addr" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+			</select>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">邮件模板：</label>
 		<div class="controls">
-			<input type="text" name="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required">
+			<input type="text" name="templateId" id="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required">
 
 			<input type="button" name="chooseSms" value="选择" id="parentIframe">
 
@@ -142,7 +144,25 @@ $('#parentIframe').on('click', function(){
         maxmin: true,
         shadeClose: true, //点击遮罩关闭层
         area : ['800px' , '400px'],
-        content: '../emailTemplateSelect/saved_resource.html'
+        content: 'marketing-manager/selectModleJsp',
+        btn: ['确定','返回'],
+        yes: function(data){
+            //当点击‘确定’按钮的时候，获取弹出层返回的值
+            var list = window["layui-layer-iframe" + data].callbackdata();
+            //打印返回的值，看是否有我们想返回的值。
+            var id=parseInt(list[0]);
+            $("#templateId").val(id);
+            var subject=list[1].replace(/\s+/g,"");
+			$("#subject").val(subject);
+			var content = list[2].replace(/\s+/g,"");
+			$("#content").val(content);
+
+            //最后关闭弹出层
+            layer.close(data);
+        },
+        cancel: function(){
+            //右上角关闭回调
+        }
     });
 });
 </script>
