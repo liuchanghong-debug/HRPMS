@@ -68,7 +68,7 @@
 <form id="inputForm" class="form-horizontal" action="/email-template/updateEmailTemplate" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="${tbEmailTemplate.id}">
 	<input name="createBy" type="hidden" value="${tbEmailTemplate.createBy}">
-	<input name="updateBy" type="hidden" value="${requestScope.tbSystemUser.id}">
+	<input name="updateBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 

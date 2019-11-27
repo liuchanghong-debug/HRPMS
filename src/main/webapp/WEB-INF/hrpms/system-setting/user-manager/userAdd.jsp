@@ -35,7 +35,10 @@
 	<meta name="decorator" content="default">
 	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+        var busername=false;
+        var bpassword = false;
 		$(function () {
+            /*从数字字典中获取用户状态*/
 			$.post(
 			    "datadict/selectByName",
 				{"name":"用户状态"},
@@ -48,8 +51,49 @@
                 },
                 "json"
 			);
-        });
 
+			/*用户名唯一以及正则验证*/
+			$("#username").blur(function () {
+				var username = $(this).val();
+				var res = /^[A-Za-z0-9]{5,10}$/;
+                busername= res.test(username);
+                if(busername){	//正则通过
+                    $.post(
+                        "user-manager/isOneUsername",
+						{"username":username},
+						function (json) {
+							if(json){		//用户名不唯一，可通过
+							    $("#userIsOne").html("<font color='green'>√</font>");
+							    busername=true;
+							}else {
+                                busername=false;
+							    $("#userIsOne").html("<font color='red'>用户名已被使用，请重新输入！！</font>")
+							}
+                        },
+						"json"
+					)
+				}else{
+                    $("#userIsOne").html("<font color='red'>用户名格式错误！！</font>")
+				}
+
+            });
+
+			/*密码验证*/
+            $("#password").blur(function () {
+                var password=$("#password").val();
+                var re=/^[A-Za-z0-9]{6,7}$/;
+                bpassword=re.test(password);
+                if(bpassword){
+                    $("#pwd").html("<font color='green'>√</font>")
+                }else {
+                    $("#pwd").html("<font color='red'>×</font>")
+                }
+            });
+
+        });
+        function sub() {
+            return busername && bpassword;
+        }
 
 
 
@@ -80,7 +124,7 @@
 	<li><a href="user-manager/selectSystemUserByDuo">用户信息列表</a></li>
 	<li class="active"><a href="user-manager/userAddJsp">用户信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="user-manager/addSystemUser" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="user-manager/addSystemUser" method="post" onsubmit="return sub()">
 	<input id="id" name="id" type="hidden" value="">
 	<input type="hidden" name="createBy" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
@@ -88,15 +132,15 @@
 		<div class="control-group">
 			<label class="control-label">用户名称：</label>
 			<div class="controls">
-				<input id="username" name="username" class="input-xlarge required" type="text" value="" maxlength="50">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="username" name="username" placeholder="由5-10个数字或字母组成" class="input-xlarge required" type="text" value="" maxlength="50">
+				<span class="help-inline" id="userIsOne"></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户密码：</label>
 			<div class="controls">
-				<input id="password" name="password" class="input-xlarge required" type="text" value="" maxlength="50">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<input id="password" name="password" placeholder="由6-7个数字或字母组成" class="input-xlarge required" type="password" value="" maxlength="50">
+				<span class="help-inline" id="pwd"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">

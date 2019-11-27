@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/user-manager")
@@ -87,5 +89,17 @@ public class SystemUserController {
     public String deleteSystemUserById(int id){
         systemUserService.deleteSystemUserById(id);
         return "redirect:selectSystemUserByDuo";
+    }
+
+    //用户名的唯一验证
+    @RequestMapping("/isOneUsername")
+    @ResponseBody
+    public boolean isOneUsername(String username){
+        TbSystemUser systemUser = systemUserService.isOneUsername(username);
+        boolean bo = true;  //用户名唯一
+        if(systemUser!=null && systemUser.getId()!=0){
+            bo = false;     //用户名不唯一
+        }
+        return bo;
     }
 }

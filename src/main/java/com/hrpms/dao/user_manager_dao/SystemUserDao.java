@@ -25,4 +25,7 @@ public interface SystemUserDao {
     //根据id删除系统用户
     public void deleteSystemUserById(int id);
 
+    //用户名唯一验证
+    public TbSystemUser isOneUsername(String username);
+
 }
