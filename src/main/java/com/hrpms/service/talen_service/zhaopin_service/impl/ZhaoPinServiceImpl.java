@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,13 +82,38 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
     }
 
     @Override
-    public void updateNeedJob(TbNeedJob tbNeedJob) {
-        zhaoPinDao.updateNeedJob(tbNeedJob);
+    public void zhaopinUpdate(TbNeedJob tbNeedJob, Integer updateBy) {
+        //先查询再修改
+        TbNeedJob needJob = selectNeedJobById(tbNeedJob.getId());
+        needJob.setUpdateBy(updateBy);
+        needJob.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        //赋值  以免修改时值置空
+        needJob.setJobName(tbNeedJob.getJobName());
+        needJob.setJobType(tbNeedJob.getJobType());
+        needJob.setIndustry(tbNeedJob.getIndustry());
+        needJob.setCompanyId(tbNeedJob.getCompanyId());
+        needJob.setNeedPerson(tbNeedJob.getNeedPerson());
+        needJob.setPayType(tbNeedJob.getPayType());
+        needJob.setPrice(tbNeedJob.getPrice());
+        needJob.setAddress(tbNeedJob.getAddress());
+        needJob.setStartTime(tbNeedJob.getStartTime());
+        needJob.setEndTime(tbNeedJob.getEndTime());
+        needJob.setInfoType(tbNeedJob.getInfoType());
+        needJob.setStatus(tbNeedJob.getStatus());
+        needJob.setJobContent(tbNeedJob.getJobContent());
+        needJob.setRemark(tbNeedJob.getRemark());
+
+        zhaoPinDao.zhaopinUpdate(needJob);
     }
 
     @Override
-    public void deleteNeedJob(int id) {
-        zhaoPinDao.deleteNeedJob(id);
+    public void zhaopinDelete(Integer id, Integer updateBy) {
+        String dictByNameAndLabel = getDictByNameAndLabel("招聘信息状态", "删除");
+        TbNeedJob tbNeedJob = selectNeedJobById(id);
+        tbNeedJob.setStatus(dictByNameAndLabel);
+        tbNeedJob.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        tbNeedJob.setUpdateBy(updateBy);
+        zhaoPinDao.zhaopinUpdate(tbNeedJob);
     }
 
     @Override
@@ -103,5 +129,26 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
     @Override
     public List<Object[]> getAllCompanyOfIdAndName() {
         return companyService.getAllCompanyOfIdAndName();
+    }
+
+    @Override
+    public List<Integer> getNormalZhaoPinCompanyId() {
+        List list = new ArrayList();
+        list.add(getDictByNameAndLabel("招聘信息状态", "有效"));
+        return zhaoPinDao.getNormalZhaoPinCompanyId(list);
+    }
+
+    @Override
+    public List<Integer> getNeedJobsByJobType(Double price) {
+        List list = new ArrayList();
+        list.add(getDictByNameAndLabel("招聘信息状态", "有效"));
+        Double maxPrice = price + 1000;
+        Double minPrice = price - 1000;
+        return zhaoPinDao.getNeedJobsByJobType(maxPrice, minPrice, list);
+    }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
+        return zhaoPinDao.getAllJobByCompanyId(id);
     }
 }

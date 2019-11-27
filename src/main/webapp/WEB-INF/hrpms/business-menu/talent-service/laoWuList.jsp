@@ -51,15 +51,15 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">劳务合作列表</a></li>
-	<li><a href="../addLaowu/saved_resource.html">劳务合作添加</a></li>
+	<li class="active"><a href="laowu/laowuList">劳务合作列表</a></li>
+	<li><a href="laowu/laowuToAdd">劳务合作添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="#" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="name" name="idcard" class="input-medium" type="text" value="" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
 			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">

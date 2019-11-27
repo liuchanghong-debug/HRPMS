@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -12,8 +15,12 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:人才信息表
  */
+@Entity
+@DynamicUpdate
+@DynamicInsert
 public class TbPerson {
     private Integer id;//编号  主键
+    private String name;
     private String idCard;//身份证号
     private String jobIntentsion;//求职意向
     private String jobType;//工作类别  0 兼职  1 全职  2 外派
@@ -31,18 +38,26 @@ public class TbPerson {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
+    @Column(length = 25)
+    public String getName() {
+        return name;
+    }
 
+    @Column(length = 20)
     public String getIdCard() {
         return idCard;
     }
-
+    @Column(length = 256)
     public String getJobIntentsion() {
         return jobIntentsion;
     }
-
+    @Column(length = 2)
     public String getJobType() {
         return jobType;
     }
@@ -50,23 +65,23 @@ public class TbPerson {
     public Double getForPrice() {
         return forPrice;
     }
-
+    @Column(length = 20)
     public String getForAddress() {
         return forAddress;
     }
-
+    @Column(length = 256)
     public String getWorked() {
         return worked;
     }
-
+    @Column(length = 256)
     public String getPersonInfo() {
         return personInfo;
     }
-
+    @Column(length = 256)
     public String getResumeUrl() {
         return resumeUrl;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -74,7 +89,7 @@ public class TbPerson {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -82,11 +97,11 @@ public class TbPerson {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }
@@ -94,6 +109,10 @@ public class TbPerson {
     public void setId(Integer id) {
 
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdCard(String idCard) {

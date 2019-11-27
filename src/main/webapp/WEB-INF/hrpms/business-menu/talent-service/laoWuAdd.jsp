@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -20,8 +21,8 @@
 	<!--[if lte IE 7]><link href="js/static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
 	<!--[if lte IE 6]><link href="js/static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
-	<link href="js/static/jquery-select2/3.4/select2.min.css" rel="stylesheet" />
-	<script src="js/static/jquery-select2/3.4/select2.min.js" type="text/javascript"></script>
+	<%--<link href="js/static/jquery-select2/3.4/select2.min.css" rel="stylesheet" />--%>
+	<%--<script src="js/static/jquery-select2/3.4/select2.min.js" type="text/javascript"></script>--%>
 	<link href="js/static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
 	<link href="js/static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
@@ -54,29 +55,127 @@
                 }
             });
         });
+
+        //根据person的id得到其他值
+        function getIdCard(id) {
+            $("#idCard").val(null);
+            $("#personPrice").val(null);
+            $("#jobType").removeAttr("disabled", "disabled");
+            $("#companyId>option").removeAttr("hidden", "hidden");
+            $("#companyId").removeAttr("onchange").attr("onchange", "getPersonsByCompayId(this.value)");
+
+
+			if(id !== "" && id != null){
+			    $.get(
+			        "laowu/getPersonAndCompanyById",
+					{"id":id},
+					function (json) {
+			            var person = json.person;
+						$("#idCard").val(person.idCard);
+						$("#personPrice").val(person.forPrice);
+                        $("#jobType option[value='']").removeAttr("selected");
+                        $("#jobType option[value='" + person.jobType + "']").attr("selected","selected");
+                        $("#jobType").attr("disabled", "disabled");
+                        // 公司选项
+						var companys = json.companys;
+						$("#companyId").each(function () {
+							$(this).children("option").each(
+								function () {
+								    var noFit = true;
+								    if(this.value === ""){
+								        noFit = false;
+									}
+								    if(this.value !== ""){
+                                        for (var i = 0; i < companys.length; i++) {
+                                            if(this.value == companys[i].id){
+                                                noFit = false;
+                                                break;
+                                            }
+                                        }
+									}
+                                    if(noFit){
+                                        $("#companyId option[value='" + this.value + "']").attr("hidden", "hidden");
+                                    }
+								}
+							)
+						});
+						$("#companyId").removeAttr("onchange").attr("onchange", "getCompanyByid(this.value)");
+                    },
+					"json"
+				);
+			}
+        }
+        //根据companyid得到公司招聘信息
+		function getCompanyByid(id) {
+            $("#companyJob").attr("style", "display: none");
+            if(id != "" && id != null){
+                $.get(
+                    "laowu/getAllJobByCompanyId",
+                    {"id":id},
+                    function (json) {
+                        var str = "";
+                        for (var i = 0; i < json.length; i++) {
+                            var id = json[i].id;
+                            var jobName = json[i].jobName;
+                            str += "<option value='" + id + "'>" + jobName + "</option>";
+                        }
+                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
+                    },
+                    "json"
+                );
+			}
+        }
+        //根据公司id得到详细信息
+		function getDetailNeedJobById(id) {
+			if(id != "" && id != null){
+				$.get(
+				    "laowu/getNeedJobById",
+					{"id":id},
+					function (json) {
+						$("#companyPrice").val(json.price);
+						var startTime = new Date(json.startTime);
+						var endTime = new Date(json.endTime);
+						$("#startTime").val(startTime.getFullYear().toString() + "年" + startTime.getMonth().toString() + 1 + "月" + startTime.getDate().toString() + "日");
+						$("#endTime").val(endTime.getFullYear().toString() + "年" + endTime.getMonth().toString() + 1 + "月" + endTime.getDate().toString() + "日");
+						$("#jobContent").text(json.jobContent);
+                    },
+					"json"
+				);
+			}
+        }
+
+
+
+
+		//根据公司id获取合适的用户
+		function getPersonsByCompayId(id) {
+			alert("id")
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../laowuList/saved_resource.html">劳务合作列表</a></li>
-	<li class="active"><a href="saved_resource.html">劳务合作添加</a></li>
+	<li><a href="laowu/laowuList">劳务合作列表</a></li>
+	<li class="active"><a href="laowu/laowuToAdd">劳务合作添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
+<form id="inputForm" class="form-horizontal" action="laowu/laowuAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="customerName" value="" class="input-xlarge required">
+				<select id="name" name="name" onchange="getIdCard(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+					<option value="">请选择</option>
+					<c:forEach items="${persons}" var="person">
+						<option value="${person[0]}">${person[1]}</option>
+					</c:forEach>
+				</select>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
+				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="" readonly maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -84,103 +183,69 @@
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge required select2-offscreen" tabindex="-1">
-					<option value="1000">智递科技</option>
+				<select id="companyId" name="companyId" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+					<option value="">请选择</option>
+					<c:forEach items="${companyIds}" var="company">
+						<c:forEach items="${companyIdAndNames}" var="companyIdAndName">
+							<c:if test="${companyIdAndName[0] == company}">
+								<option value="${companyIdAndName[0]}">${companyIdAndName[1]}</option>
+							</c:if>
+						</c:forEach>
+					</c:forEach>
+				</select>
+				&nbsp;&nbsp;
+				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
+					<option value="">请选择</option>
 
-					*
 				</select>
 			</td>
 			<td>
 				<label class="control-label">工作类型：</label>
 			</td><td>
-			<select name="jobtype" style="width:280px;" tabindex="-1" class="select2-offscreen">
-				<option value="0">兼职</option>
-				<option value="1">全职</option>
-				<option value="2">外派</option>
+			<select id="jobType" name="jobType" style="width:280px;" tabindex="-1">
+				<c:forEach items="${jobTypes}" var="jobType">
+					<option value="${jobType.value}">${jobType.label}</option>
+				</c:forEach>
 			</select>
+
 		</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">公司单价：</label></td>
 			<td>
-				<input id="companyprice" name="companyprice" class="input-xlarge " type="text" value="">
+				<input id="companyPrice" name="companyPrice" class="input-xlarge " readonly type="text" value="">
 			</td>
 			<td><label class="control-label">个人单价：</label></td>
 			<td>
-				<input id="personprice" name="personprice" class="input-xlarge " type="text" value="">
+				<input id="personPrice" name="personPrice" class="input-xlarge " readonly type="text" value="">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
-				<input name="starttime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" value="" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
-				<input name="endtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" value="" style="width:270px;">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">合同上传：</label></td>
 			<td>
-				<input id="contracturl" name="contracturl" maxlength="256" class="input-xlarge" type="hidden" value="">
-
-				<ol id="contracturlPreview"><li style="list-style:none;padding-top:5px;">无</li></ol><a href="javascript:" onclick="contracturlFinderOpen();" class="btn">添加</a>&nbsp;<a href="javascript:" onclick="contracturlDelAll();" class="btn">清除</a>
-				<script type="text/javascript">
-                    function contracturlFinderOpen(){//
-                        var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
-                        var url = "/jeesite/static/ckfinder/ckfinder.html?type=files&start=files:/company/personJob/"+year+"/"+month+
-                            "/&action=js&func=contracturlSelectAction&thumbFunc=contracturlThumbSelectAction&cb=contracturlCallback&dts=0&sm=1";
-                        windowOpen(url,"文件管理",1000,700);
-                        //top.$.jBox("iframe:"+url+"&pwMf=1", {title: "文件管理", width: 1000, height: 500, buttons:{'关闭': true}});
+				<ol id="contracturlPreview">
+					<li style="list-style:none;padding-top:5px;"><span id="contractFileName"></span></li></ol>
+				<a href="javascript:" onclick="$('#contractFile').click();" class="btn">添加</a>&nbsp;
+				<a href="javascript:" onclick="fileEmpty();" class="btn">清除</a>
+				<input type="file" name="contractFile" id="contractFile" onchange="fileNameShow(this.value)" style="display: none">
+				<script>
+					function fileNameShow(name) {
+                        $("#contractFileName").text(name.slice(name.lastIndexOf("\\") + 1, name.length));
                     }
-                    function contracturlSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){//
-                            url += files[i].getUrl();//
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#contracturl").val($("#contracturl").val()+($("#contracturl").val(url)==""?url:"|"+url));//
-                        contracturlPreview();
-                        //top.$.jBox.close();
+                    function fileEmpty() {
+						$("#contractFile").empty();
+						$("#contractFileName").val("");
                     }
-                    function contracturlThumbSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){
-                            url += files[i].getThumbnailUrl();
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#contracturl").val($("#contracturl").val()+($("#contracturl").val(url)==""?url:"|"+url));//
-                        contracturlPreview();
-                        //top.$.jBox.close();
-                    }
-                    function contracturlCallback(api){
-                        ckfinderAPI = api;
-                    }
-                    function contracturlDel(obj){
-                        var url = $(obj).prev().attr("url");
-                        $("#contracturl").val($("#contracturl").val().replace("|"+url,"","").replace(url+"|","","").replace(url,"",""));
-                        contracturlPreview();
-                    }
-                    function contracturlDelAll(){
-                        $("#contracturl").val("");
-                        contracturlPreview();
-                    }
-                    function contracturlPreview(){
-                        var li, urls = $("#contracturl").val().split("|");
-                        $("#contracturlPreview").children().remove();
-                        for (var i=0; i<urls.length; i++){
-                            if (urls[i]!=""){//
-                                li = "<li><a href=\""+urls[i]+"\" url=\""+urls[i]+"\" target=\"_blank\">"+decodeURIComponent(urls[i].substring(urls[i].lastIndexOf("/")+1))+"</a>";//
-                                li += "&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"contracturlDel(this);\">×</a></li>";
-                                $("#contracturlPreview").append(li);
-                            }
-                        }
-                        if ($("#contracturlPreview").text() == ""){
-                            $("#contracturlPreview").html("<li style='list-style:none;padding-top:5px;'>无</li>");
-                        }
-                    }
-                    contracturlPreview();
 				</script>
 			</td>
 			<td><label class="control-label">合作状态：</label></td>
@@ -194,7 +259,7 @@
 		</tr>
 		<tr>
 			<td><label class="control-label">工作内容：</label></td>
-			<td colspan="3"><textarea id="jobcontent" name="jobcontent" maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
+			<td colspan="3"><textarea id="jobContent" name="jobContent" readonly maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">备注信息：</label></td>

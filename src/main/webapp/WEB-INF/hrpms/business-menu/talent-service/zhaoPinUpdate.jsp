@@ -64,11 +64,12 @@
 	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
 	<li class="active"><a href="zhaopin/zhaopinToUpdate?id=${needJob.id}">招聘信息修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="zhaopin/zhaopinUpdate" method="post" novalidate="novalidate">
 	<input type="hidden" name="jobNameQuery" value="${needJobOperation.jobNameQuery}">
 	<input type="hidden" name="jobTypeQuery" value="${needJobOperation.jobTypeQuery}">
 	<input type="hidden" name="industryQuery" value="${needJobOperation.industryQuery}">
 	<input type="hidden" name="companyIdQuery" value="${needJobOperation.companyIdQuery}">
+	<input type="hidden" name="currentPage" value="${currentPage}">
 
 	<input id="id" name="id" type="hidden" value="${needJob.id}">
 
@@ -104,11 +105,11 @@
 			</td><td>
 			<select path="companyId" name="companyId" class="input-xlarge" style="width:270px" >
 				<c:forEach items="${companys}" var="company">
-					<c:if test="${company.id == needJob.companyId}">
-						<option value="${company.id}" selected>${company.name}</option>
+					<c:if test="${company[0] == needJob.companyId}">
+						<option value="${company[0]}" selected>${company[1]}</option>
 					</c:if>
-					<c:if test="${company.id != needJob.companyId}">
-						<option value="${company.id}">${company.name}</option>
+					<c:if test="${company[0] != needJob.companyId}">
+						<option value="${company[0]}">${company[1]}</option>
 					</c:if>
 				</c:forEach>
 			</select>
@@ -120,7 +121,7 @@
 			<td><input id="needPerson" name="needPerson" class="input-xlarge " type="text" value="${needJob.needPerson}" maxlength="11"></td>
 			<td><label class="control-label">结算方式：</label></td>
 			<td>
-				<select path="payType" class="input-xlarge" style="width:270px" >
+				<select path="payType" name="payType" class="input-xlarge" style="width:270px" >
 					<c:forEach items="${payTypes}" var="payType">
 						<c:if test="${payType.value == needJob.payType}">
 							<option value="${payType.value}" selected>${payType.label}</option>
@@ -142,25 +143,39 @@
 			<td><label class="control-label">开始日期：</label></td>
 			<td>
 				<f:formatDate value="${needJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
+				<input name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
 			</td>
 			<td><label class="control-label">结束日期：</label></td>
-			<td><input name="endtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="2017-11-08 00:00:00" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});"></td>
+			<td>
+				<f:formatDate value="${needJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
+				<input name="endTime" type="date" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">信息类型：</label></td>
 			<td>
-				<select name="infotype" style="width:270px;" class="select2-offscreen">
-					<option value="1">合作公司招聘</option>
-					<option value="0">本公司招聘</option>
+				<select name="infoType" style="width:270px;" class="select2-offscreen">
+					<c:forEach items="${infoTypes}" var="infoType">
+						<c:if test="${infoType.value == needJob.infoType}">
+							<option value="${infoType.value}" selected>${infoType.label}</option>
+						</c:if>
+						<c:if test="${infoType.value != needJob.infoType}">
+							<option value="${infoType.value}">${infoType.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">需求状态：</label></td>
 			<td>
 				<select name="status" style="width:270px;" class="select2-offscreen">
-					<option value="0">有效</option>
-					<option value="1">无效</option>
+					<c:forEach items="${statuss}" var="status">
+						<c:if test="${status.value == needJob.status}">
+							<option value="${status.value}" selected>${status.label}</option>
+						</c:if>
+						<c:if test="${status.value != needJob.status}">
+							<option value="${status.value}">${status.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>
@@ -168,19 +183,11 @@
 		<tr>
 			<td><label class="control-label">需求详细：</label></td>
 			<td>
-
-					<textarea id="jobcontent" name="jobcontent" class="input-xlarge " rows="4" cols="30">招聘要求：高薪急聘
-1、计算机或相关专业本科学历；
-2、熟悉SSH后台架构，熟悉HTML、CSS和Javascript前台语言；
-3、有两年以上JAVA软件开发经验，熟悉MIS、ERP管理系统开发；
-4、参与过至少两个以上的实际项目的应用开发者优先考虑；
-5、有大型软件需求分析、系统设计经验，负责过软件系统分析设计的优先。
-6、同时做过NET的优先。</textarea>
+				<textarea id="jobContent" name="jobContent" class="input-xlarge " rows="4" cols="30">${needJob.jobContent}</textarea>
 			</td>
 			<td><label class="control-label">备注信息：</label></td>
 			<td>
-
-				<textarea id="remark" name="remark" class="input-xlarge " rows="4" cols="30">出差郑州上班</textarea>
+				<textarea id="remark" name="remark" class="input-xlarge " rows="4" cols="30">${needJob.remark}</textarea>
 			</td>
 		</tr>
 		</tbody></table>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -60,22 +61,20 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../personList/saved_resource.html">人才信息列表</a></li>
-	<li class="active"><a href="saved_resource.html">人才信息添加</a></li>
+	<li><a href="person/personList">人才信息列表</a></li>
+	<li class="active"><a href="person/personToAdd">人才信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
+<form id="inputForm" class="form-horizontal" action="person/personAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="customerName" value="" class="input-xlarge required">
+				<input type="text" name="name" value="" class="input-xlarge required">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="" maxlength="20">
+				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -83,107 +82,68 @@
 		<tr>
 			<td><label class="control-label">求职意向：</label></td>
 			<td>
-				<input id="jobintension" name="jobintension" class="input-xlarge required" type="text" value="" maxlength="256">
+				<input id="jobIntentsion" name="jobIntentsion" class="input-xlarge required" type="text" value="" maxlength="256">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">工作类型：</label>
 			</td><td>
-			<select name="jobtype" tabindex="-1" class="select2-offscreen">
-				<option value="0">兼职</option>
-				<option value="1">全职</option>
-				<option value="2">外派</option>
+			<select name="jobType" tabindex="-1" class="select2-offscreen">
+				<c:forEach items="${jobTypes}" var="jobType">
+					<option value="${jobType.value}">${jobType.label}</option>
+				</c:forEach>
 			</select>
 		</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">期望月薪：</label></td>
 			<td>
-				<input id="forprice" name="forprice" class="input-xlarge required" type="text" value="">
+				<input id="forPrice" name="forPrice" class="input-xlarge required" type="text" value="">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">期望工作地：</label></td>
 			<td>
-				<input id="foraddress" name="foraddress" class="input-xlarge " type="text" value="" maxlength="20">
+				<input id="forAddress" name="forAddress" class="input-xlarge " type="text" value="" maxlength="20">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">工作经历：</label></td>
-			<td colspan="3"><textarea id="worked" name="worked" maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
+			<td><textarea id="worked" name="worked" maxlength="256" class="input-xxlarge " rows="2"></textarea></td>
+			<td><label class="control-label">状态：</label></td>
+			<td>
+				<select name="status" tabindex="-1" class="select2-offscreen">
+					<c:forEach items="${statuss}" var="status">
+						<option value="${status.value}">${status.label}</option>
+					</c:forEach>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">自我介绍：</label></td>
 			<td colspan="3">
-				<textarea id="personinfo" name="personinfo" maxlength="256" class="input-xxlarge " rows="3"></textarea>
+				<textarea id="personInfo" name="personInfo" maxlength="256" class="input-xxlarge " rows="3"></textarea>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">个人简历：</label></td>
 			<td colspan="3">
-				<input id="resumeurl" name="resumeurl" maxlength="256" class="input-xlarge" type="hidden" value="">
-				<ol id="resumeurlPreview"><li style="list-style:none;padding-top:5px;">无</li></ol><a href="javascript:" onclick="resumeurlFinderOpen();" class="btn">添加</a>&nbsp;<a href="javascript:" onclick="resumeurlDelAll();" class="btn">清除</a>
-				<script type="text/javascript">
-                    function resumeurlFinderOpen(){//
-                        var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
-                        var url = "/jeesite/static/ckfinder/ckfinder.html?type=files&start=files:/company/personInfo/"+year+"/"+month+
-                            "/&action=js&func=resumeurlSelectAction&thumbFunc=resumeurlThumbSelectAction&cb=resumeurlCallback&dts=0&sm=1";
-                        windowOpen(url,"文件管理",1000,700);
-                        //top.$.jBox("iframe:"+url+"&pwMf=1", {title: "文件管理", width: 1000, height: 500, buttons:{'关闭': true}});
+				<ol id="resumeurlPreview">
+					<li style="list-style:none;padding-top:5px;"><span id="fileName"></span></li>
+				</ol>
+				<a href="javascript:" onclick="$('#resumeFile').click()" class="btn">添加</a>&nbsp;
+				<a href="javascript:" onclick="fileEmpty();" class="btn">清除</a>
+				<input type="file" id="resumeFile" name="resumeFile" onchange="fileChange(this.value)" style="display: none;">
+				<script>
+                    function fileChange(name) {
+						$("#fileName").text(name.slice(name.lastIndexOf("\\") + 1, name.length));
                     }
-                    function resumeurlSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){//
-                            url += files[i].getUrl();//
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#resumeurl").val($("#resumeurl").val()+($("#resumeurl").val(url)==""?url:"|"+url));//
-                        resumeurlPreview();
-                        //top.$.jBox.close();
+                    function fileEmpty() {
+						$("#resumeFile").empty();
+                        $("#fileName").text("");
                     }
-                    function resumeurlThumbSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){
-                            url += files[i].getThumbnailUrl();
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#resumeurl").val($("#resumeurl").val()+($("#resumeurl").val(url)==""?url:"|"+url));//
-                        resumeurlPreview();
-                        //top.$.jBox.close();
-                    }
-                    function resumeurlCallback(api){
-                        ckfinderAPI = api;
-                    }
-                    function resumeurlDel(obj){
-                        var url = $(obj).prev().attr("url");
-                        $("#resumeurl").val($("#resumeurl").val().replace("|"+url,"","").replace(url+"|","","").replace(url,"",""));
-                        resumeurlPreview();
-                    }
-                    function resumeurlDelAll(){
-                        $("#resumeurl").val("");
-                        resumeurlPreview();
-                    }
-                    function resumeurlPreview(){
-                        var li, urls = $("#resumeurl").val().split("|");
-                        $("#resumeurlPreview").children().remove();
-                        for (var i=0; i<urls.length; i++){
-                            if (urls[i]!=""){//
-                                li = "<li><a href=\""+urls[i]+"\" url=\""+urls[i]+"\" target=\"_blank\">"+decodeURIComponent(urls[i].substring(urls[i].lastIndexOf("/")+1))+"</a>";//
-                                li += "&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"resumeurlDel(this);\">×</a></li>";
-                                $("#resumeurlPreview").append(li);
-                            }
-                        }
-                        if ($("#resumeurlPreview").text() == ""){
-                            $("#resumeurlPreview").html("<li style='list-style:none;padding-top:5px;'>无</li>");
-                        }
-                    }
-                    resumeurlPreview();
 				</script>
 			</td>
-			<!-- 				<td><label class="control-label">状态：</label></td> -->
-			<!-- 				<td> -->
-
-			<!-- 				</td> -->
 		</tr>
 
 		<tr>
