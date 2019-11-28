@@ -73,4 +73,13 @@ public interface PersonService {
      * @return
      **/
     List<Object[]> getAllIdAndName();
+
+
+    /**
+     * 通过工资范围得到求职信息
+     * @param
+     * @return
+     **/
+    List<TbPerson> getPersonsByPrice(Double price);
+
 }

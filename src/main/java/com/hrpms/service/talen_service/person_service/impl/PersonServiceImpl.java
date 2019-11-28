@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author GoldFish
@@ -163,5 +161,19 @@ public class PersonServiceImpl implements PersonService {
         list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "在职"));
         list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "离职"));
         return personDao.getAllIdAndName(list);
+    }
+
+    @Override
+    public List<TbPerson> getPersonsByPrice(Double price) {
+        Map map = new HashMap(3);
+        String hql = "from TbPerson where forPrice >= :minPrice and forPrice <= :maxPrice and status in :statu";
+        map.put("minPrice", price - 1000);
+        map.put("maxPrice", price + 1000);
+        List list = new ArrayList();
+        list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "在职"));
+        list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "离职"));
+        map.put("status", list);
+
+        return personDao.getPersonsByPrice(hql, map);
     }
 }

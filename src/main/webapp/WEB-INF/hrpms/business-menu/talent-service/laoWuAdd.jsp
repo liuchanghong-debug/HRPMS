@@ -56,14 +56,19 @@
             });
         });
 
+
         //根据person的id得到其他值
         function getIdCard(id) {
             $("#idCard").val(null);
             $("#personPrice").val(null);
             $("#jobType").removeAttr("disabled", "disabled");
-            $("#companyId>option").removeAttr("hidden", "hidden");
+            $("#companyId>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
             $("#companyId").removeAttr("onchange").attr("onchange", "getPersonsByCompayId(this.value)");
-
+            $("#companyJob").empty().attr("style", "display: none");
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
 
 			if(id !== "" && id != null){
 			    $.get(
@@ -82,17 +87,17 @@
 							$(this).children("option").each(
 								function () {
 								    var noFit = true;
-								    if(this.value === ""){
+								    if(this.value == ""){
 								        noFit = false;
 									}
-								    if(this.value !== ""){
+								    if(this.value != ""){
                                         for (var i = 0; i < companys.length; i++) {
                                             if(this.value == companys[i].id){
                                                 noFit = false;
                                                 break;
                                             }
                                         }
-									}
+                                    }
                                     if(noFit){
                                         $("#companyId option[value='" + this.value + "']").attr("hidden", "hidden");
                                     }
@@ -108,12 +113,16 @@
         //根据companyid得到公司招聘信息
 		function getCompanyByid(id) {
             $("#companyJob").attr("style", "display: none");
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
             if(id != "" && id != null){
                 $.get(
                     "laowu/getAllJobByCompanyId",
                     {"id":id},
                     function (json) {
-                        var str = "";
+                        var str = "<option value=''>请选择</option>";
                         for (var i = 0; i < json.length; i++) {
                             var id = json[i].id;
                             var jobName = json[i].jobName;
@@ -127,6 +136,10 @@
         }
         //根据公司id得到详细信息
 		function getDetailNeedJobById(id) {
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
 			if(id != "" && id != null){
 				$.get(
 				    "laowu/getNeedJobById",
@@ -135,8 +148,8 @@
 						$("#companyPrice").val(json.price);
 						var startTime = new Date(json.startTime);
 						var endTime = new Date(json.endTime);
-						$("#startTime").val(startTime.getFullYear().toString() + "年" + startTime.getMonth().toString() + 1 + "月" + startTime.getDate().toString() + "日");
-						$("#endTime").val(endTime.getFullYear().toString() + "年" + endTime.getMonth().toString() + 1 + "月" + endTime.getDate().toString() + "日");
+						$("#startTime").val(startTime.getFullYear().toString() + "-" + (startTime.getMonth() + 1).toString() + "-" + startTime.getDate().toString());
+						$("#endTime").val(endTime.getFullYear().toString() + "-" + (endTime.getMonth() + 1).toString() + "-" + endTime.getDate().toString());
 						$("#jobContent").text(json.jobContent);
                     },
 					"json"
@@ -147,9 +160,129 @@
 
 
 
-		//根据公司id获取合适的用户
-		function getPersonsByCompayId(id) {
-			alert("id")
+
+        //根据companyId的id得到合适的用户
+		//先点击合作公司改变nameId的绑定方法， 将companyId显示出来，
+        function getPersonsByCompayId(id) {
+            $("#companyJob").attr("style", "display: none");
+            $("#idCard").val(null);
+            $("#personPrice").val(null);
+            $("#jobType").removeAttr("disabled", "disabled");
+            $("#nameId>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
+            $("#nameId").removeAttr("onchange").attr("onchange", "getIdCard(this.value)");
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
+
+            if(id != "" && id != null){
+                $.get(
+                    //通过公司得到期望薪资差不多的求职信息
+                    "laowu/getPersonByCompanyIdForPrice",
+                    {"id":id},
+                    function (json) {
+                        var companyJob = json.needJobs;
+                        var str = "<option value=''>请选择</option>";
+                        for (var i = 0; i < companyJob.length; i++) {
+							var id = companyJob[i].id;
+							var jobName = companyJob[i].jobName;
+							str += "<option value='" + id + "'>" + jobName + "</option>";
+                        }
+                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
+
+                        var person = json.persons;
+                        $("#nameId").each(function () {
+                            $(this).children("option").each(
+                                function () {
+                                    var noFit = true;
+                                    if(this.value == ""){
+                                        noFit = false;
+                                    }
+                                    if(this.value != ""){
+                                        for (var i = 0; i < person.length; i++) {
+                                            if(this.value == person[i].id){
+                                                noFit = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if(noFit){
+                                        $("#nameId option[value='" + this.value + "']").attr("hidden", "hidden");
+                                    }
+                                }
+                            )
+                        });
+                        $("#nameId").removeAttr("onchange").attr("onchange", "getPersonById(this.value)");
+                    },
+                    "json"
+                );
+            }
+        }
+        //根据职位id得到price得到个人信息
+        function getPersonByCompanyIdForPrice(id) {
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
+            if(id != "" && id != null){
+                $.get(
+                    "laowu/getAllJobByCompanyId",
+                    {"id":id},
+                    function (json) {
+                        var str = "<option value=''>请选择</option>";
+                        for (var i = 0; i < json.length; i++) {
+                            var id = json[i].id;
+                            var jobName = json[i].jobName;
+                            str += "<option value='" + id + "'>" + jobName + "</option>";
+                        }
+                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getPersonById(this.value)");
+                    },
+                    "json"
+                );
+            }
+        }
+
+        //根据公司id得到详细信息
+        function getDetailNeedJobForCompanyTypeById(id) {
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
+            if(id != "" && id != null){
+                $.get(
+                    "laowu/getNeedJobById",
+                    {"id":id},
+                    function (json) {
+                        $("#companyPrice").val(json.price);
+                        var startTime = new Date(json.startTime);
+                        var endTime = new Date(json.endTime);
+                        $("#startTime").val(startTime.getFullYear().toString() + "-" + (startTime.getMonth() + 1).toString() + "-" + startTime.getDate().toString());
+                        $("#endTime").val(endTime.getFullYear().toString() + "-" + (endTime.getMonth() + 1).toString() + "-" + endTime.getDate().toString());
+                        $("#jobContent").text(json.jobContent);
+                    },
+                    "json"
+                );
+            }
+        }
+
+        //根据personid得到详细信息
+        function getPersonById(id) {
+            $("#idCard").val(null);
+            $("#jobType").val(null);
+            $("#personPrice").val(null);
+            if(id != "" && id != null){
+                $.get(
+                    "laowu/getDetailPersonByid",
+                    {"id":id},
+                    function (json) {
+						$("#idCard").val(json.idCard);
+						$("#jobType option[value=" + json.jobType + "]").attr("selected", "selected");
+						$("#jobType").attr("disabled", "disabled");
+						$("#personPrice").val(json.forPrice);
+                    },
+                    "json"
+                );
+            }
         }
 	</script>
 
@@ -166,12 +299,18 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<select id="name" name="name" onchange="getIdCard(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
-					<option value="">请选择</option>
+				<select id="nameId" name="nameId" onchange="getIdCard(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+					<option value="" selected>请选择</option>
 					<c:forEach items="${persons}" var="person">
 						<option value="${person[0]}">${person[1]}</option>
 					</c:forEach>
 				</select>
+				<input type="hidden" name="name" id="name">
+				<script>
+					$("#nameId").change(function () {
+                        $("#name").empty().val($("#nameId :selected").text())
+                    });
+				</script>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
@@ -195,7 +334,6 @@
 				</select>
 				&nbsp;&nbsp;
 				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
-					<option value="">请选择</option>
 
 				</select>
 			</td>
@@ -223,11 +361,11 @@
 		<tr>
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
-				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" value="" style="width:270px;">
+				<input id="startTime" name="startTime" type="date" readonly="readonly" maxlength="20" value="" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
-				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" value="" style="width:270px;">
+				<input id="endTime" name="endTime" type="date" readonly="readonly" maxlength="20" value="" style="width:270px;">
 			</td>
 		</tr>
 		<tr>
@@ -244,16 +382,16 @@
                     }
                     function fileEmpty() {
 						$("#contractFile").empty();
-						$("#contractFileName").val("");
+						$("#contractFileName").text("");
                     }
 				</script>
 			</td>
 			<td><label class="control-label">合作状态：</label></td>
 			<td>
 				<select name="status" style="width:280px;" tabindex="-1" class="select2-offscreen">
-					<option value="0">正常</option>
-					<option value="1">停止</option>
-					<option value="2">结束</option>
+					<c:forEach items="${statuss}" var="status">
+						<option value="${status.value}">${status.label}</option>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>

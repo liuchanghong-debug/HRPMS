@@ -4,6 +4,7 @@ import com.hrpms.pojo.TbPerson;
 import com.hrpms.pojo.operaton_select.TbPersonOperation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -51,4 +52,10 @@ public interface PersonDao {
      * @return
      **/
     List<Object[]> getAllIdAndName(List normalStatus);
+    /**
+     * 通过工资范围得到求职信息
+     * @param
+     * @return
+     **/
+    List<TbPerson> getPersonsByPrice(String hql, Map map);
 }
