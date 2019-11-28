@@ -191,7 +191,8 @@
 
 			<td><label class="control-label">支付日期：</label></td>
 			<td>
-				<input id="paydate" name="payDate" type="date"  maxlength="20" class="input-medium Wdate " value="${tbSalary.payDate}">
+				<fmt:formatDate value="${tbSalary.payDate}" var="paydate" pattern="yyyy-MM-dd"/>
+				<input id="paydate" name="payDate" type="date"  maxlength="20" class="input-medium Wdate " value="${paydate}">
 			</td>
 		</tr>
 		<tr>

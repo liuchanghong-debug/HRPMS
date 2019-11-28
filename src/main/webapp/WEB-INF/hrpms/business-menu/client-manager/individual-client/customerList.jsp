@@ -136,7 +136,7 @@
 				<td>${customer.school}</td>
 				<td>${customer.specialty}</td>
 				<td>${customer.graduation}</td>
-				<td><a href="#">薪酬工资</a></td>
+				<td><a href="salary-manager/selectSalaryByDuo?flag=1&idCard=${customer.idCard}">薪酬工资</a></td>
 				<td><a href="#">社保信息</a></td>
 				<td>公积金</td>
 				<td>

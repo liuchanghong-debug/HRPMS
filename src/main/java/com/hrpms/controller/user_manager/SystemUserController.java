@@ -95,9 +95,9 @@ public class SystemUserController {
     @ResponseBody
     public boolean isOneUsername(String username){
         TbSystemUser systemUser = systemUserService.isOneUsername(username);
-        boolean bo = true;  //用户名不唯一
+        boolean bo = true;  //用户名唯一
         if(systemUser!=null && systemUser.getId()!=0){
-            bo = false;     //用户名唯一
+            bo = false;     //用户名不唯一
         }
         return bo;
     }
@@ -122,9 +122,9 @@ public class SystemUserController {
     @ResponseBody
     public boolean isOneUserPhone(String phone){
         TbSystemUser userPhone = systemUserService.isOneUserPhone(phone);
-        boolean bo = true;  //手机号码不唯一
+        boolean bo = true;  //手机号码唯一
         if(userPhone!=null && userPhone.getId()!=0){
-            bo = false;     //手机号码唯一
+            bo = false;     //手机号码不唯一
         }
         return bo;
     }
@@ -134,9 +134,9 @@ public class SystemUserController {
     @ResponseBody
     public boolean isOneUserEmail(String email){
         TbSystemUser userEmail = systemUserService.isOneUserEmail(email);
-        boolean bo = true;  //电子邮件不唯一
+        boolean bo = true;  //电子邮件唯一
         if(userEmail!=null && userEmail.getId()!=0){
-            bo = false;     //电子邮件唯一
+            bo = false;     //电子邮件不唯一
         }
         return bo;
     }

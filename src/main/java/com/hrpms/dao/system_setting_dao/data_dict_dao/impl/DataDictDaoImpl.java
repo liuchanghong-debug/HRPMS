@@ -73,12 +73,4 @@ public class DataDictDaoImpl implements DataDictDao {
         return tbSystemDict.getValue();
     }
 
-    @Override
-    public List<TbSystemDict>  selectByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        List<TbSystemDict> list = session.createQuery("from TbSystemDict where name=?")
-                            .setParameter(0, name)
-                            .list();
-        return list;
-    }
 }

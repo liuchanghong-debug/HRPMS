@@ -127,6 +127,7 @@ public class DataDictController {
         return datadictList(currentPage, dataDictOperation, model);
     }
 
+    //根据数据字典name查询状态
     @RequestMapping("/selectByName")
     @ResponseBody
     public List<TbSystemDict> selectByName(String name){

@@ -108,6 +108,8 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCreateBy(byId.getCreateBy());
         customer.setCreateTime(byId.getCreateTime());
 
+
+
         customerDao.customerUpdate(customer);
     }
 

@@ -38,6 +38,7 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
 
+		var baccountNo=false;
         var salary = null;
         $(function () {
             $.post(
@@ -62,8 +63,41 @@
 				}
             });
 
+            /*公积金账号正则验证加唯一验证*/
+			$("#accountno").blur(function () {
+				var accountno = $(this).val();
+				var res =  /^[0-9]{12}$/;
+				baccountNo = res.test(accountno);
+				if(baccountNo){		//正则验证通过
+				    $.post(
+				        "gongjijin-manager/accountNoIsOne",
+						{"accountNo":accountno},
+						function (json) {
+				            if(json){
+                                baccountNo=true;
+                                $("#accountNoIsOne").html("<font color='green' size='6'>√</font>");
+							}else{
+				                baccountNo=false;
+                                $("#accountNoIsOne").html("<font color='red'>账号已存在！！</font>");
+							}
+                        },
+						"json"
+					)
+				}else{
+                    $("#accountNoIsOne").html("<font color='red'>公积金账号格式错误！！</font>")
+				}
+            });
 
         });
+
+        function sub() {
+            if(baccountNo){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+            }
+        }
+
 
         $(document).ready(function() {
             //$("#name").focus();
@@ -92,7 +126,7 @@
 	<li><a href="gongjijin-manager/selectAccumulationByDuo">公积金列表</a></li>
 	<li class="active"><a href="gongjijin-manager/gongJiJinAddJsp">公积金缴费</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="gongjijin-manager/addAccumulation" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="gongjijin-manager/addAccumulation" method="post" >
 	<input id="id" name="id" type="hidden" value="">
 	<input name="createBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
@@ -113,8 +147,8 @@
 	<div class="control-group">
 		<label class="control-label">公积金号：</label>
 		<div class="controls">
-			<input id="accountno" name="accountNo" class="input-xlarge required" type="text" value="" maxlength="20">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="accountno" name="accountNo" placeholder="由12个数字组成" class="input-xlarge required" type="text" value="" maxlength="20">
+			<span class="help-inline" id="accountNoIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -153,7 +187,7 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
