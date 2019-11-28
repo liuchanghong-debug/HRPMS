@@ -35,6 +35,46 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        var bcode = true;
+        $(function () {
+            var templatecode = "${tbSmsTemplate.template_code}";
+            $("#templateCode").blur(function () {
+                var template_code =$("#templateCode").val();
+                if(templatecode==template_code){
+                    $("#code").html("<font color='green' size='6'>√</font>");
+                    bcode=true;
+				}else{
+                    $.post(
+                        "sms-template/TemplateCodeIsOne",
+                        {"template_code":template_code},
+                        function (json) {
+                            if(json){		//用户名唯一，可通过
+                                $("#code").html("<font color='green' size='6'>√</font>");
+                                bcode=true;
+                            }else {
+                                bcode=false;
+                                $("#code").html("<font color='red'size='6'>×</font>");
+                            }
+                        },
+                        "json"
+                    );
+				}
+
+            });
+
+        });
+
+
+        function sub(){
+            if(bcode){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+            }
+        }
+
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -73,7 +113,7 @@
 		<label class="control-label">模板编码：</label>
 		<div class="controls">
 			<input id="templateCode" name="template_code" class="input-xlarge required" type="text" value="${tbSmsTemplate.template_code}" maxlength="10">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="code"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -98,7 +138,7 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

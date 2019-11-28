@@ -269,4 +269,14 @@ public class CustomerServiceImpl implements CustomerService {
     public List<TbCustomer> selectAllCustomerName() {
         return customerDao.selectAllCustomerName();
     }
+
+    @Override
+    public TbCustomer selectCustomerByEmail(String email) {
+        return customerDao.selectCustomerByEmail(email);
+    }
+
+    @Override
+    public TbCustomer selectCustomerByPhone(String phone) {
+        return customerDao.selectCustomerByPhone(phone);
+    }
 }

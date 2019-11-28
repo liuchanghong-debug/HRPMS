@@ -183,8 +183,8 @@
                 document.forms[0].submit();
             }else{
                 document.getElementById("#btnSubmit").disabled=true;
-			}
-		}
+            }
+        }
 
         $(document).ready(function() {
             //$("#name").focus();

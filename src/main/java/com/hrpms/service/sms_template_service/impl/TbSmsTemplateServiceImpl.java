@@ -71,4 +71,9 @@ public class TbSmsTemplateServiceImpl implements TbSmsTemplateService {
     public void deleteSmsTemplate(int id) {
         tbSmsTemplateDao.deleteSmsTemplate(id);
     }
+
+    @Override
+    public TbSmsTemplate TemplateCodeIsOne(String template_code) {
+        return tbSmsTemplateDao.TemplateCodeIsOne(template_code);
+    }
 }

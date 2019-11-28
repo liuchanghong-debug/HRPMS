@@ -62,4 +62,13 @@ public class TbSmsTemplateDaoImpl implements TbSmsTemplateDao {
         TbSmsTemplate tbSmsTemplate = (TbSmsTemplate)session.get(TbSmsTemplate.class, id);
         session.delete(tbSmsTemplate);
     }
+
+    @Override
+    public TbSmsTemplate TemplateCodeIsOne(String template_code) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSmsTemplate tbSmsTemplate = (TbSmsTemplate)session.createQuery("from TbSmsTemplate where template_code=?")
+                .setParameter(0, template_code)
+                .uniqueResult();
+        return tbSmsTemplate;
+    }
 }

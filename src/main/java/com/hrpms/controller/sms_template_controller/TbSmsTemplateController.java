@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -77,5 +78,17 @@ public class TbSmsTemplateController {
     public String deleteSmsTemplate(int id){
         tbSmsTemplateService.deleteSmsTemplate(id);
         return "redirect:selectSmsTemplateByDuo";
+    }
+
+    //短信模板编码唯一验证
+    @RequestMapping("/TemplateCodeIsOne")
+    @ResponseBody
+    public boolean TemplateCodeIsOne(String template_code){
+        TbSmsTemplate tbSmsTemplate = tbSmsTemplateService.TemplateCodeIsOne(template_code);
+        boolean bo = true;          //唯一
+        if(tbSmsTemplate!=null && tbSmsTemplate.getId()!=0){    //不唯一
+            bo = false ;
+        }
+        return bo;
     }
 }

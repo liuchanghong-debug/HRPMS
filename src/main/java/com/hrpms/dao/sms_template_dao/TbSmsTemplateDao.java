@@ -25,4 +25,8 @@ public interface TbSmsTemplateDao {
 
     //根据id删除短信模板
     public void deleteSmsTemplate(int id);
+
+    //短信模板编码唯一验证
+    public TbSmsTemplate TemplateCodeIsOne(String template_code);
+
 }

@@ -1,13 +1,13 @@
 package com.hrpms.controller.marketing_manager_controller;
 
-import com.hrpms.dao.customer_client_dao.CustomerDao;
-import com.hrpms.dao.user_manager_dao.SystemUserDao;
 import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbSmsRecord;
 import com.hrpms.pojo.TbSmsTemplate;
 import com.hrpms.pojo.TbSystemUser;
+import com.hrpms.service.customer_client_service.CustomerService;
 import com.hrpms.service.marketing_information_service.TbSmsRecoredService;
 import com.hrpms.service.sms_template_service.TbSmsTemplateService;
+import com.hrpms.service.user_manager_service.SystemUserService;
 import com.hrpms.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +27,10 @@ public class TbSmsRecordController {
     private TbSmsRecoredService tbSmsRecoredService;
 
     @Autowired
-    private SystemUserDao systemUserDao;
+    private SystemUserService systemUserService;
 
     @Autowired
-    private CustomerDao customerDao;
+    private CustomerService customerService;
 
     @Autowired
     private TbSmsTemplateService tbSmsTemplateService;
@@ -85,8 +85,8 @@ public class TbSmsRecordController {
     @RequestMapping("/selectSmsRecoredById")
     public String selectSmsRecoredById(int id,Model model){
         TbSmsRecord tbSmsRecord = tbSmsRecoredService.selectSmsRecoredById(id);
-        TbSystemUser user = systemUserDao.selectSystemUserById(tbSmsRecord.getUser_id());
-        TbCustomer customer = customerDao.selectCustomerByEmail(tbSmsRecord.getTelephone());
+        TbSystemUser user = systemUserService.selectSystemUserById(tbSmsRecord.getUser_id());
+        TbCustomer customer = customerService.selectCustomerByEmail(tbSmsRecord.getTelephone());
         model.addAttribute("user",user);
         model.addAttribute("customer",customer);
         model.addAttribute("tbSmsRecord",tbSmsRecord);

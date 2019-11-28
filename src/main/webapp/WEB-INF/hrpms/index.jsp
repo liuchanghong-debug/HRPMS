@@ -160,7 +160,7 @@
         <div class="navbar-inner">
             <div class="brand"><span id="productName">安思普惠人事代理系统</span></div>
             <ul id="userControl" class="nav pull-right">
-                <li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
+                <%--<li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
                 <li id="themeSwitch" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="主题切换"><i class="icon-th-large"></i></a>
                     <ul class="dropdown-menu">
@@ -168,13 +168,13 @@
                         <li><a href="javascript:cookie(&#39;tabmode&#39;,&#39;1&#39;);location=location.href">开启页签模式</a></li>
                     </ul>
                     <!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
-                </li>
+                </li>--%>
                 <li id="userInfo" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${tbSystemUser.username}&nbsp;<span id="notifyNum" class="label label-info hide" style="display: none;"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="personal-information/userPersonalInformation" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
                         <li><a href="personal-information/updateUserPassword" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
-                        <li><a href="myAdvice.html" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide" style="display: none;"></span></a></li>
+                       <%-- <li><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide" style="display: none;"></span></li>--%>
                     </ul>
                 </li>
                 <li><a href="loginout" title="退出登录">退出</a></li>

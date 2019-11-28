@@ -35,21 +35,56 @@
 
 	<meta name="decorator" content="default">
 	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="js/static/MD5/md5.js" type="text/javascript"></script>
 	<script type="text/javascript">
-        var bo = false;
+        var bpassword = false;
+        var bnewpassword = false;
+        var bconpassword = false;
 		$(function () {
-			$("#btnSubmit").click(function () {
-				var password = $(oldPassword).val();
-				if(password==${tbSystemUser.password}){
-				    bo = true;
+			$("#oldPassword").blur(function () {
+				var password =$(oldPassword).val();
+				password = hex_md5(password);
+				if(password=="${tbSystemUser.password}"){
+                    bpassword = true;
+                    $("#oldpwd").html("<font color='green' size='6'>√</font>")
                 }else {
-                    alert("密码错误,请重新输入！！");
+                    $("#oldpwd").html("密码输入错误")
                 }
             });
+
+			/*密码正则验证*/
+			$("#newPassword").blur(function () {
+                var newpassword=$("#newPassword").val();
+                var re=/^[A-Za-z0-9]{6,7}$/;
+                bnewpassword=re.test(newpassword);
+                if(bnewpassword){
+                    bnewpassword=true;
+                    $("#newpwd").html("<font color='green' size='6'>√</font>")
+                }else {
+                    bnewpassword=false;
+                    $("#newpwd").html("<font color='red' size='6'>×</font>")
+                }
+            });
+
+
+            $("#confirmNewPassword").blur(function () {
+                var newpassword=$("#newPassword").val();
+                var connewpassword=$("#confirmNewPassword").val();
+                if(newpassword==connewpassword){
+                    bconpassword=true;
+                    $("#connewpwd").html("<font color='green' size='6'>√</font>")
+				}else{
+                    bconpassword=false;
+                    $("#connewpwd").html("请与新密码保持一致!");
+				}
+
+            });
+
+
         });
 
 		function tj(){
-		    return bo;
+		    return bpassword && bnewpassword && bconpassword;
 		}
 
         $(document).ready(function() {
@@ -92,21 +127,21 @@
 		<label class="control-label">旧密码:</label>
 		<div class="controls">
 			<input id="oldPassword" name="oldPassword" type="password" value="" maxlength="50" minlength="3" class="required">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="oldpwd"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">新密码:</label>
 		<div class="controls">
-			<input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="required">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="newPassword" name="newPassword" placeholder="由6-7个数字或字母组成"  type="password" value="" maxlength="50" minlength="3" class="required">
+			<span class="help-inline" id="newpwd"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">确认新密码:</label>
 		<div class="controls">
-			<input id="confirmNewPassword" name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" class="required" equalto="#newPassword">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="confirmNewPassword" placeholder="由6-7个数字或字母组成"  name="confirmNewPassword" type="password" value="" maxlength="50" minlength="3" class="required" equalto="#newPassword">
+			<span class="help-inline" id="connewpwd"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="form-actions">
