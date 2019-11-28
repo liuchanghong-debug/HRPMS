@@ -30,4 +30,10 @@ public interface SystemUserDao {
 
     //查询所有用户名称
     public List<TbSystemUser> selectAllUserName();
+
+    //用户手机号码唯一验证
+    public TbSystemUser isOneUserPhone(String phone);
+
+    //用户电子邮件唯一验证
+    public TbSystemUser isOneUserEmail(String email);
 }

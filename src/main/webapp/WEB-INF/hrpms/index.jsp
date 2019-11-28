@@ -254,7 +254,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-60702152789349b895607523f623d46b" href="#" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保催交</a>
+                                    <li><a data-href=".menu3-60702152789349b895607523f623d46b" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保催交</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -277,7 +277,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-27e37abcf1284c309569eed2c9027a11" href="smsSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金催交</a>
+                                    <li><a data-href=".menu3-27e37abcf1284c309569eed2c9027a11" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金催交</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>

@@ -86,4 +86,14 @@ public class SystemUserServiceImpl implements SystemUserService {
     public List<TbSystemUser> selectAllUserName() {
         return systemUserDao.selectAllUserName();
     }
+
+    @Override
+    public TbSystemUser isOneUserPhone(String phone) {
+        return systemUserDao.isOneUserPhone(phone);
+    }
+
+    @Override
+    public TbSystemUser isOneUserEmail(String email) {
+        return systemUserDao.isOneUserEmail(email);
+    }
 }

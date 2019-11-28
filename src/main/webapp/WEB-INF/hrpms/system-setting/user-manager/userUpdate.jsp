@@ -36,6 +36,10 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+        var busername=true;
+        var bpassword = true;
+        var bphone = true;
+        var bemail = true;
         $(function () {
             $.post(
                 "datadict/selectByName",
@@ -49,8 +53,138 @@
                 },
                 "json"
             );
+
+            var username = "${requestScope.systemUser.username}";
+            var passwowrd = "${requestScope.systemUser.password}";
+            var phone = "${requestScope.systemUser.phone}";
+            var email = "${requestScope.systemUser.email}";
+            /*用户名唯一以及正则验证*/
+            $("#username").blur(function () {
+                var username1 = $(this).val();
+                if(username==username1){	//不进行验证
+                    busername=true;
+                    $("#userIsOne").html("<font color='green' size='6'>√</font>");
+				}else{
+                    var res = /^[A-Za-z0-9]{5,10}$/;
+                    busername= res.test(username1);
+                    if(busername){	//正则通过
+                        $.post(
+                            "user-manager/isOneUsername",
+                            {"username":username1},
+                            function (json) {
+                                if(json){		//用户名唯一，可通过
+                                    $("#userIsOne").html("<font color='green' size='6'>√</font>");
+                                    busername=true;
+                                }else {
+                                    busername=false;
+                                    $("#userIsOne").html("<font color='red'>用户名已被使用，请重新输入！！</font>")
+                                }
+                            },
+                            "json"
+                        )
+                    }else{
+                        busername=false;
+                        $("#userIsOne").html("<font color='red'>用户名格式错误！！</font>")
+                    }
+				}
+
+
+            });
+
+            /*密码验证*/
+            $("#password").blur(function () {
+                var password1=$("#password").val();
+                if(passwowrd==password1){	//不进行验证
+                    bpassword=true;
+                    $("#pwd").html("<font color='green' size='6'>√</font>")
+				}else {
+                    var re=/^[A-Za-z0-9]{6,7}$/;
+                    bpassword=re.test(password1);
+                    if(bpassword){
+                        bpassword=true;
+                        $("#pwd").html("<font color='green' size='6'>√</font>")
+                    }else {
+                        bpassword=false;
+                        $("#pwd").html("<font color='red' size='6'>×</font>")
+                    }
+				}
+
+            });
+
+            /*手机号码正则以及唯一验证*/
+            $("#phone").blur(function () {
+                var phone1 = $(this).val();
+                if(phone1==phone){	//不进行验证
+                    bphone=true;
+                    $("#phoneIsOne").html("<font color='green' size='6'>√</font>");
+				}else {
+                    var res = /^1(3|4|5|6|7|8|9)\d{9}$/;
+                    bphone = res.test(phone1);
+                    if(bphone){		//正则验证通过
+                        $.post(
+                            "user-manager/isOneUserPhone",
+                            {"phone":phone1},
+                            function (json) {
+                                if(json){	//手机号码唯一，可通过
+                                    $("#phoneIsOne").html("<font color='green' size='6'>√</font>");
+                                    bphone=true;
+                                }else{		//手机号码不唯一，不可通过
+                                    bphone=false;
+                                    $("#phoneIsOne").html("<font color='red' size='6'>×</font>");
+                                }
+                            },
+                            "json"
+                        )
+                    }else {
+                        bphone=false;
+                        $("#phoneIsOne").html("<font color='red' size='6'>×</font>");
+                    }
+				}
+
+            });
+
+            /*电子邮件正则及唯一验证*/
+            $("#email").blur(function () {
+                var email1 = $(this).val();
+                if(email==email1){	//不进行验证
+                    bemail=true;
+                    $("#emailIsOne").html("<font color='green' size='6'>√</font>");
+				}else{
+                    var res = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    bemail = res.test(email1);
+                    if(bemail){		//正则验证通过
+                        $.post(
+                            "user-manager/isOneUserEmail",
+                            {"email":email1},
+                            function (json) {
+                                if(json){	//电子邮件唯一，可通过
+                                    bemail=true;
+                                    $("#emailIsOne").html("<font color='green' size='6'>√</font>");
+                                }else{
+                                    bemail=false;
+                                    $("#emailIsOne").html("<font color='red' size='6'>×</font>");
+                                }
+                            },
+                            "json"
+                        )
+
+                    }else{
+                        bemail=false;
+                        $("#emailIsOne").html("<font color='red' size='6'>×</font>");
+                    }
+				}
+
+            });
+
         });
 
+        function sub(){
+            if(busername && bpassword && bemail && bphone){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+			}
+		}
 
         $(document).ready(function() {
             //$("#name").focus();
@@ -79,9 +213,10 @@
 	<li><a href="user-manager/selectSystemUserByDuo">用户信息列表</a></li>
 	<li class="active"><a href="user-manager/selectSystemUserById?id=${systemUser.id}&flag=2">用户信息修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="user-manager/updateSystemUserById" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="user-manager/updateSystemUserById" method="post">
 	<input id="id" name="id" type="hidden" value="${requestScope.systemUser.id}">
 	<input name="updateBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
+	<input name="createBy" type="hidden" value="${requestScope.systemUser.createBy}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -89,26 +224,28 @@
 		<label class="control-label">用户名称：</label>
 		<div class="controls">
 			<input id="username" name="username" class="input-xlarge required" type="text" value="${requestScope.systemUser.username}" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="userIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">用户密码：</label>
 		<div class="controls">
 			<input id="password" name="password" class="input-xlarge required" type="password" value="${requestScope.systemUser.password}" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="pwd"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">电子邮件：</label>
 		<div class="controls">
 			<input id="email" name="email" class="input-xlarge " type="text" value="${requestScope.systemUser.email}" maxlength="50">
+			<span class="help-inline" id="emailIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">手机号码：</label>
 		<div class="controls">
 			<input id="phone" name="phone" class="input-xlarge " type="text" value="${requestScope.systemUser.phone}" maxlength="13">
+			<span class="help-inline" id="phoneIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -209,7 +346,7 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

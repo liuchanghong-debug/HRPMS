@@ -76,6 +76,8 @@ public class SystemUserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        TbSystemUser tbSystemUser1 = systemUserService.selectSystemUserById(tbSystemUser.getId());
+        tbSystemUser.setCreateTime(tbSystemUser1.getCreateTime());
         tbSystemUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.updateSystemUserById(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
@@ -93,9 +95,9 @@ public class SystemUserController {
     @ResponseBody
     public boolean isOneUsername(String username){
         TbSystemUser systemUser = systemUserService.isOneUsername(username);
-        boolean bo = true;  //用户名唯一
+        boolean bo = true;  //用户名不唯一
         if(systemUser!=null && systemUser.getId()!=0){
-            bo = false;     //用户名不唯一
+            bo = false;     //用户名唯一
         }
         return bo;
     }
@@ -114,4 +116,29 @@ public class SystemUserController {
         }
         return list;
     }
+
+    //用户手机号码唯一验证
+    @RequestMapping("/isOneUserPhone")
+    @ResponseBody
+    public boolean isOneUserPhone(String phone){
+        TbSystemUser userPhone = systemUserService.isOneUserPhone(phone);
+        boolean bo = true;  //手机号码不唯一
+        if(userPhone!=null && userPhone.getId()!=0){
+            bo = false;     //手机号码唯一
+        }
+        return bo;
+    }
+
+    //用户电子邮件唯一验证
+    @RequestMapping("/isOneUserEmail")
+    @ResponseBody
+    public boolean isOneUserEmail(String email){
+        TbSystemUser userEmail = systemUserService.isOneUserEmail(email);
+        boolean bo = true;  //电子邮件不唯一
+        if(userEmail!=null && userEmail.getId()!=0){
+            bo = false;     //电子邮件唯一
+        }
+        return bo;
+    }
+
 }

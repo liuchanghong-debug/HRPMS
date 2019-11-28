@@ -37,6 +37,8 @@
 	<script type="text/javascript">
         var busername=false;
         var bpassword = false;
+        var bphone = false;
+        var bemail = false;
 		$(function () {
             /*从数字字典中获取用户状态*/
 			$.post(
@@ -62,8 +64,8 @@
                         "user-manager/isOneUsername",
 						{"username":username},
 						function (json) {
-							if(json){		//用户名不唯一，可通过
-							    $("#userIsOne").html("<font color='green'>√</font>");
+							if(json){		//用户名唯一，可通过
+							    $("#userIsOne").html("<font color='green' size='6'>√</font>");
 							    busername=true;
 							}else {
                                 busername=false;
@@ -84,15 +86,66 @@
                 var re=/^[A-Za-z0-9]{6,7}$/;
                 bpassword=re.test(password);
                 if(bpassword){
-                    $("#pwd").html("<font color='green'>√</font>")
+                    $("#pwd").html("<font color='green' size='6'>√</font>")
                 }else {
-                    $("#pwd").html("<font color='red'>×</font>")
+                    $("#pwd").html("<font color='red' size='6'>×</font>")
                 }
+            });
+
+            /*手机号码正则以及唯一验证*/
+			$("#phone").blur(function () {
+			    var phone = $(this).val();
+			    var res = /^1(3|4|5|6|7|8|9)\d{9}$/;
+			    bphone = res.test(phone);
+			    if(bphone){		//正则验证通过
+			        $.post(
+			            "user-manager/isOneUserPhone",
+						{"phone":phone},
+						function (json) {
+			                if(json){	//手机号码唯一，可通过
+                                $("#phoneIsOne").html("<font color='green' size='6'>√</font>");
+			                    bphone=true;
+							}else{		//手机号码不唯一，不可通过
+                                bphone=false;
+                                $("#phoneIsOne").html("<font color='red' size='6'>×</font>");
+							}
+                        },
+						"json"
+					)
+				}else {
+			        $("#phoneIsOne").html("<font color='red' size='6'>×</font>");
+				}
+            });
+
+			/*电子邮件正则及唯一验证*/
+			$("#email").blur(function () {
+			    var email = $(this).val();
+			    var res = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+			    bemail = res.test(email);
+			    if(bemail){		//正则验证通过
+			        $.post(
+			            "user-manager/isOneUserEmail",
+						{"email":email},
+						function (json) {
+							if(json){	//电子邮件唯一，可通过
+							    bemail=true;
+                                $("#emailIsOne").html("<font color='green' size='6'>√</font>");
+							}else{
+							    bemail=false;
+                                $("#emailIsOne").html("<font color='red' size='6'>×</font>");
+							}
+                        },
+						"json"
+					)
+
+				}else{
+                    $("#emailIsOne").html("<font color='red' size='6'>×</font>");
+				}
             });
 
         });
         function sub() {
-            return busername && bpassword;
+            return busername && bpassword && bphone && bemail;
         }
 
 
@@ -133,7 +186,7 @@
 			<label class="control-label">用户名称：</label>
 			<div class="controls">
 				<input id="username" name="username" placeholder="由5-10个数字或字母组成" class="input-xlarge required" type="text" value="" maxlength="50">
-				<span class="help-inline" id="userIsOne"></span>
+				<span class="help-inline" id="userIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -147,12 +200,14 @@
 			<label class="control-label">电子邮件：</label>
 			<div class="controls">
 				<input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50">
+				<span class="help-inline" id="emailIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">手机号码：</label>
 			<div class="controls">
 				<input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13">
+				<span class="help-inline" id="phoneIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
