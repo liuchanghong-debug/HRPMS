@@ -81,4 +81,9 @@ public class SystemUserServiceImpl implements SystemUserService {
     public TbSystemUser isOneUsername(String username) {
         return systemUserDao.isOneUsername(username);
     }
+
+    @Override
+    public List<TbSystemUser> selectAllUserName() {
+        return systemUserDao.selectAllUserName();
+    }
 }

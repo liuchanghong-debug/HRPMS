@@ -28,4 +28,6 @@ public interface SystemUserDao {
     //用户名唯一验证
     public TbSystemUser isOneUsername(String username);
 
+    //查询所有用户名称
+    public List<TbSystemUser> selectAllUserName();
 }

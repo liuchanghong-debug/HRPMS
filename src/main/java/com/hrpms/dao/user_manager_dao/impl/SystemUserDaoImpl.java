@@ -70,4 +70,11 @@ public class SystemUserDaoImpl implements SystemUserDao {
                 .uniqueResult();
         return tbSystemUser;
     }
+
+    @Override
+    public List<TbSystemUser> selectAllUserName() {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbSystemUser> list = session.createQuery("from TbSystemUser").list();
+        return list;
+    }
 }

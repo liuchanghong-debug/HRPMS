@@ -81,4 +81,10 @@ public interface CustomerDao {
     //查询所有的客户名称
     public List<TbCustomer> selectAllCustomerName();
 
+    //根据邮箱查询所有
+    public TbCustomer selectCustomerByEmail(String email);
+
+    //根据电话号码查询所有
+    public TbCustomer selectCustomerByPhone(String phone);
+
 }

@@ -338,15 +338,15 @@
                         <div id="collapse-822de1f5c7594e7f9586b0685c028541" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-9ff71084c3c44748a3a699d05d124ff9" href="emailList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;营销查询</a>
+                                    <li><a data-href=".menu3-9ff71084c3c44748a3a699d05d124ff9" href="/marketing-manager/selectEmailRecoredByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;营销查询</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-9fd2bbad28414d7b9df3d871cda6543c" href="smsSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信营销</a>
+                                    <li><a data-href=".menu3-9fd2bbad28414d7b9df3d871cda6543c" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信营销</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-23e1d105dd774ba492ea4f1006d3bc73" href="emailSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件营销</a>
+                                    <li><a data-href=".menu3-23e1d105dd774ba492ea4f1006d3bc73" href="/marketing-manager/addEmailRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件营销</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -442,7 +442,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-c9d372c1a9c84bbe8c46686c41d67cfb" href="smsTemplateList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信模板</a>
+                                    <li><a data-href=".menu3-c9d372c1a9c84bbe8c46686c41d67cfb" href="sms-template/selectSmsTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信模板</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>

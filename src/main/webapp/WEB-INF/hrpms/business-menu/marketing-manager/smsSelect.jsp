@@ -7,10 +7,9 @@
 %>
 <base href="<%=basePath%>">
 <!DOCTYPE html>
-<!-- saved from url=(0071)http://localhost:8080/jeesite-master/a/company/emailRecord/form?id=1000 -->
+<!-- saved from url=(0069)http://localhost:8080/jeesite-master/a/company/smsRecord/form?id=1000 -->
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>邮件管理 - Powered By JeeSite</title>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta name="author" content="http://jeesite.com/"/>
+	<title>短信管理 - Powered By JeeSite</title>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
 	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
@@ -61,64 +60,34 @@
 
 <ul class="nav nav-tabs">
 
-	<li class="active"><a href="saved_resource_unEdit.html">邮件修改</a></li>
+	<li class="active"><a href="/marketing-manager/selectSmsRecoredById?id=${tbSmsRecord.id}">短信详情</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1000">
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
-		<label class="control-label">发信人：</label>
+		<label class="control-label">发送人：</label>
 		<div class="controls">
-			<input id="userId" name="userId" class="input-xlarge required digits" type="text" value="1000" maxlength="11" disabled="disabled">
+			<input id="userId" name="userId" class="input-xlarge " type="text" value="${user.username}" maxlength="512" disabled="disabled">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">接收人：</label>
+		<div class="controls">
+			<input id="telephone" name="telephone" class="input-xlarge required" type="text" value="${customer.name}" maxlength="512" disabled="disabled">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
+
 	<div class="control-group">
-		<label class="control-label">收信人：</label>
+		<label class="control-label">短信内容：</label>
 		<div class="controls">
-			<input id="toAddr" name="toAddr" class="input-xlarge required" type="text" value="zhidi@soft.com" maxlength="256" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">邮件模板：</label>
-		<div class="controls">
-			<input type="text" name="templateId" value="" htmlescape="false" maxlength="512" class="input-xlarge required" disabled="disabled">
-			<input type="submit" name="chooseSms" value="选择" disabled="disabled">
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">标题：</label>
-		<div class="controls">
-			<input id="subject" name="subject" class="input-xlarge required" type="text" value="公积金催交" maxlength="128" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">内容：</label>
-		<div class="controls">
-			<textarea id="content" name="content" maxlength="256" class="input-xxlarge required" rows="4" disabled="disabled">您好，您的公积金预交款日到了，请及时缴款。</textarea>
+			<textarea id="content" name="content" class="input-xxlarge required" rows="4" disabled="disabled">你好，今天是您的生日，主您生日快乐</textarea>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存" disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
@@ -127,7 +96,7 @@
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){
     $("body").prepend("<i id=\"btnMenu\" class=\"icon-th-list\" style=\"cursor:pointer;float:right;margin:10px;\"></i><div id=\"menuContent\"></div>");
     $("#btnMenu").click(function(){
-        top.$.jBox('get:/jeesite-master/a/sys/menu/treeselect;JSESSIONID=b30d2fa0f4264f6288e0788088ab4b22', {title:'选择菜单', buttons:{'关闭':true}, width:300, height: 350, top:10});
+        top.$.jBox('get:/jeesite-master/a/sys/menu/treeselect;JSESSIONID=41ca53444d354f77bf910dedc6955351', {title:'选择菜单', buttons:{'关闭':true}, width:300, height: 350, top:10});
         //if ($("#menuContent").html()==""){$.get("/jeesite-master/a/sys/menu/treeselect", function(data){$("#menuContent").html(data);});}else{$("#menuContent").toggle(100);}
     });
 }//-->

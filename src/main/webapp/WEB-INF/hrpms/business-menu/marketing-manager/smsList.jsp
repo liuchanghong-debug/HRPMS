@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +37,34 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        $(function () {
+            $.post(
+                "customerClient/selectAllCustomerName",
+                function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].phone + "'>" + json[i].name + "</option>"
+                    }
+                    $("#telephone").html(str);
+                },
+                "json"
+            );
+
+            $.post(
+                "user-manager/selectAllUserName",
+                function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].id + "'>" + json[i].username + "</option>"
+                    }
+                    $("#userId").html(str);
+                },
+                "json"
+            )
+
+        });
+
         $(document).ready(function() {
 
         });
@@ -51,21 +80,21 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../emailList/saved_resource.html">邮件发送列表</a></li>
-	<li class="active"><a href="saved_resource.html">短信发送列表</a></li>
+	<li><a href="/marketing-manager/selectEmailRecoredByDuo">邮件发送列表</a></li>
+	<li class="active"><a href="/marketing-manager/selectSmsRecoredByDuo">短信发送列表</a></li>
 
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="marketing-manager/selectSmsRecoredByDuo" method="post">
 	<ul class="ul-form">
 		<li><label>发送人：</label>
-			<input id="userId" name="userId" class="input-medium" type="text" value="" maxlength="512">
+			<select id="userId" name="user_id" class="input-xlarge  select2-offscreen" tabindex="-1">
 
-
+			</select>
 		</li>
-		<li><label>接收人电话：</label>
-			<input id="telephone" name="telephone" class="input-medium" type="text" value="" maxlength="512">
+		<li><label>接收人：</label>
+			<select id="telephone" name="telephone" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
@@ -86,63 +115,46 @@
 	</tr>
 	</thead>
 	<tbody>
+	<c:forEach items="${page.dataList}" var="smsRecored">
+		<tr>
+			<td><a href="/marketing-manager/selectSmsRecoredById?id=${smsRecored.sms.id}">
+					${smsRecored.sms.id}
+			</a></td>
+			<td>
+					${smsRecored.user.username}
+			</td>
+			<td>
+					${smsRecored.customer.name}
+			</td>
+			<td>
+					${smsRecored.sms.content}
+			</td>
+			<td>
+					${smsRecored.sms.sendtime}
+			</td>
+			<td>
+				<a href="/marketing-manager/selectSmsRecoredById?id=${smsRecored.sms.id}">详情</a>
+				<a href="/marketing-manager/deleteSmsRecoredById?id=${smsRecored.sms.id}" onclick="return confirmx(&#39;确认要删除该短信发送吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
 
-	<tr>
-		<td><a href="../updateSms/saved_resource_unEdit.html">
-			1000
-		</a></td>
-		<td>
+	</c:forEach>
 
-			智递哥
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			你好，今天是您的生日，主您生日快乐
-		</td>
-		<td>
-			2017-11-09 10:30:53
-		</td>
-		<td>
-			<a href="../updateSms/saved_resource.html">详情</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该短信发送吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateSms/saved_resource_unEdit.html">
-			1001
-		</a></td>
-		<td>
-
-			智递哥
-		</td>
-		<td>
-			15800008888
-		</td>
-		<td>
-			您好，您的公积金缴款日到了，请及时缴款转账，谢谢！
-		</td>
-		<td>
-			2017-11-09 10:32:00
-		</td>
-		<td>
-			<a href="../updateSms/saved_resource.html">详情</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该短信发送吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 2 条</a></li>
+	<li class="disabled"><a href="marketing-manager/selectSmsRecoredByDuo?currentPage=${page.currentPage-1}&user_id=${map.user_id}&to_addr=${map.telephone}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="marketing-manager/selectSmsRecoredByDuo?currentPage=${num}&&user_id=${map.user_id}&to_addr=${map.telephone}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="marketing-manager/selectSmsRecoredByDuo?currentPage=${page.currentPage+1}&user_id=${map.user_id}&to_addr=${map.telephone}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
-
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){
     $("body").prepend("<i id=\"btnMenu\" class=\"icon-th-list\" style=\"cursor:pointer;float:right;margin:10px;\"></i><div id=\"menuContent\"></div>");
