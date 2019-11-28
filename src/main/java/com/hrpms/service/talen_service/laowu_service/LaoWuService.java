@@ -1,9 +1,6 @@
 package com.hrpms.service.talen_service.laowu_service;
 
-import com.hrpms.pojo.TbCompany;
-import com.hrpms.pojo.TbNeedJob;
-import com.hrpms.pojo.TbPersonJob;
-import com.hrpms.pojo.TbSystemDict;
+import com.hrpms.pojo.*;
 import com.hrpms.pojo.operaton_select.TbPersonJobOperation;
 import com.hrpms.utils.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -122,4 +119,10 @@ public interface LaoWuService {
      * @return
      **/
     void personJobDelete(Integer id, Integer updateBy);
+    /**
+     * 根据id查询Person详细信息
+     * @param
+     * @return
+     **/
+    TbPerson getDetailPersonById(Integer id);
 }

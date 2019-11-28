@@ -148,8 +148,8 @@
 						$("#companyPrice").val(json.price);
 						var startTime = new Date(json.startTime);
 						var endTime = new Date(json.endTime);
-						$("#startTime").val(startTime.getFullYear().toString() + "年" + (startTime.getMonth() + 1).toString() + "月" + startTime.getDate().toString() + "日");
-						$("#endTime").val(endTime.getFullYear().toString() + "年" + (endTime.getMonth() + 1).toString() + "月" + endTime.getDate().toString() + "日");
+						$("#startTime").val(startTime.getFullYear().toString() + "-" + (startTime.getMonth() + 1).toString() + "-" + startTime.getDate().toString());
+						$("#endTime").val(endTime.getFullYear().toString() + "-" + (endTime.getMonth() + 1).toString() + "-" + endTime.getDate().toString());
 						$("#jobContent").text(json.jobContent);
                     },
 					"json"
@@ -162,13 +162,14 @@
 
 
         //根据companyId的id得到合适的用户
+		//先点击合作公司改变nameId的绑定方法， 将companyId显示出来，
         function getPersonsByCompayId(id) {
             $("#companyJob").attr("style", "display: none");
             $("#idCard").val(null);
             $("#personPrice").val(null);
             $("#jobType").removeAttr("disabled", "disabled");
-            $("#name>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
-            $("#name").removeAttr("onchange").attr("onchange", "getIdCard(this.value)");
+            $("#nameId>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
+            $("#nameId").removeAttr("onchange").attr("onchange", "getIdCard(this.value)");
             $("#companyPrice").val(null);
             $("#startTime").val(null);
             $("#endTime").val(null);
@@ -190,7 +191,7 @@
                         $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
 
                         var person = json.persons;
-                        $("#name").each(function () {
+                        $("#nameId").each(function () {
                             $(this).children("option").each(
                                 function () {
                                     var noFit = true;
@@ -206,12 +207,12 @@
                                         }
                                     }
                                     if(noFit){
-                                        $("#name option[value='" + this.value + "']").attr("hidden", "hidden");
+                                        $("#nameId option[value='" + this.value + "']").attr("hidden", "hidden");
                                     }
                                 }
                             )
                         });
-                        $("#companyId").removeAttr("onchange").attr("onchange", "getPersonByCompanyIdForPrice(this.value)");
+                        $("#nameId").removeAttr("onchange").attr("onchange", "getPersonById(this.value)");
                     },
                     "json"
                 );
@@ -223,7 +224,6 @@
             $("#startTime").val(null);
             $("#endTime").val(null);
             $("#jobContent").text("");
-            $("#jobType").attr("disabled", "disabled");
             if(id != "" && id != null){
                 $.get(
                     "laowu/getAllJobByCompanyId",
@@ -235,19 +235,20 @@
                             var jobName = json[i].jobName;
                             str += "<option value='" + id + "'>" + jobName + "</option>";
                         }
-                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
+                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getPersonById(this.value)");
                     },
                     "json"
                 );
             }
         }
+
         //根据公司id得到详细信息
-        function getDetailNeedJobById(id) {
+        function getDetailNeedJobForCompanyTypeById(id) {
             $("#companyPrice").val(null);
             $("#startTime").val(null);
             $("#endTime").val(null);
             $("#jobContent").text("");
-            if(id != "" && id !== null){
+            if(id != "" && id != null){
                 $.get(
                     "laowu/getNeedJobById",
                     {"id":id},
@@ -264,6 +265,25 @@
             }
         }
 
+        //根据personid得到详细信息
+        function getPersonById(id) {
+            $("#idCard").val(null);
+            $("#jobType").val(null);
+            $("#personPrice").val(null);
+            if(id != "" && id != null){
+                $.get(
+                    "laowu/getDetailPersonByid",
+                    {"id":id},
+                    function (json) {
+						$("#idCard").val(json.idCard);
+						$("#jobType option[value=" + json.jobType + "]").attr("selected", "selected");
+						$("#jobType").attr("disabled", "disabled");
+						$("#personPrice").val(json.forPrice);
+                    },
+                    "json"
+                );
+            }
+        }
 	</script>
 
 </head>

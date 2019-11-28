@@ -151,7 +151,7 @@
 		<tr>
 			<td><label class="control-label">公司单价：</label></td>
 			<td>
-				<input id="companyPrice" name="companyPrice" class="input-xlarge " disabled type="text" value="${personJob.companyPrice}">
+				<input id="companyPrice" name="companyPrice" class="input-xlarge " readonly type="text" value="${personJob.companyPrice}">
 			</td>
 			<td><label class="control-label">个人单价：</label></td>
 			<td>
@@ -204,7 +204,7 @@
 		</tr>
 		<tr>
 			<td><label class="control-label">工作内容：</label></td>
-			<td colspan="3"><textarea id="jobContent" name="jobContent" maxlength="256" disabled class="input-xxlarge " rows="2">${personJob.jobContent}</textarea></td>
+			<td colspan="3"><textarea id="jobContent" name="jobContent" maxlength="256" readonly class="input-xxlarge " rows="2">${personJob.jobContent}</textarea></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">备注信息：</label></td>

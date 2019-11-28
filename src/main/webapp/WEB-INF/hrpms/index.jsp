@@ -456,7 +456,7 @@
                 </div></div>
             <div id="openClose" class="close" style="height: 505px;">&nbsp;</div>
             <div id="right" style="height: 510px; width: 1185px;">
-                <iframe id="mainFrame" name="mainFrame" src="./index/saved_resource.html" style="overflow: visible; height: 510px;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
+                <iframe id="mainFrame" name="mainFrame" src="./index/saved_resource.html" style="overflow: visible; height: 510px;" scrolling="yes" frameborder="no" width="99%" height="650"></iframe>
             </div>
         </div>
         <div id="footer" class="row-fluid">

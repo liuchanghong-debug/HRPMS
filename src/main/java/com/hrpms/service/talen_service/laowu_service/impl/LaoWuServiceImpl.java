@@ -215,4 +215,9 @@ public class LaoWuServiceImpl implements LaoWuService {
         personJobById.setStatus(dataDictService.getDataDictValueByNameAndLabel("合作状态", "结束"));
         laoWuDao.personOperation(personJobById);
     }
+
+    @Override
+    public TbPerson getDetailPersonById(Integer id) {
+        return personService.personDetailById(id);
+    }
 }

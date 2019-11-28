@@ -178,4 +178,14 @@ public class TalentLaoWuController {
         laoWuService.personJobDelete(id, tbSystemUser.getId());
         return laowuList(currentPage, personJobOperation, model);
     }
+    /**
+     * 根据id返回person详细信息
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/getDetailPersonByid")
+    @ResponseBody
+    public Object getDetailPersonById(Integer id){
+        return laoWuService.getDetailPersonById(id);
+    }
 }
