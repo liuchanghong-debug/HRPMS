@@ -80,8 +80,8 @@ public class TalentLaoWuController {
      **/
     @RequestMapping("/getAllJobByCompanyId")
     @ResponseBody
-    public Object getAllJobByCompanyId(Integer id){
-        return laoWuService.getAllJobByCompanyId(id);
+    public Object getAllJobByCompanyId(Integer id, Integer personId){
+        return laoWuService.getAllJobByCompanyId(id, personId);
     }
     /**
      * 根据需求id得到详细信息
@@ -162,9 +162,11 @@ public class TalentLaoWuController {
         model.addAttribute("personJobOperation", personJobOperation);
         TbPersonJob tbPersonJob = laoWuService.laowuDetailById(id);
         model.addAttribute("personJob", tbPersonJob);
+        //通过价格查询所有合适的招聘公司信息
         model.addAttribute("companys", laoWuService.getNeedJobsByJobType(tbPersonJob.getPersonPrice()));
         //将公司所有的劳务信息传过去  默认选中
-        model.addAttribute("companyJobs", laoWuService.getAllJobByCompanyId(tbPersonJob.getCompanyId()));
+
+        model.addAttribute("companyJobs", laoWuService.getNeedJobsByPersonJobId(id));
         model.addAttribute("jobTypes", laoWuService.getDictsByName("工作类型"));
         model.addAttribute("statuss", laoWuService.getDictsByName("合作状态"));
 

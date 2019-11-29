@@ -60,16 +60,8 @@ public class CustomerClientController {
         //需要客户类别，客户状态，所属公司
         List<TbSystemDict> dictOfType = customerService.getDataDictByName("客户类别");
         List<TbSystemDict> dictOfStatus = customerService.getDataDictByName("客户状态");
-        for (TbSystemDict dict : dictOfType){
-            if(dict.getValue().equals(customer.getCustomerType())){
-                customer.setCustomerType(dict.getLabel());
-            }
-        }
-        for (TbSystemDict dict : dictOfStatus){
-            if(dict.getValue().equals(customer.getStatus())){
-                customer.setCustomerType(dict.getLabel());
-            }
-        }
+        model.addAttribute("statuss", dictOfStatus);
+        model.addAttribute("types", dictOfType);
         model.addAttribute("customer", customer);
         model.addAttribute("companys", customerService.getAllCompanyOfIdAndName());
 

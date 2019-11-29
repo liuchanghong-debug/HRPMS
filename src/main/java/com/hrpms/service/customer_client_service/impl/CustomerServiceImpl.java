@@ -25,7 +25,10 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -354,4 +357,5 @@ public class CustomerServiceImpl implements CustomerService {
     public TbCustomer selectCustomerByPhone(String phone) {
         return customerDao.selectCustomerByPhone(phone);
     }
+
 }

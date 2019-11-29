@@ -83,7 +83,6 @@
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td><input type="text" name="idcard" htmlescape="false" value="${map.shebaoRecord.idCard}" disabled maxlength="20" class="input-xlarge " style="width:270px;">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 
@@ -91,7 +90,6 @@
 			<td><label class="control-label">社保号码：</label></td>
 			<td>
 				<input id="sdcard" name="sdcard" class="input-xlarge required" disabled type="text" value="${map.shebaoRecord.sbCard}" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">所属公司：</label>
@@ -145,7 +143,6 @@
 						</c:if>
 					</c:forEach>
 				</select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 

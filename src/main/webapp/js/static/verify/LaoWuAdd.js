@@ -95,6 +95,7 @@ function getIdCard(id) {
     $("#jobType").val(null);
 
     if(id != "" && id != null){
+
         $.get(
             "laowu/getPersonAndCompanyById",
             {"id":id},
@@ -144,7 +145,7 @@ function getCompanyById(id) {
     if(id != "" && id != null){
         $.get(
             "laowu/getAllJobByCompanyId",
-            {"id":id},
+            {"id":id, "personId":$("#nameId").val()},
             function (json) {
                 var str = "<option value=''>请选择</option>";
                 for (var i = 0; i < json.length; i++) {

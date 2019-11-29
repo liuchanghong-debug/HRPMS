@@ -361,7 +361,7 @@
                         <div id="collapse-07070e9f5f504140ac5327d9ea387ab1" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="shebaoCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
+                                    <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="shebao/shebaoCount" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>

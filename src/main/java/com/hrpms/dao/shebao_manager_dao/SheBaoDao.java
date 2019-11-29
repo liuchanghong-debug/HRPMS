@@ -2,6 +2,7 @@ package com.hrpms.dao.shebao_manager_dao;
 
 import com.hrpms.pojo.TbSocialInsurance;
 import com.hrpms.pojo.TbSocialInsuranceRecord;
+import com.hrpms.pojo.operaton_select.SheBaoCountOperation;
 import com.hrpms.pojo.operaton_select.TbSocialInsuranceOperation;
 
 import java.util.List;
@@ -133,4 +134,19 @@ public interface SheBaoDao {
      * @return
      **/
     TbSocialInsuranceRecord getSheBaoRecordByIdCard(String hql, String idCard);
+
+
+
+    /**
+     * 社保报表查询
+     * @param
+     * @return
+     **/
+    List<Object[]> shebaoStatements(String hql, SheBaoCountOperation sheBaoCountOperation);
+    /**
+     * 社保报表查询总条数
+     * @param
+     * @return
+     **/
+    Long shebaoCount(String hql, SheBaoCountOperation sheBaoCountOperation);
 }

@@ -72,7 +72,7 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<select name="customerId" class="input-xlarge  select2-offscreen" onchange="getDetailMess(this)" tabindex="-1">
+				<select id="customerId" name="customerId" class="input-xlarge  select2-offscreen" onchange="getDetailMess(this)" tabindex="-1">
 					<option value="">请选择</option>
 					<c:forEach items="${socialInsuranceRecord}" var="socialInsurance">
 						<c:if test="${id == socialInsurance.id}">
@@ -141,7 +141,6 @@
 						<option value="${status.value}">${status.label}</option>
 					</c:forEach>
 				</select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 

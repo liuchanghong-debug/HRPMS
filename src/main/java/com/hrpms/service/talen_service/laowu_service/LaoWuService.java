@@ -94,7 +94,7 @@ public interface LaoWuService {
      * @param
      * @return
      **/
-    List<TbNeedJob> getAllJobByCompanyId(Integer id);
+    List<TbNeedJob> getAllJobByCompanyId(Integer id, Integer personId);
     /**
      * 根据id得到详细信息
      * @param
@@ -139,4 +139,10 @@ public interface LaoWuService {
      * @return
      **/
     TbNeedJob getDetailNeedJobById(Integer id);
+    /**
+     * 根据客户id查询公司下的有招聘信息
+     * @param
+     * @return 
+     **/
+    List<TbNeedJob> getNeedJobsByPersonJobId(Integer id);
 }

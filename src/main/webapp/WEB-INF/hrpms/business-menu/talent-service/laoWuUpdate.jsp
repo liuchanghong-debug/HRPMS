@@ -31,8 +31,8 @@
 	<script src="js/static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
 	<script src="js/static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 	<script src="js/static/common/mustache.min.js" type="text/javascript"></script>
-	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
-	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
+	<%--<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />--%>
+	<%--<script src="js/static/common/jeesite.js" type="text/javascript"></script>--%>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
@@ -84,14 +84,13 @@
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
 				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${personJob.idCard}" disabled maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="company" name="company" onchange="getCompanyMessByCompanyId(this.value)" class="input-xlarge" >
+				<select id="company" name="company" onchange="getCompanyMessByCompanyId(this.value)">
 					<c:forEach items="${companys}" var="company">
 						<c:if test="${company.id == personJob.companyId}">
 							<option value="${company.id}" selected="selected">${company.name}</option>
@@ -102,7 +101,7 @@
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)">
 					<c:forEach items="${companyJobs}" var="companyJob">
 						<c:if test="${companyJob.id == personJob.companyId}">
 							<option value="${companyJob.id}" selected="selected">${companyJob.jobName}</option>
@@ -139,12 +138,12 @@
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
-				<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 		</tr>
 		<tr>

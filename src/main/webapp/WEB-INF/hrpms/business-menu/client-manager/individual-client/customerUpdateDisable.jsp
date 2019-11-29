@@ -130,7 +130,11 @@
 			<td><label class="control-label">客户类别：</label></td>
 			<td>
 				<select name="companyid" class="input-xlarge " disabled="disabled">
-					<option value="">${customer.customerType}</option>
+					<c:forEach items="${types}" var="type">
+						<c:if test="${type.value == customer.customerType}">
+							<option value="">${type.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">代发工资：</label></td>
@@ -170,7 +174,11 @@
 			<td><label class="control-label">状态：</label></td>
 			<td>
 				<select name="status" class="input-xlarge " disabled="disabled">
-					<option>${customer.status}</option>
+					<c:forEach items="${statuss}" var="status">
+						<c:if test="${status.value == customer.status}">
+							<option value="">${status.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 			<td><label class="control-label">备注：</label></td>

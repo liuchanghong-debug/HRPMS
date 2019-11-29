@@ -6,7 +6,7 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</sp
 
 $(function () {
     //客户名称
-    $("#customerId").keyup(function () {
+    $("#customerId").change(function () {
         if($("#customerId").val() != "" && $("#customerId").val() != null){
             customerId = true;
             $("#customerId ~ span").remove();
@@ -37,19 +37,13 @@ $(function () {
     }).click(function () {
         $("#btnSubmit").removeAttr("disabled");
     });
-    $("select").change(function () {
-        $("#btnSubmit").removeAttr("disabled");
-    }).click(function () {
-        $("#btnSubmit").removeAttr("disabled");
-    });
     //页面加载时加载详细信息
     var onload = $("select").change();
 });
 
 //提交
 function inputFormSubmit() {
-    $("input").keyup();
-    $("select").change();
+    $("input").keyup().change;
     if(!(customerId && payMonth)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {
