@@ -35,7 +35,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/SheBaoUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -71,7 +71,7 @@
 
 <ul class="nav nav-tabs">
 	<li><a href="shebao/shebaoList">社保信息列表</a></li>
-	<li class="active"><a href="shebao/shebaoToUpdate?id=${socialInsurance.id}">社保信息修改</a></li>
+	<li class="active"><a href="shebao/shebaoToUpdate?id=${socialInsurance.id}&currentPage=${currentPage}&nameQuery=${socialInsuranceOperation.nameQuery}&sbCardQuery=${socialInsuranceOperation.sbCardQuery}&idCardQuery=${socialInsuranceOperation.idCardQuery}">社保信息修改</a></li>
 </ul><br>
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 	<table>
@@ -149,9 +149,9 @@
 			<input id="id" name="id" type="hidden" value="${socialInsurance.id}">
 		<tr>
 			<td><label class="control-label">社保卡号：</label></td>
-			<td><input id="sbCard" name="sbCard" class="input-xlarge " type="text" value="${socialInsurance.sbCard}" maxlength="20" readonly></td>
+			<td><input id="sbCard" name="sbCard" class="input-xlarge " type="text" value="${socialInsurance.sbCard}" maxlength="20"></td>
 			<td><label class="control-label">缴费基数：</label></td>
-			<td><input id="basePay" name="basePay" class="input-xlarge " type="text" onblur="getPayData(this.value)" value="${socialInsurance.basePay}"></td>
+			<td><input id="basePay" name="basePay" class="input-xlarge " type="text" readonly value="${socialInsurance.basePay}"></td>
 		</tr>
 
 		<tr>
@@ -185,7 +185,7 @@
 			<td><label class="control-label">预交款日：</label></td>
 			<td>
 				<f:formatDate value="${socialInsurance.payDate}" pattern="yyyy-MM-dd" var="payTime"/>
-				<input name="paydate" type="text" readonly maxlength="20" class="input-medium Wdate " value="${payTime}">
+				<input id="payDate" name="payDate" type="date" maxlength="20" class="input-medium Wdate " value="${payTime}">
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td><input id="proxyfee" name="proxyfee" class="input-xlarge " type="text" value="${socialInsurance.proxyFee}" readonly></td>
@@ -211,7 +211,7 @@
 		</tbody>
 	</table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

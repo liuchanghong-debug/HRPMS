@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,4 +134,27 @@ public class TalentPersonController {
     public void resumeUrlPreview(String personResumeUrl, HttpServletRequest request, HttpServletResponse response) throws Exception {
         personService.resumeUrlPreview(personResumeUrl, request, response);
     }
+
+    /**
+     * 添加判断idCard是否唯一
+     * @param
+     * @return
+     **/
+    @RequestMapping("/personIdCardIsOnly")
+    @ResponseBody
+    public Object personIdCardIsOnly(String idCard){
+        return personService.personIdCardIsOnly(idCard);
+    }
+
+    /**
+     * 添加判断idCard是否唯一  修改的时候不查自己
+     * @param
+     * @return
+     **/
+    @RequestMapping("/personIdCardIsOnlyUpdate")
+    @ResponseBody
+    public Object personIdCardIsOnlyUpdate(Integer id, String idCard){
+        return personService.personIdCardIsOnlyUpdate(id, idCard);
+    }
+
 }

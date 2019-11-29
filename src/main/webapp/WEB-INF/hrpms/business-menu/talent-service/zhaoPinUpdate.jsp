@@ -34,7 +34,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/ZhaoPinUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -62,7 +62,7 @@
 
 <ul class="nav nav-tabs">
 	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
-	<li class="active"><a href="zhaopin/zhaopinToUpdate?id=${needJob.id}">招聘信息修改</a></li>
+	<li class="active"><a href="zhaopin/zhaopinToUpdate?id=${needJob.id}&currentPage=${currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">招聘信息修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="zhaopin/zhaopinUpdate" method="post" novalidate="novalidate">
 	<input type="hidden" name="jobNameQuery" value="${needJobOperation.jobNameQuery}">
@@ -79,7 +79,7 @@
 			<td><label class="control-label">需求名称：</label></td>
 			<td>
 				<input id="jobName" name="jobName" class="input-xlarge required" type="text" value="${needJob.jobName}" maxlength="100">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="green">*</font> </span>
 			</td>
 			<td><label class="control-label">需求职位：</label></td>
 			<td><input id="jobType" name="jobType" class="input-xlarge " type="text" value="${needJob.jobType}" maxlength="100">
@@ -89,7 +89,7 @@
 		<tr>
 			<td><label class="control-label">所属行业：</label></td>
 			<td>
-				<select name="industry" htmlescape="false" maxlength="2" class="input-xlarge">
+				<select id="industry" name="industry" htmlescape="false" maxlength="2" class="input-xlarge">
 					<c:forEach items="${industrys}" var="industry">
 						<c:if test="${industry.value == needJob.industry}">
 							<option value="${industry.value}" selected>${industry.label}</option>
@@ -103,7 +103,7 @@
 			<td>
 				<label class="control-label">发布公司：</label>
 			</td><td>
-			<select path="companyId" name="companyId" class="input-xlarge" style="width:270px" >
+			<select id="companyId" path="companyId" name="companyId" class="input-xlarge" style="width:270px" >
 				<c:forEach items="${companys}" var="company">
 					<c:if test="${company[0] == needJob.companyId}">
 						<option value="${company[0]}" selected>${company[1]}</option>
@@ -143,12 +143,12 @@
 			<td><label class="control-label">开始日期：</label></td>
 			<td>
 				<f:formatDate value="${needJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-				<input name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
+				<input id="startTime" name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});">
 			</td>
 			<td><label class="control-label">结束日期：</label></td>
 			<td>
 				<f:formatDate value="${needJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
-				<input name="endTime" type="date" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});"></td>
+				<input id="endTime" name="endTime" type="date" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});"></td>
 		</tr>
 
 		<tr>
@@ -193,7 +193,7 @@
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

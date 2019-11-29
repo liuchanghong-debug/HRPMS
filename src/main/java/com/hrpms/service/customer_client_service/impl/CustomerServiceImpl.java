@@ -271,6 +271,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean customerIdCardIsOnly(String idCard) {
+        String hql = "from TbCustomer where idCard = ?";
+        Object object = customerDao.customerIdCardIsOnly(hql, idCard);
+        if(object == null){
+            return  true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean customerIdCardIsOnlyUpdate(Integer id, String idCard) {
+        String hql = "from TbCustomer where id != ? and idCard = ?";
+        Object object = customerDao.customerIdCardIsOnlyUpdate(hql, id, idCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
     public TbCustomer selectCustomerByEmail(String email) {
         return customerDao.selectCustomerByEmail(email);
     }

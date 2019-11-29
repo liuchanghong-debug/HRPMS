@@ -56,4 +56,15 @@ public class CompanyClientDaoImpl implements CompanyClientDao {
     public List<Object[]> getAllCompanyOfIdAndName() {
         return sessionFactory.getCurrentSession().createQuery("select id, name from TbCompany").list();
     }
+
+    @Override
+    public Object companyNoIsOnly(String hql, String companyNo) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, companyNo).uniqueResult();
+
+    }
+
+    @Override
+    public Object companyNoIsOnlyOnUpdate(String hql, Integer companyId, String companyNo) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, companyId).setParameter(1, companyNo).uniqueResult();
+    }
 }

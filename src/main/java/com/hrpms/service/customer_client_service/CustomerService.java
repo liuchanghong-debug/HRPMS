@@ -105,6 +105,20 @@ public interface CustomerService {
     //查询所有的客户名称
     public List<TbCustomer> selectAllCustomerName();
 
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    boolean customerIdCardIsOnly(String idCard);
+
+    /**
+     * 异步验证idCard是否唯一  修改 不包括自己
+     * @param
+     * @return
+     **/
+    boolean customerIdCardIsOnlyUpdate(Integer id, String idCard);
+
     //根据邮箱查询所有
     public TbCustomer selectCustomerByEmail(String email);
 

@@ -86,5 +86,17 @@ public interface CustomerDao {
 
     //根据电话号码查询所有
     public TbCustomer selectCustomerByPhone(String phone);
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    Object customerIdCardIsOnly(String hql, String idCard);
 
+    /**
+     * 异步验证idCard是否唯一  修改 不包括自己
+     * @param
+     * @return
+     **/
+    Object customerIdCardIsOnlyUpdate(String hql, Integer id, String idCard);
 }

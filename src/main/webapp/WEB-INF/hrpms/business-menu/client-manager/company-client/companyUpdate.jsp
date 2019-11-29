@@ -34,7 +34,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/CompanyClientUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -72,7 +72,7 @@
 
 <ul class="nav nav-tabs">
 	<li><a href="companyClient/companyClientList">公司客户列表</a></li>
-	<li class="active"><a href="companyClient/companyUpdate?id=${company.id}">公司客户修改</a></li>
+	<li class="active"><a href="companyClient/companyUpdate?id=${company.id}&currentPage=${currentPage}&nameQuery=${companyOperation.nameQuery}">公司客户修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="companyClient/companyUpdateToUpdate" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="${company.id}">
@@ -88,7 +88,7 @@
 			<td><label class="control-label">公司名称：</label></td>
 			<td>
 				<input id="name" name="name" class="input-xlarge required" type="text" value="${company.name}" maxlength="100">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="green">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">统一信用号：</label>
@@ -115,7 +115,16 @@
 			<td><label class="control-label">法人手机：</label></td>
 			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="${company.phone}" maxlength="13"></td>
 			<td><label class="control-label">性别：</label></td>
-			<td><input id="sex" name="sex" class="input-xlarge " type="text" value="${company.sex}" maxlength="2"></td>
+			<td>
+				<c:if test="${company.sex == '男'}">
+					<input name="sex" class="input-xlarge " type="radio" value="男" checked maxlength="2">男&nbsp;&nbsp;
+					<input name="sex" class="input-xlarge " type="radio" value="女" maxlength="2">女
+				</c:if>
+				<c:if test="${company.sex == '女'}">
+					<input name="sex" class="input-xlarge " type="radio" value="男" maxlength="2">男&nbsp;&nbsp;
+					<input name="sex" class="input-xlarge " type="radio" value="女" checked maxlength="2">女
+				</c:if>
+			</td>
 		</tr>
 
 		<tr>
@@ -156,18 +165,18 @@
 
 		<tr>
 			<td><label class="control-label">公司地址：</label></td>
-			<td colspan="3"><textarea id="address" name="address" maxlength="256" class="input-xxlarge " rows="3">${company.id}</textarea></td>
+			<td colspan="3"><textarea id="address" name="address" maxlength="256" class="input-xxlarge " rows="3">${company.address}</textarea></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">备注：</label></td>
-			<td colspan="3"><textarea id="remark" name="remark" maxlength="512" class="input-xxlarge " rows="3">${company.id}</textarea></td>
+			<td colspan="3"><textarea id="remark" name="remark" maxlength="512" class="input-xxlarge " rows="3">${company.remark}</textarea></td>
 		</tr>
 
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

@@ -425,4 +425,26 @@ public class SheBaoServiceImpl implements SheBaoService {
             sheBaoDao.shebaoAdd(socialInsurance);
         }
     }
+
+    @Override
+    public boolean sbCardIsOnly(String sbCard) {
+        String hql = "from TbSocialInsurance where sbCard = ?";
+        Object object = sheBaoDao.sbCardIsOnly(hql, sbCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean shebaoSbCardIsOnlyUpdate(Integer id, String sbCard) {
+        String hql = "from TbSocialInsurance where id != ? and sbCard = ?";
+        Object object = sheBaoDao.shebaoSbCardIsOnlyUpdate(hql, id, sbCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

@@ -38,6 +38,7 @@ public class TbPerson {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 11)

@@ -92,4 +92,14 @@ public class CustomerDaoImpl implements CustomerDao {
                 .uniqueResult();
         return tbCustomer;
     }
+
+    @Override
+    public Object customerIdCardIsOnly(String hql, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public Object customerIdCardIsOnlyUpdate(String hql, Integer id, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, idCard).uniqueResult();
+    }
 }

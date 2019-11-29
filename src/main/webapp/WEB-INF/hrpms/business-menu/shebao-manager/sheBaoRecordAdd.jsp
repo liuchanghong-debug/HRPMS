@@ -34,7 +34,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/SheBaoRecord.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -55,46 +55,7 @@
                 }
             });
         });
-        function getDetailMess(id) {
-			if(id.value !== "" && id.value != null){
-			    $("#name").val(id.text);
-				$.get(
-				    "shebao/getDetailMessBySocialInsuranceId",
-					{"id":id.value},
-					function (json) {
-				        var company = json.company;
-				        var customer = json.customer;
-				        var socialInsurance = json.socialInsurance;
-				        $("#name").val(socialInsurance.name);
-                        $("#idCard").val(socialInsurance.idCard);
-                        $("#sbCard").val(socialInsurance.sbCard);
-                        $("#companyName").val(company.name);
-                        $("#phone").val(customer.phone);
-                        $("#address").val(customer.address);
-                        $("#yangLao").val(socialInsurance.yangLao);
-                        $("#yiLiao").val(socialInsurance.yiLiao);
-                        $("#gongShang").val(socialInsurance.gongShang);
-                        $("#shiYe").val(socialInsurance.shiYe);
-                        $("#shengYu").val(socialInsurance.shengYu);
-                        $("#payMoney").val(socialInsurance.mustPay);
-                    },
-					"json"
-				);
-			}else {
-			    $("#name").val(null);
-				$("#idCard").val(null);
-				$("#sbCard").val(null);
-                $("#companyName").val(null);
-                $("#phone").val(null);
-                $("#address").val(null);
-                $("#yangLao").val(null);
-                $("#yiLiao").val(null);
-                $("#gongShang").val(null);
-                $("#shiYe").val(null);
-                $("#shengYu").val(null);
-                $("#payMoney").val(null);
-			}
-        }
+
 	</script>
 
 </head>
@@ -194,7 +155,7 @@
 		</tr>
 		</tbody></table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

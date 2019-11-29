@@ -62,8 +62,6 @@
 	<li><a href="customerClient/customerAdd">个人客户添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="customerClient/customerList" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
 			<input name="nameQuery" class="input-medium" type="text" value="${customerOperation.nameQuery}" maxlength="50">

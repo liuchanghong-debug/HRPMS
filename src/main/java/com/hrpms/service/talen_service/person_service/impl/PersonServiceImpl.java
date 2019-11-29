@@ -87,15 +87,17 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void personAdd(MultipartFile resumeFile, TbPerson person, Integer createBy, HttpServletRequest request) throws IOException {
-        String fileName = UUID.randomUUID().toString().replace("-", "") + "_" + resumeFile.getOriginalFilename();
-        File inFile = new File(request.getRealPath("resume"), fileName);
-        BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(inFile));
-        BufferedInputStream bin = new BufferedInputStream(resumeFile.getInputStream());
-        IOUtils.copy(bin, bout);
-        bin.close();
-        bout.close();
+        if(!resumeFile.isEmpty()){
+            String fileName = UUID.randomUUID().toString().replace("-", "") + "_" + resumeFile.getOriginalFilename();
+            File inFile = new File(request.getRealPath("resume"), fileName);
+            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(inFile));
+            BufferedInputStream bin = new BufferedInputStream(resumeFile.getInputStream());
+            IOUtils.copy(bin, bout);
+            bin.close();
+            bout.close();
 
-        person.setResumeUrl(fileName);
+            person.setResumeUrl(fileName);
+        }
         person.setCreateBy(createBy);
         person.setCreateTime(new Timestamp(System.currentTimeMillis()));
         person.setId(1);
@@ -175,5 +177,27 @@ public class PersonServiceImpl implements PersonService {
         map.put("status", list);
 
         return personDao.getPersonsByPrice(hql, map);
+    }
+
+    @Override
+    public boolean personIdCardIsOnly(String idCard) {
+        String hql = "from TbPerson where idCard = ?";
+        Object object = personDao.personIdCardIsOnly(hql, idCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean personIdCardIsOnlyUpdate(Integer id, String idCard) {
+        String hql = "from TbPerson where id != ? and idCard = ?";
+        Object object = personDao.personIdCardIsOnlyUpdate(hql, id, idCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

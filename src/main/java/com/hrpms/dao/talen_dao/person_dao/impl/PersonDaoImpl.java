@@ -62,4 +62,14 @@ public class PersonDaoImpl implements PersonDao {
                 .setParameterList("statu", (List) map.get("status"))
                 .list();
     }
+
+    @Override
+    public Object personIdCardIsOnly(String hql, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public Object personIdCardIsOnlyUpdate(String hql, Integer id, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, idCard).uniqueResult();
+    }
 }

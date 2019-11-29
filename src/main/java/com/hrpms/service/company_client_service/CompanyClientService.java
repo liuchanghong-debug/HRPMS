@@ -84,4 +84,17 @@ public interface CompanyClientService {
      * @return 
      **/
     List<Object[]> getAllCompanyOfIdAndName();
+
+    /**
+     * 异步验证companyNO是否唯一
+     * @param
+     * @return
+     **/
+    boolean companyNoIsOnly(String companyNo);
+    /**
+     * 异步验证信用号是否唯一，不含本身
+     * @param
+     * @return
+     **/
+    boolean companyNoIsOnlyOnUpdate(Integer companyId, String companyNo);
 }

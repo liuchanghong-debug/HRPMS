@@ -57,5 +57,16 @@ public interface CompanyClientDao {
      * @return 
      **/
     List<Object[]> getAllCompanyOfIdAndName();
-
+    /**
+     * 异步验证companyNO是否唯一
+     * @param
+     * @return
+     **/
+    Object companyNoIsOnly(String hql, String companyNo);
+    /**
+     * 异步验证信用号是否唯一，不含本身
+     * @param
+     * @return
+     **/
+    Object companyNoIsOnlyOnUpdate(String hql, Integer companyId, String companyNo);
 }

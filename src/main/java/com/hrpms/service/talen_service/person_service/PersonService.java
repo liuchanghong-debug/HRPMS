@@ -82,4 +82,18 @@ public interface PersonService {
      **/
     List<TbPerson> getPersonsByPrice(Double price);
 
+    /**
+     * 异步验证idCard是否唯一
+     * @param 
+     * @return 
+     **/
+    boolean personIdCardIsOnly(String idCard);
+
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    boolean personIdCardIsOnlyUpdate(Integer id, String idCard);
+
 }

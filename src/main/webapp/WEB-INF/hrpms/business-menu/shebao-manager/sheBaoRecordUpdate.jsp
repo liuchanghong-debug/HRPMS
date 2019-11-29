@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -34,7 +35,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/SheBaoRecordUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -129,7 +130,7 @@
 		<tr>
 			<td><label class="control-label">缴费期间：</label></td>
 			<td>
-				<input id="payMonth" name="payMonth" class="input-xlarge " type="text" value="${map.shebaoRecord.payMonth}" maxlength="20">
+				<input id="payMonth" name="payMonth" class="input-xlarge " type="date" value="${map.shebaoRecord.payMonth}" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">缴费状态：</label></td>
@@ -151,12 +152,12 @@
 		<tr>
 			<td><label class="control-label">备注信息：</label></td>
 			<td colspan="3">
-				<input id="remark" name="remark" class="input-xlarge " type="text" value="test">
+				<input id="remark" name="remark" class="input-xlarge " type="text" value="${map.shebaoRecord.remark}">
 			</td>
 		</tr>
 		</tbody></table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

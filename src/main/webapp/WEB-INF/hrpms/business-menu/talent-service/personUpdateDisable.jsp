@@ -118,9 +118,11 @@
 			</td>
 			<td><label class="control-label">状态：</label></td>
 			<td>
-				<select name="status" tabindex="-1" class="select2-offscreen">
+				<select name="status" tabindex="-1" disabled class="select2-offscreen">
 					<c:forEach items="${statuss}" var="status">
-						<option value="${status.value}">${status.label}</option>
+						<c:if test="${person.status == status.value}">
+							<option value="${status.value}">${status.label}</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</td>

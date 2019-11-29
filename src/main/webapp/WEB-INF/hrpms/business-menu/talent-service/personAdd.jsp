@@ -34,7 +34,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/PersonAdd.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -70,12 +70,13 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="name" value="" class="input-xlarge required">
+				<input id="name" type="text" name="name" value="" class="input-xlarge required">
+				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
 				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 		</tr>
 
@@ -83,7 +84,7 @@
 			<td><label class="control-label">求职意向：</label></td>
 			<td>
 				<input id="jobIntentsion" name="jobIntentsion" class="input-xlarge required" type="text" value="" maxlength="256">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 			<td>
 				<label class="control-label">工作类型：</label>
@@ -99,11 +100,12 @@
 			<td><label class="control-label">期望月薪：</label></td>
 			<td>
 				<input id="forPrice" name="forPrice" class="input-xlarge required" type="text" value="">
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 			<td><label class="control-label">期望工作地：</label></td>
 			<td>
 				<input id="forAddress" name="forAddress" class="input-xlarge " type="text" value="" maxlength="20">
+				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 		</tr>
 		<tr>
@@ -154,7 +156,7 @@
 		</tr>
 		</tbody></table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

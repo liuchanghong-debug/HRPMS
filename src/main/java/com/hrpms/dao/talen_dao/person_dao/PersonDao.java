@@ -58,4 +58,18 @@ public interface PersonDao {
      * @return
      **/
     List<TbPerson> getPersonsByPrice(String hql, Map map);
+
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    Object personIdCardIsOnly(String hql, String idCard);
+
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    Object personIdCardIsOnlyUpdate(String hql, Integer id, String idCard);
 }
