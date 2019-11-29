@@ -135,8 +135,8 @@
 				<td>${customer.specialty}</td>
 				<td>${customer.graduation}</td>
 				<td><a href="salary-manager/selectSalaryByDuo?flag=1&idCard=${customer.idCard}">薪酬工资</a></td>
-				<td><a href="#">社保信息</a></td>
-				<td>公积金</td>
+				<td><a href="shebao/shebaoList?idCardQuery=${customer.idCard}">社保信息</a></td>
+				<td><a href="gongjijin-manager/selectAccumulationByDuo?idCard=${customer.idCard}">公积金</a></td>
 				<td>
 					<a href="javascript:void(0)" onclick="paging.action='customerClient/customerUpdate?currentPage=${page.currentPage}&id=${customer.id}'; paging.submit()">修改</a>
 					<a href="customerClient/customerDelete?currentPage=${page.currentPage}&id=${customer.id}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该个人客户吗？&#39;, this.href)">删除</a>

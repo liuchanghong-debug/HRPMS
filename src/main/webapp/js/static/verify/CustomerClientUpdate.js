@@ -10,7 +10,6 @@ var specialty = false;
 var graduation = false;
 var companyId = false;
 var customerType = false;
-var remark = false;
 
 var trueStyle = "<span class=\"help-inline\"><span style=\"color: green; \">*</span></span>";
 var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</span></span>";
@@ -201,18 +200,7 @@ $(function () {
             $("#customerType").after(falseStyle);
         }
     });
-    //备注
-    $("#remark").keyup(function () {
-        if($("#remark").val() != "" && $("#remark").val() != null){
-            remark = true;
-            $("#remark ~ span").remove();
-            $("#remark").after(trueStyle);
-        }else {
-            remark = false;
-            $("#remark ~ span").remove();
-            $("#remark").after(falseStyle);
-        }
-    });
+
     $("input").keyup(function () {
         $("#btnSubmit").removeAttr("disabled");
     }).click(function () {
@@ -228,10 +216,9 @@ $(function () {
 });
 
 function inputFormSubmit() {
-    $("input").keyup();
-    $("input").change();
+    $("input").keyup().change();
     $("select").change();
-    if(!(name && idCard && birthday && phone && email && address && zipCode && school && specialty && graduation && companyId && customerType && remark)){
+    if(!(name && idCard && birthday && phone && email && address && zipCode && school && specialty && graduation && companyId && customerType)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {
         $("#inputForm").submit();

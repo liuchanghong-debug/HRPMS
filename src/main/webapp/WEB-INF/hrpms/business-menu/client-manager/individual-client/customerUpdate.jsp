@@ -201,7 +201,7 @@
 				</select>
 			</td>
 			<td><label class="control-label">备注：</label></td>
-			<td><input id="remark" name="remark" class="input-xlarge " type="text" value="${customer.remark}" maxlength="256"></td>
+			<td><input name="remark" class="input-xlarge " type="text" value="${customer.remark}" maxlength="256"></td>
 		</tr>
 		</tbody>
 	</table>
