@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author GoldFish
@@ -75,7 +76,7 @@ public interface LaoWuService {
      * @param
      * @return 
      **/
-    List<Integer> getAllCompanyIdAndName();
+    Set<Integer> getAllCompanyIdAndName();
     /**
      * 获取所有公司信息
      * @param
@@ -125,4 +126,17 @@ public interface LaoWuService {
      * @return
      **/
     TbPerson getDetailPersonById(Integer id);
+    /**
+     * 通过公司id和个人信息中的需求工作得到其公司下的招聘信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getNeedJobByCompanyIdAndPersonPrice(Integer companyId, Double price);
+
+    /**
+     * 根据needJob的id查询needJob的详细信息
+     * @param
+     * @return
+     **/
+    TbNeedJob getDetailNeedJobById(Integer id);
 }

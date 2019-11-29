@@ -72,7 +72,7 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="customerName" value="${personJob.id}" class="input-xlarge required" disabled="disabled">
+				<input type="text" name="customerName" value="${personJob.name}" class="input-xlarge required" disabled="disabled">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
@@ -84,13 +84,17 @@
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge" disabled="disabled">
-					<option value="1000" selected="selected"></option>
+				<select id="company" name="company" class="input-xlarge" disabled="disabled">
+
 					<c:forEach items="${companyIdAndNames}" var="company">
 						<c:if test="${personJob.companyId == company[0]}">
 							<option selected="selected">${company[1]}</option>
 						</c:if>
 					</c:forEach>
+				</select>
+				&nbsp;&nbsp;
+				<select id="companyId" name="companyId" onchange="" disabled class="input-xlarge required select2-offscreen" tabindex="-1">
+					<option value="1000" selected="selected">${needJob.jobName}</option>
 				</select>
 			</td>
 			<td>

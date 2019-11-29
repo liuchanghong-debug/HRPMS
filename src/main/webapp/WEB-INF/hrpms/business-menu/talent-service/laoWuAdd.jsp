@@ -77,11 +77,6 @@
 					</c:forEach>
 				</select>
 				<input type="hidden" name="name" id="name">
-				<script>
-					$("#nameId").change(function () {
-                        $("#name").empty().val($("#nameId :selected").text())
-                    });
-				</script>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
@@ -92,7 +87,7 @@
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyId" name="companyId" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="company" name="company" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
 					<option value="">请选择</option>
 					<c:forEach items="${companyIds}" var="company">
 						<c:forEach items="${companyIdAndNames}" var="companyIdAndName">
@@ -103,7 +98,7 @@
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
 
 				</select>
             </td>
@@ -111,11 +106,12 @@
 				<label class="control-label">工作类型：</label>
 			</td>
             <td>
-			<select id="jobType" name="jobType" style="width:280px;" tabindex="-1">
+			<select id="jobTypeSelect" name="jobTypeSelect" disabled style="width:280px;" tabindex="-1">
 				<c:forEach items="${jobTypes}" var="jobType">
 					<option value="${jobType.value}">${jobType.label}</option>
 				</c:forEach>
 			</select>
+				<input type="hidden" id="jobType" name="jobType">
 		</td>
 		</tr>
 		<tr>
