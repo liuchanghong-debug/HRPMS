@@ -114,8 +114,10 @@ public class SheBaoServiceImpl implements SheBaoService {
         sheBaoById.setShengYu(socialInsurance.getShengYu());
         sheBaoById.setStatus(socialInsurance.getStatus());
         sheBaoById.setRemark(socialInsurance.getRemark());
-        sheBaoById.setUpdateBy(updateBy);
-        sheBaoById.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        if(updateBy != null){
+            sheBaoById.setUpdateBy(updateBy);
+            sheBaoById.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        }
 
         sheBaoDao.shebaoUpdate(sheBaoById);
     }
@@ -256,8 +258,10 @@ public class SheBaoServiceImpl implements SheBaoService {
         shebaoRecord.setPayMonth(socialInsuranceRecord.getPayMonth());
         shebaoRecord.setStatus(socialInsuranceRecord.getStatus());
         shebaoRecord.setRemark(socialInsuranceRecord.getRemark());
-        shebaoRecord.setUpdateBy(updateBy);
-        shebaoRecord.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        if(updateBy != null){
+            shebaoRecord.setUpdateBy(updateBy);
+            shebaoRecord.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        }
         sheBaoDao.shebaoRecordUpdate(shebaoRecord);
     }
 
@@ -446,5 +450,17 @@ public class SheBaoServiceImpl implements SheBaoService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public TbSocialInsurance getSheBaoByIdCard(String idCard) {
+        String hql = "from TbSocialInsurance where idCard = ?";
+        return sheBaoDao.getSheBaoByIdCard(hql, idCard);
+    }
+
+    @Override
+    public TbSocialInsuranceRecord getSheBaoRecordByIdCard(String idCard) {
+        String hql = "from TbSocialInsuranceRecord where idCard = ?";
+        return sheBaoDao.getSheBaoRecordByIdCard(hql, idCard);
     }
 }

@@ -193,5 +193,16 @@ public interface SheBaoService {
      **/
     boolean shebaoSbCardIsOnlyUpdate(Integer id, String sbCard);
 
-
+    /**
+     * 根据idCard查询社保信息
+     * @param
+     * @return
+     **/
+    TbSocialInsurance getSheBaoByIdCard(String idCard);
+    /**
+     * 根据idcard得到社保缴费信息
+     * @param 
+     * @return 
+     **/
+    TbSocialInsuranceRecord getSheBaoRecordByIdCard(String idCard);
 }

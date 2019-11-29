@@ -38,4 +38,11 @@ public interface TbSalaryDao {
     //查询所有工资信息
     public List<TbSalary> selectAllGongjijin();
 
+    /**
+     * 根据idcard 查询所有
+     * @param
+     * @return
+     **/
+    TbSalary getTbSalaryByIdCard(String hql, String idCard);
+
 }

@@ -42,7 +42,7 @@ public interface CustomerService {
      * @param 
      * @return 
      **/
-    void customerUpdate(TbCustomer customer);
+    void customerUpdate(TbCustomer customer, Integer updateBy);
 
     /**
      * 根据字典名称查询数据

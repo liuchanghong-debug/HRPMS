@@ -81,4 +81,9 @@ public class TbSalaryDaoImpl implements TbSalaryDao {
         List<TbSalary> tbSalaries = session.createQuery("from TbSalary").list();
         return tbSalaries;
     }
+
+    @Override
+    public TbSalary getTbSalaryByIdCard(String hql, String idCard) {
+        return (TbSalary) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
 }

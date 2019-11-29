@@ -105,4 +105,14 @@ public class SheBaoDaoImpl implements SheBaoDao {
     public Object shebaoSbCardIsOnlyUpdate(String hql, Integer id, String sbCard) {
         return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, sbCard).uniqueResult();
     }
+
+    @Override
+    public TbSocialInsurance getSheBaoByIdCard(String hql, String idCard) {
+        return (TbSocialInsurance) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public TbSocialInsuranceRecord getSheBaoRecordByIdCard(String hql, String idCard) {
+        return (TbSocialInsuranceRecord) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
 }

@@ -103,8 +103,7 @@ public class CustomerClientController {
     public String customerToUpdate(Integer currentPage, TbCustomer customer, HttpSession session, TbCustomerOperation customerOperation, Model model){
         //更新者
         TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
-        customer.setUpdateBy(tbSystemUser.getId());
-        customerService.customerUpdate(customer);
+        customerService.customerUpdate(customer, tbSystemUser.getId());
 
         return customerList(currentPage, customerOperation, model);
     }

@@ -6,25 +6,31 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</sp
 
 $(function () {
     //客户名称
-    if($("#customerId").val() != "" && $("#customerId").val() != null){
-        customerId = true;
-        $("#customerId ~ span").remove();
-        $("#customerId").after(trueStyle);
-    }else {
-        customerId = false;
-        $("#customerId ~ span").remove();
-        $("#customerId").after(falseStyle);
-    }
+    $("#customerId").keyup(function () {
+        if($("#customerId").val() != "" && $("#customerId").val() != null){
+            customerId = true;
+            $("#customerId ~ span").remove();
+            $("#customerId").after(trueStyle);
+        }else {
+            customerId = false;
+            $("#customerId ~ span").remove();
+            $("#customerId").after(falseStyle);
+        }
+    });
+
     //缴费期间
-    if($("#payMonth").val() != "" && $("#payMonth").val() != null){
-        payMonth = true;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(trueStyle);
-    }else {
-        payMonth = false;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(falseStyle);
-    }
+    $("#payMonth").keyup(function () {
+        if($("#payMonth").val() != "" && $("#payMonth").val() != null){
+            payMonth = true;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(trueStyle);
+        }else {
+            payMonth = false;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(falseStyle);
+        }
+    });
+
 
     $("input").keyup(function () {
         $("#btnSubmit").removeAttr("disabled");

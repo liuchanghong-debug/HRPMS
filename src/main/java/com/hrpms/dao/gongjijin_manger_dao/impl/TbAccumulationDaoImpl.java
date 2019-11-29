@@ -80,4 +80,9 @@ public class TbAccumulationDaoImpl implements TbAccumulationFundDao {
                 .uniqueResult();
         return tbAccumulationFund;
     }
+
+    @Override
+    public TbAccumulationFund getAccumulationFundByIdCard(String hql, String idCard) {
+        return (TbAccumulationFund)sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
 }

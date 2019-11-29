@@ -120,4 +120,17 @@ public interface SheBaoDao {
      * @return
      **/
     Object shebaoSbCardIsOnlyUpdate(String hql, Integer id, String sbCard);
+
+    /**
+     * 根据idCard查询社保信息
+     * @param
+     * @return
+     **/
+    TbSocialInsurance getSheBaoByIdCard(String hql, String idCard);
+    /**
+     * 根据idCard查询社保缴费信息
+     * @param
+     * @return
+     **/
+    TbSocialInsuranceRecord getSheBaoRecordByIdCard(String hql, String idCard);
 }

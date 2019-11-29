@@ -169,4 +169,10 @@ public class TbSalaryServiceImpl implements TbSalaryService {
     public List<TbSalary> selectAllGongjijin() {
         return tbSalaryDao.selectAllGongjijin();
     }
+
+    @Override
+    public TbSalary getTbSalaryByIdCard(String idCard) {
+        String hql = "from TbSalary where idCard = ?";
+        return tbSalaryDao.getTbSalaryByIdCard(hql, idCard);
+    }
 }

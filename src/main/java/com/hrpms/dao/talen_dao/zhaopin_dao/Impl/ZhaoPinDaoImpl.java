@@ -66,9 +66,10 @@ public class ZhaoPinDaoImpl implements ZhaoPinDao {
     }
 
     @Override
-    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
-        return sessionFactory.getCurrentSession().createQuery("from TbNeedJob where companyId = ?")
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id, String normalType) {
+        return sessionFactory.getCurrentSession().createQuery("from TbNeedJob where companyId = ? and status = ?")
                 .setParameter(0, id)
+                .setParameter(1, normalType)
                 .list();
     }
 }

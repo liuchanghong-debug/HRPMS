@@ -17,10 +17,10 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -137,5 +137,11 @@ public class TbAccumulationFundServiceImpl implements TbAccumulationFundService 
     @Override
     public TbAccumulationFund accountNoIsOne(String accountNo) {
         return tbAccumulationFundDao.accountNoIsOne(accountNo);
+    }
+
+    @Override
+    public TbAccumulationFund getAccumulationFundByIdCard(String idCard) {
+        String hql = "from TbAccumulationFund where idCard = ?";
+        return tbAccumulationFundDao.getAccumulationFundByIdCard(hql, idCard);
     }
 }

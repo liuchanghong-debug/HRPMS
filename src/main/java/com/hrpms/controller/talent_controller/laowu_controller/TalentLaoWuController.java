@@ -101,8 +101,8 @@ public class TalentLaoWuController {
      **/
     @RequestMapping("/getPersonByCompanyIdForPrice")
     @ResponseBody
-    public Object getPersonByCompanyIdForPrice(Integer id){
-        return laoWuService.getPersonByCompanyIdForPrice(id);
+    public Object getPersonByCompanyIdForPrice(Integer companyId){
+        return laoWuService.getPersonByCompanyIdForPrice(companyId);
     }
     /**
      * 添加数据库
