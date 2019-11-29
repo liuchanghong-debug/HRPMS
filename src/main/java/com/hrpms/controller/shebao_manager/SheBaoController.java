@@ -290,4 +290,26 @@ public class SheBaoController {
         sheBaoService.shebaoInOfExcel(file.getInputStream(), tbSystemUser.getId());
         return shebaoList(1, new TbSocialInsuranceOperation(), model);
     }
+
+    /**
+     * 社保添加异步查询  社保卡是否唯一
+     * @param
+     * @return
+     **/
+    @RequestMapping("/shebaoSbCardIsOnly")
+    @ResponseBody
+    public Object shebaoSbCardIdOnly(String sbCard){
+        return sheBaoService.sbCardIsOnly(sbCard);
+    }
+
+    /**
+     * 社保添加异步查询  社保卡是否唯一  修改  不查自己
+     * @param
+     * @return
+     **/
+    @RequestMapping("/shebaoSbCardIsOnlyUpdate")
+    @ResponseBody
+    public Object shebaoSbCardIsOnlyUpdate(Integer id, String sbCard){
+        return sheBaoService.shebaoSbCardIsOnlyUpdate(id, sbCard);
+    }
 }

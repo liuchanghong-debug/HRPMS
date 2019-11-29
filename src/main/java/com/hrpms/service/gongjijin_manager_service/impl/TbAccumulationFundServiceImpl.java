@@ -133,4 +133,9 @@ public class TbAccumulationFundServiceImpl implements TbAccumulationFundService 
         map1.put("dataList",resultList);
         DataOutOfExcel.dataOut(map1,request,response);
     }
+
+    @Override
+    public TbAccumulationFund accountNoIsOne(String accountNo) {
+        return tbAccumulationFundDao.accountNoIsOne(accountNo);
+    }
 }

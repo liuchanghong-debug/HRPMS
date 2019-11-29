@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +37,17 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        function callbackdatasms() {
+            var id=$("input[type='radio']:checked ").parent("td").next("td").html();
+            var content = $("input[type='radio']:checked ").parent("td").next("td").next("td").next("td").next("td").html();
+            var list = new Array();
+            list[0]=id;
+            list[1]=content;
+            return list;
+        }
+
+
         $(document).ready(function() {
 
         });
@@ -51,38 +63,24 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">短信模板选择列表</a></li>
+	<li class="active"><a href="marketing-manager/selectSmsModleJsp">短信模板选择列表</a></li>
 	<!--<li><a href="../addSmsTemplate/saved_resource.html">短信模板添加</a></li>-->
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="/marketing-manager/selectSmsModleJsp" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>模板编码：</label>
-			<input id="templateCode" name="templateCode" class="input-medium" type="text" value="" maxlength="10">
+			<input id="templateCode" name="template_code" class="input-medium" type="text" value="" maxlength="10">
 		</li>
 		<li><label>主题：</label>
 			<input id="subject" name="subject" class="input-medium" type="text" value="" maxlength="256">
 		</li>
 
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
+		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -99,66 +97,45 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td>
-			<input type="checkbox"/>
-		</td>
-		<td><a href="#">
-			1
-		</a></td>
-		<td>
-			1000
-		</td>
-		<td>
-			生日祝福
-		</td>
-		<td>
-			您好，今天是您的生日，在这个特殊的日子里，祝您生日快乐工作顺利！
-		</td>
-		<td>
-			1
-		</td>
+	<c:forEach items="${page.dataList}" var="sms">
+		<tr>
+			<td>
+				<input type="radio" name="smsModle"/>
+			</td>
+			<td>
+				${sms.id}
+			</td>
+			<td>
+				${sms.template_code}
+			</td>
+			<td>
+				${sms.subject}
+			</td>
+			<td>
+				${sms.content}
+			</td>
+			<td>
+				${sms.order_id}
+			</td>
 
-	</tr>
+		</tr>
 
-	<tr>
-		<td>
-			<input type="checkbox"/>
-		</td>
-		<td><a href="#">
-			2
-		</a></td>
-		<td>
-			1001
-		</td>
-		<td>
-			中奖祝福
-		</td>
-		<td>
-			恭喜您中头等奖了，请抽空来我公司领取奖金！
-		</td>
-		<td>
-			2
-		</td>
+	</c:forEach>
 
-	</tr>
 	</tbody>
 </table>
 
-<div class="pagination">
+<div class="pagination"><ul>
+	<li class="disabled"><a href="marketing-manager/selectSmsModleJsp?currentPage=${page.currentPage-1}&subject=${map.subject}&template_code=${map.template_code}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="marketing-manager/selectSmsModleJsp?currentPage=${num}&subject=${map.subject}&template_code=${map.template_code}">${num}</a></li>
+	</c:forEach>
 
-	<ul>
-		<li class="disabled"><a href="javascript:">« 上一页</a></li>
-		<li class="active"><a href="javascript:">1</a></li>
-		<li class="disabled"><a href="javascript:">下一页 »</a></li>
-		<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-	</ul>
-
-	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="确 认">&nbsp;
-		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
-	</div>
-
+	<li class="disabled"><a href="marketing-manager/selectSmsModleJsp?currentPage=${page.currentPage+1}&subject=${map.subject}&template_code=${map.template_code}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
+</ul>
 	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。

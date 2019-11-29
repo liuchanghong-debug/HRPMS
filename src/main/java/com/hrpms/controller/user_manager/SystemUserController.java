@@ -2,17 +2,17 @@ package com.hrpms.controller.user_manager;
 
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.service.user_manager_service.SystemUserService;
+import com.hrpms.utils.Md5Util;
 import com.hrpms.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user-manager")
@@ -46,6 +46,11 @@ public class SystemUserController {
     //添加系统用户
     @RequestMapping("/addSystemUser")
     public String addSystemUser(TbSystemUser tbSystemUser,Integer userRoleId){
+        try {
+            tbSystemUser.setPassword(Md5Util.encodeByMd5(tbSystemUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tbSystemUser.setCreateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.addSystemUser(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
@@ -66,6 +71,13 @@ public class SystemUserController {
     //根据id修改系统用户
     @RequestMapping("/updateSystemUserById")
     public String updateSystemUserById(TbSystemUser tbSystemUser,Integer userRoleId){
+        try {
+            tbSystemUser.setPassword(Md5Util.encodeByMd5(tbSystemUser.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TbSystemUser tbSystemUser1 = systemUserService.selectSystemUserById(tbSystemUser.getId());
+        tbSystemUser.setCreateTime(tbSystemUser1.getCreateTime());
         tbSystemUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         systemUserService.updateSystemUserById(tbSystemUser,userRoleId);
         return "redirect:selectSystemUserByDuo";
@@ -77,4 +89,56 @@ public class SystemUserController {
         systemUserService.deleteSystemUserById(id);
         return "redirect:selectSystemUserByDuo";
     }
+
+    //用户名的唯一验证
+    @RequestMapping("/isOneUsername")
+    @ResponseBody
+    public boolean isOneUsername(String username){
+        TbSystemUser systemUser = systemUserService.isOneUsername(username);
+        boolean bo = true;  //用户名唯一
+        if(systemUser!=null && systemUser.getId()!=0){
+            bo = false;     //用户名不唯一
+        }
+        return bo;
+    }
+
+    //查询所有用户名称
+    @RequestMapping("/selectAllUserName")
+    @ResponseBody
+    public List selectAllUserName(){
+        List<TbSystemUser> tbSystemUsers = systemUserService.selectAllUserName();
+        List list = new ArrayList();
+        for(TbSystemUser tb:tbSystemUsers){
+            Map map = new HashMap();
+            map.put("id",tb.getId());
+            map.put("username",tb.getUsername());
+            list.add(map);
+        }
+        return list;
+    }
+
+    //用户手机号码唯一验证
+    @RequestMapping("/isOneUserPhone")
+    @ResponseBody
+    public boolean isOneUserPhone(String phone){
+        TbSystemUser userPhone = systemUserService.isOneUserPhone(phone);
+        boolean bo = true;  //手机号码唯一
+        if(userPhone!=null && userPhone.getId()!=0){
+            bo = false;     //手机号码不唯一
+        }
+        return bo;
+    }
+
+    //用户电子邮件唯一验证
+    @RequestMapping("/isOneUserEmail")
+    @ResponseBody
+    public boolean isOneUserEmail(String email){
+        TbSystemUser userEmail = systemUserService.isOneUserEmail(email);
+        boolean bo = true;  //电子邮件唯一
+        if(userEmail!=null && userEmail.getId()!=0){
+            bo = false;     //电子邮件不唯一
+        }
+        return bo;
+    }
+
 }

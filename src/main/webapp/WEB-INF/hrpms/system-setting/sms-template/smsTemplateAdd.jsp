@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +37,37 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+		var bcode = false;
+        $(function () {
+            $("#templateCode").blur(function () {
+                var template_code =$("#templateCode").val();
+                $.post(
+                    "sms-template/TemplateCodeIsOne",
+                    {"template_code":template_code},
+                    function (json) {
+                        if(json){		//用户名唯一，可通过
+                            $("#code").html("<font color='green' size='6'>√</font>");
+                            bcode=true;
+                        }else {
+                            bcode=false;
+                            $("#code").html("<font color='red'size='6'>×</font>");
+                        }
+                    },
+                    "json"
+                );
+            });
+
+        });
+
+
+        function sub(){
+            if(bcode){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+            }
+        }
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -60,33 +92,19 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../smsTemplateList/saved_resource.html">短信模板列表</a></li>
-	<li class="active"><a href="saved_resource.html">短信模板添加</a></li>
+	<li><a href="/sms-template/selectSmsTemplateByDuo">短信模板列表</a></li>
+	<li class="active"><a href="/sms-template/addSmsTemplateJsp">短信模板添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="/sms-template/addSmsTemplate" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<input name="createBy" type="hidden" value="${sessionScope.tbSystemUser.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">模板编码：</label>
 		<div class="controls">
-			<input id="templateCode" name="templateCode" class="input-xlarge required" type="text" value="" maxlength="10">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="templateCode" name="template_code" class="input-xlarge required" type="text" value="" maxlength="10">
+			<span class="help-inline" id="code"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -106,12 +124,12 @@
 	<div class="control-group">
 		<label class="control-label">顺序号：</label>
 		<div class="controls">
-			<input id="orderId" name="orderId" class="input-xlarge required" type="text" value="" maxlength="11">
+			<input id="orderId" name="order_id" class="input-xlarge required" type="text" value="" maxlength="11">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

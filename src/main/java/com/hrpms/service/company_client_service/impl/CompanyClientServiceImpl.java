@@ -186,4 +186,26 @@ public class CompanyClientServiceImpl implements CompanyClientService {
     public List<Object[]> getAllCompanyOfIdAndName() {
         return companyClientDao.getAllCompanyOfIdAndName();
     }
+
+    @Override
+    public boolean companyNoIsOnly(String companyNo) {
+        String hql = "from TbCompany where companyNo = ?";
+        Object object = companyClientDao.companyNoIsOnly(hql, companyNo);
+        if(object == null){
+            return  true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean companyNoIsOnlyOnUpdate(Integer companyId, String companyNo) {
+        String hql = "from TbCompany where id != ? and companyNo = ?";
+        Object object = companyClientDao.companyNoIsOnlyOnUpdate(hql, companyId, companyNo);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

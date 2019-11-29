@@ -38,6 +38,52 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+        var baccountNo=true;
+		$(function () {
+            /*公积金账号正则验证加唯一验证*/
+			var account = "${tbAccumulationFund.accountNo}";
+            $("#accountno").blur(function () {
+                if(account==accountno){		//没有修改
+                    $("#accountNoIsOne").html("<font color='green' size='6'>√</font>");
+				}else{
+                    var accountno = $(this).val();
+                    var res =  /^[0-9]{12}$/;
+                    baccountNo = res.test(accountno);
+                    if(baccountNo){		//正则验证通过
+                        $.post(
+                            "gongjijin-manager/accountNoIsOne",
+                            {"accountNo":accountno},
+                            function (json) {
+                                if(json){
+                                    baccountNo=true;
+                                    $("#accountNoIsOne").html("<font color='green' size='6'>√</font>");
+                                }else{
+                                    baccountNo=false;
+                                    $("#accountNoIsOne").html("<font color='red'>账号已存在！！</font>");
+                                }
+                            },
+                            "json"
+                        )
+                    }else{
+                        baccountNo=false;
+                        $("#accountNoIsOne").html("<font color='red'>公积金账号格式错误！！</font>")
+                    }
+				}
+
+            });
+        });
+
+        function sub() {
+            if(baccountNo){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+            }
+        }
+
+
+
+
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
@@ -90,7 +136,7 @@
 		<label class="control-label">公积金号：</label>
 		<div class="controls">
 			<input id="accountno" name="accountNo" class="input-xlarge required"  type="text" value="${tbAccumulationFund.accountNo}" maxlength="20" >
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="accountNoIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -135,7 +181,7 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

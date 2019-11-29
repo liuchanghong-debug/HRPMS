@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +37,33 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+        $(function () {
+            $.post(
+                "customerClient/selectAllCustomerName",
+                function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].email + "'>" + json[i].name + "</option>"
+                    }
+                    $("#toAddr").html(str);
+                },
+                "json"
+            );
+
+            $.post(
+                "user-manager/selectAllUserName",
+				function (json) {
+                    var str = "<option value='' selected></option>";
+                    for (var i = 0; i < json.length; i++) {
+                        str += "<option value='" + json[i].id + "'>" + json[i].username + "</option>"
+                    }
+                    $("#userId").html(str);
+                },
+				"json"
+			)
+
+        });
+
         $(document).ready(function() {
 
         });
@@ -51,38 +79,26 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">邮件发送列表</a></li>
+	<li class="active"><a href="/marketing-manager/selectEmailRecoredByDuo">邮件发送列表</a></li>
 
-	<li><a href="../smsList/saved_resource.html">短信发送列表</a></li>
+	<li><a href="marketing-manager/selectSmsRecoredByDuo">短信发送列表</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="/marketing-manager/selectEmailRecoredByDuo" method="post">
 	<ul class="ul-form">
 		<li><label>发信人：</label>
-			<input id="userId" name="userId" class="input-medium" type="text" value="" maxlength="11">
+			<select id="userId" name="user_id" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+			</select>
 		</li>
 		<li><label>收信人：</label>
-			<input id="toAddr" name="toAddr" class="input-medium" type="text" value="" maxlength="256">
+			<select id="toAddr" name="to_addr" class="input-xlarge  select2-offscreen" tabindex="-1">
+
+			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -99,40 +115,53 @@
 	</tr>
 	</thead>
 	<tbody>
+	<c:forEach items="${page.dataList}" var="record">
+		<tr>
+			<td><a href="/marketing-manager/selectEmailRecoredById?id=${record.email.id}">
+				${record.email.id}
+			</a></td>
+			<td>
+				${record.user.username}
+			</td>
+			<td>
+				${record.customer.name}
+			</td>
+			<td>
+				${record.email.subject}
+			</td>
+			<td>
+				${record.email.sendTime}
+			</td>
+			<td>
+				<c:if test="${record.email.status=='1'}">
+					已发送
+				</c:if>
+				<c:if test="${record.email.status=='-1'}">
+					发送失败
+				</c:if>
 
-	<tr>
-		<td><a href="../updateEmail/saved_resource_unEdit.html">
-			1000
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			zhidi@soft.com
-		</td>
-		<td>
-			公积金催交
-		</td>
-		<td>
-			2017-11-09 10:40:18
-		</td>
-		<td>
-			已发送
+			</td>
+			<td>
+				<a href="/marketing-manager/selectEmailRecoredById?id=${record.email.id}">详情</a>
+				<a href="/marketing-manager/deleteEmailRecored?id=${record.email.id}" onclick="return confirmx(&#39;确认要删除该邮件吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
-		</td>
-		<td>
-			<a href="../updateEmail/saved_resource.html">详情</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该邮件吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
+	<li class="disabled"><a href="marketing-manager/selectEmailRecoredByDuo?currentPage=${page.currentPage-1}&user_id=${map.user_id}&to_addr=${map.to_addr}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="marketing-manager/selectEmailRecoredByDuo?currentPage=${num}&&user_id=${map.user_id}&to_addr=${map.to_addr}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="marketing-manager/selectEmailRecoredByDuo?currentPage=${page.currentPage+1}&user_id=${map.user_id}&to_addr=${map.to_addr}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

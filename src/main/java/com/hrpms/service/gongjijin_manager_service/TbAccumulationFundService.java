@@ -36,4 +36,6 @@ public interface TbAccumulationFundService {
     //公积金数据导出
     public void AccumulationDownload(Map map,HttpServletResponse response,HttpServletRequest request) throws Exception;
 
+    //公积金账号唯一验证
+    public TbAccumulationFund accountNoIsOne(String accountNo);
 }

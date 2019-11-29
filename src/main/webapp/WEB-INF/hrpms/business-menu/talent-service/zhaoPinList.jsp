@@ -169,8 +169,12 @@
 				</c:forEach>
 			</td>
 			<td>
-				<a href="">修改</a>
-				<a href="#">删除</a>
+				<a href="zhaopin/zhaopinToUpdate?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">修改</a>
+				<c:forEach items="${statuss}" var="status">
+					<c:if test="${status.label == '删除' && status.value != needJob.status}">
+						<a href="zhaopin/zhaopinDelete?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">删除</a>
+					</c:if>
+				</c:forEach>
 			</td>
 		</tr>
 	</c:forEach>
@@ -179,12 +183,22 @@
 
 	</tbody>
 </table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-</ul>
+<div class="pagination">
+	<form action="" method="post" name="paging">
+		<input type="hidden" name="jobNameQuery" value="${needJobOperation.jobNameQuery}">
+		<input type="hidden" name="jobTypeQuery" value="${needJobOperation.jobTypeQuery}">
+		<input type="hidden" name="industryQuery" value="${needJobOperation.industryQuery}">
+		<input type="hidden" name="companyIdQuery" value="${needJobOperation.companyIdQuery}">
+		<ul>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='zhaopin/zhaopinList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="active"><a href="javascript:">${page.currentPage}</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='zhaopin/zhaopinList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled controls"><a href="javascript:">
+				当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+				/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+				页，共 ${page.count} 条</a></li>
+		</ul>
+	</form>
 	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。

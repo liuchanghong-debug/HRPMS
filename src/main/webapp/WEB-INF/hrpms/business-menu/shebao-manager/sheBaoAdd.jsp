@@ -33,7 +33,7 @@
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
-
+	<script src="js/static/verify/SheBaoAdd.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -54,76 +54,7 @@
                 }
             });
         });
-        $(function () {
-			$.get(
-			    "shebao/getCustomerNotInSocia",
-				function (json) {
-			        var str = "";
-                    for (var i = 0; i < json.length; i++) {
-						str += "<option value='" + json[i].id +  "'>" + json[i].name + "</option>";
-                    }
-                    $("#customerId").append(str);
-                },
-				"json"
-			);
-        });
-		function getDetailOfCustomer(id) {
-		    if(id !== "" && id != null){
-                $.get(
-                    "shebao/getDetailOfCustomerById",
-                    {"id":id},
-                    function (json) {
-                        $("#name").val(json.name);
-                        $("#idCard").val(json.idCard);
-                        if(json.sex === "男"){
-                            $("#sex").empty().append("<input type=\"radio\" name=\"sex\"  value=\"男\" checked disabled>男\n" +
-                                "\t\t\t\t<input type=\"radio\" name=\"sex\" value=\"女\" disabled>女");
-						}
-                        if(json.sex === "女"){
-                            $("#sex").empty().append("<input type=\"radio\" name=\"sex\"  value=\"男\" disabled>男\n" +
-                                "\t\t\t\t<input type=\"radio\" name=\"sex\" value=\"女\" checked disabled>女");
-                        }
-                        $("#birthday").val(json.birthday);
-                        $("#phone").val(json.phone);
-                        $("#email").val(json.email);
-                        $("#address").val(json.address);
-                        $("#zipCode").val(json.zipCode);
-                        $("#school").val(json.school);
-                        $("#specialty").val(json.specialty);
-                        $("#graduation").val(json.graduation);
-                        $("#companyId").val(json.companyId);
-                        $("#companyName").val(json.companyName);
-                        $("#basePay").val(json.salary);
-                        getPayData(json.salary);
-					},
-                    "json"
-                );
-			}else {
-		        $("#name").val(null);
-		        $("#idCard").val(null);
-		        $("#sex").empty().append("<input type=\"radio\" name=\"sex\"  value=\"男\" disabled>男\n" +
-                    "\t\t\t\t<input type=\"radio\" name=\"sex\" value=\"女\" disabled>女");
-		        $("#birthday").val(null);
-		        $("#phone").val(null);
-		        $("#email").val(null);
-		        $("#address").val(null);
-		        $("#zipCode").val(null);
-		        $("#school").val(null);
-                $("#specialty").val(null);
-				$("#graduation").val(null);
-				$("#companyId").val(null);
-				$("#companyName").val(null);
-                $("#basePay").val(null);
-			}
-        }
-        function getPayData(payData) {
-			$("#mustPay").val((payData * 0.44).toFixed(2));
-			$("#yangLao").val((payData * 0.28).toFixed(2));
-            $("#yiLiao").val((payData * 0.1).toFixed(2));
-            $("#gongShang").val((payData * 0.02).toFixed(2));
-            $("#shiYe").val((payData * 0.03).toFixed(2));
-            $("#shengYu").val((payData * 0.01).toFixed(2));
-        }
+
 	</script>
 
 </head>
@@ -147,7 +78,6 @@
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
 				<input id="idCard" name="idCard" class="input-xlarge required" readonly type="text" maxlength="20">
-				<span class="help-inline"><span style="color: red; ">*</span> </span>
 			</td>
 		</tr>
 		<tr>
@@ -228,7 +158,7 @@
 		<tr>
 			<td><label class="control-label">预交款日：</label></td>
 			<td>
-				<input name="payDate" type="date" value="" maxlength="20">
+				<input id="payDate" name="payDate" type="date" maxlength="20">
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td><input id="proxyFee" name="proxyFee" class="input-xlarge " value="80" readonly type="text" ></td>
@@ -247,7 +177,7 @@
 		</tbody>
 	</table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

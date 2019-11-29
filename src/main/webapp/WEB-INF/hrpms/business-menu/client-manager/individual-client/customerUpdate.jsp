@@ -35,7 +35,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/CustomerClientUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -57,13 +57,12 @@
             });
         });
 	</script>
-
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../customerList/saved_resource.html">个人客户列表</a></li>
-	<li class="active"><a href="saved_resource.html">个人客户修改</a></li>
+	<li><a href="customerClient/customerList">个人客户列表</a></li>
+	<li class="active"><a href="customerClient/customerUpdate?id=${customer.id}&currentPage=${currentPage}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}">个人客户修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="customerClient/customerToUpdate" method="post" novalidate="novalidate">
 	<input type="hidden" name="nameQuery" value="${customerOperation.nameQuery}">
@@ -79,11 +78,11 @@
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
 				<input id="name" name="name" class="input-xlarge required" type="text" value="${customer.name}" maxlength="20">
-				<span class="help-inline"><span style="color: red; ">*</span> </span>
+				<span class="help-inline"><span style="color: green; ">*</span> </span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td><input id="idCard" name="idCard" class="input-xlarge " type="text" value="${customer.idCard}" maxlength="20">
-				<span class="help-inline"><span style="color: red; ">*</span> </span>
+				<span class="help-inline"><span style="color: green; ">*</span> </span>
 			</td>
 		</tr>
 
@@ -102,7 +101,7 @@
 			<td><label class="control-label">出生年月：</label></td>
 			<td>
 				<f:formatDate value="${customer.birthday}" pattern="yyyy-MM-dd" var="bir"/>
-				<input name="birthday" type="date" maxlength="20" class="input-xlarge " value="${bir}">
+				<input id="birthday" name="birthday" type="date" maxlength="20" class="input-xlarge " value="${bir}">
 			</td>
 		</tr>
 		<tr>
@@ -120,9 +119,9 @@
 
 		<tr>
 			<td><label class="control-label">毕业学校：</label></td>
-			<td><input name="school" class="input-xlarge " type="text" value="${customer.school}" maxlength="20"></td>
+			<td><input id="school" name="school" class="input-xlarge " type="text" value="${customer.school}" maxlength="20"></td>
 			<td><label class="control-label">所学专业：</label></td>
-			<td><input name="specialty" class="input-xlarge " type="text" value="${customer.specialty}" maxlength="20"></td>
+			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" value="${customer.specialty}" maxlength="20"></td>
 		</tr>
 
 		<tr>
@@ -130,7 +129,7 @@
 			<td><input id="graduation" name="graduation" class="input-xlarge " type="text" value="${customer.graduation}" maxlength="20"></td>
 			<td><label class="control-label">所属公司：</label></td>
 			<td>
-				<select name="companyId" class="input-xlarge ">
+				<select id="companyId" name="companyId" class="input-xlarge ">
 					<c:forEach items="${companys}" var="company">
 						<c:if test="${company.id == customer.companyId}">
 							<option value="${company.id}" selected>${company.name}</option>
@@ -202,15 +201,12 @@
 				</select>
 			</td>
 			<td><label class="control-label">备注：</label></td>
-			<td><input id="remark" name="remark" class="input-xlarge " type="text" value="${customer.remark}" maxlength="256"></td>
-			<!-- 				<td><label class="control-label">删除标志：</label></td> -->
-
+			<td><input name="remark" class="input-xlarge " type="text" value="${customer.remark}" maxlength="256"></td>
 		</tr>
-
 		</tbody>
 	</table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

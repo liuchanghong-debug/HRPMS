@@ -108,6 +108,8 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCreateBy(byId.getCreateBy());
         customer.setCreateTime(byId.getCreateTime());
 
+
+
         customerDao.customerUpdate(customer);
     }
 
@@ -266,5 +268,37 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<TbCustomer> selectAllCustomerName() {
         return customerDao.selectAllCustomerName();
+    }
+
+    @Override
+    public boolean customerIdCardIsOnly(String idCard) {
+        String hql = "from TbCustomer where idCard = ?";
+        Object object = customerDao.customerIdCardIsOnly(hql, idCard);
+        if(object == null){
+            return  true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean customerIdCardIsOnlyUpdate(Integer id, String idCard) {
+        String hql = "from TbCustomer where id != ? and idCard = ?";
+        Object object = customerDao.customerIdCardIsOnlyUpdate(hql, id, idCard);
+        if(object == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public TbCustomer selectCustomerByEmail(String email) {
+        return customerDao.selectCustomerByEmail(email);
+    }
+
+    @Override
+    public TbCustomer selectCustomerByPhone(String phone) {
+        return customerDao.selectCustomerByPhone(phone);
     }
 }

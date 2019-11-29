@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -179,5 +180,27 @@ public class CompanyClientController {
         TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
         companyClientService.fileUpload(file.getInputStream(), tbSystemUser.getId());
         return companyClientList(1, new TbCompanyOperation(), model);
+    }
+
+    /**
+     * 异步验证companyNO是否唯一
+     * @param
+     * @return
+     **/
+    @RequestMapping("companyNoIsOnly")
+    @ResponseBody
+    public Object companyNoIsOnly(String companyNo){
+        return companyClientService.companyNoIsOnly(companyNo);
+    }
+
+    /**
+     * 异步验证修改时companyNO是否唯一
+     * @param
+     * @return
+     **/
+    @RequestMapping("companyNoIsOnlyOnUpdate")
+    @ResponseBody
+    public Object companyNoIsOnlyOnUpdate(Integer id, String companyNo){
+        return companyClientService.companyNoIsOnlyOnUpdate(id, companyNo);
     }
 }

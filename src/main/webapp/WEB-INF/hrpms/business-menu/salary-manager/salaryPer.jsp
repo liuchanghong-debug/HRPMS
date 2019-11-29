@@ -116,34 +116,35 @@
 					${salary.baseSalary}
 			</td>
 			<td>
-				1000
+					${salary.bonusPay}
 			</td>
 			<td>
-				1000
+					${salary.overTimePay}
 			</td>
 			<td>
-				200
+					${salary.baseSalary*0.27}
 			</td>
 			<td>
-				200
+					${salary.baseSalary*0.01}
 			</td>
 			<td>
-				200
+					${salary.baseSalary*0.005}
 			</td>
 			<td>
-				100
+					${salary.baseSalary*0.008}
 			</td>
 			<td>
-				70
+					${salary.baseSalary*0.12}
+			</td>
+
+			<td>
+					${salary.sheBaoPay}
+			</td>
+			<td>
+					${salary.baseSalary*0.311}
 			</td>
 			<td>
 					${salary.taxPay}
-			</td>
-			<td>
-				570
-			</td>
-			<td>
-				1000
 			</td>
 			<td>
 					${salary.totalPay}

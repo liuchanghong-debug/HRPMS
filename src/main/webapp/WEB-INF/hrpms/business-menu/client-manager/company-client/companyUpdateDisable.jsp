@@ -107,7 +107,9 @@
 			<td><label class="control-label">法人手机：</label></td>
 			<td><input id="phone" name="phone" class="input-xlarge " type="text" value="${tbCompany.phone}" maxlength="13" disabled="disabled"></td>
 			<td><label class="control-label">法人性别：</label></td>
-			<td><input id="sex" name="sex" class="input-xlarge " type="text" value="${tbCompany.sex}" maxlength="2" disabled="disabled"></td>
+			<td>
+				<input type="radio" checked disabled="disabled">${tbCompany.sex}
+			</td>
 		</tr>
 
 		<tr>

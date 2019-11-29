@@ -64,6 +64,4 @@ public interface DataDictDao {
      **/
     String getDataDictValueByNameAndLabel(Map map);
 
-    //根据字典名查询状态
-    public List<TbSystemDict> selectByName(String name);
 }

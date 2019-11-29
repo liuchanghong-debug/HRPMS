@@ -33,7 +33,7 @@
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
-
+	<script src="js/static/verify/CustomerClient.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -55,7 +55,6 @@
             });
         });
 	</script>
-
 </head>
 <body>
 
@@ -88,7 +87,7 @@
 			</td>
 			<td><label class="control-label">出生年月：</label></td>
 			<td>
-				<input name="birthday" type="date" maxlength="20" class="input-medium Wdate ">
+				<input id="birthday" name="birthday" type="date" maxlength="20">
 			</td>
 		</tr>
 		<tr>
@@ -106,9 +105,9 @@
 
 		<tr>
 			<td><label class="control-label">毕业学校：</label></td>
-			<td><input name="school" class="input-xlarge " type="text" maxlength="20"></td>
+			<td><input id="school" name="school" class="input-xlarge " type="text" maxlength="20"></td>
 			<td><label class="control-label">所学专业：</label></td>
-			<td><input name="specialty" class="input-xlarge " type="text" maxlength="20"></td>
+			<td><input id="specialty" name="specialty" class="input-xlarge " type="text" maxlength="20"></td>
 		</tr>
 
 		<tr>
@@ -116,7 +115,8 @@
 			<td><input id="graduation" name="graduation" class="input-xlarge " type="text" value="" maxlength="20"></td>
 			<td><label class="control-label">所属公司：</label></td>
 			<td>
-				<select name="companyId" class="input-xlarge  select2-offscreen">
+				<select id="companyId" name="companyId" class="input-xlarge  select2-offscreen">
+					<option value="">请选择</option>
 					<c:forEach items="${requestScope.companys}" var="company">
 						<option value="${company.id}">${company.name}</option>
 					</c:forEach>
@@ -127,7 +127,7 @@
 			<td><label class="control-label">客户类别：</label></td>
 
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<select id="customerType" name="customerType" class="input-xlarge  select2-offscreen" tabindex="-1">
 					<option value="" selected="selected">请选择客户类别</option>
 					<c:forEach items="${customerTypes}" var="type">
 						<option value="${type.value}">${type.label}</option>
@@ -162,7 +162,7 @@
 		</tbody>
 	</table>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

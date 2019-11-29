@@ -106,4 +106,18 @@ public interface SheBaoDao {
      * @return 
      **/
     Object shebaoRecordByIdCard(String idCard);
+
+    /**
+     * 社保卡添加是否唯一
+     * @param
+     * @return
+     **/
+    Object sbCardIsOnly(String hql, String sbCard);
+
+    /**
+     * 社保添加异步查询  社保卡是否唯一  修改  不查自己
+     * @param
+     * @return
+     **/
+    Object shebaoSbCardIsOnlyUpdate(String hql, Integer id, String sbCard);
 }

@@ -1,7 +1,10 @@
 package com.hrpms.pojo;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,15 +16,21 @@ import java.util.Date;
  * @versiion 1.0
  * @Description:劳务合作信息表
  */
+@Entity
+@DynamicInsert
+@DynamicUpdate
 public class TbPersonJob {
     private Integer id;//编号  主键
+    private String name;//名称
     private String idCard;//身份证号  非空
     private Integer companyId;//合作公司id  非空
     private String jobType;//工作类别
     private Double companyPrice;//公司单价
     private Double personPrice;//个人单价
     private String jobContent;//工作内容
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;//开始时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;//接收时间
     private String contractUrl;//合同url
     private String status;//状态  0 正常  1 停止
@@ -33,18 +42,26 @@ public class TbPersonJob {
     private Integer updateBy;//更新者
     private String remark;//备注
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 11)
     public Integer getId() {
         return id;
     }
+    @Column(length = 25)
+    public String getName() {
+        return name;
+    }
 
+    @Column(length = 20)
     public String getIdCard() {
         return idCard;
     }
-
+    @Column(length = 11)
     public Integer getCompanyId() {
         return companyId;
     }
-
+    @Column(length = 50)
     public String getJobType() {
         return jobType;
     }
@@ -56,7 +73,7 @@ public class TbPersonJob {
     public Double getPersonPrice() {
         return personPrice;
     }
-
+    @Column(length = 256)
     public String getJobContent() {
         return jobContent;
     }
@@ -68,11 +85,11 @@ public class TbPersonJob {
     public Date getEndTime() {
         return endTime;
     }
-
+    @Column(length = 256)
     public String getContractUrl() {
         return contractUrl;
     }
-
+    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -80,7 +97,7 @@ public class TbPersonJob {
     public Timestamp getCreateTime() {
         return createTime;
     }
-
+    @Column(length = 11)
     public Integer getCreateBy() {
         return createBy;
     }
@@ -88,11 +105,11 @@ public class TbPersonJob {
     public Timestamp getUpdateTime() {
         return updateTime;
     }
-
+    @Column(length = 11)
     public Integer getUpdateBy() {
         return updateBy;
     }
-
+    @Column(length = 256)
     public String getRemark() {
         return remark;
     }
@@ -100,6 +117,10 @@ public class TbPersonJob {
     public void setId(Integer id) {
 
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setIdCard(String idCard) {

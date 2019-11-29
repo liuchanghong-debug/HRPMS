@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -54,31 +57,50 @@
                 }
             });
         });
+
+        function getCompanyMessByCompayId(id) {
+            $("#companyJob").attr("style", "display: none");
+            $("#companyPrice").val(null);
+            $("#startTime").val(null);
+            $("#endTime").val(null);
+            $("#jobContent").text("");
+
+            if(id != "" && id != null){
+                $.get(
+                    //通过公司得到期望薪资差不多的求职信息
+                    "laowu/getPersonByCompanyIdForPrice",
+                    {"id":id},
+                    function (json) {
+                        var companyJob = json.needJobs;
+                        var str = "<option value=''>请选择</option>";
+                        for (var i = 0; i < companyJob.length; i++) {
+                            var id = companyJob[i].id;
+                            var jobName = companyJob[i].jobName;
+                            str += "<option value='" + id + "'>" + jobName + "</option>";
+                        }
+                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
+
+                        $("#companyId").removeAttr("onchange").attr("onchange", "getPersonByCompanyIdForPrice(this.value)");
+                    },
+                    "json"
+                );
+            }
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../laowuList/saved_resource.html">劳务合作列表</a></li>
-	<li class="active"><a href="saved_resource.html">劳务合作修改</a></li>
+	<li><a href="laowu/laowuList">劳务合作列表</a></li>
+	<li class="active"><a href="laowu/laowuToUpdate?id=${personJob.id}&currentPage=${page.currentPage}&nameQuer=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">劳务合作修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="laowu/laowuUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
+	<input type="hidden" name="nameQuery" value=""${personJobOperation.nameQuery}>
+	<input type="hidden" name="idCardQuery" value="${personJobOperation.idCardQuery}">
+	<input type="hidden" name="companyIdQuery" value="${personJobOperation.companyIdQuery}">
+	<input type="hidden" name="currentPage" value="${currentPage}">
+	<input type="hidden" name="id" value="${personJob.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -86,11 +108,11 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="customerName" value="" class="input-xlarge required">
+				<input type="text" name="name" value="${personJob.name}" disabled class="input-xlarge required">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idcard" name="idcard" class="input-xlarge required" type="text" value="412724180000001511" maxlength="20">
+				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${personJob.idCard}" disabled maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -98,141 +120,96 @@
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyid" name="companyid" class="input-xlarge" >
-					<option value="1000" selected="selected"></option>
+				<select id="companyId" name="companyId" onchange="getCompanyMessByCompayId(this.value)" class="input-xlarge" >
+					<c:forEach items="${companys}" var="company">
+						<c:if test="${company.id == personJob.companyId}">
+							<option value="${company.id}" selected="selected">${company.name}</option>
+						</c:if>
+						<c:if test="${company.id != personJob.companyId}">
+							<option value="${company.id}">${company.name}</option>
+						</c:if>
+					</c:forEach>
+				</select>
+				&nbsp;&nbsp;
+				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
 
-					*
 				</select>
 			</td>
 			<td>
 				<label class="control-label">工作类型：</label>
 			</td><td>
-			<select name="jobtype" style="width:280px;"  class="select2-offscreen">
+			<select name="jobType" style="width:280px;" disabled class="select2-offscreen">
 				<option value="0">兼职</option>
-				<option value="1">全职</option>
-				<option value="2">外派</option>
+				<c:forEach items="${jobTypes}" var="jobType">
+					<c:if test="${jobType.value == personJob.jobType}">
+						<option value="${jobType.value}">${jobType.label}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">公司单价：</label></td>
 			<td>
-				<input id="companyprice" name="companyprice" class="input-xlarge " type="text" value="12000">
+				<input id="companyPrice" name="companyPrice" class="input-xlarge " readonly type="text" value="${personJob.companyPrice}">
 			</td>
 			<td><label class="control-label">个人单价：</label></td>
 			<td>
-				<input id="personprice" name="personprice" class="input-xlarge " type="text" value="8000">
+				<input id="personPrice" name="personPrice" class="input-xlarge " disabled type="text" value="${personJob.personPrice}">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
-				<input name="starttime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="2017-11-01 00:00:00" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<f:formatDate value="${personJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
+				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
-				<input name="endtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="2017-11-30 00:00:00" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<f:formatDate value="${personJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
+				<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">合同上传：</label></td>
 			<td>
-				<input id="contracturl" name="contracturl" maxlength="256" class="input-xlarge" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				<ol id="contracturlPreview"><li style="list-style:none;padding-top:5px;">无</li></ol><a href="javascript:" onclick="contracturlFinderOpen();" class="btn">添加</a>&nbsp;<a href="javascript:" onclick="contracturlDelAll();" class="btn">清除</a>
-				<script type="text/javascript">
-                    function contracturlFinderOpen(){//
-                        var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
-                        var url = "/jeesite-master/static/ckfinder/ckfinder.html?type=files&start=files:/company/personJob/"+year+"/"+month+
-                            "/&action=js&func=contracturlSelectAction&thumbFunc=contracturlThumbSelectAction&cb=contracturlCallback&dts=0&sm=1";
-                        windowOpen(url,"文件管理",1000,700);
-                        //top.$.jBox("iframe:"+url+"&pwMf=1", {title: "文件管理", width: 1000, height: 500, buttons:{'关闭': true}});
+				<ol id="contracturlPreview">
+					<li style="list-style:none;padding-top:5px;"><span id="contractFileName">${fn:substring(personJob.contractUrl, fn:indexOf(personJob.contractUrl, '_') + 1, fn:length(personJob.contractUrl))}</span></li></ol>
+				<a href="javascript:" onclick="$('#contractFile').click();" class="btn">添加</a>&nbsp;
+				<a href="javascript:" onclick="fileEmpty();" class="btn">清除</a>
+				<input type="file" name="contractFile" id="contractFile" onchange="fileNameShow(this.value)" style="display: none">
+				<script>
+                    function fileNameShow(name) {
+                        $("#contractFileName").text(name.slice(name.lastIndexOf("\\") + 1, name.length));
                     }
-                    function contracturlSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){//
-                            url += files[i].getUrl();//
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#contracturl").val($("#contracturl").val()+($("#contracturl").val(url)==""?url:"|"+url));//
-                        contracturlPreview();
-                        //top.$.jBox.close();
+                    function fileEmpty() {
+                        $("#contractFile").empty();
+                        $("#contractFileName").text("");
                     }
-                    function contracturlThumbSelectAction(fileUrl, data, allFiles){
-                        var url="", files=ckfinderAPI.getSelectedFiles();
-                        for(var i=0; i<files.length; i++){
-                            url += files[i].getThumbnailUrl();
-                            if (i<files.length-1) url+="|";
-                        }//
-                        $("#contracturl").val($("#contracturl").val()+($("#contracturl").val(url)==""?url:"|"+url));//
-                        contracturlPreview();
-                        //top.$.jBox.close();
-                    }
-                    function contracturlCallback(api){
-                        ckfinderAPI = api;
-                    }
-                    function contracturlDel(obj){
-                        var url = $(obj).prev().attr("url");
-                        $("#contracturl").val($("#contracturl").val().replace("|"+url,"","").replace(url+"|","","").replace(url,"",""));
-                        contracturlPreview();
-                    }
-                    function contracturlDelAll(){
-                        $("#contracturl").val("");
-                        contracturlPreview();
-                    }
-                    function contracturlPreview(){
-                        var li, urls = $("#contracturl").val().split("|");
-                        $("#contracturlPreview").children().remove();
-                        for (var i=0; i<urls.length; i++){
-                            if (urls[i]!=""){//
-                                li = "<li><a href=\""+urls[i]+"\" url=\""+urls[i]+"\" target=\"_blank\">"+decodeURIComponent(urls[i].substring(urls[i].lastIndexOf("/")+1))+"</a>";//
-                                li += "&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"contracturlDel(this);\">×</a></li>";
-                                $("#contracturlPreview").append(li);
-                            }
-                        }
-                        if ($("#contracturlPreview").text() == ""){
-                            $("#contracturlPreview").html("<li style='list-style:none;padding-top:5px;'>无</li>");
-                        }
-                    }
-                    contracturlPreview();
 				</script>
 			</td>
 			<td><label class="control-label">合作状态：</label></td>
 			<td>
 				<select name="status" style="width:280px;"  class="select2-offscreen">
-					<option value="0">正常</option>
-					<option value="1">停止</option>
-					<option value="2">结束</option>
+					<c:forEach items="${statuss}" var="status">
+						<c:if test="${personJob.status == status.value}">
+							<option value="${status.value}" selected>${status.label}</option>
+						</c:if>
+						<c:if test="${personJob.status != status.value}">
+							<option value="${status.value}">${status.label}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">工作内容：</label></td>
-			<td colspan="3"><textarea id="jobcontent" name="jobcontent" maxlength="256" class="input-xxlarge " rows="2">软件开发工作</textarea></td>
+			<td colspan="3"><textarea id="jobContent" name="jobContent" maxlength="256" readonly class="input-xxlarge " rows="2">${personJob.jobContent}</textarea></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">备注信息：</label></td>
 			<td colspan="3">
-				<textarea id="remark" name="remark" maxlength="256" class="input-xxlarge " rows="2">test</textarea>
+				<textarea id="remark" name="remark" maxlength="256" class="input-xxlarge " rows="2">${personJob.remark}</textarea>
 			</td>
 		</tr>
 		</tbody></table>

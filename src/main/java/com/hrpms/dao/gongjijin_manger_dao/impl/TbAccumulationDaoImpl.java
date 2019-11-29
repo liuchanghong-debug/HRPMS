@@ -71,4 +71,13 @@ public class TbAccumulationDaoImpl implements TbAccumulationFundDao {
                 .list();
         return list;
     }
+
+    @Override
+    public TbAccumulationFund accountNoIsOne(String accountNo) {
+        Session session = sessionFactory.getCurrentSession();
+        TbAccumulationFund tbAccumulationFund = (TbAccumulationFund)session.createQuery("from TbAccumulationFund where accountNo = ?")
+                .setParameter(0, accountNo)
+                .uniqueResult();
+        return tbAccumulationFund;
+    }
 }

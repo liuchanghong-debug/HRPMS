@@ -160,7 +160,7 @@
         <div class="navbar-inner">
             <div class="brand"><span id="productName">安思普惠人事代理系统</span></div>
             <ul id="userControl" class="nav pull-right">
-                <li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
+                <%--<li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
                 <li id="themeSwitch" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="主题切换"><i class="icon-th-large"></i></a>
                     <ul class="dropdown-menu">
@@ -168,13 +168,13 @@
                         <li><a href="javascript:cookie(&#39;tabmode&#39;,&#39;1&#39;);location=location.href">开启页签模式</a></li>
                     </ul>
                     <!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
-                </li>
+                </li>--%>
                 <li id="userInfo" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${tbSystemUser.username}&nbsp;<span id="notifyNum" class="label label-info hide" style="display: none;"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="personal-information/userPersonalInformation" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
                         <li><a href="personal-information/updateUserPassword" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
-                        <li><a href="myAdvice.html" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide" style="display: none;"></span></a></li>
+                       <%-- <li><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide" style="display: none;"></span></li>--%>
                     </ul>
                 </li>
                 <li><a href="loginout" title="退出登录">退出</a></li>
@@ -254,7 +254,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-60702152789349b895607523f623d46b" href="#" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保催交</a>
+                                    <li><a data-href=".menu3-60702152789349b895607523f623d46b" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保催交</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -277,7 +277,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-27e37abcf1284c309569eed2c9027a11" href="smsSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金催交</a>
+                                    <li><a data-href=".menu3-27e37abcf1284c309569eed2c9027a11" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金催交</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -319,11 +319,11 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-3556301c31ac4747965b53ca3c940191" href="personList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才信息</a>
+                                    <li><a data-href=".menu3-3556301c31ac4747965b53ca3c940191" href="person/personList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才信息</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-5cbbb1056ebf471b8922e69f157455c5" href="laowuList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;劳务派遣</a>
+                                    <li><a data-href=".menu3-5cbbb1056ebf471b8922e69f157455c5" href="laowu/laowuList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;劳务派遣</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -338,15 +338,15 @@
                         <div id="collapse-822de1f5c7594e7f9586b0685c028541" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-9ff71084c3c44748a3a699d05d124ff9" href="emailList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;营销查询</a>
+                                    <li><a data-href=".menu3-9ff71084c3c44748a3a699d05d124ff9" href="/marketing-manager/selectEmailRecoredByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;营销查询</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-9fd2bbad28414d7b9df3d871cda6543c" href="smsSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信营销</a>
+                                    <li><a data-href=".menu3-9fd2bbad28414d7b9df3d871cda6543c" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信营销</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-23e1d105dd774ba492ea4f1006d3bc73" href="emailSend/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件营销</a>
+                                    <li><a data-href=".menu3-23e1d105dd774ba492ea4f1006d3bc73" href="/marketing-manager/addEmailRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件营销</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>
@@ -442,11 +442,11 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-c9d372c1a9c84bbe8c46686c41d67cfb" href="smsTemplateList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信模板</a>
+                                    <li><a data-href=".menu3-c9d372c1a9c84bbe8c46686c41d67cfb" href="sms-template/selectSmsTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信模板</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-aad070d5b282458996dcf847542926b8" href="emailTemplateList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件模板</a>
+                                    <li><a data-href=".menu3-aad070d5b282458996dcf847542926b8" href="email-template/selectEmailTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件模板</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li></ul>

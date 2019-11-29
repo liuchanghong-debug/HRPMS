@@ -74,4 +74,32 @@ public class CustomerDaoImpl implements CustomerDao {
         List<TbCustomer> list = session.createQuery("from TbCustomer").list();
         return list;
     }
+
+    @Override
+    public TbCustomer selectCustomerByEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        TbCustomer tbCustomer = (TbCustomer)session.createQuery("from TbCustomer where email=?")
+                .setParameter(0, email)
+                .uniqueResult();
+        return tbCustomer;
+    }
+
+    @Override
+    public TbCustomer selectCustomerByPhone(String phone) {
+        Session session = sessionFactory.getCurrentSession();
+        TbCustomer tbCustomer = (TbCustomer)session.createQuery("from TbCustomer where phone=?")
+                .setParameter(0, phone)
+                .uniqueResult();
+        return tbCustomer;
+    }
+
+    @Override
+    public Object customerIdCardIsOnly(String hql, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public Object customerIdCardIsOnlyUpdate(String hql, Integer id, String idCard) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, idCard).uniqueResult();
+    }
 }

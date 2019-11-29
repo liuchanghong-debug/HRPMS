@@ -178,4 +178,20 @@ public interface SheBaoService {
      * @return
      **/
     void shebaoInOfExcel(InputStream inputStream, Integer createBy) throws IOException, InvalidFormatException, ParseException;
+
+    /**
+     * 社保卡添加是否唯一
+     * @param
+     * @return
+     **/
+    boolean sbCardIsOnly(String sbCard);
+
+    /**
+     * 社保添加异步查询  社保卡是否唯一  修改  不查自己
+     * @param
+     * @return
+     **/
+    boolean shebaoSbCardIsOnlyUpdate(Integer id, String sbCard);
+
+
 }

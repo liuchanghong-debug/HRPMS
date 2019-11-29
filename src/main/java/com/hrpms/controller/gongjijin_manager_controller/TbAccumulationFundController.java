@@ -7,10 +7,10 @@ import com.hrpms.utils.Page;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,4 +115,17 @@ public class TbAccumulationFundController {
         tbAccumulationFundService.AccumulationDownload(map,response,request);
     }
 
+    //公积金账号唯一验证
+    @RequestMapping("/accountNoIsOne")
+    @ResponseBody
+    public boolean accountNoIsOne(String accountNo){
+        TbAccumulationFund tbAccumulationFund = tbAccumulationFundService.accountNoIsOne(accountNo);
+        boolean bo = true;      //账号唯一
+        if(tbAccumulationFund!=null && tbAccumulationFund.getId()!=0){
+            bo=false;   //账号不唯一
+        }else {
+            bo=true;
+        }
+        return bo;
+    }
 }

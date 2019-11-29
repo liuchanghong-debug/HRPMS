@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -51,23 +53,27 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">劳务合作列表</a></li>
-	<li><a href="../addLaowu/saved_resource.html">劳务合作添加</a></li>
+	<li class="active"><a href="laowu/laowuList">劳务合作列表</a></li>
+	<li><a href="laowu/laowuToAdd">劳务合作添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="laowu/laowuList" method="post">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="nameQuery" class="input-medium" type="text" value="${personJobOperation.nameQuery}" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idcard" class="input-medium" type="text" value="" maxlength="20">
+			<input name="idCardQuery" class="input-medium" type="text" value="${personJobOperation.idCardQuery}" maxlength="20">
 		</li>
 		<li><label>合作公司：</label>
-			<select id="companyid" name="companyid" class="input-medium select2-offscreen" tabindex="-1">
-				<option value="" selected="selected">智递科技</option>
-
+			<select name="companyIdQuery" class="input-medium select2-offscreen" tabindex="-1">
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${personJobOperation.companyIdQuery == company.id}">
+						<option value="${company.id}" selected="selected">${company.name}</option>
+					</c:if>
+					<c:if test="${personJobOperation.companyIdQuery != company.id}">
+						<option value="${company.id}">${company.name}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
@@ -93,51 +99,63 @@
 	</tr>
 	</thead>
 	<tbody>
+	<c:forEach items="${page.dataList}" var="person">
+		<tr>
+			<td><a href="laowu/laowuDetailById?id=${person.id}">${person.id}</a></td>
+			<td>${person.name}</td>
+			<td>${person.idCard}</td>
+			<td>
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${company.id == person.companyId}">
+						<span>${company.name}</span>
+					</c:if>
+				</c:forEach>
+			</td>
+			<td>
+				<c:forEach items="${jobTypes}" var="jobType">
+					<c:if test="${jobType.value == person.jobType}">
+						<span>${jobType.label}</span>
+					</c:if>
+				</c:forEach>
+			</td>
+			<td>${person.companyPrice}</td>
+			<td>${person.personPrice}</td>
+			<td>
+				<f:formatDate value="${person.startTime}" pattern="yyyy年MM月dd日" var="startTime"/>
+				<span>${startTime}</span>
+		</td>
+			<td>
+				<f:formatDate value="${person.endTime}" pattern="yyyy年MM月dd日" var="endTime"/>
+				<span>${endTime}</span>
+		</td>
+			<td>
+				<a href="laowu/laowuToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">修改</a>
+				<a href="laowu/laowuDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该劳务合作吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
-	<tr>
-		<td><a href="../updateLaoWu/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-
-			智递科技
-		</td>
-		<td>
-
-			外派
-		</td>
-		<td>
-			12000
-		</td>
-		<td>
-			8000
-		</td>
-		<td>
-			2017-11-01
-		</td>
-		<td>
-			2017-11-30
-		</td>
-		<td>
-			<a href="../updateLaoWu/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该劳务合作吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
 
 	</tbody>
 </table>
-<div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 1 条</a></li>
-</ul>
+<div class="pagination">
+	<form action="" method="post" name="paging">
+		<input type="hidden" name="nameQuery" value="${personJobOperation.nameQuery}">
+		<input type="hidden" name="idCardQuery" value="${personJobOperation.idCardQuery}">
+		<input type="hidden" name="companyIdQuery" value="${personJobOperation.companyIdQuery}">
+
+		<ul>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='laowu/laowuList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='laowu/laowuList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled controls">
+				<a href="javascript:">
+					当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
+					/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+					页，共 ${page.count} 条</a></li>
+		</ul>
+	</form>
+
 	<div style="clear:both;"></div></div>
 
 <script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author GoldFish
@@ -184,5 +183,26 @@ public class CustomerClientController {
     public List<TbCustomer> selectAllCustomerName(){
         List<TbCustomer> list = customerService.selectAllCustomerName();
         return list;
+    }
+
+    /**
+     * 异步验证idCard是否唯一
+     * @param
+     * @return
+     **/
+    @RequestMapping("/customerIdCardIsOnly")
+    @ResponseBody
+    public Object customerIdCardIsOnly(String idCard){
+        return customerService.customerIdCardIsOnly(idCard);
+    }
+    /**
+     * 异步验证idCard是否唯一  排除自己
+     * @param
+     * @return
+     **/
+    @RequestMapping("/customerIdCardIsOnlyUpdate")
+    @ResponseBody
+    public Object customerIdCardIsOnlyUpdate(Integer id, String idCard){
+        return customerService.customerIdCardIsOnlyUpdate(id, idCard);
     }
 }

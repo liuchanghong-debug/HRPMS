@@ -26,4 +26,7 @@ public interface TbAccumulationFundDao {
 
     //动态模糊不分页查询
     public List<TbAccumulationFund> selectAccumulationByNoFen(String hql, Map map);
+
+    //公积金账号唯一验证
+    public TbAccumulationFund accountNoIsOne(String accountNo);
 }

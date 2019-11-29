@@ -70,7 +70,7 @@
 
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
-			<<input type="hidden" name="id" value="${tbSalary.id}">
+			<input type="hidden" name="id" value="${tbSalary.id}">
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
 				<input id="name" name="name" class="input-xlarge "  type="text" value="${tbSalary.name}" readonly maxlength="20">

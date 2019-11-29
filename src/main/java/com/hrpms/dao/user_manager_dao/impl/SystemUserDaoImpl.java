@@ -61,4 +61,38 @@ public class SystemUserDaoImpl implements SystemUserDao {
         tbSystemUser.setStatus("1");
         session.merge(tbSystemUser);
     }
+
+    @Override
+    public TbSystemUser isOneUsername(String username) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSystemUser tbSystemUser = (TbSystemUser)session.createQuery("from TbSystemUser where username=?")
+                .setParameter(0, username)
+                .uniqueResult();
+        return tbSystemUser;
+    }
+
+    @Override
+    public List<TbSystemUser> selectAllUserName() {
+        Session session = sessionFactory.getCurrentSession();
+        List<TbSystemUser> list = session.createQuery("from TbSystemUser").list();
+        return list;
+    }
+
+    @Override
+    public TbSystemUser isOneUserPhone(String phone) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSystemUser tbSystemUser = (TbSystemUser)session.createQuery("from TbSystemUser where phone=?")
+                .setParameter(0, phone)
+                .uniqueResult();
+        return tbSystemUser;
+    }
+
+    @Override
+    public TbSystemUser isOneUserEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSystemUser tbSystemUser = (TbSystemUser)session.createQuery("from TbSystemUser where email=?")
+                .setParameter(0,email)
+                .uniqueResult();
+        return tbSystemUser;
+    }
 }

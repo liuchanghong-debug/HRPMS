@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 public interface TbSalaryService {
@@ -43,4 +44,7 @@ public interface TbSalaryService {
      * @return 
      **/
     Double getSalaryByIdCard(String idCard);
+
+    //查询所有工资信息
+    public List<TbSalary> selectAllGongjijin();
 }

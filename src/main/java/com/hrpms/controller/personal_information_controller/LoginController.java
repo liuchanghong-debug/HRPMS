@@ -2,6 +2,7 @@ package com.hrpms.controller.personal_information_controller;
 
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.service.personal_information_service.TbSystemUserService;
+import com.hrpms.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,11 @@ public class LoginController {
     @RequestMapping("/login")
     public String login(String username, String password,
                         HttpSession session, Model model){
+        try {
+            password=Md5Util.encodeByMd5(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         TbSystemUser tbSystemUser = tbSystemUserService.login(username, password);
         if(tbSystemUser!=null && tbSystemUser.getId()!=0){
             session.setAttribute("tbSystemUser",tbSystemUser);

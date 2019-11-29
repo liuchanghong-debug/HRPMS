@@ -3,7 +3,6 @@ package com.hrpms.dao.talen_dao.zhaopin_dao.Impl;
 import com.hrpms.dao.talen_dao.zhaopin_dao.ZhaoPinDao;
 import com.hrpms.pojo.TbNeedJob;
 import com.hrpms.pojo.operaton_select.TbNeedJobOperation;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,15 +46,29 @@ public class ZhaoPinDaoImpl implements ZhaoPinDao {
     }
 
     @Override
-    public void updateNeedJob(TbNeedJob tbNeedJob) {
+    public void zhaopinUpdate(TbNeedJob tbNeedJob) {
         sessionFactory.getCurrentSession().merge(tbNeedJob);
     }
 
     @Override
-    public void deleteNeedJob(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        TbNeedJob tbNeedJob = (TbNeedJob)session.get(TbNeedJob.class, id);
-        tbNeedJob.setStatus("1");
-        session.merge(tbNeedJob);
+    public List<Integer> getNormalZhaoPinCompanyId(List normalStatus) {
+        return sessionFactory.getCurrentSession().createQuery("select companyId from TbNeedJob where status in :status").setParameterList("status", normalStatus).list();
+    }
+
+    @Override
+    public List<Integer> getNeedJobsByJobType(Double maxPrice, Double minPrice, List normalStatus) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("select id from TbNeedJob where price >= ? and price <= ? and status in :status")
+                .setParameter(0, minPrice)
+                .setParameter(1, maxPrice)
+                .setParameterList("status", normalStatus)
+                .list();
+    }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
+        return sessionFactory.getCurrentSession().createQuery("from TbNeedJob where companyId = ?")
+                .setParameter(0, id)
+                .list();
     }
 }

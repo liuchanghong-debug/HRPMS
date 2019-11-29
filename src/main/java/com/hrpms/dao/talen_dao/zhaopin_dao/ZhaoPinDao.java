@@ -39,15 +39,27 @@ public interface ZhaoPinDao {
      **/
     TbNeedJob selectNeedJobById(int id);
     /**
-     * 根据id修改招聘信息
+     * 根据id修改招聘信息  删除共用
      * @param
      * @return
      **/
-    void updateNeedJob(TbNeedJob tbNeedJob);
+    void zhaopinUpdate(TbNeedJob tbNeedJob);
     /**
-     * 根据id删除招聘信息  置状态
-     * @param 
-     * @return 
+     * 获取所有有效的招聘公司的信息
+     * @param
+     * @return
      **/
-    void deleteNeedJob(int id);
+    List<Integer> getNormalZhaoPinCompanyId(List normalStatus);
+    /**
+     * 根据工作单价查询公司
+     * @param
+     * @return
+     **/
+    List<Integer> getNeedJobsByJobType(Double maxPrice, Double minPrice, List mornalStatus);
+    /**
+     * 根据公司得到所有职位信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getAllJobByCompanyId(Integer id);
 }

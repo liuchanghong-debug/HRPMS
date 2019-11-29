@@ -34,11 +34,10 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/ZhaoPinAdd.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
-            //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function(form){
                     loading('正在提交，请稍等...');
@@ -81,7 +80,8 @@
 		<tr>
 			<td><label class="control-label">所属行业：</label></td>
 			<td>
-				<select name="industry" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
+				<select id="industry" name="industry" htmlescape="false" maxlength="2" class="input-xlarge  select2-offscreen" tabindex="-1">
+					<option value="">请选择</option>
 					<c:forEach items="${industrys}" var="industry">
                         <option value="${industry.value}">${industry.label}</option>
                     </c:forEach>
@@ -90,7 +90,8 @@
 			<td>
 				<label class="control-label">发布公司：</label>
 			</td><td>
-			<select path="companyId" name="companyId" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
+			<select id="companyId" path="companyId" name="companyId" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
+				<option value="">请选择</option>
                 <c:forEach items="${companys}" var="company">
                     <option value="${company[0]}">
                         ${company[1]}
@@ -102,29 +103,29 @@
 		</tr>
 		<tr>
 			<td><label class="control-label">需求人数：</label></td>
-			<td><input id="needPerson" name="needPerson" class="input-xlarge " type="text" value="" maxlength="11"></td>
+			<td><input id="needPerson" name="needPerson" class="input-xlarge " type="number" value="" maxlength="11"></td>
 			<td><label class="control-label">结算方式：</label></td>
 			<td>
-				<select path="payType" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
+				<select name="payType" path="payType" class="input-xlarge  select2-offscreen" style="width:270px" tabindex="-1">
 					<c:forEach items="${payTypes}" var="payType">
-                        <option value="${paytype.value}">${payType.label}</option>
+                        <option value="${payType.value}">${payType.label}</option>
                     </c:forEach>
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">需求单价：</label></td>
-			<td><input id="price" name="price" class="input-xlarge " type="text" value=""></td>
+			<td><input id="price" name="price" class="input-xlarge " type="number" value=""></td>
 			<td><label class="control-label">工作地点：</label></td>
-			<td><input id="address" name="address" class="input-xlarge " type="text" value="" maxlength="2"></td>
+			<td><input id="address" name="address" class="input-xlarge " type="text" value="" maxlength="50"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">开始日期：</label></td>
 			<td>
-				<input name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="">
+				<input id="startTime" name="startTime" type="date" maxlength="20" class="input-medium Wdate " value="">
 			</td>
 			<td><label class="control-label">结束日期：</label></td>
-			<td><input name="endTime" type="date" maxlength="20" class="input-medium Wdate " value=""></td>
+			<td><input id="endTime" name="endTime" type="date" maxlength="20" class="input-medium Wdate " value=""></td>
 		</tr>
 
 		<tr>
@@ -149,19 +150,17 @@
 		<tr>
 			<td><label class="control-label">需求详细：</label></td>
 			<td>
-
 				<textarea id="jobContent" name="jobContent" class="input-xlarge " rows="4" cols="30"></textarea>
 			</td>
 			<td><label class="control-label">备注信息：</label></td>
 			<td>
-
 				<textarea id="remark" name="remark" class="input-xlarge " rows="4" cols="30"></textarea>
 			</td>
 		</tr>
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
