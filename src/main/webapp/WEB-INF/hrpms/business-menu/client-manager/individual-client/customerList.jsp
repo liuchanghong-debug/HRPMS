@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -128,7 +129,10 @@
 				<td><a href="customerClient/customerMess?id=${customer.id}">${customer.name}</a></td>
 				<td>${customer.idCard}</td>
 				<td>${customer.sex}</td>
-				<td>${customer.birthday}</td>
+				<td>
+					<f:formatDate value="${customer.birthday}" pattern="yyyy-MM-dd" var="birthday"/>
+					${birthday}
+				</td>
 				<td>${customer.phone}</td>
 				<td>${customer.email}</td>
 				<td>${customer.school}</td>
@@ -153,7 +157,7 @@
 			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='customerClient/customerList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 			<li class="disabled controls"><a href="javascript:">当前
 				<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
-				/ <input type="text" value="${page.pageSize}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
+				/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
 				页，共 ${page.count} 条</a></li>
 		</ul>
 	<div style="clear:both;"></div></div>
