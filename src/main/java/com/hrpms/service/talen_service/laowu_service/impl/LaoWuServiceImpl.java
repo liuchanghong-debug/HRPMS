@@ -144,8 +144,13 @@ public class LaoWuServiceImpl implements LaoWuService {
     }
 
     @Override
-    public List<Integer> getAllCompanyIdAndName() {
-        return zhaoPinService.getNormalZhaoPinCompanyId();
+    public Set<Integer> getAllCompanyIdAndName() {
+        List<Integer> normalZhaoPinCompanyId = zhaoPinService.getNormalZhaoPinCompanyId();
+        Set<Integer> set = new HashSet<>();
+        for (Integer id : normalZhaoPinCompanyId){
+            set.add(id);
+        }
+        return set;
     }
 
     @Override
@@ -178,6 +183,10 @@ public class LaoWuServiceImpl implements LaoWuService {
         Map map = new HashMap(2);
         Set<TbPerson> personsByPrice = new HashSet<>();
         List<TbNeedJob> needJobs = zhaoPinService.getAllJobByCompanyId(companyId);
+        Set<TbNeedJob> tbNeedJobs = new HashSet<>();
+        for (TbNeedJob needJob : needJobs){
+            tbNeedJobs.add(needJob);
+        }
         for (TbNeedJob tbNeedJob : needJobs){
             Double price = tbNeedJob.getPrice();
             List<TbPerson> personsByPrice1 = personService.getPersonsByPrice(price);
@@ -185,7 +194,7 @@ public class LaoWuServiceImpl implements LaoWuService {
                 personsByPrice.add(tbPerson);
             }
         }
-        map.put("needJobs", needJobs);
+        map.put("needJobs", tbNeedJobs);
         map.put("persons", personsByPrice);
         return map;
     }
@@ -219,5 +228,22 @@ public class LaoWuServiceImpl implements LaoWuService {
     @Override
     public TbPerson getDetailPersonById(Integer id) {
         return personService.personDetailById(id);
+    }
+
+    @Override
+    public List<TbNeedJob> getNeedJobByCompanyIdAndPersonPrice(Integer companyId, Double price) {
+        List<TbNeedJob> allJobByCompanyId = zhaoPinService.getAllJobByCompanyId(companyId);
+        List<TbNeedJob> list = new ArrayList<>();
+        for (TbNeedJob needJob : allJobByCompanyId){
+            if(needJob.getPrice() + 1000 >= price && needJob.getPrice() - 1000 <= price){
+                list.add(needJob);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public TbNeedJob getDetailNeedJobById(Integer id) {
+        return zhaoPinService.selectNeedJobById(id);
     }
 }

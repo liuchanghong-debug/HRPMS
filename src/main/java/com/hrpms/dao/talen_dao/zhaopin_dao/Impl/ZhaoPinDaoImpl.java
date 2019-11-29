@@ -58,7 +58,7 @@ public class ZhaoPinDaoImpl implements ZhaoPinDao {
     @Override
     public List<Integer> getNeedJobsByJobType(Double maxPrice, Double minPrice, List normalStatus) {
         return sessionFactory.getCurrentSession()
-                .createQuery("select id from TbNeedJob where price >= ? and price <= ? and status in :status")
+                .createQuery("select companyId from TbNeedJob where price >= ? and price <= ? and status in :status")
                 .setParameter(0, minPrice)
                 .setParameter(1, maxPrice)
                 .setParameterList("status", normalStatus)

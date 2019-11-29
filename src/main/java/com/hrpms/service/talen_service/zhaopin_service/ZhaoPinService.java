@@ -33,7 +33,7 @@ public interface ZhaoPinService {
      * @param
      * @return
      **/
-    TbNeedJob selectNeedJobById(int id);
+    TbNeedJob selectNeedJobById(Integer id);
     /**
      *根据id修改招聘信息
      * @param

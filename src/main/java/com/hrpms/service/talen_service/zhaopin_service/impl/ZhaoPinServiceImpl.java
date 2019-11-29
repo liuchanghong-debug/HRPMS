@@ -77,7 +77,7 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
     }
 
     @Override
-    public TbNeedJob selectNeedJobById(int id) {
+    public TbNeedJob selectNeedJobById(Integer id) {
         return zhaoPinDao.selectNeedJobById(id);
     }
 

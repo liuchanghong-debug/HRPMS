@@ -67,11 +67,11 @@
 		<li><label>合作公司：</label>
 			<select name="companyIdQuery" class="input-medium select2-offscreen" tabindex="-1">
 				<c:forEach items="${companys}" var="company">
-					<c:if test="${personJobOperation.companyIdQuery == company.id}">
-						<option value="${company.id}" selected="selected">${company.name}</option>
+					<c:if test="${personJobOperation.companyIdQuery == company[0]}">
+						<option value="${company[0]}" selected="selected">${company[1]}</option>
 					</c:if>
-					<c:if test="${personJobOperation.companyIdQuery != company.id}">
-						<option value="${company.id}">${company.name}</option>
+					<c:if test="${personJobOperation.companyIdQuery != company[0]}">
+						<option value="${company[0]}">${company[1]}</option>
 					</c:if>
 				</c:forEach>
 			</select>
@@ -106,8 +106,8 @@
 			<td>${person.idCard}</td>
 			<td>
 				<c:forEach items="${companys}" var="company">
-					<c:if test="${company.id == person.companyId}">
-						<span>${company.name}</span>
+					<c:if test="${company[0] == person.companyId}">
+						<span>${company[1]}</span>
 					</c:if>
 				</c:forEach>
 			</td>
