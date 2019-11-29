@@ -1,4 +1,4 @@
-package com.hrpms.controller.user_manager;
+package com.hrpms.controller.user_manager_controller;
 
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.service.user_manager_service.SystemUserService;

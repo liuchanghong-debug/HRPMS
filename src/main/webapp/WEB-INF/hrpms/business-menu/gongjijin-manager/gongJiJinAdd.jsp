@@ -39,6 +39,7 @@
 	<script type="text/javascript">
 
 		var baccountNo=false;
+		var bpaydate=false;
         var salary = null;
         $(function () {
             $.post(
@@ -88,10 +89,24 @@
 				}
             });
 
+			//缴费日期格式正则:yyyy-MM
+			$("#paydate").blur(function () {
+                var paydate = $(this).val();
+                var res = /^\d{4}[-]{1}\d{2}$/;
+                bpaydate = res.test(paydate);
+                if(bpaydate){
+                    bpaydate=true;
+                    $("#payspan").html("<font color='green' size='6'>√</font>");
+                }else {
+                    $("#payspan").html("<font color='green' size='6'>×</font>");
+                }
+
+            });
+
         });
 
         function sub() {
-            if(baccountNo){
+            if(baccountNo && bpaydate){
                 document.forms[0].submit();
             }else{
                 document.getElementById("#btnSubmit").disabled=true;
@@ -154,8 +169,8 @@
 	<div class="control-group">
 		<label class="control-label">缴费期间：</label>
 		<div class="controls">
-			<input id="paydate" name="payDate" class="input-xlarge required" type="text" value="" maxlength="20">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="paydate" name="payDate" placeholder="格式为yyyy-MM,例如:2017-12" class="input-xlarge required" type="text" value="" maxlength="20">
+			<span class="help-inline" id="payspan"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">

@@ -366,12 +366,12 @@
 
                                         </ul>
                                     </li>
-                                    <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="gongjijinCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
+                                    <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="report-statistics/selectGongJiJinCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>
                                     </li>
-                                    <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="salaryCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
+                                    <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="report-statistics/selectSalaryCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>

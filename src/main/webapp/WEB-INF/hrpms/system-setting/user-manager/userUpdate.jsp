@@ -37,7 +37,7 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         var busername=true;
-        var bpassword = true;
+        var bpassword = false;
         var bphone = true;
         var bemail = true;
         $(function () {
@@ -55,7 +55,6 @@
             );
 
             var username = "${requestScope.systemUser.username}";
-            var passwowrd = "${requestScope.systemUser.password}";
             var phone = "${requestScope.systemUser.phone}";
             var email = "${requestScope.systemUser.email}";
             /*用户名唯一以及正则验证*/
@@ -94,19 +93,14 @@
             /*密码验证*/
             $("#password").blur(function () {
                 var password1=$("#password").val();
-                if(passwowrd==password1){	//不进行验证
-                    bpassword=true;
-                    $("#pwd").html("<font color='green' size='6'>√</font>")
+				var re=/^[A-Za-z0-9]{6,7}$/;
+				bpassword=re.test(password1);
+				if(bpassword){
+					bpassword=true;
+					$("#pwd").html("<font color='green' size='6'>√</font>")
 				}else {
-                    var re=/^[A-Za-z0-9]{6,7}$/;
-                    bpassword=re.test(password1);
-                    if(bpassword){
-                        bpassword=true;
-                        $("#pwd").html("<font color='green' size='6'>√</font>")
-                    }else {
-                        bpassword=false;
-                        $("#pwd").html("<font color='red' size='6'>×</font>")
-                    }
+					bpassword=false;
+					$("#pwd").html("<font color='red' size='6'>×</font>")
 				}
 
             });

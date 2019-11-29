@@ -203,4 +203,12 @@ public class CompanyClientController {
     public Object companyNoIsOnlyOnUpdate(Integer id, String companyNo){
         return companyClientService.companyNoIsOnlyOnUpdate(id, companyNo);
     }
+
+    //查询所有公司名称
+    @RequestMapping("/selectAllCompanyName")
+    @ResponseBody
+    public List<Object[]> selectAllCompanyName(){
+        List<Object[]> list = companyClientService.getAllCompanyOfIdAndName();
+        return list;
+    }
 }

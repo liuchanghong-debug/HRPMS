@@ -64,7 +64,7 @@
 	<li><a href="laowu/laowuList">劳务合作列表</a></li>
 	<li class="active"><a href="laowu/laowuToAdd">劳务合作添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="laowu/laowuAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
+<form id="inputForm" class="form-horizontal" action="laowu/laowuAdd" method="get" novalidate="novalidate" enctype="multipart/form-data">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>
@@ -111,9 +111,9 @@
 				<label class="control-label">工作类型：</label>
 			</td>
             <td>
-			<select id="jobType" name="jobType" style="width:280px;" tabindex="-1">
-				<c:forEach items="${jobTypes}" var="jobType">
-					<option value="${jobType.value}">${jobType.label}</option>
+			<select id="jobType" name="jobType" style="width:280px;"  readonly="readonly" tabindex="-1">
+				<c:forEach items="${jobTypes}" var="jobtype">
+					<option value="${jobtype.value}">${jobtype.label}</option>
 				</c:forEach>
 			</select>
 		</td>
