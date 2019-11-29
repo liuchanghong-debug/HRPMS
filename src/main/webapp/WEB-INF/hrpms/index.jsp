@@ -397,7 +397,7 @@
                         <div id="collapse-b82f37a26c1f413588db85b2eaf782e2" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-c96dfbfd2691492f82c8b7de876f7c92" href="newsList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;新闻管理</a>
+                                    <li><a data-href=".menu3-c96dfbfd2691492f82c8b7de876f7c92" href="newsManager/selectTbNews" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;新闻管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>

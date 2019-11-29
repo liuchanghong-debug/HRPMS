@@ -1,4 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2019/11/26
+  Time: 11:02
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -30,7 +38,7 @@
 	<script src="js/static/common/mustache.min.js" type="text/javascript"></script>
 	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
-	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
+	<script type="text/javascript">var ctx = 'js/a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
 
@@ -52,14 +60,13 @@
 
 <ul class="nav nav-tabs">
 	<li class="active"><a href="saved_resource.html">新闻列表</a></li>
-	<li><a href="../addNews/saved_resource.html">新闻添加</a></li>
+	<li><a href="newsManager/toNewAdd">新闻添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="newsManager/selectTbNews" method="post">
+
 	<ul class="ul-form">
 		<li><label>标题：</label>
-			<input id="newstitle" name="newstitle" class="input-medium" type="text" value="" maxlength="128">
+			<input id="newsTitle" name="newsTitle" class="input-medium" type="text" value="" maxlength="128">
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
@@ -73,53 +80,40 @@
 	<tr>
 		<th>编号</th>
 		<th>标题</th>
-		<th>状态</th>
+		<th>内容</th>
 		<th>操作</th>
 	</tr>
 	</thead>
 	<tbody>
 
-	<tr>
-		<td><a href="../updateNews/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			特朗普访华
-		</td>
-		<td>
-			显示
+	<c:forEach items="${page.dataList}" var="news">
+		<tr>
+			<td><a href="js/updateNews/saved_resource_unEdit.html">
+					${news.id}
+			</a></td>
+			<td>
+					${news.newsTitle}
+			</td>
+			<td>
+					${news.content}
+			</td>
+			<td>
+				<a href="js/updateNews/saved_resource.html">修改</a>
+				<a href="#" onclick="return confirmx(&#39;确认要删除该新闻吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
-		</td>
-		<td>
-			<a href="../updateNews/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该新闻吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
 
-	<tr>
-		<td><a href="../updateNews/saved_resource_unEdit.html">
-			2
-		</a></td>
-		<td>
-			test
-		</td>
-		<td>
-			显示
 
-		</td>
-		<td>
-			<a href="../updateNews/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该新闻吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
+	<li class="disabled"><a href="newsManager/selectTbNews?currentPage=${page.currentPage-1}&newsTitle=${map.newsTitle}">« 上一页</a></li>
 	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 2 条</a></li>
+	<li class="disabled"><a href="newsManager/selectTbNews?currentPage=${page.currentPage+1}&newsTitle=${map.newsTitle}">下一页 »</a></li>
+	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 页，共 ${page.count} 条</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

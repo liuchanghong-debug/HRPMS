@@ -33,7 +33,6 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -63,14 +62,14 @@
 	<li><a href="../newsList/saved_resource.html">新闻列表</a></li>
 	<li class="active"><a href="saved_resource.html">新闻添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="newsManager/saveTbNews" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">标题：</label>
 		<div class="controls">
-			<input id="newstitle" name="newstitle" class="input-xlarge required" type="text" value="" maxlength="128">
+			<input id="newstitle" name="newsTitle" class="input-xlarge required" type="text" value="" maxlength="128">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
@@ -79,22 +78,6 @@
 		<div class="controls">
 				<textarea id="content" name="content" maxlength="150" class="input-xxlarge" rows="4">&amp;lt;p&amp;gt;
 	特朗普访华，习近平夫妇天安门口迎接，一块去故宫。&amp;lt;/p&amp;gt;</textarea>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			<script type="text/javascript">include('ckeditor_lib','js/static/ckeditor/',['ckeditor.js']);</script>
 			<script type="text/javascript">
                 var contentCkeditor = CKEDITOR.replace("content");
@@ -114,34 +97,6 @@
 			</select>
 		</div>
 	</div>
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="createtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="updatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
 	<div class="control-group">
 		<label class="control-label">备注：</label>
 		<div class="controls">
