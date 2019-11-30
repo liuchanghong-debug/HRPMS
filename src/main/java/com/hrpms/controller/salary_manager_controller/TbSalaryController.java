@@ -132,4 +132,16 @@ public class TbSalaryController {
         return tbSalaries;
     }
 
+    //银行卡号唯一验证
+    @RequestMapping("/payCardIsOne")
+    @ResponseBody
+    public boolean payCardIsOne(String payCard){
+        TbSalary salary = tbSalaryService.payCardIsOne(payCard);
+        boolean bo = true;  //唯一
+        if(salary!=null && salary.getId()!=0){
+            bo = false;     //不唯一
+        }
+        return bo;
+    }
+
 }

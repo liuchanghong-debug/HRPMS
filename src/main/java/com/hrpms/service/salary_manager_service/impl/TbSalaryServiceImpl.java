@@ -175,4 +175,9 @@ public class TbSalaryServiceImpl implements TbSalaryService {
         String hql = "from TbSalary where idCard = ?";
         return tbSalaryDao.getTbSalaryByIdCard(hql, idCard);
     }
+
+    @Override
+    public TbSalary payCardIsOne(String payCard) {
+        return tbSalaryDao.payCardIsOne(payCard);
+    }
 }

@@ -139,8 +139,8 @@
 			<label id="loginError" class="error"></label>
 		</div>
 	</div>
-	<h1 class="form-signin-heading">安思普惠人事代理系统</h1>
-	<form id="loginForm" class="form-signin" action="login" method="post" novalidate="novalidate">
+	<h1 class="form-signin-heading">上海晟宏人事代理系统</h1>
+	<form id="loginForm" class="form-signin" action="login" method="post"  novalidate="novalidate">
 		<label class="input-label" for="username">登录名</label>
 		<input type="text" id="username" name="username" class="input-block-level required" >
 		<label class="input-label" for="password">密码</label>
@@ -148,7 +148,7 @@
         <div class="btn-box" id="cbox"></div>
 
 		</div><br/>
-		<input class="btn btn-large btn-primary" type="submit" value="登 录">&nbsp;&nbsp;
+		<input class="btn btn-large btn-primary" type="submit" onclick="return yz();" value="登 录">&nbsp;&nbsp;
 		<label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe"> 记住我（公共场所慎用）</label>
 		<div id="themeSwitch" class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="http://localhost:8080/jeesite-master/a/login;JSESSIONID=7b0a567f7ec04124837646d979ead83c#">默认主题<b class="caret"></b></a>
@@ -159,7 +159,7 @@
 		</div>
 	</form>
 	<div class="footer">
-		Copyright © 2012-2017 <a href="http://localhost:8080/jeesite-master/f">安思普惠人事代理系统</a> - Powered By <a href="http://www.zhidisoft.com/" target="_blank">zhidisoft</a> V1.2.7
+		Copyright © 2012-2017 <a href="http://localhost:8080/jeesite-master/f">上海晟宏人事代理系统</a> - Powered By <a href="http://www.zhidisoft.com/" target="_blank">zhidisoft</a> V1.2.7
 	</div>
 	<script src="./login_files/zoom.min.js.下载" type="text/javascript"></script>
 

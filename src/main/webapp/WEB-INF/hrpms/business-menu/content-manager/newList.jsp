@@ -98,8 +98,8 @@
 					${news.content}
 			</td>
 			<td>
-				<a href="js/updateNews/saved_resource.html">修改</a>
-				<a href="#" onclick="return confirmx(&#39;确认要删除该新闻吗？&#39;, this.href)">删除</a>
+				<a href="newsManager/selectTbNewsForUpdate?id=${news.id}">修改</a>
+				<a href="newsManager/deleteTbNews?id=${news.id}" onclick="return confirmx(&#39;确认要删除该新闻吗？&#39;, this.href)">删除</a>
 			</td>
 		</tr>
 	</c:forEach>

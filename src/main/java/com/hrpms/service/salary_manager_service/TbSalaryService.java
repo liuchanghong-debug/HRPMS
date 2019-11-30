@@ -54,4 +54,7 @@ public interface TbSalaryService {
      * @return
      **/
     TbSalary getTbSalaryByIdCard(String idCard);
+
+    //银行卡号唯一验证
+    public TbSalary payCardIsOne(String payCard);
 }

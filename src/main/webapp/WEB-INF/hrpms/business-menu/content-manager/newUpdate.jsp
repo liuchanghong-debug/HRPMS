@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -55,62 +56,29 @@
             });
         });
 	</script>
-
 	<script type="text/javascript" src="./config.js"></script><style id="cke_ui_color" type="text/css"></style><link rel="stylesheet" type="text/css" href="./editor.css"><script type="text/javascript" src="./zh-cn.js"></script><script type="text/javascript" src="./plugin.js"></script></head>
 <body>
-
 <ul class="nav nav-tabs">
 	<li><a href="../newsList/saved_resource.html">新闻列表</a></li>
 	<li class="active"><a href="saved_resource.html">新闻修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="newsManager/updateTbNews" method="post" novalidate="novalidate">
+	<input id="id" name="id" type="hidden" value="${news.id}">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
 	<div class="control-group">
 		<label class="control-label">标题：</label>
 		<div class="controls">
-			<input id="newstitle" name="newstitle" class="input-xlarge required" type="text" value="特朗普访华" maxlength="128">
+			<input id="newstitle" name="newsTitle" class="input-xlarge required" type="text" value="${news.newsTitle}" maxlength="128">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">内容：</label>
 		<div class="controls">
-				<textarea id="content" name="content" maxlength="150" class="input-xxlarge" rows="4">&amp;lt;p&amp;gt;
-	特朗普访华，习近平夫妇天安门口迎接，一块去故宫。&amp;lt;/p&amp;gt;</textarea>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<script type="text/javascript">include('ckeditor_lib','js/static/ckeditor/',['ckeditor.js']);</script>
+				<textarea id="content" name="content" maxlength="150" class="input-xxlarge" rows="4">
+					${news.content}
+				</textarea>
+		<script type="text/javascript">include('ckeditor_lib','js/static/ckeditor/',['ckeditor.js']);</script>
 			<script type="text/javascript">
                 var contentCkeditor = CKEDITOR.replace("content");
                 contentCkeditor.config.height = "";//
@@ -124,47 +92,25 @@
 		<label class="control-label">状态：</label>
 		<div class="controls">
 			<select name="status" style="width:280px;" class="select2-offscreen">
-				<option value="0">显示</option>
-				<option value="1">隐藏</option>
+				<c:if test="${news.status==0}">
+					<option value="0" selected>显示</option>
+					<option value="1">隐藏</option>
+				</c:if>
+				<c:if test="${news.status==1}">
+					<option value="0" >显示</option>
+					<option value="1" selected>隐藏</option>
+				</c:if>
 			</select>
 		</div>
 	</div>
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">创建时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="createtime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新者：</label> -->
-	<!-- 			<div class="controls"> -->
-
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="control-group"> -->
-	<!-- 			<label class="control-label">更新时间：</label> -->
-	<!-- 			<div class="controls"> -->
-	<!-- 				<input name="updatetime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " -->
-
-	<!-- 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
 	<div class="control-group">
 		<label class="control-label">备注：</label>
 		<div class="controls">
-			<input id="remark" name="remark" class="input-xlarge " type="text" value="测试" maxlength="256">
+			<input id="remark" name="remark" class="input-xlarge " type="text" value="${news.remark}" maxlength="256">
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="submit" value="修 改">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>
