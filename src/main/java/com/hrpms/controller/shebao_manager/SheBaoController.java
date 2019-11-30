@@ -3,6 +3,7 @@ package com.hrpms.controller.shebao_manager;
 import com.hrpms.pojo.TbSocialInsurance;
 import com.hrpms.pojo.TbSocialInsuranceRecord;
 import com.hrpms.pojo.TbSystemUser;
+import com.hrpms.pojo.operaton_select.SheBaoCountOperation;
 import com.hrpms.pojo.operaton_select.TbSocialInsuranceOperation;
 import com.hrpms.service.shebao_manager_service.SheBaoService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -311,5 +312,32 @@ public class SheBaoController {
     @ResponseBody
     public Object shebaoSbCardIsOnlyUpdate(Integer id, String sbCard){
         return sheBaoService.shebaoSbCardIsOnlyUpdate(id, sbCard);
+    }
+
+
+
+    /**
+     * 社保统计
+     * @param
+     * @return
+     **/
+    @RequestMapping("/shebaoCount")
+    public String shebaoCount(SheBaoCountOperation sheBaoCountOperation, Model model){
+        //公司信息
+        model.addAttribute("companys", sheBaoService.getCompanys());
+        model.addAttribute("shebaoCountOperation", sheBaoCountOperation);
+        model.addAttribute("data", sheBaoService.getSheBaoCount(sheBaoCountOperation));
+
+        return "business-menu/report-statistics/sheBaoCount";
+    }
+    /**
+     * 社保统计导出
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/shebaoCountOut")
+    public void shebaoCount(SheBaoCountOperation sheBaoCountOperation, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //公司信息
+        sheBaoService.getSheBaoCountOut(sheBaoCountOperation, request, response);
     }
 }

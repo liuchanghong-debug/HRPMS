@@ -6,32 +6,33 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</sp
 
 $(function () {
     //客户名称
-    if($("#customerId").val() != "" && $("#customerId").val() != null){
-        customerId = true;
-        $("#customerId ~ span").remove();
-        $("#customerId").after(trueStyle);
-    }else {
-        customerId = false;
-        $("#customerId ~ span").remove();
-        $("#customerId").after(falseStyle);
-    }
+    $("#customerId").change(function () {
+        if($("#customerId").val() != "" && $("#customerId").val() != null){
+            customerId = true;
+            $("#customerId ~ span").remove();
+            $("#customerId").after(trueStyle);
+        }else {
+            customerId = false;
+            $("#customerId ~ span").remove();
+            $("#customerId").after(falseStyle);
+        }
+    });
+
     //缴费期间
-    if($("#payMonth").val() != "" && $("#payMonth").val() != null){
-        payMonth = true;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(trueStyle);
-    }else {
-        payMonth = false;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(falseStyle);
-    }
+    $("#payMonth").keyup(function () {
+        if($("#payMonth").val() != "" && $("#payMonth").val() != null){
+            payMonth = true;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(trueStyle);
+        }else {
+            payMonth = false;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(falseStyle);
+        }
+    });
+
 
     $("input").keyup(function () {
-        $("#btnSubmit").removeAttr("disabled");
-    }).click(function () {
-        $("#btnSubmit").removeAttr("disabled");
-    });
-    $("select").change(function () {
         $("#btnSubmit").removeAttr("disabled");
     }).click(function () {
         $("#btnSubmit").removeAttr("disabled");
@@ -42,8 +43,7 @@ $(function () {
 
 //提交
 function inputFormSubmit() {
-    $("input").keyup();
-    $("select").change();
+    $("input").keyup().change;
     if(!(customerId && payMonth)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {

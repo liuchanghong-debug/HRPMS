@@ -61,5 +61,5 @@ public interface ZhaoPinDao {
      * @param
      * @return
      **/
-    List<TbNeedJob> getAllJobByCompanyId(Integer id);
+    List<TbNeedJob> getAllJobByCompanyId(Integer id, String normalType);
 }

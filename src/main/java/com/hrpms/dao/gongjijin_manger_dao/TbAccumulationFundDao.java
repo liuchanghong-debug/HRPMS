@@ -29,4 +29,11 @@ public interface TbAccumulationFundDao {
 
     //公积金账号唯一验证
     public TbAccumulationFund accountNoIsOne(String accountNo);
+
+    /**
+     * 根据idCard查询公积金详细信息
+     * @param
+     * @return
+     **/
+    public TbAccumulationFund getAccumulationFundByIdCard(String hql, String idCard);
 }

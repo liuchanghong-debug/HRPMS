@@ -42,7 +42,7 @@ public interface CustomerService {
      * @param 
      * @return 
      **/
-    void customerUpdate(TbCustomer customer);
+    void customerUpdate(TbCustomer customer, Integer updateBy);
 
     /**
      * 根据字典名称查询数据
@@ -124,4 +124,5 @@ public interface CustomerService {
 
     //根据电话号码查询所有
     public TbCustomer selectCustomerByPhone(String phone);
+
 }

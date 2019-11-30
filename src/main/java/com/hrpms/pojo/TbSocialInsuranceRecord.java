@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -23,7 +24,8 @@ public class TbSocialInsuranceRecord {
     private String name;//客户名称
     private String idCard;//身份证号  非空
     private String sbCard;//社保卡号  非空
-    private String payMonth;//缴费日期
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date payMonth;//缴费日期
     private Double payMoney;//缴费金额
     private Double yangLao;//养老保险
     private Double yiLiao;//医疗保险
@@ -57,8 +59,8 @@ public class TbSocialInsuranceRecord {
     public String getSbCard() {
         return sbCard;
     }
-    @Column(length = 20)
-    public String getPayMonth() {
+
+    public Date getPayMonth() {
         return payMonth;
     }
 
@@ -127,7 +129,7 @@ public class TbSocialInsuranceRecord {
         this.sbCard = sbCard;
     }
 
-    public void setPayMonth(String payMonth) {
+    public void setPayMonth(Date payMonth) {
         this.payMonth = payMonth;
     }
 

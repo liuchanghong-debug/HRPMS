@@ -34,7 +34,7 @@
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/LaoWuAdd.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -55,235 +55,6 @@
                 }
             });
         });
-
-
-        //根据person的id得到其他值
-        function getIdCard(id) {
-            $("#idCard").val(null);
-            $("#personPrice").val(null);
-            $("#jobType").removeAttr("disabled", "disabled");
-            $("#companyId>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
-            $("#companyId").removeAttr("onchange").attr("onchange", "getPersonsByCompayId(this.value)");
-            $("#companyJob").empty().attr("style", "display: none");
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-
-			if(id !== "" && id != null){
-			    $.get(
-			        "laowu/getPersonAndCompanyById",
-					{"id":id},
-					function (json) {
-			            var person = json.person;
-						$("#idCard").val(person.idCard);
-						$("#personPrice").val(person.forPrice);
-                        $("#jobType option[value='']").removeAttr("selected");
-                        $("#jobType option[value='" + person.jobType + "']").attr("selected","selected");
-                        $("#jobType").attr("disabled", "disabled");
-                        // 公司选项
-						var companys = json.companys;
-						$("#companyId").each(function () {
-							$(this).children("option").each(
-								function () {
-								    var noFit = true;
-								    if(this.value == ""){
-								        noFit = false;
-									}
-								    if(this.value != ""){
-                                        for (var i = 0; i < companys.length; i++) {
-                                            if(this.value == companys[i].id){
-                                                noFit = false;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if(noFit){
-                                        $("#companyId option[value='" + this.value + "']").attr("hidden", "hidden");
-                                    }
-								}
-							)
-						});
-						$("#companyId").removeAttr("onchange").attr("onchange", "getCompanyByid(this.value)");
-                    },
-					"json"
-				);
-			}
-        }
-        //根据companyid得到公司招聘信息
-		function getCompanyByid(id) {
-            $("#companyJob").attr("style", "display: none");
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-            if(id != "" && id != null){
-                $.get(
-                    "laowu/getAllJobByCompanyId",
-                    {"id":id},
-                    function (json) {
-                        var str = "<option value=''>请选择</option>";
-                        for (var i = 0; i < json.length; i++) {
-                            var id = json[i].id;
-                            var jobName = json[i].jobName;
-                            str += "<option value='" + id + "'>" + jobName + "</option>";
-                        }
-                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
-                    },
-                    "json"
-                );
-			}
-        }
-        //根据公司id得到详细信息
-		function getDetailNeedJobById(id) {
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-			if(id != "" && id != null){
-				$.get(
-				    "laowu/getNeedJobById",
-					{"id":id},
-					function (json) {
-						$("#companyPrice").val(json.price);
-						var startTime = new Date(json.startTime);
-						var endTime = new Date(json.endTime);
-						$("#startTime").val(startTime.getFullYear().toString() + "-" + (startTime.getMonth() + 1).toString() + "-" + startTime.getDate().toString());
-						$("#endTime").val(endTime.getFullYear().toString() + "-" + (endTime.getMonth() + 1).toString() + "-" + endTime.getDate().toString());
-						$("#jobContent").text(json.jobContent);
-                    },
-					"json"
-				);
-			}
-        }
-
-
-
-
-
-        //根据companyId的id得到合适的用户
-		//先点击合作公司改变nameId的绑定方法， 将companyId显示出来，
-        function getPersonsByCompayId(id) {
-            $("#companyJob").attr("style", "display: none");
-            $("#idCard").val(null);
-            $("#personPrice").val(null);
-            $("#jobType").removeAttr("disabled", "disabled");
-            $("#nameId>option").removeAttr("hidden", "hidden").removeAttr("selected", "selected");
-            $("#nameId").removeAttr("onchange").attr("onchange", "getIdCard(this.value)");
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-
-            if(id != "" && id != null){
-                $.get(
-                    //通过公司得到期望薪资差不多的求职信息
-                    "laowu/getPersonByCompanyIdForPrice",
-                    {"id":id},
-                    function (json) {
-                        var companyJob = json.needJobs;
-                        var str = "<option value=''>请选择</option>";
-                        for (var i = 0; i < companyJob.length; i++) {
-							var id = companyJob[i].id;
-							var jobName = companyJob[i].jobName;
-							str += "<option value='" + id + "'>" + jobName + "</option>";
-                        }
-                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
-
-                        var person = json.persons;
-                        $("#nameId").each(function () {
-                            $(this).children("option").each(
-                                function () {
-                                    var noFit = true;
-                                    if(this.value == ""){
-                                        noFit = false;
-                                    }
-                                    if(this.value != ""){
-                                        for (var i = 0; i < person.length; i++) {
-                                            if(this.value == person[i].id){
-                                                noFit = false;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if(noFit){
-                                        $("#nameId option[value='" + this.value + "']").attr("hidden", "hidden");
-                                    }
-                                }
-                            )
-                        });
-                        $("#nameId").removeAttr("onchange").attr("onchange", "getPersonById(this.value)");
-                    },
-                    "json"
-                );
-            }
-        }
-        //根据职位id得到price得到个人信息
-        function getPersonByCompanyIdForPrice(id) {
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-            if(id != "" && id != null){
-                $.get(
-                    "laowu/getAllJobByCompanyId",
-                    {"id":id},
-                    function (json) {
-                        var str = "<option value=''>请选择</option>";
-                        for (var i = 0; i < json.length; i++) {
-                            var id = json[i].id;
-                            var jobName = json[i].jobName;
-                            str += "<option value='" + id + "'>" + jobName + "</option>";
-                        }
-                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getPersonById(this.value)");
-                    },
-                    "json"
-                );
-            }
-        }
-
-        //根据公司id得到详细信息
-        function getDetailNeedJobForCompanyTypeById(id) {
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-            if(id != "" && id != null){
-                $.get(
-                    "laowu/getNeedJobById",
-                    {"id":id},
-                    function (json) {
-                        $("#companyPrice").val(json.price);
-                        var startTime = new Date(json.startTime);
-                        var endTime = new Date(json.endTime);
-                        $("#startTime").val(startTime.getFullYear().toString() + "-" + (startTime.getMonth() + 1).toString() + "-" + startTime.getDate().toString());
-                        $("#endTime").val(endTime.getFullYear().toString() + "-" + (endTime.getMonth() + 1).toString() + "-" + endTime.getDate().toString());
-                        $("#jobContent").text(json.jobContent);
-                    },
-                    "json"
-                );
-            }
-        }
-
-        //根据personid得到详细信息
-        function getPersonById(id) {
-            $("#idCard").val(null);
-            $("#jobType").val(null);
-            $("#personPrice").val(null);
-            if(id != "" && id != null){
-                $.get(
-                    "laowu/getDetailPersonByid",
-                    {"id":id},
-                    function (json) {
-						$("#idCard").val(json.idCard);
-						$("#jobType option[value=" + json.jobType + "]").attr("selected", "selected");
-						$("#jobType").attr("disabled", "disabled");
-						$("#personPrice").val(json.forPrice);
-                    },
-                    "json"
-                );
-            }
-        }
 	</script>
 
 </head>
@@ -306,23 +77,17 @@
 					</c:forEach>
 				</select>
 				<input type="hidden" name="name" id="name">
-				<script>
-					$("#nameId").change(function () {
-                        $("#name").empty().val($("#nameId :selected").text())
-                    });
-				</script>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
 				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="" readonly maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyId" name="companyId" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="company" name="company" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
 					<option value="">请选择</option>
 					<c:forEach items="${companyIds}" var="company">
 						<c:forEach items="${companyIdAndNames}" var="companyIdAndName">
@@ -336,16 +101,17 @@
 				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
 
 				</select>
-			</td>
+            </td>
 			<td>
 				<label class="control-label">工作类型：</label>
-			</td><td>
-			<select id="jobType" name="jobType" style="width:280px;" tabindex="-1">
+			</td>
+            <td>
+			<select id="jobTypeSelect" name="jobTypeSelect" disabled style="width:280px;" tabindex="-1">
 				<c:forEach items="${jobTypes}" var="jobType">
 					<option value="${jobType.value}">${jobType.label}</option>
 				</c:forEach>
 			</select>
-
+				<input type="hidden" id="jobType" name="jobType">
 		</td>
 		</tr>
 		<tr>
@@ -408,7 +174,7 @@
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

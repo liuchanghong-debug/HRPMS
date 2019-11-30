@@ -72,7 +72,7 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<select name="customerId" class="input-xlarge  select2-offscreen" onchange="getDetailMess(this)" tabindex="-1">
+				<select id="customerId" name="customerId" class="input-xlarge  select2-offscreen" onchange="getDetailMess(this)" tabindex="-1">
 					<option value="">请选择</option>
 					<c:forEach items="${socialInsuranceRecord}" var="socialInsurance">
 						<c:if test="${id == socialInsurance.id}">
@@ -87,7 +87,6 @@
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td><input type="text" id="idCard" name="idCard" htmlescape="false" maxlength="20" readonly class="input-xlarge " style="width:270px;">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 
@@ -95,7 +94,6 @@
 			<td><label class="control-label">社保号码：</label></td>
 			<td>
 				<input id="sbCard" name="sbCard" class="input-xlarge required" readonly type="text" maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td>
 				<label class="control-label">所属公司：</label>
@@ -143,7 +141,6 @@
 						<option value="${status.value}">${status.label}</option>
 					</c:forEach>
 				</select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 

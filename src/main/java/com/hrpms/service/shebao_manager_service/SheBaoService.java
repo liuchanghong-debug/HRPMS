@@ -1,9 +1,7 @@
 package com.hrpms.service.shebao_manager_service;
 
-import com.hrpms.pojo.TbCustomer;
-import com.hrpms.pojo.TbSocialInsurance;
-import com.hrpms.pojo.TbSocialInsuranceRecord;
-import com.hrpms.pojo.TbSystemDict;
+import com.hrpms.pojo.*;
+import com.hrpms.pojo.operaton_select.SheBaoCountOperation;
 import com.hrpms.pojo.operaton_select.TbSocialInsuranceOperation;
 import com.hrpms.utils.Page;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -193,5 +191,33 @@ public interface SheBaoService {
      **/
     boolean shebaoSbCardIsOnlyUpdate(Integer id, String sbCard);
 
+    /**
+     * 根据idCard查询社保信息
+     * @param
+     * @return
+     **/
+    TbSocialInsurance getSheBaoByIdCard(String idCard);
+    /**
+     * 根据idcard得到社保缴费信息
+     * @param 
+     * @return 
+     **/
+    TbSocialInsuranceRecord getSheBaoRecordByIdCard(String idCard);
+    
+    
+    
+    
+    /**
+     * 社保报表  信息查询  客户名称， 身份证号， 社保卡号， 所属公司
+     * @param 
+     * @return 
+     **/
+    List<SheBaoCount> getSheBaoCount(SheBaoCountOperation sheBaoCountOperation);
 
+    /**
+     * 社保报表 导出
+     * @param
+     * @return
+     **/
+    void getSheBaoCountOut(SheBaoCountOperation sheBaoCountOperation, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

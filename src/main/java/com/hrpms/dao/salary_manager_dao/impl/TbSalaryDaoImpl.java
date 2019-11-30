@@ -2,6 +2,7 @@ package com.hrpms.dao.salary_manager_dao.impl;
 
 import com.hrpms.dao.salary_manager_dao.TbSalaryDao;
 import com.hrpms.pojo.TbSalary;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,19 @@ public class TbSalaryDaoImpl implements TbSalaryDao {
         Session session = sessionFactory.getCurrentSession();
         List<TbSalary> tbSalaries = session.createQuery("from TbSalary").list();
         return tbSalaries;
+    }
+
+    @Override
+    public TbSalary getTbSalaryByIdCard(String hql, String idCard) {
+        return (TbSalary) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public TbSalary payCardIsOne(String payCard) {
+        Session session = sessionFactory.getCurrentSession();
+        TbSalary tbSalary = (TbSalary)session.createQuery("from TbSalary where payCard = ?")
+                                                .setParameter(0, payCard)
+                                                 .uniqueResult();
+        return tbSalary;
     }
 }

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -36,6 +38,21 @@
 
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
+
+        $(function () {
+            $.post(
+                "companyClient/selectAllCompanyName",
+                function (json) {
+                    var str="<option value=''>全部</option>";
+                    for(var i=0;i<json.length;i++){
+                        str +="<option value='"+json[i][0]+"'>"+json[i][1]+"</option>"
+                    }
+                    $("#companyId").html(str);
+                },
+                "json"
+            )
+        });
+
         $(document).ready(function() {
 
         });
@@ -54,7 +71,7 @@
 	<li class="active"><a href="saved_resource.html">公积金费用列表</a></li>
 
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="/report-statistics/selectGongJiJinCountByDuo" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="">
 	<input id="pageSize" name="pageSize" type="hidden" value="">
 	<ul class="ul-form">
@@ -62,19 +79,18 @@
 			<input type="text" name="name" htmlescape="false" maxlength="50" class="input-medium" style="width:150px">
 		</li>
 		<li><label>身份证号：</label>
-			<input type="text" name="idcard" htmlescape="false" maxlength="20" class="input-medium" style="width:150px">
+			<input type="text" name="idCard" htmlescape="false" maxlength="20" class="input-medium" style="width:150px">
 		</li>
 		<li><label>公积金账号：</label>
-			<input type="text" name="sdcard" htmlescape="false" maxlength="50" class="input-medium" style="width:100px">
+			<input type="text" name="accountNo" htmlescape="false" maxlength="50" class="input-medium" style="width:100px">
 		</li>
 		<li><label>所属公司：</label>
-			<select name="companyId" style="width:150px" tabindex="-1" class="select2-offscreen">
-				<option value=""></option>
-				<option value="">智递科技有限公司</option>
+			<select id="companyId" name="companyId" style="width:150px" tabindex="-1" class="select2-offscreen">
+
 			</select>
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="统计"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='report-statistics/gongJiJInCountDownload'" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
@@ -95,58 +111,40 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			智递科技
-		</td>
-		<td>
-			18
-		</td>
-		<td>
-			12560
-		</td>
-		<td>
-			1350
-		</td>
-		<td>
-			正常
-		</td>
-	</tr>
-	<tr>
-		<td>
-			智递哥2
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			智递科技
-		</td>
-		<td>
-			18
-		</td>
-		<td>
-			12560
-		</td>
-		<td>
-			1350
-		</td>
-		<td>
-			正常
-		</td>
-	</tr>
+	<c:forEach items="${list}" var="gongjijin">
+		<tr>
+			<td>
+					${gongjijin[0]}
+			</td>
+			<td>
+					${gongjijin[1]}
+			</td>
+			<td>
+					${gongjijin[2]}
+			</td>
+			<td>
+					${gongjijin[3]}
+			</td>
+			<td>
+					${gongjijin[4]}
+			</td>
+			<td>
+					<fmt:formatNumber value="${gongjijin[5]}" pattern="0.00"/>
+			</td>
+			<td>
+					<fmt:formatNumber value="${gongjijin[6]}" pattern="0.00"/>
+			</td>
+			<td>
+				<c:if test="${gongjijin[7]=='0'}" var="bo">
+					未缴
+				</c:if>
+				<c:if test="${!bo}">
+					已缴
+				</c:if>
+			</td>
+		</tr>
+	</c:forEach>
+
 
 	</tbody>
 </table>

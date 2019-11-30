@@ -158,7 +158,7 @@
 <div id="main" style="width: auto;">
     <div id="header" class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-            <div class="brand"><span id="productName">安思普惠人事代理系统</span></div>
+            <div class="brand"><span id="productName">上海晟宏人事代理系统</span></div>
             <ul id="userControl" class="nav pull-right">
                 <%--<li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
                 <li id="themeSwitch" class="dropdown">
@@ -361,17 +361,17 @@
                         <div id="collapse-07070e9f5f504140ac5327d9ea387ab1" class="accordion-body collapse ">
                             <div class="accordion-inner">
                                 <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="shebaoCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
+                                    <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="shebao/shebaoCount" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>
                                     </li>
-                                    <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="gongjijinCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
+                                    <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="report-statistics/selectGongJiJinCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>
                                     </li>
-                                    <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="salaryCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
+                                    <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="report-statistics/selectSalaryCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul>

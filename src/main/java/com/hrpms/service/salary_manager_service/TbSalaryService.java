@@ -47,4 +47,14 @@ public interface TbSalaryService {
 
     //查询所有工资信息
     public List<TbSalary> selectAllGongjijin();
+
+    /**
+     * 根据idcard 查询所有
+     * @param
+     * @return
+     **/
+    TbSalary getTbSalaryByIdCard(String idCard);
+
+    //银行卡号唯一验证
+    public TbSalary payCardIsOne(String payCard);
 }

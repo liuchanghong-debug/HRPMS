@@ -3,6 +3,7 @@ package com.hrpms.dao.shebao_manager_dao.impl;
 import com.hrpms.dao.shebao_manager_dao.SheBaoDao;
 import com.hrpms.pojo.TbSocialInsurance;
 import com.hrpms.pojo.TbSocialInsuranceRecord;
+import com.hrpms.pojo.operaton_select.SheBaoCountOperation;
 import com.hrpms.pojo.operaton_select.TbSocialInsuranceOperation;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +105,27 @@ public class SheBaoDaoImpl implements SheBaoDao {
     @Override
     public Object shebaoSbCardIsOnlyUpdate(String hql, Integer id, String sbCard) {
         return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, sbCard).uniqueResult();
+    }
+
+    @Override
+    public TbSocialInsurance getSheBaoByIdCard(String hql, String idCard) {
+        return (TbSocialInsurance) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public TbSocialInsuranceRecord getSheBaoRecordByIdCard(String hql, String idCard) {
+        return (TbSocialInsuranceRecord) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, idCard).uniqueResult();
+    }
+
+    @Override
+    public List<Object[]> shebaoStatements(String hql, SheBaoCountOperation sheBaoCountOperation) {
+        //return sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).setFirstResult(sheBaoCountOperation.getStartIndex()).setMaxResults(sheBaoCountOperation.getPageSize()).list();
+        return sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).list();
+
+    }
+
+    @Override
+    public Long shebaoCount(String hql, SheBaoCountOperation sheBaoCountOperation) {
+        return Long.valueOf(String.valueOf(sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).uniqueResult()));
     }
 }

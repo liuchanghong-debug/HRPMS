@@ -31,12 +31,12 @@
 	<script src="js/static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
 	<script src="js/static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 	<script src="js/static/common/mustache.min.js" type="text/javascript"></script>
-	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
-	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
+	<%--<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />--%>
+	<%--<script src="js/static/common/jeesite.js" type="text/javascript"></script>--%>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
-
+	<script src="js/static/verify/LaoWuUpdate.js"></script>
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -57,35 +57,6 @@
                 }
             });
         });
-
-        function getCompanyMessByCompayId(id) {
-            $("#companyJob").attr("style", "display: none");
-            $("#companyPrice").val(null);
-            $("#startTime").val(null);
-            $("#endTime").val(null);
-            $("#jobContent").text("");
-
-            if(id != "" && id != null){
-                $.get(
-                    //通过公司得到期望薪资差不多的求职信息
-                    "laowu/getPersonByCompanyIdForPrice",
-                    {"id":id},
-                    function (json) {
-                        var companyJob = json.needJobs;
-                        var str = "<option value=''>请选择</option>";
-                        for (var i = 0; i < companyJob.length; i++) {
-                            var id = companyJob[i].id;
-                            var jobName = companyJob[i].jobName;
-                            str += "<option value='" + id + "'>" + jobName + "</option>";
-                        }
-                        $("#companyJob").removeAttr("style").append(str).attr("onchange", "getDetailNeedJobById(this.value)");
-
-                        $("#companyId").removeAttr("onchange").attr("onchange", "getPersonByCompanyIdForPrice(this.value)");
-                    },
-                    "json"
-                );
-            }
-        }
 	</script>
 
 </head>
@@ -93,14 +64,14 @@
 
 <ul class="nav nav-tabs">
 	<li><a href="laowu/laowuList">劳务合作列表</a></li>
-	<li class="active"><a href="laowu/laowuToUpdate?id=${personJob.id}&currentPage=${page.currentPage}&nameQuer=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">劳务合作修改</a></li>
+	<li class="active"><a href="laowu/laowuToUpdate?id=${personJob.id}&currentPage=${currentPage}&nameQuer=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">劳务合作修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="laowu/laowuUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<input type="hidden" name="nameQuery" value=""${personJobOperation.nameQuery}>
 	<input type="hidden" name="idCardQuery" value="${personJobOperation.idCardQuery}">
 	<input type="hidden" name="companyIdQuery" value="${personJobOperation.companyIdQuery}">
 	<input type="hidden" name="currentPage" value="${currentPage}">
-	<input type="hidden" name="id" value="${personJob.id}">
+	<input type="hidden" id="id" name="id" value="${personJob.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -113,14 +84,13 @@
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
 				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${personJob.idCard}" disabled maxlength="20">
-				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="companyId" name="companyId" onchange="getCompanyMessByCompayId(this.value)" class="input-xlarge" >
+				<select id="company" name="company" onchange="getCompanyMessByCompanyId(this.value)">
 					<c:forEach items="${companys}" var="company">
 						<c:if test="${company.id == personJob.companyId}">
 							<option value="${company.id}" selected="selected">${company.name}</option>
@@ -131,15 +101,21 @@
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
-
+				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)">
+					<c:forEach items="${companyJobs}" var="companyJob">
+						<c:if test="${companyJob.id == personJob.companyId}">
+							<option value="${companyJob.id}" selected="selected">${companyJob.jobName}</option>
+						</c:if>
+						<c:if test="${companyJob.id != personJob.companyId}">
+							<option value="${companyJob.id}">${companyJob.jobName}</option>
+						</c:if>
+					</c:forEach>
 				</select>
 			</td>
 			<td>
 				<label class="control-label">工作类型：</label>
 			</td><td>
 			<select name="jobType" style="width:280px;" disabled class="select2-offscreen">
-				<option value="0">兼职</option>
 				<c:forEach items="${jobTypes}" var="jobType">
 					<c:if test="${jobType.value == personJob.jobType}">
 						<option value="${jobType.value}">${jobType.label}</option>
@@ -162,12 +138,12 @@
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
-				<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
 			</td>
 		</tr>
 		<tr>

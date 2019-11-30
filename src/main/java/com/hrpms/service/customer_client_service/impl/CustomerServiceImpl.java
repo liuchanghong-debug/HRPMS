@@ -1,12 +1,13 @@
 package com.hrpms.service.customer_client_service.impl;
 
 import com.hrpms.dao.customer_client_dao.CustomerDao;
-import com.hrpms.pojo.TbCompany;
-import com.hrpms.pojo.TbCustomer;
-import com.hrpms.pojo.TbSystemDict;
+import com.hrpms.pojo.*;
 import com.hrpms.pojo.operaton_select.TbCustomerOperation;
 import com.hrpms.service.company_client_service.CompanyClientService;
 import com.hrpms.service.customer_client_service.CustomerService;
+import com.hrpms.service.gongjijin_manager_service.TbAccumulationFundService;
+import com.hrpms.service.salary_manager_service.TbSalaryService;
+import com.hrpms.service.shebao_manager_service.SheBaoService;
 import com.hrpms.service.system_setting_service.data_dict_service.DataDictService;
 import com.hrpms.utils.DataOutOfExcel;
 import com.hrpms.utils.Download;
@@ -24,7 +25,10 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -43,6 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
     private CompanyClientService companyClientService;
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private TbSalaryService tbSalaryService;
+    @Autowired
+    private SheBaoService sheBaoService;
+    @Autowired
+    private TbAccumulationFundService tbAccumulationFundService;
 
 
     @Override
@@ -89,7 +99,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void customerUpdate(TbCustomer customer) {
+    public void customerUpdate(TbCustomer customer, Integer updateBy) {
+        //从数据库中获取值  非页面字段为 创建时间，创建者，删除标志
+        TbCustomer byId = customerDao.customerById(customer.getId());
+        String idCard = byId.getIdCard();
         //如果代发工资， 代缴社保， 代缴公积金 为空，默认值为1；
         if(customer.getIsSalary() == null && !"".equals(customer.getIsSalary())){
             customer.setIsSalary("1");
@@ -101,16 +114,59 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setIsGongJiJin("1");
         }
         //修改时间
-        customer.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        //从数据库中获取值  非页面字段为 创建时间，创建者，删除标志
-        TbCustomer byId = customerDao.customerById(customer.getId());
-        customer.setDelFlag(byId.getDelFlag());
-        customer.setCreateBy(byId.getCreateBy());
-        customer.setCreateTime(byId.getCreateTime());
+        byId.setUpdateBy(updateBy);
+        byId.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        byId.setIsSalary(customer.getIsSalary());
+        byId.setIsSheBao(customer.getIsSheBao());
+        byId.setIsGongJiJin(customer.getIsGongJiJin());
+        byId.setName(customer.getName());
+        byId.setIdCard(customer.getIdCard());
+        byId.setSex(customer.getSex());
+        byId.setBirthday(customer.getBirthday());
+        byId.setPhone(customer.getPhone());
+        byId.setEmail(customer.getEmail());
+        byId.setAddress(customer.getAddress());
+        byId.setZipCode(customer.getZipCode());
+        byId.setSchool(customer.getSchool());
+        byId.setSpecialty(customer.getSpecialty());
+        byId.setGraduation(customer.getGraduation());
+        byId.setCompanyId(customer.getCompanyId());
+        byId.setCustomerType(customer.getCustomerType());
+        byId.setRemark(customer.getRemark());
+        byId.setStatus(customer.getStatus());
+        customerDao.customerUpdate(byId);
 
 
+        //修改工资表中的信息
+        TbSalary tbSalaryByIdCard = tbSalaryService.getTbSalaryByIdCard(idCard);
+        if(tbSalaryByIdCard !=  null){
+            tbSalaryByIdCard.setName(byId.getName());
+            tbSalaryByIdCard.setIdCard(byId.getIdCard());
+            tbSalaryService.updateSalaryById(tbSalaryByIdCard);
+        }
+        //修改社保记录表中的信息
+        TbSocialInsurance sheBaoByIdCard = sheBaoService.getSheBaoByIdCard(idCard);
+        if(sheBaoByIdCard != null){
+            sheBaoByIdCard.setName(byId.getName());
+            sheBaoByIdCard.setIdCard(byId.getIdCard());
+            sheBaoService.shebaoUpdate(sheBaoByIdCard, null);
+        }
+        //修改社保缴费表中的信息
+        TbSocialInsuranceRecord sheBaoRecordByIdCard = sheBaoService.getSheBaoRecordByIdCard(idCard);
+        if(sheBaoRecordByIdCard != null){
+            sheBaoRecordByIdCard.setName(byId.getName());
+            sheBaoRecordByIdCard.setIdCard(byId.getIdCard());
+            sheBaoService.shebaoRecordUpdate(sheBaoRecordByIdCard, null);
+        }
+        //修改公积金表中的信息
+        TbAccumulationFund accumulationFundByIdCard = tbAccumulationFundService.getAccumulationFundByIdCard(idCard);
+        if(accumulationFundByIdCard != null){
+            accumulationFundByIdCard.setName(byId.getName());
+            accumulationFundByIdCard.setIdCard(byId.getIdCard());
+            tbAccumulationFundService.updateAccumulationById(accumulationFundByIdCard);
+        }
 
-        customerDao.customerUpdate(customer);
+
     }
 
     @Override
@@ -301,4 +357,5 @@ public class CustomerServiceImpl implements CustomerService {
     public TbCustomer selectCustomerByPhone(String phone) {
         return customerDao.selectCustomerByPhone(phone);
     }
+
 }

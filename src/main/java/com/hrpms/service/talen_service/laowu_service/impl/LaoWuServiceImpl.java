@@ -144,8 +144,13 @@ public class LaoWuServiceImpl implements LaoWuService {
     }
 
     @Override
-    public List<Integer> getAllCompanyIdAndName() {
-        return zhaoPinService.getNormalZhaoPinCompanyId();
+    public Set<Integer> getAllCompanyIdAndName() {
+        List<Integer> normalZhaoPinCompanyId = zhaoPinService.getNormalZhaoPinCompanyId();
+        Set<Integer> set = new HashSet<>();
+        for (Integer id : normalZhaoPinCompanyId){
+            set.add(id);
+        }
+        return set;
     }
 
     @Override
@@ -164,8 +169,15 @@ public class LaoWuServiceImpl implements LaoWuService {
     }
 
     @Override
-    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
-        return zhaoPinService.getAllJobByCompanyId(id);
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id, Integer personId) {
+        List<TbNeedJob> allJobByCompanyId = zhaoPinService.getAllJobByCompanyId(id);
+        TbPerson detailPersonById = getDetailPersonById(personId);
+        for (TbNeedJob tbNeedJob : allJobByCompanyId){
+            if(tbNeedJob.getPrice() + 1000 >= detailPersonById.getForPrice() && tbNeedJob.getPrice() - 1000 <= detailPersonById.getForPrice()){
+                allJobByCompanyId.remove(tbNeedJob);
+            }
+        }
+        return allJobByCompanyId;
     }
 
     @Override
@@ -178,6 +190,10 @@ public class LaoWuServiceImpl implements LaoWuService {
         Map map = new HashMap(2);
         Set<TbPerson> personsByPrice = new HashSet<>();
         List<TbNeedJob> needJobs = zhaoPinService.getAllJobByCompanyId(companyId);
+        Set<TbNeedJob> tbNeedJobs = new HashSet<>();
+        for (TbNeedJob needJob : needJobs){
+            tbNeedJobs.add(needJob);
+        }
         for (TbNeedJob tbNeedJob : needJobs){
             Double price = tbNeedJob.getPrice();
             List<TbPerson> personsByPrice1 = personService.getPersonsByPrice(price);
@@ -185,7 +201,7 @@ public class LaoWuServiceImpl implements LaoWuService {
                 personsByPrice.add(tbPerson);
             }
         }
-        map.put("needJobs", needJobs);
+        map.put("needJobs", tbNeedJobs);
         map.put("persons", personsByPrice);
         return map;
     }
@@ -219,5 +235,29 @@ public class LaoWuServiceImpl implements LaoWuService {
     @Override
     public TbPerson getDetailPersonById(Integer id) {
         return personService.personDetailById(id);
+    }
+
+    @Override
+    public List<TbNeedJob> getNeedJobByCompanyIdAndPersonPrice(Integer companyId, Double price) {
+        List<TbNeedJob> allJobByCompanyId = zhaoPinService.getAllJobByCompanyId(companyId);
+        List<TbNeedJob> list = new ArrayList<>();
+        for (TbNeedJob needJob : allJobByCompanyId){
+            if(needJob.getPrice() + 1000 >= price && needJob.getPrice() - 1000 <= price){
+                list.add(needJob);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public TbNeedJob getDetailNeedJobById(Integer id) {
+        return zhaoPinService.selectNeedJobById(id);
+    }
+
+    @Override
+    public List<TbNeedJob> getNeedJobsByPersonJobId(Integer id) {
+        TbPersonJob tbPersonJob = laowuDetailById(id);
+        TbNeedJob detailNeedJobById = getDetailNeedJobById(tbPersonJob.getCompanyId());
+        return getNeedJobByCompanyIdAndPersonPrice(detailNeedJobById.getCompanyId(), tbPersonJob.getPersonPrice());
     }
 }

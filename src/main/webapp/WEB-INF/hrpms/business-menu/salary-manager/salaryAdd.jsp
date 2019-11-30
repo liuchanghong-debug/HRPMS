@@ -37,6 +37,7 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
 		var customer =null;
+		var bpaycard = false;
 		$(function () {
 			$.post(
 			    "customerClient/selectAllCustomerName",
@@ -101,8 +102,43 @@
                 proxy= parseFloat($(this).val());
 				$("#totalpay").val(baseSalary+bonus+overtimepay);
 				$("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
-            })
+            });
+
+			//银行卡号正则加唯一验证
+			$("#paycard").blur(function () {
+				var paycard = $(this).val();
+				var res = /^([1-9]{1})(\d{14}|\d{18})$/;
+				bpaycard = res.test(paycard);
+				if(bpaycard){		//正则通过验证
+				    $.post(
+				        "salary-manager/payCardIsOne",
+						{"payCard":paycard},
+						function (json) {
+							if(json){
+                                bpaycard=true;
+                                $("#payCardIsOne").html("<font color='green' size='6'>√</font>");
+							}else {
+                                bpaycard=false;
+                                $("#payCardIsOne").html("<font color='red' size='6'>×</font>");
+							}
+                        },
+						"json"
+					)
+
+				}else{
+                    $("#payCardIsOne").html("<font color='red'>银行卡号格式不对！</font>");
+				}
+            });
+
         });
+
+        function sub(){
+            if(bpaycard){
+                document.forms[0].submit();
+            }else{
+                document.getElementById("#btnSubmit").disabled=true;
+            }
+        }
 
 
         $(document).ready(function() {
@@ -156,6 +192,7 @@
 			<td><label class="control-label">银行卡号：</label></td>
 			<td>
 				<input id="paycard" name="payCard" class="input-xlarge " type="text" value="" maxlength="20">
+				<span class="help-inline" id="payCardIsOne"></span>
 			</td>
 			<td><label class="control-label">基本工资：</label></td>
 			<td>
@@ -218,7 +255,7 @@
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" value="保 存" onclick="return sub()">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

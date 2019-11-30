@@ -1,5 +1,9 @@
 package com.hrpms.utils;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -45,6 +49,38 @@ public class DataOutOfExcel {
 
         workbook.write(outputStream);
         outputStream.close();
+    }
+    
+    /**
+     * 统计数据导出
+     * @param Map key:fileName val:导出文件名; key:sheetName val:导出表格空间名； key:name  value:头List  ；key:dataList, value: List<List>
+     * @return
+     **/
+    public static void dataCountOut(Map map, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+        HSSFSheet sheet = hssfWorkbook.createSheet((String) map.get("sheetName"));
+        //表头
+        List<String> name = (List<String>) map.get("headName");
+        HSSFRow row1 = sheet.createRow(0);
+        row1.createCell(0).setCellValue("编号");
+        for (int i = 0; i < name.size(); i++) {
+            HSSFCell cell = row1.createCell(i + 1);
+            cell.setCellValue(name.get(i));
+        }
+        //数据
+        List<List> data = (List<List>) map.get("dataList");
+        for (int i = 0; i < data.size(); i++) {
+            Row row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(i + 1);
+            for (int j = 0; j < data.get(i).size(); j++) {
+                row.createCell(j + 1).setCellValue(String.valueOf(data.get(i).get(j)));
+            }
+        }
+        response.setContentType("application/octer-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + DownLoadMessyCode.setDownloadFileName(String.valueOf(map.get("fileName")), request) + ".xls");
+        ServletOutputStream outputStream = response.getOutputStream();
 
+        hssfWorkbook.write(outputStream);
+        outputStream.close();
     }
 }

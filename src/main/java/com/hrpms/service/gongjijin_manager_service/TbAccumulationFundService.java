@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 public interface TbAccumulationFundService {
@@ -38,4 +37,6 @@ public interface TbAccumulationFundService {
 
     //公积金账号唯一验证
     public TbAccumulationFund accountNoIsOne(String accountNo);
+
+    public TbAccumulationFund getAccumulationFundByIdCard(String idCard);
 }
