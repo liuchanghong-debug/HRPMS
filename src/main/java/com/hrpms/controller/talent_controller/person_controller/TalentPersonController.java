@@ -30,7 +30,6 @@ import java.io.IOException;
 public class TalentPersonController {
     @Autowired
     private PersonService personService;
-
     
     /**
      * 分页条件查询
@@ -70,6 +69,9 @@ public class TalentPersonController {
     public String personToAdd(Model model){
         model.addAttribute("jobTypes", personService.getDictsByName("工作类型"));
         model.addAttribute("statuss", personService.getDictsByName("人才状态"));
+        //正常状态的客户信息添加到页面中进行选择  不需要已经存在的人才信息不显示
+        model.addAttribute("customerList", personService.normalCustomerOfIdAndName());
+
         return "business-menu/talent-service/personAdd";
     }
 
@@ -156,5 +158,14 @@ public class TalentPersonController {
     public Object personIdCardIsOnlyUpdate(Integer id, String idCard){
         return personService.personIdCardIsOnlyUpdate(id, idCard);
     }
-
+    /**
+     * 添加用  选中姓名返回idCard  通过customer的id查询
+     * @param 
+     * @return 
+     **/
+    @RequestMapping("/personIdCardById")
+    @ResponseBody
+    public Object personIdCardById(Integer customerId){
+        return personService.customerIdCardById(customerId);
+    }
 }

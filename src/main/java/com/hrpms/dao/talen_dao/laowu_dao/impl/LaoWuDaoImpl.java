@@ -1,6 +1,7 @@
 package com.hrpms.dao.talen_dao.laowu_dao.impl;
 
 import com.hrpms.dao.talen_dao.laowu_dao.LaoWuDao;
+import com.hrpms.pojo.TbNeedJob;
 import com.hrpms.pojo.TbPersonJob;
 import com.hrpms.pojo.operaton_select.TbPersonJobOperation;
 import org.hibernate.SessionFactory;
@@ -57,5 +58,10 @@ public class LaoWuDaoImpl implements LaoWuDao {
     @Override
     public TbPersonJob getPersonJobById(Integer id) {
         return (TbPersonJob) sessionFactory.getCurrentSession().get(TbPersonJob.class, id);
+    }
+
+    @Override
+    public List<TbNeedJob> getAllNeedJobs(String hql) {
+        return sessionFactory.getCurrentSession().createQuery(hql).list();
     }
 }

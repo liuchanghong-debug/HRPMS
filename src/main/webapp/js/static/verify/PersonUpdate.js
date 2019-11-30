@@ -87,7 +87,7 @@ $(function () {
 });
 
 function inputFormSubmit() {
-    $("input").keyup();
+    var a = $("input").keyup();
     if(!(name && idCard && jobIntentsion && forPrice && forAddress)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {

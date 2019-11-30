@@ -31,7 +31,7 @@ public class TbPersonJob {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;//开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endTime;//接收时间
+    private Date endTime;//结束时间
     private String contractUrl;//合同url
     private String status;//状态  0 正常  1 停止
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")

@@ -102,4 +102,9 @@ public class CustomerDaoImpl implements CustomerDao {
     public Object customerIdCardIsOnlyUpdate(String hql, Integer id, String idCard) {
         return sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, id).setParameter(1, idCard).uniqueResult();
     }
+
+    @Override
+    public List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList) {
+        return sessionFactory.getCurrentSession().createQuery(hql).setParameterList("status", statusList).setParameterList("idCards", idCardList).list();
+    }
 }

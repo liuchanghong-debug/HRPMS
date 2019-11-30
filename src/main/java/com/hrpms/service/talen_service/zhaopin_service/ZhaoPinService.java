@@ -85,4 +85,10 @@ public interface ZhaoPinService {
      * @return
      **/
     List<TbNeedJob> getAllJobByCompanyId(Integer id);
+    /**
+     * 根据公司和价格得到职位信息
+     * @param 
+     * @return 
+     **/
+    List<TbNeedJob> getAllJobByCompanyIdAndPrice(Integer companyId, Double price);
 }

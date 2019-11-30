@@ -1,6 +1,7 @@
 package com.hrpms.controller.talent_controller.laowu_controller;
 
 import com.hrpms.pojo.TbNeedJob;
+import com.hrpms.pojo.TbPerson;
 import com.hrpms.pojo.TbPersonJob;
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.pojo.operaton_select.TbPersonJobOperation;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -33,7 +37,7 @@ public class TalentLaoWuController {
     private LaoWuService laoWuService;
 
     /**
-     * 分页查询
+     * 分页多条件查询
      * @param 
      * @return 
      **/
@@ -41,13 +45,13 @@ public class TalentLaoWuController {
     public String laowuList(@RequestParam(defaultValue = "1") Integer currentPage, TbPersonJobOperation personJobOperation, Model model){
         model.addAttribute("jobTypes", laoWuService.getDictsByName("工作类型"));
         model.addAttribute("personJobOperation", personJobOperation);
+
         model.addAttribute("companys", laoWuService.getAllCompanys());
+        model.addAttribute("needJobs", laoWuService.getAllNeedJobs());
         model.addAttribute("page", laoWuService.getPersonJobByOperation(currentPage, personJobOperation));
 
         return "business-menu/talent-service/laoWuList";
     }
-
-
     /**
      * 添加页面
      * @param
@@ -55,7 +59,9 @@ public class TalentLaoWuController {
      **/
     @RequestMapping("/laowuToAdd")
     public String laowuToAdd(Model model){
+        //人才信息
         model.addAttribute("persons", laoWuService.getAllPersonIdAndName());
+        //有哪些公司有招聘信息  一个id, 一个name
         model.addAttribute("companyIds", laoWuService.getAllCompanyIdAndName());
         model.addAttribute("companyIdAndNames", laoWuService.getAllCompanys());
         model.addAttribute("jobTypes", laoWuService.getDictsByName("工作类型"));
@@ -64,34 +70,77 @@ public class TalentLaoWuController {
         return "business-menu/talent-service/laoWuAdd";
     }
     /**
-     * 根据person id查询个人和公司信息
+     * 根据person id查询个人和公司信息    劳务添加
      * @param
      * @return
      **/
     @RequestMapping("/getPersonAndCompanyById")
     @ResponseBody
-    public Object getPersonAndCompanyById(Integer id){
-        return laoWuService.getPersonAndCompanyById(id);
+    public Object getPersonAndCompanyById(Integer personId){
+        return laoWuService.getPersonAndCompanyById(personId);
     }
     /**
-     * 根据公司id得到其所有的职位信息
+     * 根据公司id得到其所有的职位信息    劳务添加
      * @param 
      * @return 
      **/
     @RequestMapping("/getAllJobByCompanyId")
     @ResponseBody
-    public Object getAllJobByCompanyId(Integer id, Integer personId){
-        return laoWuService.getAllJobByCompanyId(id, personId);
+    public Object getAllJobByCompanyId(Integer companyId, Integer personId){
+        return laoWuService.getAllJobByCompanyId(companyId, personId);
     }
+    /**
+     * 根据招聘id得到合适的person  和 need job 详细信息
+     * @param
+     * @return
+     **/
+    @RequestMapping("/getPersonsAndNeedJobByNeedJobId")
+    @ResponseBody
+    public Object getPersonsAndNeedJobByNeedJobId(Integer needJobId){
+        TbNeedJob needJob = laoWuService.getDetailNeedJobById(needJobId);
+        List<TbPerson> personList = laoWuService.getPersonsByNeedJobPrice(needJob.getPrice());
+
+        Map map = new HashMap(2);
+        map.put("tbNeedJob", needJob);
+        map.put("persons", personList);
+        return map;
+    }
+    /**
+     * 根据personId得到Person详细信息
+     * @param
+     * @return
+     **/
+    @RequestMapping("/getPersonDetatilById")
+    @ResponseBody
+    public Object getPersonDetatilById(Integer personId){
+        return laoWuService.getDetailPersonById(personId);
+    }
+
+    /**
+     * 根据personId得到详细信息， 同时根据personPrice, companyId得到其公司下的匹配的招聘信息
+     * @param
+     * @return
+     **/
+    @RequestMapping("/getPersonAndNeedJobsById")
+    @ResponseBody
+    public Object getPersonAndNeedJobsById(Integer personId, Integer companyId){
+        Map map = new HashMap(2);
+        TbPerson person = laoWuService.getDetailPersonById(personId);
+        map.put("person", person);
+        map.put("needJobs", laoWuService.getNeedJobByCompanyIdAndPrice(companyId, person.getForPrice()));
+        return map;
+    }
+
+
     /**
      * 根据需求id得到详细信息
      * @param
      * @return
      **/
-    @RequestMapping("/getNeedJobById")
+    @RequestMapping("/getNeedJobDetailById")
     @ResponseBody
-    public TbNeedJob getNeedJobById(Integer id){
-        return laoWuService.getDetailById(id);
+    public TbNeedJob getNeedJobById(Integer needJobId){
+        return laoWuService.getDetailNeedJobById(needJobId);
     }
 
     /**
@@ -99,13 +148,13 @@ public class TalentLaoWuController {
      * @param
      * @return
      **/
-    @RequestMapping("/getPersonByCompanyIdForPrice")
+    @RequestMapping("/getPersonsAndCompanyByCompanyId")
     @ResponseBody
     public Object getPersonByCompanyIdForPrice(Integer companyId){
         return laoWuService.getPersonByCompanyIdForPrice(companyId);
     }
     /**
-     * 通过公司id和个人信息中的需求工作得到其公司下的招聘信息
+     * 通过公司id和个人信息中的工资得到其公司下的招聘信息
      * @param 
      * @return 
      **/
@@ -135,7 +184,7 @@ public class TalentLaoWuController {
     public String laowuDetailById(Integer id, Model model){
         TbPersonJob tbPersonJob = laoWuService.laowuDetailById(id);
         model.addAttribute("personJob", tbPersonJob);
-        model.addAttribute("needJob", laoWuService.getDetailById(tbPersonJob.getCompanyId()));
+        model.addAttribute("needJob", laoWuService.getDetailNeedJobById(tbPersonJob.getCompanyId()));
         model.addAttribute("companyIdAndNames", laoWuService.getAllCompanys());
         model.addAttribute("jobTypes", laoWuService.getDictsByName("工作类型"));
         model.addAttribute("statuss", laoWuService.getDictsByName("合作状态"));
@@ -160,13 +209,15 @@ public class TalentLaoWuController {
     public String laowuToUpdate(Integer id, Integer currentPage, TbPersonJobOperation personJobOperation, Model model){
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("personJobOperation", personJobOperation);
+        //劳务信息
         TbPersonJob tbPersonJob = laoWuService.laowuDetailById(id);
         model.addAttribute("personJob", tbPersonJob);
         //通过价格查询所有合适的招聘公司信息
         model.addAttribute("companys", laoWuService.getNeedJobsByJobType(tbPersonJob.getPersonPrice()));
+        model.addAttribute("needJobs", laoWuService.getAllNeedJobs());
         //将公司所有的劳务信息传过去  默认选中
-
         model.addAttribute("companyJobs", laoWuService.getNeedJobsByPersonJobId(id));
+
         model.addAttribute("jobTypes", laoWuService.getDictsByName("工作类型"));
         model.addAttribute("statuss", laoWuService.getDictsByName("合作状态"));
 
@@ -204,16 +255,5 @@ public class TalentLaoWuController {
     @ResponseBody
     public Object getDetailPersonById(Integer id){
         return laoWuService.getDetailPersonById(id);
-    }
-
-    /**
-     * 根据needJob的id查询needJob的详细信息
-     * @param
-     * @return
-     **/
-    @RequestMapping("/getDetailNeedJobById")
-    @ResponseBody
-    public Object getDetailNeedJobById(Integer id){
-        return laoWuService.getDetailNeedJobById(id);
     }
 }

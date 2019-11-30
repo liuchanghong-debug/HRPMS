@@ -72,4 +72,11 @@ public interface PersonDao {
      * @return
      **/
     Object personIdCardIsOnlyUpdate(String hql, Integer id, String idCard);
+
+    /**
+     * 获取人才表中所有状态正常的idCard
+     * @param
+     * @return
+     **/
+    List<String> normalPersonOfIdCard(String hql, List<String> status);
 }
