@@ -124,4 +124,5 @@ public interface CustomerService {
 
     //根据电话号码查询所有
     public TbCustomer selectCustomerByPhone(String phone);
+
 }

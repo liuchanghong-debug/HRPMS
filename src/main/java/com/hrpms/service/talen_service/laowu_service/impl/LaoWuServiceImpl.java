@@ -169,8 +169,15 @@ public class LaoWuServiceImpl implements LaoWuService {
     }
 
     @Override
-    public List<TbNeedJob> getAllJobByCompanyId(Integer id) {
-        return zhaoPinService.getAllJobByCompanyId(id);
+    public List<TbNeedJob> getAllJobByCompanyId(Integer id, Integer personId) {
+        List<TbNeedJob> allJobByCompanyId = zhaoPinService.getAllJobByCompanyId(id);
+        TbPerson detailPersonById = getDetailPersonById(personId);
+        for (TbNeedJob tbNeedJob : allJobByCompanyId){
+            if(tbNeedJob.getPrice() + 1000 >= detailPersonById.getForPrice() && tbNeedJob.getPrice() - 1000 <= detailPersonById.getForPrice()){
+                allJobByCompanyId.remove(tbNeedJob);
+            }
+        }
+        return allJobByCompanyId;
     }
 
     @Override
@@ -245,5 +252,12 @@ public class LaoWuServiceImpl implements LaoWuService {
     @Override
     public TbNeedJob getDetailNeedJobById(Integer id) {
         return zhaoPinService.selectNeedJobById(id);
+    }
+
+    @Override
+    public List<TbNeedJob> getNeedJobsByPersonJobId(Integer id) {
+        TbPersonJob tbPersonJob = laowuDetailById(id);
+        TbNeedJob detailNeedJobById = getDetailNeedJobById(tbPersonJob.getCompanyId());
+        return getNeedJobByCompanyIdAndPersonPrice(detailNeedJobById.getCompanyId(), tbPersonJob.getPersonPrice());
     }
 }

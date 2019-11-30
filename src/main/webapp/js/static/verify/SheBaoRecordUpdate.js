@@ -5,26 +5,28 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</sp
 
 $(function () {
     //缴费期间
-    if($("#payMonth").val() != "" && $("#payMonth").val() != null){
-        payMonth = true;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(trueStyle);
-    }else {
-        payMonth = false;
-        $("#payMonth ~ span").remove();
-        $("#payMonth").after(falseStyle);
-    }
+    $("#payMonth").change(function () {
+        if($("#payMonth").val() != "" && $("#payMonth").val() != null){
+            payMonth = true;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(trueStyle);
+        }else {
+            payMonth = false;
+            $("#payMonth ~ span").remove();
+            $("#payMonth").after(falseStyle);
+        }
+    });
 
     $("input").keyup(function () {
         $("#btnSubmit").removeAttr("disabled");
-    }).click(function () {
+    }).change(function () {
         $("#btnSubmit").removeAttr("disabled");
     });
 });
 
 //提交
 function inputFormSubmit() {
-    $("input").keyup();
+    $("input").change();
     if(!(payMonth)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {

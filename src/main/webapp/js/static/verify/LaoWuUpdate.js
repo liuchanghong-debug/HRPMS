@@ -1,8 +1,8 @@
 //验证
 var companyId = false;
 
-var trueStyle = "<span class=\"help-inline\"><span style=\"color: green; \">*</span></span>";
-var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</span></span>";
+var trueStyle = "<span class=\"help-inline\"><span style=\"color: green; \">√</span></span>";
+var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">×</span></span>";
 
 $(function () {
     $("#companyId").change(function () {
@@ -23,7 +23,7 @@ function getCompanyMessByCompanyId(id) {
     $("#companyPrice").val(null);
     $("#startTime").val(null);
     $("#endTime").val(null);
-    $("#jobContent").text("");
+    $("#jobContent").val("");
     $("#companyId").empty().attr("style", "display: none");
 
     if(id != "" && id != null){
@@ -38,7 +38,7 @@ function getCompanyMessByCompanyId(id) {
                     var jobName = needJobs[i].jobName;
                     str += "<option value='" + id + "'>" + jobName + "</option>";
                 }
-                $("#companyId").removeAttr("style").append(str);
+                $("#companyId").removeAttr("style").append(str).change();
             },
             "json"
         );

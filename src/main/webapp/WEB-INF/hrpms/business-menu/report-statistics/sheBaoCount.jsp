@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
@@ -51,30 +52,37 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">社保费用列表</a></li>
+	<li class="active"><a href="shebao/shebaoCount">社保费用列表</a></li>
 
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="shebao/shebaoCount" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="">
 	<input id="pageSize" name="pageSize" type="hidden" value="">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input type="text" name="name" htmlescape="false" maxlength="50" class="input-medium" style="width:150px">
+			<input type="text" name="nameQuery" value="${shebaoCountOperation.nameQuery}" htmlescape="false" maxlength="50" class="input-medium" style="width:150px">
 		</li>
 		<li><label>身份证号：</label>
-			<input type="text" name="idcard" htmlescape="false" maxlength="20" class="input-medium" style="width:150px">
+			<input type="text" name="idCardQuery" value="${shebaoCountOperation.idCardQuery}" htmlescape="false" maxlength="20" class="input-medium" style="width:150px">
 		</li>
 		<li><label>社保卡号：</label>
-			<input type="text" name="sdcard" htmlescape="false" maxlength="50" class="input-medium" style="width:100px">
+			<input type="text" name="sbCardQuery" value="${shebaoCountOperation.sbCardQuery}" htmlescape="false" maxlength="50" class="input-medium" style="width:100px">
 		</li>
 		<li><label>所属公司：</label>
-			<select name="companyId" style="width:150px" tabindex="-1" class="select2-offscreen">
-				<option value=""></option>
-				<option value="">智递科技有限公司</option>
+			<select name="companyIdQuery" style="width:150px" tabindex="-1" class="select2-offscreen">
+				<option value="">查询所有公司</option>
+				<c:forEach items="${companys}" var="company">
+					<c:if test="${company[0] == shebaoCountOperation.companyIdQuery}">
+						<option value="${company[0]}" selected>${company[1]}</option>
+					</c:if>
+					<c:if test="${company[0] != shebaoCountOperation.companyIdQuery}">
+						<option value="${company[0]}">${company[1]}</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="统计"></li>
-		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="submit" value="统计"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
@@ -95,59 +103,18 @@
 	</tr>
 	</thead>
 	<tbody>
-
-	<tr>
-		<td>
-			智递哥
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			智递科技
-		</td>
-		<td>
-			18
-		</td>
-		<td>
-			12560
-		</td>
-		<td>
-			1350
-		</td>
-		<td>
-			正常
-		</td>
-	</tr>
-	<tr>
-		<td>
-			智递哥2
-		</td>
-		<td>
-			412724180000001511
-		</td>
-		<td>
-			1000047
-		</td>
-		<td>
-			智递科技
-		</td>
-		<td>
-			18
-		</td>
-		<td>
-			12560
-		</td>
-		<td>
-			1350
-		</td>
-		<td>
-			正常
-		</td>
-	</tr>
+	<c:forEach items="${page.dataList}" var="shebao">
+		<tr>
+			<td>${shebao.name}</td>
+			<td>${shebao.idCard}</td>
+			<td>${shebao.sbCard}</td>
+			<td>${shebao.companyName}</td>
+			<td>${shebao.sbMonth}</td>
+			<td>${shebao.sbMoneyCount}</td>
+			<td>${shebao.cost}</td>
+			<td>${shebao.status}</td>
+		</tr>
+	</c:forEach>
 
 	</tbody>
 </table>

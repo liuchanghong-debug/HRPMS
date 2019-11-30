@@ -68,7 +68,7 @@ public class DataDictServiceImpl implements DataDictService {
         //条件查询总条数
         Long count = dataDictDao.getCountDataDictByOperation("select count(1) " + stringBuffer.toString(), dataDictOperation);
 
-        Page page = new Page(currentPage, 3, count);
+        Page page = new Page(currentPage, 10, count);
 
         dataDictOperation.setStartIndexQuery(page.getStartIndex());
         dataDictOperation.setPageSize(page.getPageSize());
