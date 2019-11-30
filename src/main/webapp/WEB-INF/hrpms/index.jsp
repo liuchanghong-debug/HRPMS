@@ -158,7 +158,7 @@
 <div id="main" style="width: auto;">
     <div id="header" class="navbar navbar-fixed-top">
         <div class="navbar-inner">
-            <div class="brand"><span id="productName">安思普惠人事代理系统</span></div>
+            <div class="brand"><span id="productName">上海晟宏人事代理系统</span></div>
             <ul id="userControl" class="nav pull-right">
                 <%--<li><a href="index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
                 <li id="themeSwitch" class="dropdown">

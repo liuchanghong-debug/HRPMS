@@ -45,4 +45,7 @@ public interface TbSalaryDao {
      **/
     TbSalary getTbSalaryByIdCard(String hql, String idCard);
 
+    //银行卡号唯一验证
+    public TbSalary payCardIsOne(String payCard);
+
 }
