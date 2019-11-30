@@ -55,9 +55,7 @@
 	<li class="active"><a href="shebao/shebaoCount">社保费用列表</a></li>
 
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="shebao/shebaoCount" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="">
-	<input id="pageSize" name="pageSize" type="hidden" value="">
+<form id="searchForm" class="breadcrumb form-search" action="" method="post" name="operation">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
 			<input type="text" name="nameQuery" value="${shebaoCountOperation.nameQuery}" htmlescape="false" maxlength="50" class="input-medium" style="width:150px">
@@ -81,8 +79,8 @@
 				</c:forEach>
 			</select>
 		</li>
-		<li class="btns"><input class="btn btn-primary" type="submit" value="统计"></li>
-		<li class="btns"><input class="btn btn-primary" type="button" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='shebao/shebaoCount'; operation.submit()" value="统计"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='shebao/shebaoCountOut'; operation.submit()" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
@@ -103,7 +101,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	<c:forEach items="${page.dataList}" var="shebao">
+	<c:forEach items="${data}" var="shebao">
 		<tr>
 			<td>${shebao.name}</td>
 			<td>${shebao.idCard}</td>

@@ -14,8 +14,6 @@ public class SheBaoCountOperation {
     private String sbCardQuery;
     private Integer companyIdQuery;
 
-    private Integer startIndex;
-    private Integer pageSize;
 
     public String getNameQuery() {
         return nameQuery;
@@ -33,13 +31,6 @@ public class SheBaoCountOperation {
         return companyIdQuery;
     }
 
-    public Integer getStartIndex() {
-        return startIndex;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
 
     public void setNameQuery(String nameQuery) {
 
@@ -56,13 +47,5 @@ public class SheBaoCountOperation {
 
     public void setCompanyIdQuery(Integer companyIdQuery) {
         this.companyIdQuery = companyIdQuery;
-    }
-
-    public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
     }
 }

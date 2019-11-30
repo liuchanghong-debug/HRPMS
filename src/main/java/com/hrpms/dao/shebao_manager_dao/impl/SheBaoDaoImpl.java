@@ -119,7 +119,9 @@ public class SheBaoDaoImpl implements SheBaoDao {
 
     @Override
     public List<Object[]> shebaoStatements(String hql, SheBaoCountOperation sheBaoCountOperation) {
-        return sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).setFirstResult(sheBaoCountOperation.getStartIndex()).setMaxResults(sheBaoCountOperation.getPageSize()).list();
+        //return sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).setFirstResult(sheBaoCountOperation.getStartIndex()).setMaxResults(sheBaoCountOperation.getPageSize()).list();
+        return sessionFactory.getCurrentSession().createSQLQuery(hql).setProperties(sheBaoCountOperation).list();
+
     }
 
     @Override
