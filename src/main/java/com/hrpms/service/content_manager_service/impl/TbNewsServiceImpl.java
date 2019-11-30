@@ -43,4 +43,19 @@ public class TbNewsServiceImpl implements TbNewsService {
     public int saveTbNews(TbNews news) {
         return tbNewsDao.saveTbNews(news);
     }
+
+    @Override
+    public void deleteTbNews(int id) {
+        tbNewsDao.deleteTbNews(id);
+    }
+
+    @Override
+    public TbNews selectTbNewsById(int id) {
+        return tbNewsDao.selectTbNewsById(id);
+    }
+
+    @Override
+    public void updateTbNews(TbNews news) {
+        tbNewsDao.updateTbNews(news);
+    }
 }
