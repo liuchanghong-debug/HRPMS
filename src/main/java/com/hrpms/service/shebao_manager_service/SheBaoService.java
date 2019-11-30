@@ -212,5 +212,12 @@ public interface SheBaoService {
      * @param 
      * @return 
      **/
-    Page<SheBaoCount> getSheBaoCount(Integer currentPage, SheBaoCountOperation sheBaoCountOperation);
+    List<SheBaoCount> getSheBaoCount(SheBaoCountOperation sheBaoCountOperation);
+
+    /**
+     * 社保报表 导出
+     * @param
+     * @return
+     **/
+    void getSheBaoCountOut(SheBaoCountOperation sheBaoCountOperation, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -465,35 +465,51 @@ public class SheBaoServiceImpl implements SheBaoService {
 
 
     @Override
-    public Page<SheBaoCount> getSheBaoCount(Integer currentPage, SheBaoCountOperation sheBaoCountOperation) {
-        StringBuffer customerQuery = new StringBuffer("select c.name, c.idCard, s.sbCard, c.coname, s.payMonth, c.updateTime, s.payMoney, s.status from (select * from (select c.name, c.idCard, c.companyId, c.updateTime from tbCustomer c where 1 = 1 ");
+    public List<SheBaoCount> getSheBaoCount(SheBaoCountOperation sheBaoCountOperation) {
+        StringBuffer customerQuery = new StringBuffer("select cs.name, cs.idCard, cs.sbCard, co.coname, cs.payMonth, cs.updateTime, cs.payMoney, cs.status from (select * from (select c.name, c.idCard, c.companyId, c.updateTime from tbCustomer c where 1 = 1 ");
+
+        String oldNameQuery = "";
+        String oldIdCardQuery = "";
+        String oldSbCardQuery = "";
         if(!"".equals(sheBaoCountOperation.getNameQuery()) && sheBaoCountOperation.getNameQuery() != null){
-            sheBaoCountOperation.setNameQuery("%" + sheBaoCountOperation.getNameQuery() + "%");
+            oldNameQuery = sheBaoCountOperation.getNameQuery();
+            sheBaoCountOperation.setNameQuery("%" + oldNameQuery + "%");
             customerQuery.append(" and c.name like :nameQuery");
         }
         if(!"".equals(sheBaoCountOperation.getIdCardQuery()) && sheBaoCountOperation.getIdCardQuery() != null){
-            sheBaoCountOperation.setIdCardQuery("%" + sheBaoCountOperation.getIdCardQuery() + "%");
+            oldIdCardQuery = sheBaoCountOperation.getIdCardQuery();
+            sheBaoCountOperation.setIdCardQuery("%" + oldIdCardQuery + "%");
             customerQuery.append(" and c.idCard like :idCardQuery");
         }
+        customerQuery.append(") c");
 
+        //社保
 
-        customerQuery.append(") c left join (select co.name coname, co.id from tbcompany co where 1 = 1 ");
-        if(sheBaoCountOperation.getCompanyIdQuery() != null){
-            customerQuery.append(" and id = :companyIdQuery");
-        }
-
-
-        customerQuery.append(") co on c.companyId = co.id) c left join (select s.sbCard, s.idCard sidCard, s.payMonth, s.payMoney, s.status from tbsocialinsurancerecord s where 1 = 1 ");
         if(!"".equals(sheBaoCountOperation.getSbCardQuery()) && sheBaoCountOperation.getSbCardQuery() != null){
-            sheBaoCountOperation.setSbCardQuery("%" + sheBaoCountOperation.getSbCardQuery() + "%");
-            customerQuery.append(" and s.sbCard like :sbCardQuery");
+            oldSbCardQuery = sheBaoCountOperation.getSbCardQuery();
+            sheBaoCountOperation.setSbCardQuery("%" + oldSbCardQuery + "%");
+            customerQuery.append(" right join (select s.sbCard, s.idCard sidCard, s.payMonth, s.payMoney, s.status from tbsocialinsurancerecord s where s.sbCard like :sbCardQuery) s ");
+        }else {
+            customerQuery.append(" left join (select s.sbCard, s.idCard sidCard, s.payMonth, s.payMoney, s.status from tbsocialinsurancerecord s) s ");
         }
-        customerQuery.append(") s on c.idCard = s.sidCard");
+        customerQuery.append(" on c.idCard = s.sidCard) cs ");
 
-        Long count = sheBaoDao.shebaoCount("select count(1) from (" + customerQuery + ") a", sheBaoCountOperation);
-        Page<SheBaoCount> page = new Page<>(currentPage, 5, count);
-        sheBaoCountOperation.setStartIndex(page.getStartIndex());
-        sheBaoCountOperation.setPageSize(page.getPageSize());
+
+        //公司
+        if(sheBaoCountOperation.getCompanyIdQuery() != null){
+            customerQuery.append(" right join (select co.name coname, co.id from tbcompany co where id = :companyIdQuery) co");
+        }else {
+            customerQuery.append(" left join (select co.name coname, co.id from tbcompany co) co ");
+        }
+        customerQuery.append(" on cs.companyId = co.id");
+
+
+
+
+        //Long count = sheBaoDao.shebaoCount("select count(1) from (" + customerQuery + ") a", sheBaoCountOperation);
+        //Page<SheBaoCount> page = new Page<>(currentPage, 5, count);
+        //sheBaoCountOperation.setStartIndex(page.getStartIndex());
+        //sheBaoCountOperation.setPageSize(page.getPageSize());
         List<Object[]> list = sheBaoDao.shebaoStatements(customerQuery.toString(), sheBaoCountOperation);
 
         List<SheBaoCount> sheBaoCounts = new ArrayList<>();
@@ -501,8 +517,8 @@ public class SheBaoServiceImpl implements SheBaoService {
             SheBaoCount sheBaoCount = new SheBaoCount();
             sheBaoCount.setName((String) objects[0]);
             sheBaoCount.setIdCard((String) objects[1]);
-            sheBaoCount.setSbCard((String) objects[2]);
             sheBaoCount.setCompanyName((String) objects[3]);
+            String sbCard = (String) objects[2];
             Object payMonth = objects[4];
             Date updateTime = (Date) objects[5];
             Double payMoney = (Double) objects[6];
@@ -512,80 +528,128 @@ public class SheBaoServiceImpl implements SheBaoService {
             String yetPay = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "已交");
             String notPay = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "未交");
             String delPay = dataDictService.getDataDictValueByNameAndLabel("社保缴费状态", "删除");
-            if(status != null){
-                if (status.equals(yetPay)) {
-                    if(payMonth != null){
-                        Date pay = (Date) payMonth;
+            if(sbCard != null){
+                sheBaoCount.setSbCard(sbCard);
+                if(status != null){
+                    if (status.equals(yetPay)) {
+                        if(payMonth != null){
+                            Date pay = (Date) payMonth;
 
-                        Calendar c1 = Calendar.getInstance();
-                        c1.setTime(pay);
-                        Calendar c2 = Calendar.getInstance();
-                        int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
-                        int month = Math.abs(i);
-                        sheBaoCount.setSbMonth(String.valueOf(month));
-                        sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
-                        sheBaoCount.setCost(String.valueOf(month * 80));
-                        sheBaoCount.setStatus("正常");
-                    }else {
-                        sheBaoCount.setSbMonth("暂无信息");
-                        sheBaoCount.setSbMoneyCount("暂无信息");
-                        sheBaoCount.setCost("暂无信息");
-                        sheBaoCount.setStatus("正常");
+                            Calendar c1 = Calendar.getInstance();
+                            c1.setTime(pay);
+                            Calendar c2 = Calendar.getInstance();
+                            int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
+                            int month = Math.abs(i);
+                            sheBaoCount.setSbMonth(String.valueOf(month));
+                            sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
+                            sheBaoCount.setCost(String.valueOf(month * 80));
+                            sheBaoCount.setStatus("正常");
+                        }else {
+                            sheBaoCount.setSbMonth("暂无信息");
+                            sheBaoCount.setSbMoneyCount("暂无信息");
+                            sheBaoCount.setCost("暂无信息");
+                            sheBaoCount.setStatus("正常");
+                        }
                     }
-                }
-                if(status.equals(notPay)){
-                    if(payMonth != null){
-                        Date pay = (Date) payMonth;
-                        Date stop = updateTime;
+                    if(status.equals(notPay)){
+                        if(payMonth != null){
+                            Date pay = (Date) payMonth;
+                            Date stop = updateTime;
 
-                        Calendar c1 = Calendar.getInstance();
-                        c1.setTime(pay);
-                        Calendar c2 = Calendar.getInstance();
-                        c2.setTime(stop);
-                        int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
-                        int month = Math.abs(i);
-                        sheBaoCount.setSbMonth(String.valueOf(month));
-                        sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
-                        sheBaoCount.setCost(String.valueOf(month * 80));
-                        sheBaoCount.setStatus("未交");
-                    }else {
-                        sheBaoCount.setSbMonth("暂无信息");
-                        sheBaoCount.setSbMoneyCount("暂无信息");
-                        sheBaoCount.setCost("暂无信息");
-                        sheBaoCount.setStatus("未交");
+                            Calendar c1 = Calendar.getInstance();
+                            c1.setTime(pay);
+                            Calendar c2 = Calendar.getInstance();
+                            c2.setTime(stop);
+                            int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
+                            int month = Math.abs(i);
+                            sheBaoCount.setSbMonth(String.valueOf(month));
+                            sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
+                            sheBaoCount.setCost(String.valueOf(month * 80));
+                            sheBaoCount.setStatus("未交");
+                        }else {
+                            sheBaoCount.setSbMonth("暂无信息");
+                            sheBaoCount.setSbMoneyCount("暂无信息");
+                            sheBaoCount.setCost("暂无信息");
+                            sheBaoCount.setStatus("未交");
+                        }
                     }
-                }
-                if(status.equals(notPay)){
-                    if(payMonth != null){
-                        Date pay = (Date) payMonth;
-                        Date stop = updateTime;
+                    if(status.equals(notPay)){
+                        if(payMonth != null){
+                            Date pay = (Date) payMonth;
+                            Date stop = updateTime;
 
-                        Calendar c1 = Calendar.getInstance();
-                        c1.setTime(pay);
-                        Calendar c2 = Calendar.getInstance();
-                        c2.setTime(stop);
-                        int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
-                        int month = Math.abs(i);
-                        sheBaoCount.setSbMonth(String.valueOf(month));
-                        sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
-                        sheBaoCount.setCost(String.valueOf(month * 80));
-                        sheBaoCount.setStatus("删除");
-                    }else {
-                        sheBaoCount.setSbMonth("暂无信息");
-                        sheBaoCount.setSbMoneyCount("暂无信息");
-                        sheBaoCount.setCost("暂无信息");
-                        sheBaoCount.setStatus("删除");
+                            Calendar c1 = Calendar.getInstance();
+                            c1.setTime(pay);
+                            Calendar c2 = Calendar.getInstance();
+                            c2.setTime(stop);
+                            int i = c2.get(Calendar.MONDAY) - c1.get(Calendar.MONTH);
+                            int month = Math.abs(i);
+                            sheBaoCount.setSbMonth(String.valueOf(month));
+                            sheBaoCount.setSbMoneyCount(String.valueOf(month * payMoney));
+                            sheBaoCount.setCost(String.valueOf(month * 80));
+                            sheBaoCount.setStatus("删除");
+                        }else {
+                            sheBaoCount.setSbMonth("暂无信息");
+                            sheBaoCount.setSbMoneyCount("暂无信息");
+                            sheBaoCount.setCost("暂无信息");
+                            sheBaoCount.setStatus("删除");
+                        }
                     }
+                }else {
+                    sheBaoCount.setSbMonth("暂无信息");
+                    sheBaoCount.setSbMoneyCount("暂无信息");
+                    sheBaoCount.setCost("暂无信息");
+                    sheBaoCount.setStatus("暂无信息");
                 }
             }else {
+                sheBaoCount.setSbCard("暂无信息");
                 sheBaoCount.setSbMonth("暂无信息");
                 sheBaoCount.setSbMoneyCount("暂无信息");
                 sheBaoCount.setCost("暂无信息");
                 sheBaoCount.setStatus("暂无信息");
             }
+
             sheBaoCounts.add(sheBaoCount);
         }
-        page.setDataList(sheBaoCounts);
-        return page;
+        //page.setDataList(sheBaoCounts);
+        //还原数据
+        sheBaoCountOperation.setNameQuery(oldNameQuery);
+        sheBaoCountOperation.setIdCardQuery(oldIdCardQuery);
+        sheBaoCountOperation.setSbCardQuery(oldSbCardQuery);
+        return sheBaoCounts;
+    }
+
+    @Override
+    public void getSheBaoCountOut(SheBaoCountOperation sheBaoCountOperation, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<SheBaoCount> sheBaoCount = getSheBaoCount(sheBaoCountOperation);
+        Map map = new HashMap();
+        map.put("fileName", new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "  社保统计表");
+        map.put("sheetName", "社保统计数据");
+        List<String> headName = new ArrayList<>();
+        headName.add("客户名称");
+        headName.add("身份证号");
+        headName.add("社保号码");
+        headName.add("所属公司");
+        headName.add("社保月数");
+        headName.add("社保总额");
+        headName.add("费用总额");
+        headName.add("状态");
+        List<List> lists = new ArrayList<>();
+        for (SheBaoCount sheBaoCount1 : sheBaoCount){
+            List list = new ArrayList();
+            list.add(sheBaoCount1.getName());
+            list.add(sheBaoCount1.getIdCard());
+            list.add(sheBaoCount1.getSbCard());
+            list.add(sheBaoCount1.getCompanyName());
+            list.add(sheBaoCount1.getSbMonth());
+            list.add(sheBaoCount1.getSbMoneyCount());
+            list.add(sheBaoCount1.getCost());
+            list.add(sheBaoCount1.getStatus());
+            lists.add(list);
+        }
+        map.put("headName", headName);
+        map.put("dataList", lists);
+
+        DataOutOfExcel.dataCountOut(map, request, response);
     }
 }
