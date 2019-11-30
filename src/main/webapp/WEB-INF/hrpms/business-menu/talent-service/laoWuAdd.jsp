@@ -98,7 +98,7 @@
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
 
 				</select>
             </td>
