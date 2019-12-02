@@ -59,8 +59,8 @@
 	<script type="text/javascript" src="./config.js"></script><style id="cke_ui_color" type="text/css"></style><link rel="stylesheet" type="text/css" href="./editor.css"><script type="text/javascript" src="./zh-cn.js"></script><script type="text/javascript" src="./plugin.js"></script></head>
 <body>
 <ul class="nav nav-tabs">
-	<li><a href="../newsList/saved_resource.html">新闻列表</a></li>
-	<li class="active"><a href="saved_resource.html">新闻修改</a></li>
+	<li><a href="newsManager/selectTbNews">新闻列表</a></li>
+	<li class="active"><a href="newsManager/selectTbNewsForUpdate?id=${news.id}">新闻修改</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="newsManager/updateTbNews" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="${news.id}">
