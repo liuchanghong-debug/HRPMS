@@ -157,4 +157,17 @@ public interface LaoWuService {
      * @return
      **/
     List<TbNeedJob> getNeedJobByCompanyIdAndPrice(Integer companyId, Double price);
+    /**
+     * 通过idCard得到
+     * @param
+     * @return 
+     **/
+    TbPersonJob personJobByIdCard(String idCard);
+    
+    /**
+     * 劳务报表
+     * @param 
+     * @return 
+     **/
+
 }

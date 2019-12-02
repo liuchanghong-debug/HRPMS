@@ -109,4 +109,10 @@ public interface PersonService {
      * @return 
      **/
     String customerIdCardById(Integer id);
+    /**
+     * 根据idCard获取
+     * @param
+     * @return
+     **/
+    TbPerson PersonByIdCard(String idCard);
 }

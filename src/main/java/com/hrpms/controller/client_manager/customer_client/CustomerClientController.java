@@ -92,7 +92,7 @@ public class CustomerClientController {
      * @return
      **/
     @RequestMapping("/customerToUpdate")
-    public String customerToUpdate(Integer currentPage, TbCustomer customer, HttpSession session, TbCustomerOperation customerOperation, Model model){
+    public String customerToUpdate(Integer currentPage, TbCustomer customer, HttpSession session, TbCustomerOperation customerOperation, Model model) throws IOException {
         //更新者
         TbSystemUser tbSystemUser = (TbSystemUser) session.getAttribute("tbSystemUser");
         customerService.customerUpdate(customer, tbSystemUser.getId());

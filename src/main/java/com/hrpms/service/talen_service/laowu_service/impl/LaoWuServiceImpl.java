@@ -277,4 +277,10 @@ public class LaoWuServiceImpl implements LaoWuService {
     public List<TbNeedJob> getNeedJobByCompanyIdAndPrice(Integer companyId, Double price) {
         return zhaoPinService.getAllJobByCompanyIdAndPrice(companyId, price);
     }
+
+    @Override
+    public TbPersonJob personJobByIdCard(String idCard) {
+        return laoWuDao.personJobByIdCard(idCard);
+    }
+
 }

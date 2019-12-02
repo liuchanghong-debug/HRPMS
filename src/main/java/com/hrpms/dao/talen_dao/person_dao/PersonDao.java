@@ -79,4 +79,10 @@ public interface PersonDao {
      * @return
      **/
     List<String> normalPersonOfIdCard(String hql, List<String> status);
+    /**
+     * 根据idCard获取
+     * @param
+     * @return
+     **/
+    TbPerson personByIdCard(String idCard);
 }

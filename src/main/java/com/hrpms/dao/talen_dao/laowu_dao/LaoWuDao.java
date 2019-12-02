@@ -51,4 +51,10 @@ public interface LaoWuDao {
      * @return
      **/
     List<TbNeedJob> getAllNeedJobs(String hql);
+    /**
+     * 通过idCard得到
+     * @param
+     * @return
+     **/
+    TbPersonJob personJobByIdCard(String idCard);
 }

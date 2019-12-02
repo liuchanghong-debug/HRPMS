@@ -64,4 +64,9 @@ public class LaoWuDaoImpl implements LaoWuDao {
     public List<TbNeedJob> getAllNeedJobs(String hql) {
         return sessionFactory.getCurrentSession().createQuery(hql).list();
     }
+
+    @Override
+    public TbPersonJob personJobByIdCard(String idCard) {
+        return (TbPersonJob) sessionFactory.getCurrentSession().createQuery("from TbPersonJob where idCard = ?").setParameter(0, idCard).uniqueResult();
+    }
 }

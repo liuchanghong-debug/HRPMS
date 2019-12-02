@@ -32,6 +32,7 @@ import java.util.*;
  */
 @Service
 @Transactional
+
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private DataDictService dataDictService;
@@ -235,5 +236,10 @@ public class PersonServiceImpl implements PersonService {
     public String customerIdCardById(Integer id) {
         TbCustomer customer = customerService.customerById(id);
         return customer.getIdCard();
+    }
+
+    @Override
+    public TbPerson PersonByIdCard(String idCard) {
+        return personDao.personByIdCard(idCard);
     }
 }

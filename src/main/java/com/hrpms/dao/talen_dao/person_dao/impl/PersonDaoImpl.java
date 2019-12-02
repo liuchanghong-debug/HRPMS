@@ -77,4 +77,9 @@ public class PersonDaoImpl implements PersonDao {
     public List<String> normalPersonOfIdCard(String hql, List<String> status) {
         return sessionFactory.getCurrentSession().createQuery(hql).setParameterList("status", status).list();
     }
+
+    @Override
+    public TbPerson personByIdCard(String idCard) {
+        return (TbPerson) sessionFactory.getCurrentSession().createQuery("from TbPerson where idCard = ?").setParameter(0, idCard).uniqueResult();
+    }
 }

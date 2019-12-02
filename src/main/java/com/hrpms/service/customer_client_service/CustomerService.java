@@ -42,7 +42,7 @@ public interface CustomerService {
      * @param 
      * @return 
      **/
-    void customerUpdate(TbCustomer customer, Integer updateBy);
+    void customerUpdate(TbCustomer customer, Integer updateBy) throws IOException;
 
     /**
      * 根据字典名称查询数据
@@ -133,4 +133,5 @@ public interface CustomerService {
      * @return 
      **/
     List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList);
+
 }
