@@ -9,8 +9,22 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">*</sp
 
 
 $(function () {
-    $("#name").keyup(function () {
-        if($("#name").val() != "" && $("#name").val() != null){
+    $("#customerId").change(function () {
+        //清空身份证输入框
+        $("#idCard").val(null);
+        $("#name").val(null);
+        if($("#customerId").val() != "" && $("#customerId").val() != null){
+            //如果选中项有值
+            $.ajaxSettings.async = false;
+            $.get(
+                "person/personIdCardById",
+                {"customerId":$("#customerId").val()},
+                function (idCard) {
+                    $("#idCard").val(idCard);
+                },
+                "json"
+            );
+            $("#name").val($("#customerId option:selected").text());
             $("#name ~ span").remove();
             $("#name").after(trueStyle);
             name = true;
@@ -19,25 +33,14 @@ $(function () {
             $("#name").after(falseStyle);
             name = false;
         }
+        $("#idCard").change();
     });
-    $("#idCard").keyup(function () {
+
+    $("#idCard").change(function () {
         if($("#idCard").val() != "" && $("#idCard").val() != null){
-            $.get(
-                "person/personIdCardIsOnly",
-                {"idCard":$("#idCard").val()},
-                function (json) {
-                    if(json){
-                        $("#idCard ~ span").remove();
-                        $("#idCard").after(trueStyle);
-                        idCard = true;
-                    }else {
-                        $("#idCard ~ span").remove();
-                        $("#idCard").after(falseStyle);
-                        idCard = false;
-                    }
-                },
-                "json"
-            );
+            $("#idCard ~ span").remove();
+            $("#idCard").after(trueStyle);
+            idCard = true;
         }else {
             $("#idCard ~ span").remove();
             $("#idCard").after(falseStyle);
@@ -82,12 +85,20 @@ $(function () {
         $("#btnSubmit").removeAttr("disabled");
     }).click(function () {
         $("#btnSubmit").removeAttr("disabled");
+    }).change(function () {
+        $("#btnSubmit").removeAttr("disabled");
     });
+    $("#select").change(function () {
+        $("#btnSubmit").removeAttr("disabled");
+    });
+
+    var aa = $("select").change();
 
 });
 
 function inputFormSubmit() {
-    $("input").keyup();
+    $("input").keyup().change();
+    $("select").change();
     if(!(name && idCard && jobIntentsion && forPrice && forAddress)){
         $("#btnSubmit").attr("disabled", "disabled");
     }else {

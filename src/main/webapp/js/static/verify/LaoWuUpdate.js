@@ -6,6 +6,7 @@ var falseStyle = "<span class=\"help-inline\"><span style=\"color: red; \">×</s
 
 $(function () {
     $("#companyId").change(function () {
+        $("#btnSubmit").removeAttr("disabled");
         if($("#companyId").val() != "" && $("#companyId").val() != null){
             companyId = true;
             $("#companyId ~ span").remove();
@@ -17,20 +18,27 @@ $(function () {
         }
     });
 });
+function inputFormSubmit() {
+    if(!companyId){
+        $("#btnSubmit").attr("disabled", "disabled");
+    }else {
+        $("#inputForm").submit();
+    }
+}
 
 
-function getCompanyMessByCompanyId(id) {
+function getCompanyMessByCompanyId(companyId) {
     $("#companyPrice").val(null);
     $("#startTime").val(null);
     $("#endTime").val(null);
     $("#jobContent").val("");
-    $("#companyId").empty().attr("style", "display: none");
+    $("#companyId").empty();
 
-    if(id != "" && id != null){
+    if(companyId != "" && companyId != null){
         $.get(
             //通过公司得到期望薪资差不多的求职信息
             "laowu/getNeedJobByCompanyIdAndPersonPrice",
-            {"companyId":id, "price":$("#personPrice").val()},
+            {"companyId":companyId, "price":$("#personPrice").val()},
             function (needJobs) {
                 var str = "<option value=''>请选择</option>";
                 for (var i = 0; i < needJobs.length; i++) {
@@ -38,21 +46,22 @@ function getCompanyMessByCompanyId(id) {
                     var jobName = needJobs[i].jobName;
                     str += "<option value='" + id + "'>" + jobName + "</option>";
                 }
-                $("#companyId").removeAttr("style").append(str).change();
+                $("#companyId").append(str);
             },
             "json"
         );
     }
 }
 
-function getDetailNeedJobById(id) {
+
+function getNeedJobDetailById(needJobId) {
     $("#companyPrice").val(null);
     $("#startTime").val(null);
     $("#endTime").val(null);
     $("#jobContent").val("");
     $.get(
-        "laowu/getDetailNeedJobById",
-        {"id":id},
+        "laowu/getNeedJobDetailById",
+        {"needJobId":needJobId},
         function (needJob) {
             $("#companyPrice").val(needJob.price);
             var startTime = new Date(needJob.startTime);

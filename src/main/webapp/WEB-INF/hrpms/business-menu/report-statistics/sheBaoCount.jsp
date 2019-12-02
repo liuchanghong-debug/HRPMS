@@ -52,7 +52,7 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="shebao/shebaoCount">社保费用列表</a></li>
+	<li class="active"><a href="statement/shebaoCount">社保费用列表</a></li>
 
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="" method="post" name="operation">
@@ -79,8 +79,8 @@
 				</c:forEach>
 			</select>
 		</li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='shebao/shebaoCount'; operation.submit()" value="统计"></li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='shebao/shebaoCountOut'; operation.submit()" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='statement/shebaoCount'; operation.submit()" value="统计"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="operation.action='statement/shebaoCountOut'; operation.submit()" value="导出"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>

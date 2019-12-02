@@ -358,4 +358,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.selectCustomerByPhone(phone);
     }
 
+    @Override
+    public List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList) {
+        return customerDao.normalCustomerOfStatus(hql, idCardList, statusList);
+    }
+
 }

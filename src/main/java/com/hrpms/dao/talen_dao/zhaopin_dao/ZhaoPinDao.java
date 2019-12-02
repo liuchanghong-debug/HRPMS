@@ -62,4 +62,11 @@ public interface ZhaoPinDao {
      * @return
      **/
     List<TbNeedJob> getAllJobByCompanyId(Integer id, String normalType);
+
+    /**
+     * 根据公司和价格得到职位信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getAllJobByCompanyIdAndPrice(String hql, Integer companyId, String status, Double maxPrice, Double minPrice);
 }

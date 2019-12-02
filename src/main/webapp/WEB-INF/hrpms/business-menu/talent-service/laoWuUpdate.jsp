@@ -38,26 +38,25 @@
 
 	<script src="js/static/verify/LaoWuUpdate.js"></script>
 	<meta name="decorator" content="default">
-	<script type="text/javascript">
-        $(document).ready(function() {
-            //$("#name").focus();
-            $("#inputForm").validate({
-                submitHandler: function(form){
-                    loading('正在提交，请稍等...');
-                    form.submit();
-                },
-                errorContainer: "#messageBox",
-                errorPlacement: function(error, element) {
-                    $("#messageBox").text("输入有误，请先更正。");
-                    if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-                        error.appendTo(element.parent().parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-        });
-	</script>
+	<%--<script type="text/javascript">--%>
+        <%--$(document).ready(function() {--%>
+            <%--$("#inputForm").validate({--%>
+                <%--submitHandler: function(form){--%>
+                    <%--loading('正在提交，请稍等...');--%>
+                    <%--form.submit();--%>
+                <%--},--%>
+                <%--errorContainer: "#messageBox",--%>
+                <%--errorPlacement: function(error, element) {--%>
+                    <%--$("#messageBox").text("输入有误，请先更正。");--%>
+                    <%--if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){--%>
+                        <%--error.appendTo(element.parent().parent());--%>
+                    <%--} else {--%>
+                        <%--error.insertAfter(element);--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--});--%>
+        <%--});--%>
+	<%--</script>--%>
 
 </head>
 <body>
@@ -79,11 +78,11 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input type="text" name="name" value="${personJob.name}" disabled class="input-xlarge required">
+				<input type="text" value="${personJob.name}" disabled class="input-xlarge required">
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${personJob.idCard}" disabled maxlength="20">
+				<input type="text" value="${personJob.idCard}" disabled class="input-xlarge required" maxlength="20">
 			</td>
 		</tr>
 
@@ -92,16 +91,20 @@
 			<td>
 				<select id="company" name="company" onchange="getCompanyMessByCompanyId(this.value)">
 					<c:forEach items="${companys}" var="company">
-						<c:if test="${company.id == personJob.companyId}">
-							<option value="${company.id}" selected="selected">${company.name}</option>
-						</c:if>
-						<c:if test="${company.id != personJob.companyId}">
-							<option value="${company.id}">${company.name}</option>
-						</c:if>
+						<c:forEach items="${needJobs}" var="needJob">
+							<c:if test="${company.id == needJob.companyId}">
+								<c:if test="${needJob.id == personJob.companyId}">
+									<option value="${company.id}" selected="selected">${company.name}</option>
+								</c:if>
+								<c:if test="${company.id != personJob.companyId}">
+									<option value="${company.id}">${company.name}</option>
+								</c:if>
+							</c:if>
+						</c:forEach>
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyId" name="companyId" onchange="getDetailNeedJobById(this.value)">
+				<select id="companyId" name="companyId" onchange="getNeedJobDetailById(this.value)">
 					<c:forEach items="${companyJobs}" var="companyJob">
 						<c:if test="${companyJob.id == personJob.companyId}">
 							<option value="${companyJob.id}" selected="selected">${companyJob.jobName}</option>
@@ -115,10 +118,10 @@
 			<td>
 				<label class="control-label">工作类型：</label>
 			</td><td>
-			<select name="jobType" style="width:280px;" disabled class="select2-offscreen">
+			<select style="width:280px;" disabled>
 				<c:forEach items="${jobTypes}" var="jobType">
 					<c:if test="${jobType.value == personJob.jobType}">
-						<option value="${jobType.value}">${jobType.label}</option>
+						<option>${jobType.label}</option>
 					</c:if>
 				</c:forEach>
 			</select>
@@ -138,12 +141,12 @@
 			<td><label class="control-label">开始时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${startTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="startTime" name="startTime" type="date" readonly="readonly" maxlength="20" value="${startTime}" style="width:270px;">
 			</td>
 			<td><label class="control-label">结束时间：</label></td>
 			<td>
 				<f:formatDate value="${personJob.endTime}" pattern="yyyy-MM-dd" var="endTime"/>
-				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate " value="${endTime}" onclick="WdatePicker({dateFmt:&#39;yyyy-MM-dd HH:mm:ss&#39;,isShowClear:false});" style="width:270px;">
+				<input id="endTime" name="endTime" type="date" readonly="readonly" maxlength="20" value="${endTime}" style="width:270px;">
 			</td>
 		</tr>
 		<tr>
@@ -166,7 +169,7 @@
 			</td>
 			<td><label class="control-label">合作状态：</label></td>
 			<td>
-				<select name="status" style="width:280px;"  class="select2-offscreen">
+				<select name="status" style="width:280px;">
 					<c:forEach items="${statuss}" var="status">
 						<c:if test="${personJob.status == status.value}">
 							<option value="${status.value}" selected>${status.label}</option>
@@ -191,7 +194,7 @@
 		</tbody></table>
 
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="inputFormSubmit()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

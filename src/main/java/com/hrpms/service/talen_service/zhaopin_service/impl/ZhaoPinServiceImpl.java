@@ -152,4 +152,11 @@ public class ZhaoPinServiceImpl implements ZhaoPinService {
         String normalCompanyType = dataDictService.getDataDictValueByNameAndLabel("招聘信息状态", "有效");
         return zhaoPinDao.getAllJobByCompanyId(id, normalCompanyType);
     }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyIdAndPrice(Integer companyId, Double price) {
+        String normalCompanyType = dataDictService.getDataDictValueByNameAndLabel("招聘信息状态", "有效");
+        String hql = "from TbNeedJob where companyId = ? and status = ? and price >= ? and price <= ?";
+        return zhaoPinDao.getAllJobByCompanyIdAndPrice(hql, companyId, normalCompanyType, price + 1000, price - 1000);
+    }
 }

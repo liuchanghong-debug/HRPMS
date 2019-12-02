@@ -70,12 +70,18 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="name" type="text" name="name" value="" class="input-xlarge required">
+				<select id="customerId" name="customerId" tabindex="-1" class="input-xlarge  select2-offscreen">
+					<option value="">请选择</option>
+					<c:forEach items="${customerList}" var="customer">
+						<option value="${customer.id}">${customer.name}</option>
+					</c:forEach>
+				</select>
+				<input id="name" type="hidden" name="name" value="" class="input-xlarge required">
 				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="" maxlength="20">
+				<input id="idCard" name="idCard" class="input-xlarge required" readonly type="text" value="" maxlength="20">
 				<span class="help-inline"><font color="red">*</font></span>
 			</td>
 		</tr>
