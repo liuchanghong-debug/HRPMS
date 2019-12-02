@@ -1,9 +1,11 @@
 package com.hrpms.service.talen_service.person_service.impl;
 
 import com.hrpms.dao.talen_dao.person_dao.PersonDao;
+import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbPerson;
 import com.hrpms.pojo.TbSystemDict;
 import com.hrpms.pojo.operaton_select.TbPersonOperation;
+import com.hrpms.service.customer_client_service.CustomerService;
 import com.hrpms.service.system_setting_service.data_dict_service.DataDictService;
 import com.hrpms.service.talen_service.person_service.PersonService;
 import com.hrpms.utils.Download;
@@ -30,11 +32,14 @@ import java.util.*;
  */
 @Service
 @Transactional
+
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private DataDictService dataDictService;
     @Autowired
     private PersonDao personDao;
+    @Autowired
+    private CustomerService customerService;
 
     @Override
     public Page<TbPerson> personList(Integer currentPage, TbPersonOperation personOperation) {
@@ -166,17 +171,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<TbPerson> getPersonsByPrice(Double price) {
-        Map map = new HashMap(3);
-        String hql = "from TbPerson where forPrice >= :minPrice and forPrice <= :maxPrice and status in :statu";
-        map.put("minPrice", price - 1000);
-        map.put("maxPrice", price + 1000);
+    public List<TbPerson> getPersonsByPrice(StringBuffer hql, Map map) {
+        hql.append(" and status in :status");
         List list = new ArrayList();
         list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "在职"));
         list.add(dataDictService.getDataDictValueByNameAndLabel("人才状态", "离职"));
-        map.put("status", list);
-
-        return personDao.getPersonsByPrice(hql, map);
+        map.put("list", list);
+        return personDao.getPersonsByPrice(hql.toString(), map);
     }
 
     @Override
@@ -199,5 +200,46 @@ public class PersonServiceImpl implements PersonService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public List<Map> normalCustomerOfIdAndName() {
+        //得到客户表中正常的个人客户信息， 并且人才表中已经有的不添加
+        //先获取人才表中正常的idCard  获取正常状态信息
+        List<String> normalPersonStatusList = new ArrayList<>();
+        String normalStatus1 = dataDictService.getDataDictValueByNameAndLabel("人才状态", "在职");
+        String normalStatus2 = dataDictService.getDataDictValueByNameAndLabel("人才状态", "离职");
+        normalPersonStatusList.add(normalStatus1);
+        normalPersonStatusList.add(normalStatus2);
+        //查询语句
+        String hql1 = "select idCard from TbPerson where status in :status";
+        List<String> normalIdCardList = personDao.normalPersonOfIdCard(hql1, normalPersonStatusList);
+        //查询个人客户表中正常的数据，不包含人才表中在职的客户信息
+        //获取状态
+        List<String> normalCustomerStatusList = new ArrayList<>();
+        String normalCustomerStatus = dataDictService.getDataDictValueByNameAndLabel("客户状态", "正常");
+        normalCustomerStatusList.add(normalCustomerStatus);
+        //查询语句
+        String hql2 = "from TbCustomer where idCard not in :idCards and status in :status";
+        List<TbCustomer> tbCustomers = customerService.normalCustomerOfStatus(hql2, normalIdCardList, normalCustomerStatusList);
+        List<Map> list = new ArrayList<>();
+        for (TbCustomer tbCustomer : tbCustomers){
+            Map <String, String> map = new HashMap<>();
+            map.put("id", String.valueOf(tbCustomer.getId()));
+            map.put("name", tbCustomer.getName());
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Override
+    public String customerIdCardById(Integer id) {
+        TbCustomer customer = customerService.customerById(id);
+        return customer.getIdCard();
+    }
+
+    @Override
+    public TbPerson PersonByIdCard(String idCard) {
+        return personDao.personByIdCard(idCard);
     }
 }

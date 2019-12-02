@@ -72,4 +72,15 @@ public class ZhaoPinDaoImpl implements ZhaoPinDao {
                 .setParameter(1, normalType)
                 .list();
     }
+
+    @Override
+    public List<TbNeedJob> getAllJobByCompanyIdAndPrice(String hql, Integer companyId, String status, Double maxPrice, Double minPrice) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql)
+                .setParameter(0, companyId)
+                .setParameter(1, status)
+                .setParameter(2, minPrice)
+                .setParameter(3, maxPrice)
+                .list();
+    }
 }

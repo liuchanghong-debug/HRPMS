@@ -42,7 +42,7 @@ public interface CustomerService {
      * @param 
      * @return 
      **/
-    void customerUpdate(TbCustomer customer, Integer updateBy);
+    void customerUpdate(TbCustomer customer, Integer updateBy) throws IOException;
 
     /**
      * 根据字典名称查询数据
@@ -124,5 +124,14 @@ public interface CustomerService {
 
     //根据电话号码查询所有
     public TbCustomer selectCustomerByPhone(String phone);
+    
+    
+    
+    /**
+     * 根据状态 和 idCard查询  人才添加用
+     * @param 
+     * @return 
+     **/
+    List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList);
 
 }

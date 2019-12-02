@@ -105,9 +105,13 @@
 			<td>${person.name}</td>
 			<td>${person.idCard}</td>
 			<td>
-				<c:forEach items="${companys}" var="company">
-					<c:if test="${company[0] == person.companyId}">
-						<span>${company[1]}</span>
+				<c:forEach items="${needJobs}" var="needJob">
+					<c:if test="${needJob.id == person.companyId}">
+						<c:forEach items="${companys}" var="company">
+							<c:if test="${needJob.companyId == company[0]}">
+								<span>${company[1]}</span>
+							</c:if>
+						</c:forEach>
 					</c:if>
 				</c:forEach>
 			</td>

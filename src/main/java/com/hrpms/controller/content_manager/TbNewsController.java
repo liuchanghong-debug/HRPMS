@@ -41,6 +41,7 @@ public class TbNewsController {
     public String toNewAdd(){
         return "business-menu/content-manager/newAdd";
     }
+
     @RequestMapping("/saveTbNews")
     public String saveTbNews(TbNews news, HttpSession session){
         Timestamp timestamp = new Timestamp(new Date().getTime());
@@ -53,7 +54,32 @@ public class TbNewsController {
 
         return "redirect:selectTbNews";
     }
+    @RequestMapping("/deleteTbNews")
+    public String deleteTbNews(int id){
+        tbNewsService.deleteTbNews(id);
+        return "redirect:selectTbNews";
+    }
 
+    @RequestMapping("/selectTbNewsForUpdate")
+    public String selectTbNewsForUpdate(int id,Model model){
+        TbNews news = tbNewsService.selectTbNewsById(id);
+        model.addAttribute("news",news);
+        return "business-menu/content-manager/newUpdate";
+    }
+
+
+    @RequestMapping("/updateTbNews")
+    public String updateTbNews(TbNews news, HttpSession session){
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        news.setUpdateTime(timestamp);
+
+        TbSystemUser tbSystemUser = (TbSystemUser)session.getAttribute("tbSystemUser");
+        news.setUpdateBy(tbSystemUser.getId());
+
+        tbNewsService.updateTbNews(news);
+
+        return "redirect:selectTbNews";
+    }
 
 
 

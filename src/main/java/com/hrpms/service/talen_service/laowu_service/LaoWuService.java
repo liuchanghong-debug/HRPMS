@@ -54,7 +54,7 @@ public interface LaoWuService {
     List<TbSystemDict> getDictsByName(String name);
 
     /**
-     * 获取所有客户名称和id
+     * 获取所有正常的客户名称和id
      * @param
      * @return
      **/
@@ -84,6 +84,12 @@ public interface LaoWuService {
      **/
     List<Object[]> getAllCompanys();
     /**
+     * 获取所有招聘信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getAllNeedJobs();
+    /**
      * 根据价格查询招聘公司id
      * @param
      * @return
@@ -96,11 +102,11 @@ public interface LaoWuService {
      **/
     List<TbNeedJob> getAllJobByCompanyId(Integer id, Integer personId);
     /**
-     * 根据id得到详细信息
+     * 通过招聘价格范围查询persons
      * @param
      * @return
      **/
-    TbNeedJob getDetailById(Integer id);
+    List<TbPerson> getPersonsByNeedJobPrice(Double price);
 
     /**
      *getPersonByCompanyIdForPrice通过公司得到期望薪资差不多的求职者信息和公司职位信息
@@ -145,4 +151,23 @@ public interface LaoWuService {
      * @return 
      **/
     List<TbNeedJob> getNeedJobsByPersonJobId(Integer id);
+    /**
+     * 根据companyId, price 得到公司下差不多的价格信息
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getNeedJobByCompanyIdAndPrice(Integer companyId, Double price);
+    /**
+     * 通过idCard得到
+     * @param
+     * @return 
+     **/
+    TbPersonJob personJobByIdCard(String idCard);
+    
+    /**
+     * 劳务报表
+     * @param 
+     * @return 
+     **/
+
 }

@@ -78,12 +78,12 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<input id="name" type="text" name="name" value="${person.name}" class="input-xlarge required">
+				<input id="name" type="text" name="name" value="${person.name}" readonly class="input-xlarge required">
 				<span class="help-inline"><font color="green">*</font> </span>
 			</td>
 			<td><label class="control-label">身份证号：</label></td>
 			<td>
-				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${person.idCard}" maxlength="20">
+				<input id="idCard" name="idCard" class="input-xlarge required" type="text" value="${person.idCard}" readonly maxlength="20">
 				<span class="help-inline"><font color="green">*</font> </span>
 			</td>
 		</tr>

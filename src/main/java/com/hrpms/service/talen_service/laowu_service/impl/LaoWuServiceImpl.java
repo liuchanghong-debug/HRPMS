@@ -159,6 +159,12 @@ public class LaoWuServiceImpl implements LaoWuService {
     }
 
     @Override
+    public List<TbNeedJob> getAllNeedJobs() {
+        String hql = "from TbNeedJob";
+        return laoWuDao.getAllNeedJobs(hql);
+    }
+
+    @Override
     public List<TbCompany> getNeedJobsByJobType(Double price) {
         List<Integer> companyId = zhaoPinService.getNeedJobsByJobType(price);
         List<TbCompany> list = new ArrayList<>();
@@ -170,38 +176,44 @@ public class LaoWuServiceImpl implements LaoWuService {
 
     @Override
     public List<TbNeedJob> getAllJobByCompanyId(Integer id, Integer personId) {
-        List<TbNeedJob> allJobByCompanyId = zhaoPinService.getAllJobByCompanyId(id);
         TbPerson detailPersonById = getDetailPersonById(personId);
-        for (TbNeedJob tbNeedJob : allJobByCompanyId){
-            if(tbNeedJob.getPrice() + 1000 >= detailPersonById.getForPrice() && tbNeedJob.getPrice() - 1000 <= detailPersonById.getForPrice()){
-                allJobByCompanyId.remove(tbNeedJob);
-            }
-        }
-        return allJobByCompanyId;
+        return zhaoPinService.getAllJobByCompanyIdAndPrice(id, detailPersonById.getForPrice());
     }
 
     @Override
-    public TbNeedJob getDetailById(Integer id) {
-        return zhaoPinService.selectNeedJobById(id);
+    public List<TbPerson> getPersonsByNeedJobPrice(Double price) {
+        StringBuffer hql = new StringBuffer("from TbPerson where forPrice >= :minPrice and forPrice <= :maxPrice");
+        Map map = new HashMap(2);
+        map.put("maxPrice", price + 1000);
+        map.put("minPrice", price - 1000);
+        return  personService.getPersonsByPrice(hql, map);
     }
 
     @Override
     public Map getPersonByCompanyIdForPrice(Integer companyId) {
         Map map = new HashMap(2);
-        Set<TbPerson> personsByPrice = new HashSet<>();
+        //根据公司id获取公司职位信息
         List<TbNeedJob> needJobs = zhaoPinService.getAllJobByCompanyId(companyId);
-        Set<TbNeedJob> tbNeedJobs = new HashSet<>();
-        for (TbNeedJob needJob : needJobs){
-            tbNeedJobs.add(needJob);
-        }
-        for (TbNeedJob tbNeedJob : needJobs){
-            Double price = tbNeedJob.getPrice();
-            List<TbPerson> personsByPrice1 = personService.getPersonsByPrice(price);
-            for (TbPerson tbPerson : personsByPrice1){
-                personsByPrice.add(tbPerson);
+        //根据公司职位信息生成sql语句来查询人才
+        StringBuffer hql = new StringBuffer("from TbPerson where 1 = 1 ");
+        Map map1 = new HashMap();
+        if(needJobs != null){
+            hql.append(" and (");
+            for (int i = 0; i < needJobs.size(); i++) {
+                String minPrice = "minPrice" + i;
+                String maxPrice = "maxPrice" + i;
+                hql.append("(forPrice >= :minPrice" + i + " and forPrice <= :maxPrice" + i + ")");
+                if(i < needJobs.size() - 1){
+                    hql.append(" or ");
+                }
+                map1.put(minPrice, needJobs.get(i).getPrice() - 1000);
+                map1.put(maxPrice, needJobs.get(i).getPrice() + 1000);
             }
+            hql.append(")");
         }
-        map.put("needJobs", tbNeedJobs);
+        List<TbPerson> personsByPrice = personService.getPersonsByPrice(hql, map1);
+
+        map.put("needJobs", needJobs);
         map.put("persons", personsByPrice);
         return map;
     }
@@ -260,4 +272,15 @@ public class LaoWuServiceImpl implements LaoWuService {
         TbNeedJob detailNeedJobById = getDetailNeedJobById(tbPersonJob.getCompanyId());
         return getNeedJobByCompanyIdAndPersonPrice(detailNeedJobById.getCompanyId(), tbPersonJob.getPersonPrice());
     }
+
+    @Override
+    public List<TbNeedJob> getNeedJobByCompanyIdAndPrice(Integer companyId, Double price) {
+        return zhaoPinService.getAllJobByCompanyIdAndPrice(companyId, price);
+    }
+
+    @Override
+    public TbPersonJob personJobByIdCard(String idCard) {
+        return laoWuDao.personJobByIdCard(idCard);
+    }
+
 }

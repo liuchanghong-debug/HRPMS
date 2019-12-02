@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GoldFish
@@ -68,7 +69,7 @@ public interface PersonService {
      **/
     void personDelete(Integer id, Integer updateBy);
     /**
-     * 获取所有客户名称和id
+     * 获取所有正常的客户名称和id
      * @param
      * @return
      **/
@@ -80,7 +81,7 @@ public interface PersonService {
      * @param
      * @return
      **/
-    List<TbPerson> getPersonsByPrice(Double price);
+    List<TbPerson> getPersonsByPrice(StringBuffer hql, Map map);
 
     /**
      * 异步验证idCard是否唯一
@@ -96,4 +97,22 @@ public interface PersonService {
      **/
     boolean personIdCardIsOnlyUpdate(Integer id, String idCard);
 
+    /**
+     * 得到客户表中正常的个人客户信息， 并且人才表中已经有的不添加
+     * @param 
+     * @return 
+     **/
+    List<Map> normalCustomerOfIdAndName();
+    /**
+     * 添加用  选中姓名根据customerId获取其idCard
+     * @param 
+     * @return 
+     **/
+    String customerIdCardById(Integer id);
+    /**
+     * 根据idCard获取
+     * @param
+     * @return
+     **/
+    TbPerson PersonByIdCard(String idCard);
 }

@@ -99,4 +99,11 @@ public interface CustomerDao {
      * @return
      **/
     Object customerIdCardIsOnlyUpdate(String hql, Integer id, String idCard);
+
+    /**
+     * 根据状态查询所有  hql必要字段：:status
+     * @param
+     * @return
+     **/
+    List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList);
 }

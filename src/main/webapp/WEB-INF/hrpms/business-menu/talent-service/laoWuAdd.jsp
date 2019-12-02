@@ -70,7 +70,7 @@
 		<tbody><tr>
 			<td><label class="control-label">客户名称：</label></td>
 			<td>
-				<select id="nameId" name="nameId" onchange="getIdCard(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="nameId" name="nameId" onchange="getPersonAndCompanyByPersonId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
 					<option value="" selected>请选择</option>
 					<c:forEach items="${persons}" var="person">
 						<option value="${person[0]}">${person[1]}</option>
@@ -87,7 +87,7 @@
 		<tr>
 			<td><label class="control-label">合作公司：</label></td>
 			<td>
-				<select id="company" name="company" onchange="getPersonsByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="company" name="company" onchange="getPersonsAndCompanyByCompayId(this.value)" class="input-xlarge required select2-offscreen" tabindex="-1">
 					<option value="">请选择</option>
 					<c:forEach items="${companyIds}" var="company">
 						<c:forEach items="${companyIdAndNames}" var="companyIdAndName">
@@ -98,7 +98,7 @@
 					</c:forEach>
 				</select>
 				&nbsp;&nbsp;
-				<select id="companyJob" name="companyJob" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
+				<select id="companyId" name="companyId" onchange="" style="display: none" class="input-xlarge required select2-offscreen" tabindex="-1">
 
 				</select>
             </td>
@@ -107,6 +107,7 @@
 			</td>
             <td>
 			<select id="jobTypeSelect" name="jobTypeSelect" disabled style="width:280px;" tabindex="-1">
+				<option value="" selected>请选择</option>
 				<c:forEach items="${jobTypes}" var="jobType">
 					<option value="${jobType.value}">${jobType.label}</option>
 				</c:forEach>

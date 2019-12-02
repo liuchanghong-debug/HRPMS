@@ -1,5 +1,6 @@
 package com.hrpms.dao.talen_dao.laowu_dao;
 
+import com.hrpms.pojo.TbNeedJob;
 import com.hrpms.pojo.TbPersonJob;
 import com.hrpms.pojo.operaton_select.TbPersonJobOperation;
 
@@ -44,4 +45,16 @@ public interface LaoWuDao {
      * @return
      **/
     TbPersonJob getPersonJobById(Integer id);
+    /**
+     * 获取所有
+     * @param
+     * @return
+     **/
+    List<TbNeedJob> getAllNeedJobs(String hql);
+    /**
+     * 通过idCard得到
+     * @param
+     * @return
+     **/
+    TbPersonJob personJobByIdCard(String idCard);
 }

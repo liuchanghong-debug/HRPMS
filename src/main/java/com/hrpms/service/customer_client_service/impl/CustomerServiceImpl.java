@@ -9,6 +9,8 @@ import com.hrpms.service.gongjijin_manager_service.TbAccumulationFundService;
 import com.hrpms.service.salary_manager_service.TbSalaryService;
 import com.hrpms.service.shebao_manager_service.SheBaoService;
 import com.hrpms.service.system_setting_service.data_dict_service.DataDictService;
+import com.hrpms.service.talen_service.laowu_service.LaoWuService;
+import com.hrpms.service.talen_service.person_service.PersonService;
 import com.hrpms.utils.DataOutOfExcel;
 import com.hrpms.utils.Download;
 import com.hrpms.utils.ExcelUpload;
@@ -53,6 +55,10 @@ public class CustomerServiceImpl implements CustomerService {
     private SheBaoService sheBaoService;
     @Autowired
     private TbAccumulationFundService tbAccumulationFundService;
+    @Autowired
+    private PersonService personService;
+    @Autowired
+    private LaoWuService laoWuService;
 
 
     @Override
@@ -99,7 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void customerUpdate(TbCustomer customer, Integer updateBy) {
+    public void customerUpdate(TbCustomer customer, Integer updateBy) throws IOException {
         //从数据库中获取值  非页面字段为 创建时间，创建者，删除标志
         TbCustomer byId = customerDao.customerById(customer.getId());
         String idCard = byId.getIdCard();
@@ -165,7 +171,20 @@ public class CustomerServiceImpl implements CustomerService {
             accumulationFundByIdCard.setIdCard(byId.getIdCard());
             tbAccumulationFundService.updateAccumulationById(accumulationFundByIdCard);
         }
-
+        //修改人才表中的信息  获取
+        TbPerson tbPerson = personService.PersonByIdCard(idCard);
+        if(tbPerson != null){
+            tbPerson.setName(byId.getName());
+            tbPerson.setIdCard(byId.getIdCard());
+            personService.personUpdate(tbPerson, null, updateBy, null, null);
+        }
+        //修改劳务表中的信息
+        TbPersonJob tbPersonJob = laoWuService.personJobByIdCard(idCard);
+        if(tbPersonJob != null){
+            tbPersonJob.setName(byId.getName());
+            tbPersonJob.setIdCard(byId.getIdCard());
+            laoWuService.personJobUpdate(null, tbPersonJob, null, null, updateBy);
+        }
 
     }
 
@@ -356,6 +375,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public TbCustomer selectCustomerByPhone(String phone) {
         return customerDao.selectCustomerByPhone(phone);
+    }
+
+    @Override
+    public List<TbCustomer> normalCustomerOfStatus(String hql, List<String> idCardList, List<String> statusList) {
+        return customerDao.normalCustomerOfStatus(hql, idCardList, statusList);
     }
 
 }

@@ -143,7 +143,7 @@
 	<div class="pagination"><ul>
 		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 		<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
-		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage - 1}'; paging.submit()">下一页 »</a></li>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 		<li class="disabled controls"><a href="javascript:">当前
 			<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
 			/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">
