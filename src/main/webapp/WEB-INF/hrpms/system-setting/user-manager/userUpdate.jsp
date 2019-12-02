@@ -37,7 +37,7 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         var busername=true;
-        var bpassword = false;
+        var bpassword = true;
         var bphone = true;
         var bemail = true;
         $(function () {
@@ -92,16 +92,23 @@
 
             /*密码验证*/
             $("#password").blur(function () {
+                var password ="${requestScope.systemUser.password}";
                 var password1=$("#password").val();
-				var re=/^[A-Za-z0-9]{6,7}$/;
-				bpassword=re.test(password1);
-				if(bpassword){
-					bpassword=true;
-					$("#pwd").html("<font color='green' size='6'>√</font>")
-				}else {
-					bpassword=false;
-					$("#pwd").html("<font color='red' size='6'>×</font>")
-				}
+                password1 = hex_md5(password1);
+                if(password==password1){
+                    $("#pwd").html("<font color='green' size='6'>√</font>");
+                }else{
+                    var re=/^[A-Za-z0-9]{6,7}$/;
+                    bpassword=re.test(password1);
+                    if(bpassword){
+                        bpassword=true;
+                        $("#pwd").html("<font color='green' size='6'>√</font>");
+                    }else {
+                        bpassword=false;
+                        $("#pwd").html("<font color='red' size='6'>×</font>");
+                    }
+                }
+
 
             });
 

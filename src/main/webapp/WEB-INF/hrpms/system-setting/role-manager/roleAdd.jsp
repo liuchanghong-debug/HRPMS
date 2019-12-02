@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -68,18 +69,15 @@
             var zNodes=[
 
                 {id:"1", pId:"0", name:"权限列表"},
-
                 {id:"2", pId:"1", name:"用户管理"},
-
                 {id:"3", pId:"1", name:"角色管理"},
-
                 {id:"4", pId:"1", name:"菜单管理"},
-
                 {id:"6", pId:"1", name:"数据字典"},
-
                 {id:"7", pId:"1", name:"短信模板"},
-
                 {id:"8", pId:"1", name:"邮件模板"},
+
+				{id:"9",pId:"2",name:"用户查询"},
+
             ];
             // 初始化树结构
             var tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);
@@ -115,36 +113,21 @@
 	</a></li>
 </ul>
 <br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form id="inputForm" class="form-horizontal" action="/role-manager/addSystemRole" method="post" novalidate="novalidate">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
 	<div class="control-group">
 		<label class="control-label">角色名称：</label>
 		<div class="controls">
-			<input id="rolename" name="rolename" class="input-xlarge required" type="text" value="" maxlength="50">
+			<input id="rolename" name="roleName" class="input-xlarge required" type="text" value="" maxlength="50">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="" maxlength="11">
+			<input id="sortnum" name="sortNum" class="input-xlarge " type="text" value="" maxlength="11">
 		</div>
 	</div>
 	<div class="control-group">

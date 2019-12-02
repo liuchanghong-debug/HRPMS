@@ -39,15 +39,15 @@
 	<meta name="decorator" content="default">
 	<script type="text/javascript">
         var baccountNo=true;
-        var bpaydate = false;
+        var bpaydate = true;
 		$(function () {
             /*公积金账号正则验证加唯一验证*/
 			var account = "${tbAccumulationFund.accountNo}";
             $("#accountno").blur(function () {
+                var accountno = $(this).val();
                 if(account==accountno){		//没有修改
                     $("#accountNoIsOne").html("<font color='green' size='6'>√</font>");
 				}else{
-                    var accountno = $(this).val();
                     var res =  /^[0-9]{12}$/;
                     baccountNo = res.test(accountno);
                     if(baccountNo){		//正则验证通过

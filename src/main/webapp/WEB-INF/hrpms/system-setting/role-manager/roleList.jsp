@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -51,33 +52,18 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">角色信息列表</a></li>
-	<li><a href="../addRole/saved_resource.html">角色信息添加</a></li>
+	<li class="active"><a href="/role-manager/selectSystemRoleByDuo">角色信息列表</a></li>
+	<li><a href="role-manager/addSystemRoleJsp">角色信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-	<input id="pageNo" name="pageNo" type="hidden" value="1">
-	<input id="pageSize" name="pageSize" type="hidden" value="10">
+<form id="searchForm" class="breadcrumb form-search" action="/role-manager/selectSystemRoleByDuo" method="post">
 	<ul class="ul-form">
 		<li><label>角色名称：</label>
-			<input id="rolename" name="rolename" class="input-medium" type="text" value="" maxlength="50">
+			<input id="rolename" name="roleName" class="input-medium" type="text" value="" maxlength="50">
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <script type="text/javascript">top.$.jBox.closeTip();</script>
@@ -95,79 +81,47 @@
 	</thead>
 	<tbody>
 
-	<tr>
-		<td><a href="../updateRole/saved_resource_unEdit.html">
-			1
-		</a></td>
-		<td>
-			系统管理员
-		</td>
-		<td>
-			1
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			测试
-		</td>
-		<td>
-			<a href="../updateRole/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateRole/saved_resource_unEdit.html">
-			2
-		</a></td>
-		<td>
-			部门管理员
-		</td>
-		<td>
-			2
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			部门管理员
-		</td>
-		<td>
-			<a href="../updateRole/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
-
-	<tr>
-		<td><a href="../updateRole/saved_resource_unEdit.html">
-			3
-		</a></td>
-		<td>
-			test
-		</td>
-		<td>
-			3
-		</td>
-		<td>
-			正常
-		</td>
-		<td>
-			test
-		</td>
-		<td>
-			<a href="../updateRole/saved_resource.html">修改</a>
-			<a href="#" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
-		</td>
-	</tr>
+	<c:forEach items="${page.dataList}" var="role">
+		<tr>
+			<td><a href="../updateRole/saved_resource_unEdit.html">
+				${role.id}
+			</a></td>
+			<td>
+				${role.roleName}
+			</td>
+			<td>
+				${role.sortNum}
+			</td>
+			<td>
+				<c:if test="${role.status=='0'}" var="bo">
+					正常
+				</c:if>
+				<c:if test="${!bo}">
+					删除
+				</c:if>
+			</td>
+			<td>
+				${role.roleNote}
+			</td>
+			<td>
+				<a href="../updateRole/saved_resource.html">修改</a>
+				<a href="#" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
+			</td>
+		</tr>
+	</c:forEach>
 
 	</tbody>
 </table>
 <div class="pagination"><ul>
-	<li class="disabled"><a href="javascript:">« 上一页</a></li>
-	<li class="active"><a href="javascript:">1</a></li>
-	<li class="disabled"><a href="javascript:">下一页 »</a></li>
-	<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 3 条</a></li>
+	<li class="disabled"><a href="role-manager/selectSystemRoleByDuo?currentPage=${page.currentPage-1}&roleName=${map.roleName}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="role-manager/selectSystemRoleByDuo?currentPage=${num}&roleName=${map.roleName}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="role-manager/selectSystemRoleByDuo?currentPage=${page.currentPage+1}&roleName=${map.roleName}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+		<input type="text" value="${page.currentPage}" readonly> /
+		<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
 </ul>
 	<div style="clear:both;"></div></div>
 

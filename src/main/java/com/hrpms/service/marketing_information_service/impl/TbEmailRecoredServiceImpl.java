@@ -7,6 +7,7 @@ import com.hrpms.pojo.TbCustomer;
 import com.hrpms.pojo.TbEmailRecord;
 import com.hrpms.pojo.TbSystemUser;
 import com.hrpms.service.marketing_information_service.TbEmailRecoredService;
+import com.hrpms.utils.MailUtils;
 import com.hrpms.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,12 @@ public class TbEmailRecoredServiceImpl implements TbEmailRecoredService {
 
     @Override
     public void addEmailRecored(TbEmailRecord tbEmailRecord) {
+        boolean bo = MailUtils.sendMail(tbEmailRecord.getTo_addr(), tbEmailRecord.getContent(), tbEmailRecord.getSubject());
+        if(bo){
+            tbEmailRecord.setStatus("1");
+        }else {
+            tbEmailRecord.setStatus("-1");
+        }
         tbEmailRecordDao.addEmailRecored(tbEmailRecord);
 
     }

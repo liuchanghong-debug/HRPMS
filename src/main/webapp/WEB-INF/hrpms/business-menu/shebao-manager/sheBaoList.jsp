@@ -138,7 +138,7 @@
 					</c:forEach>
 				</td>
 				<td>
-					<c:if test="${socialInsurance.createBy == 0}">
+					<c:if test="${socialInsurance.status == '1'}">
 						<a href="shebao/shebaoRecordToAdd?id=${socialInsurance.id}">缴费</a>
 					</c:if>
 

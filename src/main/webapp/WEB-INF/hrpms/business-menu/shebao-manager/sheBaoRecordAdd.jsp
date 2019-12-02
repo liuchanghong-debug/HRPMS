@@ -131,7 +131,7 @@
 		<tr>
 			<td><label class="control-label">缴费期间：</label></td>
 			<td>
-				<input id="payMonth" name="payMonth" class="input-xlarge " type="text" maxlength="20">
+				<input id="payMonth" name="payMonth" class="input-xlarge " type="date" maxlength="20">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">缴费状态：</label></td>

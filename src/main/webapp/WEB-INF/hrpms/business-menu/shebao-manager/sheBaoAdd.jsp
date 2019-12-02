@@ -132,12 +132,12 @@
 			<td><label class="control-label">应缴金额：</label></td>
 			<td><input id="mustPay" name="mustPay" class="input-xlarge " readonly type="text" ></td>
 			<td><label class="control-label">个人比率：</label></td>
-			<td><input id="personRatio" name="personRatio" class="input-xlarge" value="11%" readonly type="text"  maxlength="5"></td>
+			<td><input id="personRatio" name="personRatio" class="input-xlarge" value="10.2%" readonly type="text"  maxlength="5"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">单位比率：</label></td>
-			<td><input id="companyRatio" name="companyRatio" class="input-xlarge" value="32%" readonly type="text"  maxlength="5"></td>
+			<td><input id="companyRatio" name="companyRatio" class="input-xlarge" value="31.1%" readonly type="text"  maxlength="5"></td>
 			<td><label class="control-label">养老保险：</label></td>
 			<td><input id="yangLao" name="yangLao" class="input-xlarge " readonly type="text" ></td>
 		</tr>

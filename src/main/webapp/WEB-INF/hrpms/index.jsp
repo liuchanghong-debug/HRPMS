@@ -10,7 +10,7 @@
 <!-- saved from url=(0037)http://localhost:8080/jeesite/a?login -->
 <html style="overflow: hidden;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>安思普惠人事代理系统</title><!--  - Powered By JeeSite -->
+    <title>上海晟宏人事代理系统</title><!--  - Powered By JeeSite -->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta name="author" content="http://jeesite.com/"/>
     <meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
     <meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
@@ -430,7 +430,7 @@
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
-                                    <li><a data-href=".menu3-309beca7d55648b2a3a7388495baafa6" href="roleList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;角色管理</a>
+                                    <li><a data-href=".menu3-309beca7d55648b2a3a7388495baafa6" href="/role-manager/selectSystemRoleByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;角色管理</a>
                                         <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
                                         </ul></li>
@@ -454,13 +454,13 @@
                         </div>
                     </div>
                 </div></div>
-            <div id="openClose" class="close" style="height: 505px;">&nbsp;</div>
+            <div id="openClose" class="close" style="height: 700px;">&nbsp;</div>
             <div id="right" style="height: 510px; width: 1185px;">
                 <iframe id="mainFrame" name="mainFrame" src="./index/saved_resource.html" style="overflow: visible; height: 510px;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
             </div>
         </div>
         <div id="footer" class="row-fluid">
-            Copyright © 2012-2017 安思普惠人事代理系统 - Powered By <a href="http://jeesite.com/" target="_blank">JeeSite</a> V1.2.7
+            Copyright © 2012-2017 上海晟宏人事代理系统 - Powered By JeeSite V1.2.7
         </div>
     </div>
 </div>
