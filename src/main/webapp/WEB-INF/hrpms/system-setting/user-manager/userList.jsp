@@ -38,7 +38,7 @@
 	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 
-        $(function () {
+        /*$(function () {
             $.post(
                 "datadict/selectByName",
                 {"name":"用户状态"},
@@ -51,7 +51,7 @@
                 },
                 "json"
             );
-        });
+        });*/
 
         $(document).ready(function() {
 
@@ -83,6 +83,9 @@
 		</li>
 		<li><label>状态：</label>
 			<select id="status" name="status" class="input-medium">
+                <option value="">全部</option>
+                <option value="0">正常</option>
+                <option value="1">删除</option>
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
