@@ -40,7 +40,8 @@
 		var bpaycard = false;
 		$(function () {
 			$.post(
-			    "customerClient/selectAllCustomerName",
+			    "companyClient/selectAllCustomerName",
+				{"name":"isSalary"},
 				function (json) {
 			        customer=json;
                     var str="<option value='' selected></option>";
@@ -52,83 +53,183 @@
 				"json"
 			);
 
+			var bnameisone = false;
 			$("#name").change(function () {
 				var name = $(this).val();
-				for(var i=0;i<customer.length;i++){
-				    if(customer[i].name==name){
-				        $("#idcard").val(customer[i].idCard)
-					}
-				}
+                //判断是否有缴工资信息
+                $.post(
+                    "salary-manager/selectSalaryByName",
+                    {"name":name},
+                    function (json) {
+                        if(json!=null && json.id!=0){	//有值
+                            bnameisone=true;
+                        }else{
+                           bnameisone=false;
+                        }
+
+                        for(var i=0;i<customer.length;i++){
+                            if(customer[i].name==name){
+                                if(bnameisone){
+                                    bpaycard=true;
+                                    $("#idcard").val(customer[i].idCard);
+                                    $("#paycard").val(null);
+                                    $("#paycard").val(json.payCard);
+                                    $("#paycard").attr("readonly","readonly");
+                                }else {
+                                    $("#paycard").val("");
+                                    $("#paycard").removeAttr("readonly","readonly");
+                                    $("#idcard").val(customer[i].idCard);
+                                }
+
+                            }
+                        }
+
+                    },
+                    "json"
+                );
+
+            });
+
+            //银行卡号正则加唯一验证
+            $("#paycard").blur(function () {
+                var paycard = $(this).val();
+                var res = /^([1-9]{1})(\d{14}|\d{18})$/;
+                bpaycard = res.test(paycard);
+                if(bpaycard){		//正则通过验证
+                    $.post(
+                        "salary-manager/payCardIsOne",
+                        {"payCard":paycard},
+                        function (json) {
+                            if(json){
+                                bpaycard=true;
+                                $("#payCardIsOne").html("<font color='green' size='6'>√</font>");
+                            }else {
+                                bpaycard=false;
+                                $("#payCardIsOne").html("<font color='red' size='6'>×</font>");
+                            }
+                        },
+                        "json"
+                    )
+
+                }else{
+                    $("#payCardIsOne").html("<font color='red'>银行卡号格式不对！</font>");
+                }
             });
 
 
-            var baseSalary =0;
-            var bonus = 0;
-            var shebao = 0;
-            var overtimepay = 0;
-            var gongjijin = 0;
-            var taxpay = 0;
-            var proxy =0;
+
+            var baseSalary =$("#basesalary").val();
+            if(baseSalary==null || baseSalary==""){
+                baseSalary=0;
+            }else{
+                baseSalary=parseFloat(baseSalary);
+			}
+
+            var bonus = $("#bonuspay").val();
+            if(bonus=="" || bonus==null){
+                bonus=0;
+            }else{
+                bonus = parseFloat(bonus);
+			}
+
+            var shebao = $("#shebaopay").val();
+            if(shebao==null || shebao==""){
+                shebao=0;
+            }else {
+                shebao=parseFloat(shebao)
+			}
+
+            var overtimepay = $("#overtimepay").val();
+            if(overtimepay==null || overtimepay==""){
+                overtimepay=0;
+            }else{
+                overtimepay=parseFloat(overtimepay);
+			}
+
+            var gongjijin =  $("#gongjijinpay").val();
+            if(gongjijin==null || gongjijin==""){
+                gongjijin=0;
+            }else {
+                gongjijin = parseFloat(gongjijin);
+			}
+
+            var taxpay =  $("#taxpay").val();
+            if(taxpay==null || taxpay==""){
+                taxpay=0;
+            }else {
+                taxpay = parseFloat(taxpay);
+			}
+
+            var proxy = $("#proxyfee").val();
+            if(proxy==null || proxy==""){
+                proxy=0;
+            }else{
+                proxy=parseFloat(proxy);
+			}
+
+
 			$("#basesalary").blur(function () {
-                baseSalary= parseFloat($(this).val());
-                shebao=baseSalary*0.102;
+                baseSalary= $(this).val();
+
+                if(baseSalary==null || baseSalary==""){
+                    baseSalary=0;
+                }else{
+                    baseSalary=parseFloat(baseSalary);
+                }
+
+                shebao=Math.round(baseSalary*0.102*100)/100;
 				$("#shebaopay").val(shebao);
-                gongjijin=baseSalary*0.08;
+
+                gongjijin=Math.round(baseSalary*0.08*100)/100;
 				$("#gongjijinpay").val(gongjijin);
+
 				var salary=baseSalary-baseSalary*0.102-5000.0;
 				if(salary>0){
-                    taxpay=salary*0.03;
-                    $("#taxpay").val(taxpay)
+                    taxpay=Math.round(salary*0.03*100)/100;
+                    $("#taxpay").val(taxpay);
 				}else {
                     taxpay=0;
                     $("#taxpay").val(taxpay);
 				}
 
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
 			$("#bonuspay").blur(function () {
-                bonus= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay);
-                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                bonus= $(this).val();
+                if(bonus=="" || bonus==null){
+                    bonus=0;
+                }else{
+                    bonus = parseFloat(bonus);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
 			$("#overtimepay").blur(function () {
-                overtimepay= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay);
-                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                overtimepay= $(this).val();
+                if(overtimepay==null || overtimepay==""){
+                    overtimepay=0;
+                }else{
+                    overtimepay=parseFloat(overtimepay);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
 			$("#proxyfee").blur(function () {
-                proxy= parseFloat($(this).val());
-				$("#totalpay").val(baseSalary+bonus+overtimepay);
-				$("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                proxy=$(this).val();
+                if(proxy==null || proxy==""){
+                    proxy=0;
+                }else{
+                    proxy=parseFloat(proxy);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
-			//银行卡号正则加唯一验证
-			$("#paycard").blur(function () {
-				var paycard = $(this).val();
-				var res = /^([1-9]{1})(\d{14}|\d{18})$/;
-				bpaycard = res.test(paycard);
-				if(bpaycard){		//正则通过验证
-				    $.post(
-				        "salary-manager/payCardIsOne",
-						{"payCard":paycard},
-						function (json) {
-							if(json){
-                                bpaycard=true;
-                                $("#payCardIsOne").html("<font color='green' size='6'>√</font>");
-							}else {
-                                bpaycard=false;
-                                $("#payCardIsOne").html("<font color='red' size='6'>×</font>");
-							}
-                        },
-						"json"
-					)
 
-				}else{
-                    $("#payCardIsOne").html("<font color='red'>银行卡号格式不对！</font>");
-				}
-            });
 
         });
 
@@ -196,28 +297,28 @@
 			</td>
 			<td><label class="control-label">基本工资：</label></td>
 			<td>
-				<input id="basesalary" name="baseSalary" class="input-xlarge " type="text" value="">
+				<input id="basesalary" name="baseSalary" class="input-xlarge " type="number" value="">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">奖金：</label></td>
-			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " type="number" value=""></td>
 			<td><label class="control-label">加班费：</label></td>
-			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " type="number" value=""></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">社保扣费：</label></td>
-			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " readonly type="text" value=""></td>
 			<td><label class="control-label">公积金扣费：</label></td>
-			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " readonly type="text" value=""></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">应交税款：</label></td>
-			<td><input id="taxpay" name="taxPay" class="input-xlarge " type="text" value=""></td>
+			<td><input id="taxpay" name="taxPay" class="input-xlarge " readonly type="text" value=""></td>
 			<td><label class="control-label">应发工资：</label></td>
 			<td>
-				<input id="totalpay" name="totalPay" class="input-xlarge required" type="text" value="">
+				<input id="totalpay" name="totalPay" class="input-xlarge " type="text" readonly value="">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 		</tr>
@@ -225,12 +326,12 @@
 		<tr>
 			<td><label class="control-label">实发工资：</label></td>
 			<td>
-				<input id="mustpay" name="mustPay" class="input-xlarge required" type="text" value="">
+				<input id="mustpay" name="mustPay" class="input-xlarge " readonly type="text" value="">
 				<span class="help-inline"><font color="red">*</font> </span>
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td>
-				<input id="proxyfee" name="proxyFee" class="input-xlarge " type="text" value="">
+				<input id="proxyfee" name="proxyFee" class="input-xlarge " type="number" value="">
 			</td>
 		</tr>
 

@@ -41,46 +41,113 @@
 	<script type="text/javascript">
         var bpaycard = true;
         $(function () {
-            var baseSalary =0;
-            var bonus = 0;
-            var shebao = 0;
-            var overtimepay = 0;
-            var gongjijin = 0;
-            var taxpay = 0;
-            var proxy =0;
+            var baseSalary =$("#basesalary").val();
+            if(baseSalary==null || baseSalary==""){
+                baseSalary=0;
+            }else{
+                baseSalary=parseFloat(baseSalary);
+            }
+
+            var bonus = $("#bonuspay").val();
+            if(bonus=="" || bonus==null){
+                bonus=0;
+            }else{
+                bonus = parseFloat(bonus);
+            }
+
+            var shebao = $("#shebaopay").val();
+            if(shebao==null || shebao==""){
+                shebao=0;
+            }else {
+                shebao=parseFloat(shebao)
+            }
+
+            var overtimepay = $("#overtimepay").val();
+            if(overtimepay==null || overtimepay==""){
+                overtimepay=0;
+            }else{
+                overtimepay=parseFloat(overtimepay);
+            }
+
+            var gongjijin =  $("#gongjijinpay").val();
+            if(gongjijin==null || gongjijin==""){
+                gongjijin=0;
+            }else {
+                gongjijin = parseFloat(gongjijin);
+            }
+
+            var taxpay =  $("#taxpay").val();
+            if(taxpay==null || taxpay==""){
+                taxpay=0;
+            }else {
+                taxpay = parseFloat(taxpay);
+            }
+
+            var proxy = $("#proxyfee").val();
+            if(proxy==null || proxy==""){
+                proxy=0;
+            }else{
+                proxy=parseFloat(proxy);
+            }
+
             $("#basesalary").blur(function () {
-                baseSalary= parseFloat($("#basesalary").val());
-                shebao=baseSalary*0.102;
+                baseSalary= $(this).val();
+
+                if(baseSalary==null || baseSalary==""){
+                    baseSalary=0;
+                }else{
+                    baseSalary=parseFloat(baseSalary);
+                }
+
+                shebao=Math.round(baseSalary*0.102*100)/100;
                 $("#shebaopay").val(shebao);
-                gongjijin=baseSalary*0.08;
+
+                gongjijin=Math.round(baseSalary*0.08*100)/100;
                 $("#gongjijinpay").val(gongjijin);
+
                 var salary=baseSalary-baseSalary*0.102-5000.0;
                 if(salary>0){
-                    taxpay=salary*0.03;
-                    $("#taxpay").val(taxpay)
+                    taxpay=Math.round(salary*0.03*100)/100;
+                    $("#taxpay").val(taxpay);
                 }else {
                     taxpay=0;
                     $("#taxpay").val(taxpay);
                 }
-
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
             $("#bonuspay").blur(function () {
-                bonus= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay);
-                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                bonus= $(this).val();
+                if(bonus=="" || bonus==null){
+                    bonus=0;
+                }else{
+                    bonus = parseFloat(bonus);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
             $("#overtimepay").blur(function () {
-                overtimepay= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay);
-                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                overtimepay= $(this).val();
+                if(overtimepay==null || overtimepay==""){
+                    overtimepay=0;
+                }else{
+                    overtimepay=parseFloat(overtimepay);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
             $("#proxyfee").blur(function () {
-                proxy= parseFloat($(this).val());
-                $("#totalpay").val(baseSalary+bonus+overtimepay);
-                $("#mustpay").val(baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy);
+                proxy=$(this).val();
+                if(proxy==null || proxy==""){
+                    proxy=0;
+                }else{
+                    proxy=parseFloat(proxy);
+                }
+                $("#totalpay").val(Math.round((baseSalary+bonus+overtimepay)*100)/100);
+                $("#mustpay").val(Math.round((baseSalary+bonus+overtimepay-shebao-gongjijin-taxpay-proxy)*100)/100);
             });
 
             //银行卡号正则加唯一验证
@@ -183,39 +250,39 @@
 			</td>
 			<td><label class="control-label">基本工资：</label></td>
 			<td>
-				<input id="basesalary" name="baseSalary" class="input-xlarge " type="text" value="${tbSalary.baseSalary}">
+				<input id="basesalary" name="baseSalary" class="input-xlarge " type="number" value="${tbSalary.baseSalary}">
 			</td>
 		</tr>
 		<tr>
 			<td><label class="control-label">奖金：</label></td>
-			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " type="text" value="${tbSalary.bonusPay}"></td>
+			<td><input id="bonuspay" name="bonusPay" class="input-xlarge " type="number" value="${tbSalary.bonusPay}"></td>
 			<td><label class="control-label">加班费：</label></td>
-			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " type="text" value="${tbSalary.overTimePay}"></td>
+			<td><input id="overtimepay" name="overTimePay" class="input-xlarge " type="number" value="${tbSalary.overTimePay}"></td>
 		</tr>
 		<tr>
 			<td><label class="control-label">社保扣费：</label></td>
-			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " type="text" value="${tbSalary.sheBaoPay}"></td>
+			<td><input id="shebaopay" name="sheBaoPay" class="input-xlarge " readonly type="text" value="${tbSalary.sheBaoPay}"></td>
 			<td><label class="control-label">公积金扣费：</label></td>
-			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " type="text" value="${tbSalary.gongJiJinPay}"></td>
+			<td><input id="gongjijinpay" name="gongJiJinPay" class="input-xlarge " readonly type="text" value="${tbSalary.gongJiJinPay}"></td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">应交税款：</label></td>
-			<td><input id="taxpay" name="taxPay" class="input-xlarge " type="text" value="${tbSalary.taxPay}"></td>
+			<td><input id="taxpay" name="taxPay" class="input-xlarge " readonly type="text" value="${tbSalary.taxPay}"></td>
 			<td><label class="control-label">应发工资：</label></td>
 			<td>
-				<input id="totalpay" name="totalPay" class="input-xlarge required" type="text" value="${tbSalary.totalPay}">
+				<input id="totalpay" name="totalPay" class="input-xlarge " readonly type="text" value="${tbSalary.totalPay}">
 			</td>
 		</tr>
 
 		<tr>
 			<td><label class="control-label">实发工资：</label></td>
 			<td>
-				<input id="mustpay" name="mustPay" class="input-xlarge required" type="text" value="${tbSalary.mustPay}">
+				<input id="mustpay" name="mustPay" class="input-xlarge " readonly type="text" value="${tbSalary.mustPay}">
 			</td>
 			<td><label class="control-label">代理费用：</label></td>
 			<td>
-				<input id="proxyfee" name="proxyFee" class="input-xlarge " type="text" value="${tbSalary.proxyFee}">
+				<input id="proxyfee" name="proxyFee" class="input-xlarge " type="number" value="${tbSalary.proxyFee}">
 			</td>
 		</tr>
 

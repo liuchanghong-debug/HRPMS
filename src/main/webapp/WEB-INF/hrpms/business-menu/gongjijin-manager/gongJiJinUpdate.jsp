@@ -165,7 +165,7 @@
 	<div class="control-group">
 		<label class="control-label">缴费金额：</label>
 		<div class="controls">
-			<input id="paymoney" name="payMoney" class="input-xlarge required" type="text"  value="${tbAccumulationFund.payMoney}" >
+			<input id="paymoney" name="payMoney" class="input-xlarge" readonly type="text"  value="${tbAccumulationFund.payMoney}" >
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>

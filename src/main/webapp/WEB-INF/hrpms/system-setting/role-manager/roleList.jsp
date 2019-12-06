@@ -83,7 +83,7 @@
 
 	<c:forEach items="${page.dataList}" var="role">
 		<tr>
-			<td><a href="../updateRole/saved_resource_unEdit.html">
+			<td><a href="/role-manager/selectSystemRoleById?id=${role.id}&flag=1">
 				${role.id}
 			</a></td>
 			<td>
@@ -104,8 +104,8 @@
 				${role.roleNote}
 			</td>
 			<td>
-				<a href="../updateRole/saved_resource.html">修改</a>
-				<a href="#" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
+				<a href="/role-manager/selectSystemRoleById?id=${role.id}&flag=2">修改</a>
+				<a href="/role-manager/deleteRoleById?id=${role.id}" onclick="return confirmx(&#39;确认要删除该角色信息吗？&#39;, this.href)">删除</a>
 			</td>
 		</tr>
 	</c:forEach>

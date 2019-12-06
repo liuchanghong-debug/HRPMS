@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -67,10 +68,10 @@
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input id="name" name="name" class="input-medium" type="text" value="" maxlength="20">
+			<input id="name" name="name" class="input-medium" type="text" value="${map.name}" maxlength="20">
 		</li>
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idCard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-medium" type="text" value="${map.idCard}" maxlength="20">
 		</li>
 		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="查询"></li>
 		</form>
@@ -82,7 +83,20 @@
 				<input type="submit" style="display: none" id="fileSubmit">
 			</form>
 		</li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='salary-manager/salaryDownload'" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="daochu()" value="导出"></li>
+		<script>
+			function daochu() {
+				var href = "salary-manager/salaryDownload?name=";
+                if($("#name").val()!=null){
+                    href+=$("#name").val();
+                }
+                href+="&idCard=";
+                if($("#idcard").val()!=null){
+                    href+=$("#idcard").val();
+                }
+                location.href=href;
+            }
+		</script>
 		<li class="clearfix"></li>
 	</ul>
 
@@ -129,31 +143,32 @@
 				${salary.payDate}
 			</td>
 			<td>
-				${salary.baseSalary}
+				<fmt:formatNumber value="${salary.baseSalary}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.bonusPay}
+				<fmt:formatNumber value="${salary.bonusPay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.overTimePay}
+				<fmt:formatNumber value="${salary.overTimePay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.sheBaoPay}
+				<fmt:formatNumber value="${salary.sheBaoPay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.gongJiJinPay}
+				<fmt:formatNumber value="${salary.gongJiJinPay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.taxPay}
+				<fmt:formatNumber value="${salary.taxPay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.totalPay}
+				<fmt:formatNumber value="${salary.totalPay}" pattern="0.00"/>
+
 			</td>
 			<td>
-				${salary.mustPay}
+				<fmt:formatNumber value="${salary.mustPay}" pattern="0.00"/>
 			</td>
 			<td>
-				${salary.proxyFee}
+				<fmt:formatNumber value="${salary.proxyFee}" pattern="0.00"/>
 			</td>
 			<td>
 				<a href="salary-manager/selectSalaryById?id=${salary.id}&flag=2">修改</a>

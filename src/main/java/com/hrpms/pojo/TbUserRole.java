@@ -12,19 +12,11 @@ import java.util.Set;
  * @versiion 1.0
  * @Description:用户角色表
  */
-@Entity
 public class TbUserRole {
     private Integer userId;//用户id  主键
     private Integer roleId;//角色id  主键
 
-    //一个用户id对应一个用户
-    private TbSystemUser tbSystemUser;
 
-    //多个用户id对应一个系统角色
-    private TbSystemRole tbSystemRole;
-
-    @Id
-    @GeneratedValue
     public Integer getUserId() {
         return userId;
     }
@@ -42,23 +34,4 @@ public class TbUserRole {
     }
 
 
-    @OneToOne
-    @JoinColumn(name="userId",insertable = false,updatable = false)
-    public TbSystemUser getTbSystemUser() {
-        return tbSystemUser;
-    }
-
-    public void setTbSystemUser(TbSystemUser tbSystemUser) {
-        this.tbSystemUser = tbSystemUser;
-    }
-
-    @ManyToOne
-    @JoinColumn(name="roleId",insertable = false,updatable = false)
-    public TbSystemRole getTbSystemRole() {
-        return tbSystemRole;
-    }
-
-    public void setTbSystemRole(TbSystemRole tbSystemRole) {
-        this.tbSystemRole = tbSystemRole;
-    }
 }

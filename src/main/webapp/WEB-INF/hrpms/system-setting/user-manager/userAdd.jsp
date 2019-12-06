@@ -39,6 +39,7 @@
         var bpassword = false;
         var bphone = false;
         var bemail = false;
+        var brequired = false;
 		$(function () {
             /*从数字字典中获取用户状态*/
 			$.post(
@@ -53,6 +54,29 @@
                 },
                 "json"
 			);
+
+			//获取所有角色名称
+			$.post(
+			    "role-manager/selectAllRoleName",
+				function (json) {
+					var str = "";
+					for(var i=0;i<json.length;i++){
+					    str += "<input id='userRoleList1' name='userRoleList' type='checkbox' value='"+json[i].id+"'>"+json[i].roleName;
+					}
+					$("#userRole").html(str);
+                },
+				"json"
+			);
+
+            //判断复选框是否有选值
+            $("#btnSubmit").click(function () {
+                var ref = $("#inputForm").find("[type=checkbox]");
+                $(ref).each(function () {
+                    if($(this).is(":checked")==true){
+                        brequired=true;
+                    }
+                })
+            });
 
 			/*用户名唯一以及正则验证*/
 			$("#username").blur(function () {
@@ -144,11 +168,10 @@
             });
 
         });
+
         function sub() {
-            return busername && bpassword && bphone && bemail;
+            return busername && bpassword && bphone && bemail && brequired;
         }
-
-
 
        $(document).ready(function() {
             //$("#name").focus();
@@ -185,64 +208,52 @@
 		<div class="control-group">
 			<label class="control-label">用户名称：</label>
 			<div class="controls">
-				<input id="username" name="username" placeholder="由5-10个数字或字母组成" class="input-xlarge required" type="text" value="" maxlength="50">
+				<input id="username" name="username" placeholder="由5-10个数字或字母组成" class="input-xlarge" required="required" type="text" value="" maxlength="50">
 				<span class="help-inline" id="userIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户密码：</label>
 			<div class="controls">
-				<input id="password" name="password" placeholder="由6-7个数字或字母组成" class="input-xlarge required" type="password" value="" maxlength="50">
+				<input id="password" name="password" placeholder="由6-7个数字或字母组成" class="input-xlarge" required="required" type="password" value="" maxlength="50">
 				<span class="help-inline" id="pwd"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">电子邮件：</label>
 			<div class="controls">
-				<input id="email" name="email" class="input-xlarge " type="text" value="" maxlength="50">
+				<input id="email" name="email" class="input-xlarge " type="text" value="" required="required" maxlength="50">
 				<span class="help-inline" id="emailIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">手机号码：</label>
 			<div class="controls">
-				<input id="phone" name="phone" class="input-xlarge " type="text" value="" maxlength="13">
+				<input id="phone" name="phone" class="input-xlarge " type="text" value="" required="required" maxlength="13">
 				<span class="help-inline" id="phoneIsOne"><font color="red">*</font></span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">排序：</label>
 			<div class="controls">
-				<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="" maxlength="11">
+				<input id="sortnum" name="sortnum" class="input-xlarge " type="number" value="" maxlength="11">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">状态：</label>
 			<div class="controls">
 				<div class="select2-container input-xlarge" id="s2id_status">
-					<select id="status" name="status"  tabindex="-1">
-
+					<select  name="status"  tabindex="-1">
+						<option value="0" selected>正常</option>
+						<option value="1" >删除</option>
 					</select>
 				</div>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
-			<div class="controls">
-				<span><input id="userRoleList1" name="userRoleId"  class="required"   type="radio" value="1">
-					<label for="userRoleList1">系统管理员</label>
-				</span>
-				<span><input id="userRoleList2" name="userRoleId"  class="required" type="radio" value="2">
-					<label for="userRoleList2">高管</label>
-				</span>
-				<span><input id="userRoleList3" name="userRoleId" class="required" type="radio" value="3">
-					<label for="userRoleList3">业务经理</label>
-				</span>
-				<span><input id="userRoleList4" name="userRoleId" class="required" type="radio" value="4">
-					<label for="userRoleList4">业务人员</label>
-				</span>
-				<input type="hidden" name="_userRoleList" value="on">
-				<span class="help-inline"><font color="red">*</font> </span>
+			<div class="controls" id="userRole">
+
 			</div>
 		</div>
 		<div class="control-group">

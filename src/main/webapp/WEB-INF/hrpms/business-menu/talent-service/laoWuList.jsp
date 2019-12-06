@@ -53,10 +53,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="laowu/laowuList">劳务合作列表</a></li>
-	<li><a href="laowu/laowuToAdd">劳务合作添加</a></li>
+	<li class="active"><a href="talent/laowuList">劳务合作列表</a></li>
+	<li><a href="talent/laowuToAdd">劳务合作添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="laowu/laowuList" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="talent/laowuList" method="post">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
 			<input name="nameQuery" class="input-medium" type="text" value="${personJobOperation.nameQuery}" maxlength="20">
@@ -101,7 +101,7 @@
 	<tbody>
 	<c:forEach items="${page.dataList}" var="person">
 		<tr>
-			<td><a href="laowu/laowuDetailById?id=${person.id}">${person.id}</a></td>
+			<td><a href="talent/laowuDetailById?id=${person.id}">${person.id}</a></td>
 			<td>${person.name}</td>
 			<td>${person.idCard}</td>
 			<td>
@@ -133,8 +133,8 @@
 				<span>${endTime}</span>
 		</td>
 			<td>
-				<a href="laowu/laowuToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">修改</a>
-				<a href="laowu/laowuDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该劳务合作吗？&#39;, this.href)">删除</a>
+				<a href="talent/laowuToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">修改</a>
+				<a href="talent/laowuDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该劳务合作吗？&#39;, this.href)">删除</a>
 			</td>
 		</tr>
 	</c:forEach>
@@ -149,9 +149,9 @@
 		<input type="hidden" name="companyIdQuery" value="${personJobOperation.companyIdQuery}">
 
 		<ul>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='laowu/laowuList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/laowuList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 			<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='laowu/laowuList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/laowuList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 			<li class="disabled controls">
 				<a href="javascript:">
 					当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">

@@ -59,10 +59,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="customerClient/customerList">个人客户列表</a></li>
-	<li><a href="customerClient/customerAdd">个人客户添加</a></li>
+	<li class="active"><a href="companyClient/customerList">个人客户列表</a></li>
+	<li><a href="companyClient/customerAdd">个人客户添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="customerClient/customerList" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="companyClient/customerList" method="post">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
 			<input name="nameQuery" class="input-medium" type="text" value="${customerOperation.nameQuery}" maxlength="50">
@@ -86,13 +86,13 @@
 
 		</li>
 		<li class="btns"><input class="btn btn-primary" type="submit" value="查询"></li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='customerClient/customerTemplateDownload?name=个人客户模板'" value="模板下载"></li>
-<form action="customerClient/customerUploadOfExcel" method="post" enctype="multipart/form-data">
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='companyClient/customerTemplateDownload?name=个人客户模板'" value="模板下载"></li>
+<form action="companyClient/customerUploadOfExcel" method="post" enctype="multipart/form-data">
 		<li class="btns"><input class="btn btn-primary" type="button" onclick="openSelectFile()" value="导入"></li>
 		<input type="file" id="file" name="file" style="display: none" onchange="subFile()" accept="application/Excel,application/vnd.ms-excel">
 		<input type="submit" id="sub" style="display: none">
 
-		<li class="btns"><input class="btn btn-primary" type="button" value="导出" onclick="location.href='customerClient/customerDataOutOfExcel?nameQuery=' + $('#nameQuery').val() + '&idCardQuery=' + $('#idCardQuery').val() + '&companyIdQuery=' + $('#companyIdQuery').val()"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" value="导出" onclick="location.href='companyClient/customerDataOutOfExcel?nameQuery=' + $('#nameQuery').val() + '&idCardQuery=' + $('#idCardQuery').val() + '&companyIdQuery=' + $('#companyIdQuery').val()"></li>
 		<li class="clearfix"></li>
 	</ul>
 </form>
@@ -126,7 +126,7 @@
 		<tbody>
 			<c:forEach items="${page.dataList}" var="customer">
 			<tr>
-				<td><a href="customerClient/customerMess?id=${customer.id}">${customer.name}</a></td>
+				<td><a href="companyClient/customerMess?id=${customer.id}">${customer.name}</a></td>
 				<td>${customer.idCard}</td>
 				<td>${customer.sex}</td>
 				<td>
@@ -142,8 +142,8 @@
 				<td><a href="shebao/shebaoList?idCardQuery=${customer.idCard}">社保信息</a></td>
 				<td><a href="gongjijin-manager/selectAccumulationByDuo?idCard=${customer.idCard}">公积金</a></td>
 				<td>
-					<a href="javascript:void(0)" onclick="paging.action='customerClient/customerUpdate?currentPage=${page.currentPage}&id=${customer.id}'; paging.submit()">修改</a>
-					<a href="customerClient/customerDelete?currentPage=${page.currentPage}&id=${customer.id}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该个人客户吗？&#39;, this.href)">删除</a>
+					<a href="javascript:void(0)" onclick="paging.action='companyClient/customerUpdate?currentPage=${page.currentPage}&id=${customer.id}'; paging.submit()">修改</a>
+					<a href="companyClient/customerDelete?currentPage=${page.currentPage}&id=${customer.id}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}" onclick="return confirmx(&#39;确认要删除该个人客户吗？&#39;, this.href)">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -152,9 +152,9 @@
 
 	<div class="pagination">
 		<ul>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='customerClient/customerList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='companyClient/customerList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 			<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='customerClient/customerList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='companyClient/customerList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 			<li class="disabled controls"><a href="javascript:">当前
 				<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
 				/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">

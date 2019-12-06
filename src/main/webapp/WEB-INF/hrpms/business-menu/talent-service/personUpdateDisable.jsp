@@ -62,8 +62,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="person/personList">人才信息列表</a></li>
-	<li class="active"><a href="person/personDetailById?id=${person.id}">人才信息查看</a></li>
+	<li><a href="talent/personList">人才信息列表</a></li>
+	<li class="active"><a href="talent/personDetailById?id=${person.id}">人才信息查看</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="1">

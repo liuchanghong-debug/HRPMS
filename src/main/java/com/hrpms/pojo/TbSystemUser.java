@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -30,8 +31,8 @@ public class TbSystemUser {
     private Timestamp updateTime;//更新时间
     private String userNote;//备注
 
-    //一个用户对应一个用户角色
-    private TbUserRole tbUserRole;
+    //多个用户对应多个用户角色
+    private Set<TbSystemRole> tbSystemRoles = new LinkedHashSet<>();
 
 
     @Id
@@ -136,14 +137,18 @@ public class TbSystemUser {
         this.userNote = userNote;
     }
 
-
-    @OneToOne(mappedBy = "tbSystemUser")
-    public TbUserRole getTbUserRole() {
-        return tbUserRole;
+    @ManyToMany
+    @JoinTable(
+            name = "tbUserRole",
+            joinColumns = @JoinColumn(name="userId"),
+            inverseJoinColumns = @JoinColumn(name="roleId")
+    )
+    @OrderBy("sortnum")
+    public Set<TbSystemRole> getTbSystemRoles() {
+        return tbSystemRoles;
     }
 
-    public void setTbUserRole(TbUserRole tbUserRole) {
-        this.tbUserRole = tbUserRole;
+    public void setTbSystemRoles(Set<TbSystemRole> tbSystemRoles) {
+        this.tbSystemRoles = tbSystemRoles;
     }
-
 }

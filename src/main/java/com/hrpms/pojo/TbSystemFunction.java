@@ -2,7 +2,11 @@ package com.hrpms.pojo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author GoldFish
@@ -12,6 +16,7 @@ import java.sql.Timestamp;
  * @versiion 1.0
  * @Description:系统权限表
  */
+@Entity
 public class TbSystemFunction {
     private Integer id;//id  主键
     private String funcName;//权限名称  非空
@@ -30,6 +35,11 @@ public class TbSystemFunction {
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss.SSS")
     private Timestamp updateTime;//更新时间
 
+    //角色与权限是多对多关系
+    private Set<TbSystemRole> tbSystemRoles = new LinkedHashSet<>();
+
+    @Id
+    @GeneratedValue
     public Integer getId() {
         return id;
     }
@@ -141,5 +151,14 @@ public class TbSystemFunction {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @ManyToMany(mappedBy = "tbSystemFunctions")
+    public Set<TbSystemRole> getTbSystemRoles() {
+        return tbSystemRoles;
+    }
+
+    public void setTbSystemRoles(Set<TbSystemRole> tbSystemRoles) {
+        this.tbSystemRoles = tbSystemRoles;
     }
 }

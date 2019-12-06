@@ -39,9 +39,40 @@
 	<link href="js/static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css">
 	<script src="js/static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+		var funct ;
+		var brolename = false;
         $(document).ready(function() {
+            $.ajaxSettings.async=false;
+            $.post(
+                "menu-manager/selectAllSystemFunctionName",
+				function (json) {
+                    funct=json;
+                },
+				"json"
+			);
+
+            //角色名唯一验证
+            $("#rolename").blur(function () {
+                var roleName = $(this).val();
+                $.post(
+                    "role-manager/roleNameIsOne",
+                    {"roleName":roleName},
+                    function (json) {
+                        if(json){
+                            $("#sprole").html("<font color='green' size='6'>√</font>");
+                            brolename=true;
+                        }else{
+                            brolename=false;
+                            $("#sprole").html("<font color='red'size='6'>×</font>");
+                        }
+                    },
+                    "json"
+                )
+
+            });
+
             //$("#name").focus();
-            $("#inputForm").validate({
+            /*$("#inputForm").validate({
                 submitHandler: function(form){
                     loading('正在提交，请稍等...');
                     form.submit();
@@ -55,7 +86,7 @@
                         error.insertAfter(element);
                     }
                 }
-            });
+            });*/
 
             var setting = {check:{enable:true,nocheckInherit:true},view:{selectedMulti:false},
                 data:{simpleData:{enable:true}},callback:{
@@ -66,19 +97,7 @@
                 }};
 
             // 用户-菜单
-            var zNodes=[
-
-                {id:"1", pId:"0", name:"权限列表"},
-                {id:"2", pId:"1", name:"用户管理"},
-                {id:"3", pId:"1", name:"角色管理"},
-                {id:"4", pId:"1", name:"菜单管理"},
-                {id:"6", pId:"1", name:"数据字典"},
-                {id:"7", pId:"1", name:"短信模板"},
-                {id:"8", pId:"1", name:"邮件模板"},
-
-				{id:"9",pId:"2",name:"用户查询"},
-
-            ];
+            var zNodes=funct;
             // 初始化树结构
             var tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);
             // 不选择父节点
@@ -102,18 +121,23 @@
                 $("#menu_id").val(v);
             }
         });
+
+        function sub() {
+            return brolename;
+        }
 	</script>
 
 </head>
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../roleList/saved_resource.html">角色信息列表</a></li>
-	<li class="active"><a href="saved_resource.html">角色信息添加
+	<li><a href="/role-manager/selectSystemRoleByDuo">角色信息列表</a></li>
+	<li class="active"><a href="/role-manager/addSystemRoleJsp">角色信息添加
 	</a></li>
 </ul>
 <br>
-<form id="inputForm" class="form-horizontal" action="/role-manager/addSystemRole" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="/role-manager/addSystemRole" method="post" onsubmit="return sub()" novalidate="novalidate">
+	<input type="hidden" name="createBy" value="${sessionScope.tbSystemUser.id}">
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 
@@ -121,7 +145,7 @@
 		<label class="control-label">角色名称：</label>
 		<div class="controls">
 			<input id="rolename" name="roleName" class="input-xlarge required" type="text" value="" maxlength="50">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<span class="help-inline" id="sprole"></span>
 		</div>
 	</div>
 	<div class="control-group">
@@ -141,11 +165,10 @@
 	</div>
 	<div class="control-group">
 		<label class="control-label">角色授权:</label>
-
 		<div class="controls">
 			<div id="menuTree" class="ztree"
 				 style="margin-top: 3px; float: left;"></div>
-			<input id="menu_id" name="menuIds" type="hidden" value="1,2"/>
+			<input id="menu_id" name="menuIds" type="hidden" value=""/>
 		</div>
 	</div>
 	<div class="form-actions">

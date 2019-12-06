@@ -62,10 +62,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="laowu/laowuList">劳务合作列表</a></li>
-	<li class="active"><a href="laowu/laowuToUpdate?id=${personJob.id}&currentPage=${currentPage}&nameQuer=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">劳务合作修改</a></li>
+	<li><a href="talent/laowuList">劳务合作列表</a></li>
+	<li class="active"><a href="talent/laowuToUpdate?id=${personJob.id}&currentPage=${currentPage}&nameQuer=${personJobOperation.nameQuery}&idCardQuery=${personJobOperation.idCardQuery}&companyIdQuery=${personJobOperation.companyIdQuery}">劳务合作修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="laowu/laowuUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
+<form id="inputForm" class="form-horizontal" action="talent/laowuUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<input type="hidden" name="nameQuery" value=""${personJobOperation.nameQuery}>
 	<input type="hidden" name="idCardQuery" value="${personJobOperation.idCardQuery}">
 	<input type="hidden" name="companyIdQuery" value="${personJobOperation.companyIdQuery}">

@@ -171,7 +171,7 @@ function getDetailNeedJobById(needJobId) {
     $("#jobContent").text("");
     if(needJobId != "" && needJobId != null){
         $.get(
-            "laowu/getNeedJobDetailById",
+            "talent/getNeedJobDetailById",
             {"needJobId":needJobId},
             function (json) {
                 $("#companyPrice").val(json.price);
@@ -208,7 +208,7 @@ function getPersonsAndCompanyByCompayId(companyId) {
     if(companyId != "" && companyId != null){
         $.get(
             //通过公司得到期望薪资差不多的求职信息
-            "laowu/getPersonsAndCompanyByCompanyId",
+            "talent/getPersonsAndCompanyByCompanyId",
             {"companyId":companyId},
             function (json) {
                 var companyJobs = json.needJobs;
@@ -266,7 +266,7 @@ function getPersonsAndNeedJobByNeedJobId(needJobId) {
     $("#jobContent").text("");
     if(needJobId != "" && needJobId != null){
         $.get(
-            "laowu/getPersonsAndNeedJobByNeedJobId",
+            "talent/getPersonsAndNeedJobByNeedJobId",
             {"needJobId":needJobId},
             function (json) {
                 var needJob = json.tbNeedJob;
@@ -316,7 +316,7 @@ function getPersonDetatilById(personId) {
     $("#jobTypeSelect option[value='']").attr("selected","selected");
     if(personId != "" && personId != null){
         $.get(
-            "laowu/getPersonDetatilById",
+            "talent/getPersonDetatilById",
             {"personId":personId},
             function (person) {
                 $("#idCard").val(person.idCard);
@@ -348,7 +348,7 @@ function getPersonAndNeedJobsById(personId) {
     $("#companyId").empty().attr("style", "display: none").removeAttr("onchange").attr("onchange", "getPersonsAndNeedJobByNeedJobId(this.value)");
     if(personId != "" && personId != null){
         $.get(
-            "laowu/getPersonAndNeedJobsById",
+            "talent/getPersonAndNeedJobsById",
             {"personId":personId, "companyId":$("#company").val()},
             function (json) {
                 var person = json.person;
@@ -380,7 +380,7 @@ function getNeedJobDetailById(needJobId) {
     $("#jobContent").text("");
     if(needJobId != "" && needJobId != null){
         $.get(
-            "laowu/getNeedJobDetailById",
+            "talent/getNeedJobDetailById",
             {"needJobId":needJobId},
             function (json) {
                 $("#companyPrice").val(json.price);

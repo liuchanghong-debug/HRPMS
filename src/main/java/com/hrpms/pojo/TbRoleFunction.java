@@ -1,5 +1,7 @@
 package com.hrpms.pojo;
 
+import javax.persistence.Entity;
+
 /**
  * @author GoldFish
  * @package hrpms > com.hrpms.pojo > TbRoleFunction
@@ -9,8 +11,8 @@ package com.hrpms.pojo;
  * @Description:角色权限表
  */
 public class TbRoleFunction {
-    private Integer roleId;//角色id  主键
-    private Integer funcId;//权限id  主键
+    private Integer roleId;//角色id
+    private Integer funcId;//权限id
 
     public Integer getRoleId() {
         return roleId;

@@ -60,10 +60,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
-	<li class="active"><a href="zhaopin/zhaopinToAdd">招聘信息添加</a></li>
+	<li><a href="talent/zhaopinList">招聘信息列表</a></li>
+	<li class="active"><a href="talent/zhaopinToAdd">招聘信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="zhaopin/zhaopinAdd" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="talent/zhaopinAdd" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>

@@ -43,9 +43,19 @@
             $.post(
                 "companyClient/selectAllCompanyName",
                 function (json) {
-                    var str="<option value=''>全部</option>";
+                    var str="<option value='' selected >全部</option>";
                     for(var i=0;i<json.length;i++){
-                        str +="<option value='"+json[i][0]+"'>"+json[i][1]+"</option>"
+                        if("${map.companyId}"!=null){
+                            if("${map.companyId}"==json[i][0]){
+								str +="<option value='"+json[i][0]+"' selected>"+json[i][1]+"</option>";
+							}else {
+								str +="<option value='"+json[i][0]+"'>"+json[i][1]+"</option>";
+							}
+						}else{
+                            str +="<option value='"+json[i][0]+"'>"+json[i][1]+"</option>";
+                        }
+
+
                     }
                     $("#companyId").html(str);
                 },
@@ -68,7 +78,7 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="saved_resource.html">公积金费用列表</a></li>
+	<li class="active"><a href="/report-statistics/selectGongJiJinCountByDuo">公积金费用列表</a></li>
 
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="/report-statistics/selectGongJiJinCountByDuo" method="post">
@@ -76,13 +86,13 @@
 	<input id="pageSize" name="pageSize" type="hidden" value="">
 	<ul class="ul-form">
 		<li><label>客户名称：</label>
-			<input type="text" name="name" htmlescape="false" maxlength="50" class="input-medium" style="width:150px">
+			<input id="name" type="text" name="name" htmlescape="false" maxlength="50" value="${map.name}" class="input-medium" style="width:150px">
 		</li>
 		<li><label>身份证号：</label>
-			<input type="text" name="idCard" htmlescape="false" maxlength="20" class="input-medium" style="width:150px">
+			<input id="idcard" type="text" name="idCard" htmlescape="false" maxlength="20" value="${map.idCard}" class="input-medium" style="width:150px">
 		</li>
 		<li><label>公积金账号：</label>
-			<input type="text" name="accountNo" htmlescape="false" maxlength="50" class="input-medium" style="width:100px">
+			<input id="accountno" type="text" name="accountNo" htmlescape="false" maxlength="50" value="${map.accountNo}" class="input-medium" style="width:100px">
 		</li>
 		<li><label>所属公司：</label>
 			<select id="companyId" name="companyId" style="width:150px" tabindex="-1" class="select2-offscreen">
@@ -90,7 +100,29 @@
 			</select>
 		</li>
 		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="统计"></li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='report-statistics/gongJiJInCountDownload'" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="daochu()" value="导出"></li>
+		<script>
+			function daochu() {
+				var href="report-statistics/gongJiJInCountDownload?name=";
+                if($("#name").val()!=null){
+                    href+=$("#name").val();
+                }
+                href+="&idCard=";
+                if($("#idcard").val()!=null){
+                    href+=$("#idcard").val();
+                }
+                href+="&accountNo=";
+                if($("#accountno").val()!=null){
+                    href+=$("#accountno").val();
+                }
+                href+="&companyId=";
+                if($("#companyId").val()!=null){
+                    href+=$("#companyId").val();
+                }
+                location.href=href;
+
+            }
+		</script>
 		<li class="clearfix"></li>
 	</ul>
 </form>

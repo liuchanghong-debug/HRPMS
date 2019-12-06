@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -38,7 +39,9 @@
 	<link href="js/static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css">
 	<script src="js/static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+        var funct ;
         $(document).ready(function() {
+
             //$("#name").focus();
             $("#inputForm").validate({
                 submitHandler: function(form){
@@ -65,28 +68,13 @@
                 }};
 
             // 用户-菜单
-            var zNodes=[
-
-                {id:"1", pId:"0", name:"权限列表", nocheck:true },
-
-                {id:"2", pId:"1", name:"用户管理", nocheck:true},
-
-                {id:"3", pId:"1", name:"角色管理", nocheck:true},
-
-                {id:"4", pId:"1", name:"菜单管理", nocheck:true},
-
-                {id:"6", pId:"1", name:"数据字典", nocheck:true},
-
-                {id:"7", pId:"1", name:"短信模板", nocheck:true},
-
-                {id:"8", pId:"1", name:"邮件模板", nocheck:true},
-            ];
+            var zNodes=${list};
             // 初始化树结构
             var tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);
             // 不选择父节点
             tree.setting.check.chkboxType = { "Y" : "ps", "N" : "s" };
             // 默认选择节点
-            var ids = "1,2".split(",");
+            var ids = "".split(",");
             for(var i=0; i<ids.length; i++) {
                 var node = tree.getNodeByParam("id", ids[i]);
                 try{tree.checkNode(node, true, false);}catch(e){}
@@ -110,51 +98,39 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="../roleList/saved_resource.html">角色信息列表</a></li>
-	<li class="active"><a href="saved_resource_unEdit.html">角色信息修改
+	<li><a href="/role-manager/selectSystemRoleByDuo">角色信息列表</a></li>
+	<li class="active"><a href="/role-manager/selectSystemRoleById?id=${role.id}&flag=1">角色信息详情
 	</a></li>
 </ul>
 <br>
-<form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
-	<input id="id" name="id" type="hidden" value="1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
-
+<form id="inputForm" class="form-horizontal"   novalidate="novalidate">
 	<div class="control-group">
 		<label class="control-label">角色名称：</label>
 		<div class="controls">
-			<input id="rolename" name="rolename" class="input-xlarge required" type="text" value="系统管理员" maxlength="50" disabled="disabled">
-			<span class="help-inline"><font color="red">*</font> </span>
+			<input id="rolename" name="roleName" class="input-xlarge " readonly type="text" value="${tbSystemRole.roleName}" maxlength="50" disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="1" maxlength="11"
+			<input id="sortnum" name="sortNum" class="input-xlarge " type="text" value="${tbSystemRole.sortNum}" maxlength="11"
 				   disabled="disabled">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
-			<select id="status" name="status" class="input-xlarge  select2-offscreen" tabindex="-1"  disabled="disabled">
-				<option value=""></option>
-				<option value="0" selected="selected">正常</option><option value="1">删除</option>
-			</select>
+			<c:if test="${tbSystemRole.status=='0'}" var="bo">
+				<input id="status" name="status" class="input-xlarge " type="text" value="正常" maxlength="11"
+					   disabled="disabled">
+			</c:if>
+			<c:if test="${!bo}">
+				<input id="status" name="status" class="input-xlarge " type="text" value="删除" maxlength="11"
+					   disabled="disabled">
+			</c:if>
+
 		</div>
 	</div>
 	<div class="control-group">
@@ -162,19 +138,20 @@
 
 		<div class="controls">
 			<div id="menuTree" class="ztree"
-				 style="margin-top: 3px; float: left;"></div>
-			<input id="menu_id" name="menuIds" type="hidden" value="1,2"/>
+				 style="margin-top: 3px; float: left;">
+
+			</div>
+			<input id="menu_id" name="menuIds" type="hidden" value=""/>
 		</div>
 	</div>
+
 	<div class="control-group">
 		<label class="control-label">备注：</label>
 		<div class="controls">
-			<input id="rolenote" name="rolenote" class="input-xlarge " type="text" value="测试" maxlength="256"  disabled="disabled">
+			<input id="rolenote" name="roleNote" class="input-xlarge " type="text" value="${tbSystemRole.roleNote}" maxlength="256"  disabled="disabled">
 		</div>
 	</div>
 	<div class="form-actions">
-
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"  disabled="disabled">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

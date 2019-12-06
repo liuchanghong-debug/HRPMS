@@ -43,7 +43,7 @@
         var salary = null;
         $(function () {
             $.post(
-                "salary-manager/selectAllGongjijinByIdCard",
+                "gongjijin-manager/selectAllGongjijinByIdCard",
 				function (json) {
                     salary=json;
                     var str = "<option value='' selected></option>";
@@ -54,14 +54,42 @@
                 },
 				"json"
 			);
+
+            var bgjjisone = false;
             $("#name").change(function () {
                 var name = $(this).val();
-                for(var j=0;j<salary.length;j++){
-                    if(salary[j].name==name){
-                        $("#idcard").val(salary[j].idCard);
-                        $("#paymoney").val(salary[j].gongJiJinPay);
-					}
-				}
+                //判断是否有缴纳公积金记录
+				$.post(
+				    "gongjijin-manager/selectAccumulationByName",
+					{"name":name},
+					function (json) {
+                        if(json!=null && json.id!=0){	//有值
+                            bgjjisone=true;
+                        }else{
+                            bgjjisone=false;
+                        }
+
+                        for(var j=0;j<salary.length;j++){
+                            if(salary[j].name==name){
+                                if(bgjjisone){
+                                    baccountNo=true;
+                                    $("#idcard").val(salary[j].idCard);
+                                    $("#paymoney").val(salary[j].gongJiJinPay);
+                                    $("#accountno").val(null);
+                                    $("#accountno").val(json.accountNo);
+                                    $("#accountno").attr("readonly","readonly");
+								}else{
+                                    $("#accountno").val(null);
+                                    $("#idcard").val(salary[j].idCard);
+                                    $("#paymoney").val(salary[j].gongJiJinPay);
+								}
+                            }
+                        }
+                    },
+					"json"
+				);
+
+
             });
 
             /*公积金账号正则验证加唯一验证*/

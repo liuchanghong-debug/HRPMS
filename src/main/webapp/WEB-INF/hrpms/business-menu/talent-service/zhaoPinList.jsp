@@ -52,10 +52,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
-	<li><a href="zhaopin/zhaopinToAdd">招聘信息添加</a></li>
+	<li class="active"><a href="talent/zhaopinList">招聘信息列表</a></li>
+	<li><a href="talent/zhaopinToAdd">招聘信息添加</a></li>
 </ul>
-<form id="searchForm" class="breadcrumb form-search" action="zhaopin/zhaopinList" method="post">
+<form id="searchForm" class="breadcrumb form-search" action="talent/zhaopinList" method="post">
 	<ul class="ul-form">
 		<li><label>需求名称：</label>
 			<input name="jobNameQuery" class="input-medium" type="text" value="${needJobOperation.jobNameQuery}" maxlength="100">
@@ -119,7 +119,7 @@
 
 	<c:forEach items="${page.dataList}" var="needJob">
 		<tr>
-			<td><a href="zhaopin/zhaopinDetailById?id=${needJob.id}">${needJob.id}</a></td>
+			<td><a href="talent/zhaopinDetailById?id=${needJob.id}">${needJob.id}</a></td>
 			<td>${needJob.jobName}</td>
 			<td>${needJob.jobType}</td>
 			<td>
@@ -169,10 +169,10 @@
 				</c:forEach>
 			</td>
 			<td>
-				<a href="zhaopin/zhaopinToUpdate?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">修改</a>
+				<a href="talent/zhaopinToUpdate?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">修改</a>
 				<c:forEach items="${statuss}" var="status">
 					<c:if test="${status.label == '删除' && status.value != needJob.status}">
-						<a href="zhaopin/zhaopinDelete?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">删除</a>
+						<a href="talent/zhaopinDelete?id=${needJob.id}&currentPage=${page.currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">删除</a>
 					</c:if>
 				</c:forEach>
 			</td>
@@ -190,9 +190,9 @@
 		<input type="hidden" name="industryQuery" value="${needJobOperation.industryQuery}">
 		<input type="hidden" name="companyIdQuery" value="${needJobOperation.companyIdQuery}">
 		<ul>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='zhaopin/zhaopinList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/zhaopinList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 			<li class="active"><a href="javascript:">${page.currentPage}</a></li>
-			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='zhaopin/zhaopinList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+			<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/zhaopinList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 			<li class="disabled controls"><a href="javascript:">
 				当前 <input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
 				/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">

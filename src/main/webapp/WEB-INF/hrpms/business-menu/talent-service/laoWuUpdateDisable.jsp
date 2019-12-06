@@ -63,8 +63,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="laowu/laowuList">劳务合作列表</a></li>
-	<li class="active"><a href="laowu/laowuDetailById?id=${personJob.id}">劳务合作查看</a></li>
+	<li><a href="talent/laowuList">劳务合作列表</a></li>
+	<li class="active"><a href="talent/laowuDetailById?id=${personJob.id}">劳务合作查看</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>

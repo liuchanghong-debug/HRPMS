@@ -62,10 +62,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="person/personList">人才信息列表</a></li>
-	<li class="active"><a href="person/personToUpdate?id=${person.id}&currentPage=${currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}">人才信息修改</a></li>
+	<li><a href="talent/personList">人才信息列表</a></li>
+	<li class="active"><a href="talent/personToUpdate?id=${person.id}&currentPage=${currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}">人才信息修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="person/personUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
+<form id="inputForm" class="form-horizontal" action="talent/personUpdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<input type="hidden" name="nameQuery" value="${personOperation.nameQuery}">
 	<input type="hidden" name="idCardQuery" value="${personOperation.idCardQuery}">
 	<input type="hidden" name="jobInterentsionQuery" value="${personOperation.jobInterentsionQuery}">

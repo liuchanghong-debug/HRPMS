@@ -61,10 +61,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
-	<li class="active"><a href="zhaopin/zhaopinToUpdate?id=${needJob.id}&currentPage=${currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">招聘信息修改</a></li>
+	<li><a href="talent/zhaopinList">招聘信息列表</a></li>
+	<li class="active"><a href="talent/zhaopinToUpdate?id=${needJob.id}&currentPage=${currentPage}&jobNameQuery=${needJobOperation.jobNameQuery}&jobTypeQuery=${needJobOperation.jobTypeQuery}&industryQuery=${needJobOperation.industryQuery}&companyIdQuery=${needJobOperation.companyIdQuery}">招聘信息修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="zhaopin/zhaopinUpdate" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="talent/zhaopinUpdate" method="post" novalidate="novalidate">
 	<input type="hidden" name="jobNameQuery" value="${needJobOperation.jobNameQuery}">
 	<input type="hidden" name="jobTypeQuery" value="${needJobOperation.jobTypeQuery}">
 	<input type="hidden" name="industryQuery" value="${needJobOperation.industryQuery}">

@@ -61,8 +61,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="zhaopin/zhaopinList">招聘信息列表</a></li>
-	<li class="active"><a href="zhaopin/zhaopinDetailById?id=${needJob.id}">招聘信息查看</a></li>
+	<li><a href="talent/zhaopinList">招聘信息列表</a></li>
+	<li class="active"><a href="talent/zhaopinDetailById?id=${needJob.id}">招聘信息查看</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>

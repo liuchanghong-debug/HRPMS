@@ -34,7 +34,7 @@ $(function () {
             if(/^[1-9][0-9,x|X]{14,17}$/.test($("#idCard").val())){
                 $.ajaxSettings.async = false;
                 $.get(
-                    "customerClient/customerIdCardIsOnlyUpdate",
+                    "companyClient/customerIdCardIsOnlyUpdate",
                     {"idCard":$("#idCard").val(), "id":$("#id").val()},
                     function (json) {
                         if(json){

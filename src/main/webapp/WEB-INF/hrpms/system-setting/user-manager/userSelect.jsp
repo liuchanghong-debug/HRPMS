@@ -34,6 +34,28 @@
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
 	<meta name="decorator" content="default">
+	<script type="text/javascript">
+		$(function () {
+            //获取所有角色名称
+            $.post(
+                "role-manager/selectAllRoleName",
+                function (json) {
+                    var str = "";
+                    var userrole ="${userRole}".split(",");
+                    for(var i=0;i<json.length;i++){
+                        for(var j=0;j<userrole.length;j++){
+                            if(json[i].id==userrole[j]){
+                                str += json[i].roleName+" ";
+                            }
+                        }
+                    }
+                    $("#userRole").append(str);
+                },
+                "json"
+            );
+
+        });
+	</script>
 </head>
 <body>
 
@@ -62,7 +84,7 @@
 </div>
 <div class="control-group">
 	<label class="control-label">状态：
-		<c:if test="${systemUser.status}=='0'" var="bo">
+		<c:if test="${systemUser.status=='0'}" var="bo">
 			正常
 		</c:if>
 		<c:if test="${!bo}">
@@ -71,19 +93,7 @@
 	</label>
 </div>
 <div class="control-group">
-    <label class="control-label">用户角色:</label>
-	<c:if test="${requestScope.systemUser.tbUserRole.roleId==1}">
-		系统管理员
-	</c:if >
-	<c:if test="${requestScope.systemUser.tbUserRole.roleId==2}">
-		高管
-	</c:if>
-	<c:if test="${requestScope.systemUser.tbUserRole.roleId==3}">
-		业务经理
-	</c:if>
-	<c:if test="${requestScope.systemUser.tbUserRole.roleId==4}">
-		业务人员
-	</c:if>
+    <label class="control-label" id="userRole">用户角色: </label>
 
 </div>
 <div class="control-group">

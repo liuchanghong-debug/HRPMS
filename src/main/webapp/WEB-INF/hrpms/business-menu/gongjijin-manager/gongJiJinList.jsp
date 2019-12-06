@@ -67,10 +67,10 @@
 	<input id="pageSize" name="pageSize" type="hidden" value="10">
 	<ul class="ul-form">
 		<li><label>身份证号：</label>
-			<input id="idcard" name="idCard" class="input-medium" type="text" value="" maxlength="20">
+			<input id="idcard" name="idCard" class="input-medium" type="text" value="${map.idCard}" maxlength="20">
 		</li>
 		<li><label>公积金号：</label>
-			<input id="accountno" name="accountNo" class="input-medium" type="text" value="" maxlength="20">
+			<input id="accountno" name="accountNo" class="input-medium" type="text" value="${map.accountNo}" maxlength="20">
 		</li>
 		<li class="btns"><input id="btnSubmit1" class="btn btn-primary" type="submit" value="查询"></li>
 </form>
@@ -82,7 +82,22 @@
 				<input type="submit" style="display: none" id="fileSubmit">
 			</form>
 		</li>
-		<li class="btns"><input class="btn btn-primary" type="button" onclick="location.href='gongjijin-manager/accumulationDownload'" value="导出"></li>
+		<li class="btns"><input class="btn btn-primary" type="button" onclick="daochu()" value="导出"></li>
+		<script>
+			function daochu() {
+				var href="gongjijin-manager/accumulationDownload?idCard=";
+
+                if($("#idcard").val()!=null){
+                    href+=$("#idcard").val();
+                }
+                href+="&accountNo=";
+                if($("#accountno").val()!=null){
+                    href+=$("#accountno").val();
+                }
+                location.href=href;
+
+            }
+		</script>
 		<li class="clearfix"></li>
 	</ul>
 

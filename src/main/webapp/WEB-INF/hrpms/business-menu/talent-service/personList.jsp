@@ -53,8 +53,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li class="active"><a href="person/personList">人才信息列表</a></li>
-	<li><a href="person/personToAdd">人才信息添加</a></li>
+	<li class="active"><a href="talent/personList">人才信息列表</a></li>
+	<li><a href="talent/personToAdd">人才信息添加</a></li>
 </ul>
 <form id="searchForm" class="breadcrumb form-search" action="#" method="post">
 	<input id="pageNo" name="pageNo" type="hidden" value="1">
@@ -95,7 +95,7 @@
 	<tbody>
 	<c:forEach items="${page.dataList}" var="person">
 		<tr>
-			<td><a href="person/personDetailById?id=${person.id}">${person.id}</a></td>
+			<td><a href="talent/personDetailById?id=${person.id}">${person.id}</a></td>
 			<td>${person.name}</td>
 			<td>${person.idCard}</td>
 			<td>
@@ -108,7 +108,7 @@
 			<td>${person.forPrice}</td>
 			<td>${person.forAddress}</td>
 			<td>
-				<a href="javascript:void(0)" onclick="openWindow('person/resumeUrlPreview?personResumeUrl=${person.resumeUrl}')">${fn:substring(person.resumeUrl, fn:indexOf(person.resumeUrl, '_') + 1, fn:length(person.resumeUrl))}</a>
+				<a href="javascript:void(0)" onclick="openWindow('talent/resumeUrlPreview?personResumeUrl=${person.resumeUrl}')">${fn:substring(person.resumeUrl, fn:indexOf(person.resumeUrl, '_') + 1, fn:length(person.resumeUrl))}</a>
 				<script>
 					function openWindow(url) {
 						window.open(url);
@@ -123,10 +123,10 @@
 				</c:forEach>
 			</td>
 			<td>
-				<a href="person/personToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}">修改</a>
+				<a href="talent/personToUpdate?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}">修改</a>
                 <c:forEach items="${statuss}" var="status">
                     <c:if test="${status.label == '删除' && status.value != person.status}">
-                        <a href="person/personDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
+                        <a href="talent/personDelete?id=${person.id}&currentPage=${page.currentPage}&nameQuery=${personOperation.nameQuery}&idCardQuery=${personOperation.idCardQuery}&jobInterentsionQuery=${personOperation.jobInterentsionQuery}&forAddressQuery=${personOperation.forAddressQuery}" onclick="return confirmx(&#39;确认要删除该人才信息吗？&#39;, this.href)">删除</a>
                     </c:if>
                 </c:forEach>
 			</td>
@@ -141,9 +141,9 @@
 	<input type="hidden" name="forAddressQuery" value="${personOperation.forAddressQuery}">
 
 	<div class="pagination"><ul>
-		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/personList?currentPage=${page.currentPage - 1}'; paging.submit()">« 上一页</a></li>
 		<li class="active"><a href="javascript:void(0)">${page.currentPage}</a></li>
-		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='person/personList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
+		<li class="disabled"><a href="javascript:void(0)" onclick="paging.action='talent/personList?currentPage=${page.currentPage + 1}'; paging.submit()">下一页 »</a></li>
 		<li class="disabled controls"><a href="javascript:">当前
 			<input type="text" value="${page.currentPage}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();">
 			/ <input type="text" value="${page.pageCount}" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();">

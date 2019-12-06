@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
@@ -183,12 +185,14 @@
 
             <div class="nav-collapse">
                 <ul id="menu" class="nav" style="*white-space:nowrap;float:none;">
-                    <li class="menu">
-                        <a class="menu" href="javascript:" data-href="#" data-id="c082a1303cf14573916c963071bdddc4"><span>业务菜单</span></a>
-                    </li>
-                    <li class="menu active">
-                        <a class="menu" href="javascript:" data-href="#" data-id="2"><span>系统设置</span></a>
-                    </li>
+                    <%--一级菜单--%>
+                    <c:forEach items="${sessionScope.functions}" var="func">
+                        <c:if test="${func.parentId==0}">
+                            <li class="menu">
+                                <a class="menu" href="javascript:" data-href="#" data-id="${func.id}"><span>${func.funcName}</span></a>
+                            </li>
+                        </c:if>
+                    </c:forEach>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -196,271 +200,54 @@
     <div class="container-fluid">
         <div id="content" class="row-fluid">
             <div id="left" style="width: 160px; height: 510px;">
-                <div class="accordion" id="menu-c082a1303cf14573916c963071bdddc4" style="display: none;">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-28" href="#collapse-28" title=""><i class="icon-chevron-down"></i>&nbsp;个人信息</a>
-                        </div>
-                        <div id="collapse-28" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li class="active"><a data-href=".menu3-29" href="personal-information/userPersonalInformation" target="mainFrame"><i class="icon-user icon-white"></i>&nbsp;个人信息</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
+               <%-- 一级菜单--%>
+                <c:forEach items="${sessionScope.functions}" var="func1">
+                    <c:if test="${func1.parentId==0}">
+                        <div class="accordion" id="menu-${func1.id}" style="display: none;">
+                            <div class="accordion-group">
+                                <%--二级菜单--%>
+                                <c:forEach items="${sessionScope.functions}" var="func2">
 
-                                        </ul></li>
-                                    <li><a data-href=".menu3-30" href="personal-information/updateUserPassword" target="mainFrame"><i class="icon-lock"></i>&nbsp;修改密码</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
 
-                                        </ul></li></ul>
+                                    <c:if test="${func2.parentId==func1.id}">
+                                        <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-${func1.id}" data-href="#collapse-${func2.id}" href="#collapse-${func2.id}" title=""><i class="icon-chevron-down"></i>&nbsp;${func2.funcName}</a>
+                                        </div>
+                                        <div id="collapse-${func2.id}" class="accordion-body collapse in">
+                                            <div class="accordion-inner">
+                                                <ul class="nav nav-list">
+                                                    <%--三级菜单--%>
+                                                    <c:forEach items="${sessionScope.functions}" var="func3">
+                                                        <c:if test="${func3.parentId==func2.id}">
+                                                            <li class=""><a data-href=".menu3-${func3.id}" href="${func2.funcUrl}/${func3.funcUrl}" target="mainFrame"><i class="icon-user icon-white"></i>&nbsp;${func3.funcName}</a>
+                                                                <ul class="nav nav-list hide" style="margin:0;padding-right:0;"></ul>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
                             </div>
+
                         </div>
-                    </div>
+                    </c:if>
 
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-bc4518efa5d043958b69590f6cca5ec1" href="#collapse-bc4518efa5d043958b69590f6cca5ec1" title=""><i class="icon-chevron-right"></i>&nbsp;客户管理</a>
-                        </div>
-                        <div id="collapse-bc4518efa5d043958b69590f6cca5ec1" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-be189f93d8fe4f77a6fde050f3ddc7b7" href="companyClient/companyClientList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公司客户</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
+                </c:forEach>
 
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-01eabbf5bc83468f9397c560e0db8a75" href="customerClient/customerList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;个人客户</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-d44fe7ff911341d5bb7e5c501f1d6d27" href="#collapse-d44fe7ff911341d5bb7e5c501f1d6d27" title=""><i class="icon-chevron-right"></i>&nbsp;社保管理</a>
-                        </div>
-                        <div id="collapse-d44fe7ff911341d5bb7e5c501f1d6d27" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-d01bab3ae2854fcf81b9c5f063f9056d" href="shebao/shebaoList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保信息</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-786133f2fdf547be8bd8c4e213c20ff3" href="shebao/shebaoRecordList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保记录</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-                                        </ul></li>
-                                    <li><a data-href=".menu3-8d338395c6d2477ab1028e9789dd3dab" href="shebao/shebaoRecordToAdd" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保缴费</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-60702152789349b895607523f623d46b" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保催交</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-4e35e5ef243f48b5a4d81cb2920214a6" href="#collapse-4e35e5ef243f48b5a4d81cb2920214a6" title=""><i class="icon-chevron-right"></i>&nbsp;公积金管理</a>
-                        </div>
-                        <div id="collapse-4e35e5ef243f48b5a4d81cb2920214a6" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-059199c2d9804ef8883822dd1adb7935" href="gongjijin-manager/selectAccumulationByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金查询</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-b9fd18369098410aa7ce9f76710df4a9" href="gongjijin-manager/gongJiJinAddJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金缴费</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-27e37abcf1284c309569eed2c9027a11" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金催交</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-b4fc47cd82fd4fe09121453bd38a66bd" href="#collapse-b4fc47cd82fd4fe09121453bd38a66bd" title=""><i class="icon-chevron-right"></i>&nbsp;薪酬管理</a>
-                        </div>
-                        <div id="collapse-b4fc47cd82fd4fe09121453bd38a66bd" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-2c765c9e8732493b871991c61e6b9f79" href="salary-manager/selectSalaryByDuo?flag=1" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资查询</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-d4b19671327649c9bb365ad8ca91ae5b" href="salary-manager/addSalaryJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;代发工资</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-669903bb7774467993f46bd981e5f72d" href="salary-manager/selectSalaryByDuo?flag=2" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资条</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-2d661bc23f10434ab743ea292c22edcc" href="#collapse-2d661bc23f10434ab743ea292c22edcc" title=""><i class="icon-chevron-right"></i>&nbsp;人才服务</a>
-                        </div>
-                        <div id="collapse-2d661bc23f10434ab743ea292c22edcc" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-92cef87c45734b0592953b544d55818b" href="zhaopin/zhaopinList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;招聘信息</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-3556301c31ac4747965b53ca3c940191" href="person/personList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才信息</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-5cbbb1056ebf471b8922e69f157455c5" href="laowu/laowuList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;劳务派遣</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-822de1f5c7594e7f9586b0685c028541" href="#collapse-822de1f5c7594e7f9586b0685c028541" title=""><i class="icon-chevron-right"></i>&nbsp;营销管理</a>
-                        </div>
-                        <div id="collapse-822de1f5c7594e7f9586b0685c028541" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-9ff71084c3c44748a3a699d05d124ff9" href="/marketing-manager/selectEmailRecoredByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;营销查询</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-9fd2bbad28414d7b9df3d871cda6543c" href="/marketing-manager/addSmsRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信营销</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-23e1d105dd774ba492ea4f1006d3bc73" href="/marketing-manager/addEmailRecoredJsp" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件营销</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-07070e9f5f504140ac5327d9ea387ab1" href="#collapse-07070e9f5f504140ac5327d9ea387ab1" title=""><i class="icon-chevron-right"></i>&nbsp;报表统计</a>
-                        </div>
-                        <div id="collapse-07070e9f5f504140ac5327d9ea387ab1" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-2a119dc5be3348a4991ebbd565e9d783" href="statement/shebaoCount" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;社保费用统计</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                    <li><a data-href=".menu3-2f138487b1ba4ee09f0d67a45ae57c67" href="report-statistics/selectGongJiJinCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;公积金统计</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                    <li><a data-href=".menu3-bd2d297719a246ce90137b7c9ca6b909" href="report-statistics/selectSalaryCountByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;工资费用统计</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                    <li><a data-href=".menu3-d97120cbc31f424dbd12959da541fbda" href="personCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;人才外包统计</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-aa3843cca0254bcb807123e8284bb193" href="caiwuCount/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;财务报表统计</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-c082a1303cf14573916c963071bdddc4" data-href="#collapse-b82f37a26c1f413588db85b2eaf782e2" href="#collapse-b82f37a26c1f413588db85b2eaf782e2" title=""><i class="icon-chevron-right"></i>&nbsp;内容管理</a>
-                        </div>
-                        <div id="collapse-b82f37a26c1f413588db85b2eaf782e2" class="accordion-body collapse ">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li><a data-href=".menu3-c96dfbfd2691492f82c8b7de876f7c92" href="newsManager/selectTbNews" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;新闻管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                    <li><a data-href=".menu3-d6d92d0fe5504a79953aaabf7b68497f" href="messageList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;留言管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                    <li><a data-href=".menu3-ac5ab060930f4b479f2f462b437e1631" href="replayList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;回复管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion" id="menu-2">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#menu-2" data-href="#collapse-7c8cd0b6c9e3409aae7e9ad9bd2e74b1" href="#collapse-7c8cd0b6c9e3409aae7e9ad9bd2e74b1" title=""><i class="icon-chevron-down"></i>&nbsp;系统管理</a>
-                        </div>
-                        <div id="collapse-7c8cd0b6c9e3409aae7e9ad9bd2e74b1" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                                <ul class="nav nav-list">
-                                    <li class="active"><a data-href=".menu3-bfeacdcd326b476181423fe8ec0cb527" href="user-manager/selectSystemUserByDuo" target="mainFrame"><i class="icon-circle-arrow-right icon-white"></i>&nbsp;用户管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-309beca7d55648b2a3a7388495baafa6" href="/role-manager/selectSystemRoleByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;角色管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-f6451cba50e5423bbf9121236a878ef6" href="menuList/saved_resource.html" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;菜单管理</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-fd53dc0e386d4230be276ef19a8cf5b4" href="datadict/datadictList" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;数据字典</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-c9d372c1a9c84bbe8c46686c41d67cfb" href="sms-template/selectSmsTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;短信模板</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li>
-                                    <li><a data-href=".menu3-aad070d5b282458996dcf847542926b8" href="email-template/selectEmailTemplateByDuo" target="mainFrame"><i class="icon-circle-arrow-right"></i>&nbsp;邮件模板</a>
-                                        <ul class="nav nav-list hide" style="margin:0;padding-right:0;">
-
-                                        </ul></li></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div></div>
-            <div id="openClose" class="close" style="height: 700px;">&nbsp;</div>
-            <div id="right" style="height: 510px; width: 1185px;">
-                <iframe id="mainFrame" name="mainFrame" src="./index/saved_resource.html" style="overflow: visible; height: 510px;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
             </div>
+
+            <div id="openClose" class="close" style="height: 700px;">&nbsp;
+            </div>
+
+            <div id="right" style="height: 95%; width: 1185px;">
+                <iframe id="mainFrame" name="mainFrame" style="overflow: visible; height: 100%;" scrolling="yes" frameborder="no" width="100%" height="100%"></iframe>
+            </div>
+
         </div>
         <div id="footer" class="row-fluid">
-            Copyright © 2012-2017 上海晟宏人事代理系统 - Powered By JeeSite V1.2.7
+                Copyright © 2012-2017 上海晟宏人事代理系统 - Powered By JeeSite V1.2.7
         </div>
     </div>
 </div>

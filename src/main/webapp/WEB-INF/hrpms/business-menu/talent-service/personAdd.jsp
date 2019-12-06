@@ -61,10 +61,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="person/personList">人才信息列表</a></li>
-	<li class="active"><a href="person/personToAdd">人才信息添加</a></li>
+	<li><a href="talent/personList">人才信息列表</a></li>
+	<li class="active"><a href="talent/personToAdd">人才信息添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="person/personAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
+<form id="inputForm" class="form-horizontal" action="talent/personAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>

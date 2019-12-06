@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <!-- saved from url=(0077)http://localhost:8080/jeesite-master/a/company/system/systemUser/form?id=1000 -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,6 +8,7 @@
 			+ path + "/";
 %>
 <base href="<%=basePath%>">
+<!DOCTYPE html>
 <html style="overflow-x:auto;overflow-y:auto;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>用户信息管理 - Powered By JeeSite</title>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
@@ -31,6 +31,8 @@
 	<link href="js/static/common/jeesite.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/common/jeesite.js" type="text/javascript"></script>
 	<script type="text/javascript">var ctx = '../a', ctxStatic='js/static';</script>
+	<link href="js/static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css">
+	<script src="js/static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 	<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
 
 
@@ -40,7 +42,10 @@
         var bpassword = true;
         var bphone = true;
         var bemail = true;
+        var brequired = false;
         $(function () {
+
+            //获取用户状态
             $.post(
                 "datadict/selectByName",
                 {"name":"用户状态"},
@@ -53,6 +58,52 @@
                 },
                 "json"
             );
+
+
+            //获取所有角色名称
+            $.post(
+                "role-manager/selectAllRoleName",
+                function (json) {
+                    var str = "";
+                    for(var i=0;i<json.length;i++){
+						str += "<input  name='userRoleList' class='required' type='checkbox'  value='"+json[i].id+"'>"+json[i].roleName;
+                    }
+                    $("#userRole").html(str);
+                    var userrole ="${userRole}".split(",");
+
+                    for(var i=0;i<userrole.length;i++){
+                        var noFit = false;
+                        $("#userRole").each(
+                            function () {
+                                $(this).children("input").each(function () {
+                                    if(userrole[i]==this.value){
+                                        noFit=true;
+                                    }else{
+                                        noFit=false;
+                                    }
+                                    if(noFit){
+                                        $(this).attr("checked","checked");
+                                    }
+                                });
+                            }
+						)
+                    }
+                },
+                "json"
+            );
+
+
+            //判断复选框是否有选值
+            $("#btnSubmit").click(function () {
+                var ref = $("#inputForm").find("[type=checkbox]");
+                $(ref).each(function () {
+                    if($(this).is(":checked")==true){
+                        brequired=true;
+                    }
+                });
+				sub();
+            });
+
 
             var username = "${requestScope.systemUser.username}";
             var phone = "${requestScope.systemUser.phone}";
@@ -94,19 +145,25 @@
             $("#password").blur(function () {
                 var password ="${requestScope.systemUser.password}";
                 var password1=$("#password").val();
-                password1 = hex_md5(password1);
                 if(password==password1){
                     $("#pwd").html("<font color='green' size='6'>√</font>");
                 }else{
-                    var re=/^[A-Za-z0-9]{6,7}$/;
-                    bpassword=re.test(password1);
-                    if(bpassword){
-                        bpassword=true;
+                    password1 = hex_md5(password1);
+                    if(password1==password){
                         $("#pwd").html("<font color='green' size='6'>√</font>");
-                    }else {
-                        bpassword=false;
-                        $("#pwd").html("<font color='red' size='6'>×</font>");
+					}else{
+                        var password1=$("#password").val();
+                        var re=/^[A-Za-z0-9]{6,7}$/;
+                        bpassword=re.test(password1);
+                        if(bpassword){
+                            bpassword=true;
+                            $("#pwd").html("<font color='green' size='6'>√</font>");
+                        }else {
+                            bpassword=false;
+                            $("#pwd").html("<font color='red' size='6'>×</font>");
+                        }
                     }
+
                 }
 
 
@@ -180,7 +237,7 @@
         });
 
         function sub(){
-            if(busername && bpassword && bemail && bphone){
+            if(busername && bpassword && bemail && bphone && brequired){
                 document.forms[0].submit();
             }else{
                 document.getElementById("#btnSubmit").disabled=true;
@@ -238,7 +295,7 @@
 	<div class="control-group">
 		<label class="control-label">电子邮件：</label>
 		<div class="controls">
-			<input id="email" name="email" class="input-xlarge " type="text" value="${requestScope.systemUser.email}" maxlength="50">
+			<input id="email" name="email" class="input-xlarge" type="text" value="${requestScope.systemUser.email}" maxlength="50">
 			<span class="help-inline" id="emailIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
@@ -249,20 +306,23 @@
 			<span class="help-inline" id="phoneIsOne"><font color="red">*</font> </span>
 		</div>
 	</div>
+
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="sortnum" name="sortnum" class="input-xlarge " type="text" value="${requestScope.systemUser.sortnum}" maxlength="11">
+			<input id="sortnum" name="sortnum" class="input-xlarge " type="number" value="${requestScope.systemUser.sortnum}" maxlength="11">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">状态：</label>
 		<div class="controls">
-			<select id="status" name="status" class="input-xlarge">
-				<c:if test="${requestScope.systemUser.status==0}" var="bo">
+			<select  name="status" class="input-xlarge">
+				<c:if test="${requestScope.systemUser.status=='0'}" var="bo">
 					<option value="0" selected>正常</option>
+					<option value="1" >删除</option>
 				</c:if>
 				<c:if test="${!bo}">
+					<option value="0" >正常</option>
 					<option value="1" selected>删除</option>
 				</c:if>
 			</select>
@@ -270,75 +330,9 @@
 	</div>
 	<div class="control-group">
 		<label class="control-label">用户角色:</label>
-			<div class="controls">
-				<c:if test="${requestScope.systemUser.tbUserRole.roleId==1}" var="bo">
-					<span><input id="userRoleList1" name="userRoleId"  class="required" checked  type="radio" value="1">
-					<label for="userRoleList1">系统管理员</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="2">
-					<label for="userRoleList1">高管</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="3">
-					<label for="userRoleList1">业务经理</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="4">
-					<label for="userRoleList1">业务人员</label>
-					</span>
-					<span class="help-inline"><font color="red">*</font> </span>
-				</c:if>
+		<div class="controls" id="userRole">
 
-				<c:if test="${requestScope.systemUser.tbUserRole.roleId==2}" var="bo2">
-					<span><input id="userRoleList2" name="userRoleId"  class="required" checked type="radio" value="2">
-					<label for="userRoleList2">高管</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="1">
-					<label for="userRoleList1">系统管理员</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="3">
-					<label for="userRoleList1">业务经理</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="4">
-					<label for="userRoleList1">业务人员</label>
-					</span>
-					<span class="help-inline"><font color="red">*</font> </span>
-				</c:if>
-
-				<c:if test="${requestScope.systemUser.tbUserRole.roleId==3}" var="bo3">
-					<span><input id="userRoleList3" name="userRoleId" class="required" checked type="radio" value="3">
-					<label for="userRoleList3">业务经理</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="1">
-					<label for="userRoleList1">系统管理员</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="2">
-					<label for="userRoleList1">高管</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="4">
-					<label for="userRoleList1">业务人员</label>
-					</span>
-					<span class="help-inline"><font color="red">*</font> </span>
-				</c:if>
-
-				<c:if test="${requestScope.systemUser.tbUserRole.roleId==4}" var="bo4">
-					<span><input id="userRoleList4" name="userRoleId" class="required" checked type="radio" value="4">
-					<label for="userRoleList4">业务人员</label>
-				</span>
-					<input type="hidden" name="_userRoleList" value="on">
-					<span class="help-inline"><font color="red">*</font> </span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="1">
-					<label for="userRoleList1">系统管理员</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="2">
-					<label for="userRoleList1">高管</label>
-					</span>
-					<span><input  name="userRoleId"  class="required" type="radio" value="3">
-					<label for="userRoleList1">业务经理</label>
-					</span>
-					<span class="help-inline"><font color="red">*</font> </span>
-				</c:if>
-
-
-			</div>
+		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">备注信息：</label>
@@ -347,7 +341,7 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

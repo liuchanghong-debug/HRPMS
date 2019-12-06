@@ -63,6 +63,17 @@
 
             });
 
+           /* //判断是否有值
+            $("#btnSubmit").click(function () {
+                var ref = $("#inputForm").find("[required=required]");
+                $(ref).each(function () {
+                    if($(this).val()=="" || $(this).val()==null){
+                        brequired=false;
+                    }
+                });
+                sub();
+            })*/
+
         });
 
 
@@ -70,6 +81,7 @@
             if(bcode){
                 document.forms[0].submit();
             }else{
+                alert("填写有误！！");
                 document.getElementById("#btnSubmit").disabled=true;
             }
         }
@@ -112,33 +124,33 @@
 	<div class="control-group">
 		<label class="control-label">模板编码：</label>
 		<div class="controls">
-			<input id="templateCode" name="template_code" class="input-xlarge required" type="text" value="${tbSmsTemplate.template_code}" maxlength="10">
+			<input id="templateCode" name="template_code" class="input-xlarge" required="required" type="text" value="${tbSmsTemplate.template_code}" maxlength="10">
 			<span class="help-inline" id="code"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">主题：</label>
 		<div class="controls">
-			<input id="subject" name="subject" class="input-xlarge required" type="text" value="${tbSmsTemplate.subject}" maxlength="256">
+			<input id="subject" name="subject" class="input-xlarge" required="required" type="text" value="${tbSmsTemplate.subject}" maxlength="256">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">内容：</label>
 		<div class="controls">
-			<textarea id="content" name="content" maxlength="512" class="input-xxlarge required" rows="4">${tbSmsTemplate.content}</textarea>
+			<textarea id="content" name="content" maxlength="512" class="input-xxlarge" required="required" rows="4">${tbSmsTemplate.content}</textarea>
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">顺序号：</label>
 		<div class="controls">
-			<input id="orderId" name="order_id" class="input-xlarge required" type="text" value="${tbSmsTemplate.order_id}" maxlength="11">
+			<input id="orderId" name="order_id" class="input-xlarge " required="required" type="number" value="${tbSmsTemplate.order_id}" maxlength="11">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>
 	<div class="form-actions">
-		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="return sub();" value="保 存">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="sub()" value="保 存">&nbsp;
 		<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)">
 	</div>
 </form>

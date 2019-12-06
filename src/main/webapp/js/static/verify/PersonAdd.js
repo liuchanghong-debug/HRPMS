@@ -17,7 +17,7 @@ $(function () {
             //如果选中项有值
             $.ajaxSettings.async = false;
             $.get(
-                "person/personIdCardById",
+                "talent/personIdCardById",
                 {"customerId":$("#customerId").val()},
                 function (idCard) {
                     $("#idCard").val(idCard);

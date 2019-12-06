@@ -37,7 +37,7 @@ function getCompanyMessByCompanyId(companyId) {
     if(companyId != "" && companyId != null){
         $.get(
             //通过公司得到期望薪资差不多的求职信息
-            "laowu/getNeedJobByCompanyIdAndPersonPrice",
+            "talent/getNeedJobByCompanyIdAndPersonPrice",
             {"companyId":companyId, "price":$("#personPrice").val()},
             function (needJobs) {
                 var str = "<option value=''>请选择</option>";
@@ -60,7 +60,7 @@ function getNeedJobDetailById(needJobId) {
     $("#endTime").val(null);
     $("#jobContent").val("");
     $.get(
-        "laowu/getNeedJobDetailById",
+        "talent/getNeedJobDetailById",
         {"needJobId":needJobId},
         function (needJob) {
             $("#companyPrice").val(needJob.price);

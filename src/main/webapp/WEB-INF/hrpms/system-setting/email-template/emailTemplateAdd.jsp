@@ -86,7 +86,7 @@
 	<div class="control-group">
 		<label class="control-label">排序：</label>
 		<div class="controls">
-			<input id="orderId" name="order_id" class="input-xlarge required" type="text" value="" maxlength="11">
+			<input id="orderId" name="order_id" class="input-xlarge required" type="number" value="" maxlength="11">
 			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 	</div>

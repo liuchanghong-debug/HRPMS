@@ -1,5 +1,6 @@
-	<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-			<%
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
@@ -51,15 +52,13 @@
 		<body>
 
 		<ul class="nav nav-tabs">
-		<li class="active"><a href="saved_resource.html">菜单列表</a></li>
-		<li><a href="../addmenuTree/saved_resource.html">菜单添加</a></li>
+		<li class="active"><a href="/menu-manager/selectSystemFunctionByDuo">菜单列表</a></li>
+		<li><a href="/menu-manager/addSystemFunctionJsp">菜单添加</a></li>
 		</ul>
-		<form id="searchForm" class="breadcrumb form-search" action="#" method="post">
-		<input id="pageNo" name="pageNo" type="hidden" value="1">
-		<input id="pageSize" name="pageSize" type="hidden" value="10">
+		<form id="searchForm" class="breadcrumb form-search" action="/menu-manager/selectSystemFunctionByDuo" method="post">
 		<ul class="ul-form">
 		<li><label>菜单名称：</label>
-		<input id="funcname" name="funcname" class="input-medium" type="text" value="" maxlength="50">
+		<input id="funcname" name="funcName" class="input-medium" type="text" value="${map.funcName}" maxlength="50">
 		</li>
 		<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"></li>
 		<li class="clearfix"></li>
@@ -82,190 +81,55 @@
 		</thead>
 		<tbody>
 
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		1
-		</a></td>
-		<td>
-		系统设置
-		</td>
-		<td>
+		<c:forEach var="func" items="${page.dataList}">
 
-		</td>
-		<td>
-		系统设置
-		</td>
-		<td>
-		0
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
+			<tr>
+			<td><a href="../updateMenu/saved_resource_unEdit.html">
+				${func.function.id}
+			</a></td>
+			<td>
+				${func.function.funcName}
+			</td>
+			<td>
+				${func.function.funcUrl}
+			</td>
+			<td>
+				${func.parentName}
+			</td>
+			<td>
+				${func.function.sortNum}
+			</td>
+			<td>
+				<c:if test="${func.function.status=='0'}" var="bo">
+					正常
+				</c:if>
+				<c:if test="${!bo}">
+					删除
+				</c:if>
+			</td>
+			<td>
+			<a href="../updateMenu/saved_resource.html">修改</a>
+			<a href="/menu-manager/deleteSystemFunctionById?id=${func.function.id}" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
+			</td>
+			</tr>
 
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		2
-		</a></td>
-		<td>
-		用户管理
-		</td>
-		<td>
-		/company/system/userInfo
-		</td>
-		<td>
-		用户管理
-		</td>
-		<td>
-		1
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
+		</c:forEach>
 
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		3
-		</a></td>
-		<td>
-		角色管理
-		</td>
-		<td>
-		company/system/systemRole
-		</td>
-		<td>
-		角色管理
-		</td>
-		<td>
-		2
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
-
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		4
-		</a></td>
-		<td>
-		菜单管理
-		</td>
-		<td>
-		/company/system/test
-		</td>
-		<td>
-		菜单管理
-		</td>
-		<td>
-		3
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
-
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		6
-		</a></td>
-		<td>
-		数据字典
-		</td>
-		<td>
-		/company/system/userSearch
-		</td>
-		<td>
-		数据字典
-		</td>
-		<td>
-		4
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
-
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		7
-		</a></td>
-		<td>
-		短信模板
-		</td>
-		<td>
-		/company/system/smsTemplate
-		</td>
-		<td>
-		短信模板
-		</td>
-		<td>
-		5
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
-
-		<tr>
-		<td><a href="../updateMenu/saved_resource_unEdit.html">
-		8
-		</a></td>
-		<td>
-		邮件模板
-		</td>
-		<td>
-		/company/system/emailTemplate
-		</td>
-		<td>
-		邮件模板
-		</td>
-		<td>
-		6
-		</td>
-		<td>
-		正常
-		</td>
-		<td>
-		<a href="../updateMenu/saved_resource.html">修改</a>
-		<a href="#" onclick="return confirmx(&#39;确认要删除该菜单吗？&#39;, this.href)">删除</a>
-		</td>
-		</tr>
 
 		</tbody>
 		</table>
-		<div class="pagination"><ul>
-		<li class="disabled"><a href="javascript:">« 上一页</a></li>
-		<li class="active"><a href="javascript:">1</a></li>
-		<li class="disabled"><a href="javascript:">下一页 »</a></li>
-		<li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,10,&#39;&#39;);" onclick="this.select();"> / <input type="text" value="10" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,&#39;&#39;);" onclick="this.select();"> 条，共 7 条</a></li>
-		</ul>
-		<div style="clear:both;"></div></div>
+	<div class="pagination"><ul>
+	<li class="disabled"><a href="menu-manager/selectSystemFunctionByDuo?currentPage=${page.currentPage-1}&funcName=${map.funcName}">上一页</a></li>
+	<c:forEach begin="1" end="${page.pageCount}" var="num">
+		<li class="active"><a href="menu-manager/selectSystemFunctionByDuo?currentPage=${num}&funcName=${map.funcName}">${num}</a></li>
+	</c:forEach>
+
+	<li class="disabled"><a href="menu-manager/selectSystemFunctionByDuo?currentPage=${page.currentPage+1}&funcName=${map.funcName}">下一页</a></li>
+	<li class="disabled controls"><a href="javascript:">当前
+	<input type="text" value="${page.currentPage}" readonly> /
+	<input type="text" value="${page.pageCount}" readonly> 页，共 ${page.pageCount} 页</a></li>
+	</ul>
+	<div style="clear:both;"></div></div>
 
 		<script type="text/javascript">//<!-- 无框架时，左上角显示菜单图标按钮。
 		if(!(self.frameElement && self.frameElement.tagName=="IFRAME")){

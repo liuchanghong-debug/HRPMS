@@ -23,7 +23,7 @@ $(function () {
     $("#idCard").keyup(function () {
         if($("#idCard").val() != "" && $("#idCard").val() != null){
             $.get(
-                "person/personIdCardIsOnlyUpdate",
+                "talent/personIdCardIsOnlyUpdate",
                 {"id":$("#id").val(), "idCard":$("#idCard").val()},
                 function (json) {
                     if(json){

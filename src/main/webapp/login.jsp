@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0088)http://localhost:8080/jeesite-master/a/login;JSESSIONID=7b0a567f7ec04124837646d979ead83c -->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -66,6 +66,13 @@
 
 	<script src="https://www.yunpian.com/static/official/js/libs/riddler-sdk-0.2.2.js"></script>
 	<script>
+
+		$(function () {
+			if(${mess!=null} && ${mess!=""}){
+			    alert("${mess}");
+            }
+        });
+
         var byz=false;
         function yz(){
             if(!byz){
@@ -115,11 +122,11 @@
                 },
                 onFail: function (code, msg, retry) {
                     // 失败回调
-                    alert('出错啦：' + msg + ' code: ' + code)
+                    alert('出错啦');
                     retry()
                 },
                 beforeStart: function (next) {
-                    console.log('验证马上开始')
+                    console.log('验证马上开始');
                     next()
                 },
                 onExit: function () {

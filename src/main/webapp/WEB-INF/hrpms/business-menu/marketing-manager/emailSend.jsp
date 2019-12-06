@@ -40,7 +40,8 @@
 
         $(function () {
             $.post(
-                "customerClient/selectAllCustomerName",
+                "companyClient/selectAllCustomerName",
+				{"name":"isAll"},
                 function (json) {
                     var str = "<option value='' selected></option>";
                     for (var i = 0; i < json.length; i++) {

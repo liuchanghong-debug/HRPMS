@@ -59,10 +59,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="customerClient/customerList">个人客户列表</a></li>
-	<li class="active"><a href="customerClient/customerAdd">个人客户添加</a></li>
+	<li><a href="companyClient/customerList">个人客户列表</a></li>
+	<li class="active"><a href="companyClient/customerAdd">个人客户添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="customerClient/customerToAdd" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="companyClient/customerToAdd" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 

@@ -13,7 +13,6 @@
 	<title>个人信息 - Powered By JeeSite</title>
 	<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
 	<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
-	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<script src="js/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 	<link href="js/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet" />
@@ -35,7 +34,31 @@
 
 
 	<meta name="decorator" content="default">
+	<script src="js/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+        $(function () {
+            //获取所有角色名称
+            $.post(
+                "role-manager/selectAllRoleName",
+                function (json) {
+                    var str = "";
+                    var userrole ="${userRole}".split(",");
+                    for(var i=0;i<json.length;i++){
+                        for(var j=0;j<userrole.length;j++){
+                            if(json[i].id==userrole[j]){
+                                str += json[i].roleName+" ";
+                            }
+                        }
+                    }
+                    $("#userRole").append(str);
+                },
+                "json"
+            );
+
+        });
+
+
+
         $(document).ready(function() {
             $("#inputForm").validate({
                 submitHandler: function(form){
@@ -171,19 +194,8 @@
 		</div>
 	</div>--%>
 	<div class="control-group">
-		<label class="control-label">用户角色:</label>
-		<c:if test="${tbSystemUser.tbUserRole.roleId==1}">
-			系统管理员
-		</c:if >
-		<c:if test="${tbSystemUser.tbUserRole.roleId==2}">
-			高管
-		</c:if>
-		<c:if test="${tbSystemUser.tbUserRole.roleId==3}">
-			业务经理
-		</c:if>
-		<c:if test="${tbSystemUser.tbUserRole.roleId==4}">
-			业务人员
-		</c:if>
+		<label class="control-label" id="userRole">用户角色:</label>
+
 	</div>
 	<%--<div class="control-group">
 		<label class="control-label">上次登录:</label>

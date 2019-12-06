@@ -61,10 +61,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="laowu/laowuList">劳务合作列表</a></li>
-	<li class="active"><a href="laowu/laowuToAdd">劳务合作添加</a></li>
+	<li><a href="talent/laowuList">劳务合作列表</a></li>
+	<li class="active"><a href="talent/laowuToAdd">劳务合作添加</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="laowu/laowuAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
+<form id="inputForm" class="form-horizontal" action="talent/laowuAdd" method="post" novalidate="novalidate" enctype="multipart/form-data">
 	<script type="text/javascript">top.$.jBox.closeTip();</script>
 	<table class="table table-bordered table-condensed">
 		<tbody><tr>

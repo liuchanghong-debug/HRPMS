@@ -61,10 +61,10 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="customerClient/customerList">个人客户列表</a></li>
-	<li class="active"><a href="customerClient/customerUpdate?id=${customer.id}&currentPage=${currentPage}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}">个人客户修改</a></li>
+	<li><a href="companyClient/customerList">个人客户列表</a></li>
+	<li class="active"><a href="companyClient/customerUpdate?id=${customer.id}&currentPage=${currentPage}&nameQuery=${customerOperation.nameQuery}&idCardQuery=${customerOperation.idCardQuery}&companyIdQuery=${customerOperation.companyIdQuery}">个人客户修改</a></li>
 </ul><br>
-<form id="inputForm" class="form-horizontal" action="customerClient/customerToUpdate" method="post" novalidate="novalidate">
+<form id="inputForm" class="form-horizontal" action="companyClient/customerToUpdate" method="post" novalidate="novalidate">
 	<input type="hidden" name="nameQuery" value="${customerOperation.nameQuery}">
 	<input type="hidden" name="idCardQuery" value="${customerOperation.idCardQuery}">
 	<input type="hidden" name="companyIdQuery" value="${customerOperation.companyIdQuery}">

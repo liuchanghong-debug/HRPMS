@@ -60,8 +60,8 @@
 <body>
 
 <ul class="nav nav-tabs">
-	<li><a href="customerClient/customerList">个人客户列表</a></li>
-	<li class="active"><a href="customerClient/customerMess?id=${customer.id}">个人客户查看</a></li>
+	<li><a href="companyClient/customerList">个人客户列表</a></li>
+	<li class="active"><a href="companyClient/customerMess?id=${customer.id}">个人客户查看</a></li>
 </ul><br>
 <form id="inputForm" class="form-horizontal" action="#" method="post" novalidate="novalidate">
 	<input id="id" name="id" type="hidden" value="1000">

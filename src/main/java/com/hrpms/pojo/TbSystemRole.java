@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -29,8 +30,11 @@ public class TbSystemRole {
     private Timestamp updateTime;//更新时间
     private String roleNote;//角色备注
 
-    //一个角色对应多个用户
-    private Set<TbUserRole> tbUserRoles = new HashSet<>();
+    //多个角色对应多个用户
+    private Set<TbSystemUser> tbSystemUsers  = new LinkedHashSet<>();
+
+    //角色与权限有多对多关系
+    private Set<TbSystemFunction> tbSystemFunctions = new LinkedHashSet<>();
 
     @Id
     @GeneratedValue
@@ -107,12 +111,27 @@ public class TbSystemRole {
         this.roleNote = roleNote;
     }
 
-    @OneToMany(mappedBy = "tbSystemRole")
-    public Set<TbUserRole> getTbUserRoles() {
-        return tbUserRoles;
+    @ManyToMany(mappedBy = "tbSystemRoles")
+    public Set<TbSystemUser> getTbSystemUsers() {
+        return tbSystemUsers;
     }
 
-    public void setTbUserRoles(Set<TbUserRole> tbUserRoles) {
-        this.tbUserRoles = tbUserRoles;
+    public void setTbSystemUsers(Set<TbSystemUser> tbSystemUsers) {
+        this.tbSystemUsers = tbSystemUsers;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "tbRoleFunction",
+            joinColumns = @JoinColumn(name ="roleId"),
+            inverseJoinColumns = @JoinColumn(name="funcId")
+    )
+    @OrderBy("sortNum")
+    public Set<TbSystemFunction> getTbSystemFunctions() {
+        return tbSystemFunctions;
+    }
+
+    public void setTbSystemFunctions(Set<TbSystemFunction> tbSystemFunctions) {
+        this.tbSystemFunctions = tbSystemFunctions;
     }
 }

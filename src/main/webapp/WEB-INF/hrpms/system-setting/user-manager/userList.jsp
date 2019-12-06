@@ -124,7 +124,7 @@
 				${user.sortnum}
 			</td>
 			<td>
-				<c:if test="${user.status==0}" var="bo">
+				<c:if test="${user.status=='0'}" var="bo">
 					正常
 				</c:if>
 				<c:if test="${!bo}">
